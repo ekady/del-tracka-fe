@@ -2,7 +2,7 @@
 import * as React from "react";
 
 // Components
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Copyright } from "../base";
 import { Header } from "../base";
 
@@ -19,8 +19,8 @@ export default function LayoutHome({ children }: LayoutHomeProps) {
 	return (
 		<ThemeProvider theme={theme}>
 			<Header isSignIn showMenu={false} />
-			<Grid container component="main" sx={{ height: "100vh" }}>
-				<Container maxWidth="xl">{children}</Container>
+			<Grid component="main" sx={{ minHeight: "100vh" }}>
+				{children}
 			</Grid>
 			<Copyright sx={{ mt: 5, mb: 1 }} />
 		</ThemeProvider>

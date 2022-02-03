@@ -21,7 +21,7 @@ export default function LayoutDefault({ children }: LayoutHomeProps) {
 			<Grid
 				container
 				component="main"
-				sx={{ height: "100vh", flexGrow: 1, pt: 6 }}
+				sx={{ minHeight: "100vh", flexGrow: 1, pt: 6 }}
 			>
 				<Box sx={{ display: "flex" }}>
 					<CssBaseline />

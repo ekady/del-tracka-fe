@@ -3,13 +3,10 @@ import type { ReactElement } from "react";
 
 // Components
 import { LayoutHome } from "../common/components/layout";
+import LandingUI from "../modules/Landing/ui/LandingUI";
 
 const Home = () => {
-	return (
-		<p>
-			Landing Page
-		</p>
-	);
+	return <LandingUI />;
 };
 
 Home.getLayout = (page: ReactElement) => {

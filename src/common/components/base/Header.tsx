@@ -26,7 +26,6 @@ import { IconLogo } from "../../icons";
 // Helper
 import { useTheme, styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { CssBaseline } from "@mui/material";
 
 export interface HeaderProps {
 	isSignIn: boolean;
