@@ -1,16 +1,16 @@
 // React
-import type { ReactElement } from "react";
+import type { ReactElement } from 'react';
 
 // Components
-import { LayoutHome } from "../common/components/layout";
-import LandingUI from "../modules/Landing/ui/LandingUI";
+import { LayoutHome } from '../common/components/layout';
+import LandingUI from '../modules/Landing/ui/LandingUI';
 
 const Home = () => {
-	return <LandingUI />;
+  return <LandingUI />;
 };
 
 Home.getLayout = (page: ReactElement) => {
-	return <LayoutHome>{page}</LayoutHome>;
+  return <LayoutHome>{page}</LayoutHome>;
 };
 
 export default Home;
