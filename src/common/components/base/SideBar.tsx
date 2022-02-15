@@ -1,4 +1,7 @@
-import * as React from 'react';
+// Next Components
+import Image from 'next/image';
+
+// MUI Components
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
@@ -6,12 +9,19 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { Drawer as MuiDrawer, Toolbar, Typography } from '@mui/material';
+
+// MUI Icons
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MailIcon from '@mui/icons-material/Mail';
-import { Drawer as MuiDrawer, Toolbar } from '@mui/material';
+
+// MUI utils
 import { styled, Theme, CSSObject } from '@mui/material/styles';
+
+// Icon
+import { IconLogo } from '@/common/icons';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: 250,
@@ -88,36 +98,28 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
     <>
       {isMobile ? (
         <SwipeableDrawer disableBackdropTransition anchor="left" open={isOpen} onClose={toggleDrawer} onOpen={toggleDrawer}>
+          <Toolbar disableGutters>
+            <ListItem sx={{ py: 0 }}>
+              <Typography sx={{ flexGrow: 1 }}>
+                <Image src={IconLogo} width={70} alt="logo" />
+              </Typography>
+            </ListItem>
+          </Toolbar>
+          <Divider />
           {list()}
         </SwipeableDrawer>
       ) : (
         <Drawer open={isOpen} variant="permanent">
-          <Toolbar />
-          <List>
-            <ListItem
-              sx={{
-                justifyContent: isOpen ? 'flex-end' : 'flex-start',
-              }}
-            >
+          <Toolbar disableGutters>
+            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }}>
+              <Box sx={{ display: isOpen ? 'flex' : 'none', alignItems: 'center' }}>
+                <Image src={IconLogo} width={70} alt="logo" />
+              </Box>
               <IconButton onClick={toggleDrawer}>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
             </ListItem>
-            <Divider />
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          </Toolbar>
           <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          {list()}
         </Drawer>
       )}
     </>

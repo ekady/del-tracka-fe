@@ -4,7 +4,7 @@ import { useState, MouseEvent } from 'react';
 import Image from 'next/image';
 
 // Components
-import AppBar from '@mui/material/AppBar';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -14,17 +14,48 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { Box } from '@mui/material';
+
+// Local Components
 import SideBar from './SideBar';
+import Breadcrumb from './Breadcrumb';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+
+// Local Icons
 import { IconLogo } from '../../icons';
 
 // Helper
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+  width: '100%',
+  marginLeft: 0,
+  [theme.breakpoints.up('md')]: {
+    width: open ? 'calc(100% - 250px)' : `calc(100% - ${theme.spacing(9)})`,
+    marginLeft: open ? `calc(${theme.spacing(9)} + 1px)` : '250px',
+  },
+}));
 
 export interface HeaderProps {
   isSignIn: boolean;
@@ -52,14 +83,7 @@ export default function Header({ isSignIn, showMenu }: HeaderProps) {
 
   return (
     <>
-      <AppBar
-        position={showMenu ? 'fixed' : 'static'}
-        color="inherit"
-        sx={{
-          boxShadow: 1,
-          zIndex: (theme) => (mdAndUp ? theme.zIndex.drawer + 1 : theme.zIndex.drawer - 1),
-        }}
-      >
+      <AppBar color="inherit" sx={{ boxShadow: 1 }} open={openSidebar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -68,42 +92,38 @@ export default function Header({ isSignIn, showMenu }: HeaderProps) {
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{
-                mr: 2,
-                display: mdAndUp || !showMenu ? 'none' : 'block',
-              }}
+              sx={{ mr: 2, display: mdAndUp || !showMenu ? 'none' : 'block' }}
             >
               <MenuIcon />
             </IconButton>
-            <Typography sx={{ flexGrow: 1, mt: 1 }}>
-              <Image src={IconLogo} width={70} alt="logo" />
-            </Typography>
+            <Box sx={{ flexGrow: 1, mt: 1 }}>
+              {showMenu ? (
+                <Breadcrumb />
+              ) : (
+                <Typography>
+                  <Image src={IconLogo} width={70} alt="logo" />
+                </Typography>
+              )}
+            </Box>
             {isSignIn ? (
               <>
-                <Button color="inherit" onClick={handleMenu} variant="text" startIcon={<AccountCircle />}>
-                  <Typography
-                    sx={{
-                      flexGrow: 1,
-                      ml: 1,
-                      fonstSize: 'small',
-                      textTransform: 'capitalize',
-                    }}
-                  >
-                    First Name
-                  </Typography>
-                </Button>
+                {mdAndUp ? (
+                  <Button color="inherit" onClick={handleMenu} variant="text" startIcon={<AccountCircle />}>
+                    <Typography sx={{ flexGrow: 1, ml: 1, fonstSize: 'small', textTransform: 'capitalize' }}>
+                      First Name
+                    </Typography>
+                  </Button>
+                ) : (
+                  <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
+                    <AccountCircle />
+                  </IconButton>
+                )}
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
@@ -117,14 +137,7 @@ export default function Header({ isSignIn, showMenu }: HeaderProps) {
               </>
             ) : (
               <Button color="inherit">
-                <Typography
-                  sx={{
-                    fonstSize: 'small',
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  Log In
-                </Typography>
+                <Typography sx={{ fonstSize: 'small', textTransform: 'capitalize' }}>Log In</Typography>
               </Button>
             )}
           </Toolbar>

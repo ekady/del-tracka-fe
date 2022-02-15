@@ -19,10 +19,10 @@ export default function LayoutDefault({ children }: LayoutHomeProps) {
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ minHeight: '100vh', flexGrow: 1, pt: 6 }}>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header isSignIn showMenu={true} />
-          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 3 }}>
+          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3 }}>
             {children}
           </Container>
         </Box>
