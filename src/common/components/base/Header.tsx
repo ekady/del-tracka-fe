@@ -34,11 +34,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  sidebar?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+  shouldForwardProp: (prop) => prop !== 'open' && prop !== 'sidebar',
+})<AppBarProps>(({ theme, open, sidebar }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -52,7 +53,7 @@ const AppBar = styled(MuiAppBar, {
   width: '100%',
   marginLeft: 0,
   [theme.breakpoints.up('md')]: {
-    width: open ? 'calc(100% - 250px)' : `calc(100% - ${theme.spacing(9)})`,
+    width: open && sidebar ? 'calc(100% - 250px)' : sidebar ? `calc(100% - ${theme.spacing(9)})` : '100%',
     marginLeft: open ? `calc(${theme.spacing(9)} + 1px)` : '250px',
   },
 }));
@@ -60,9 +61,10 @@ const AppBar = styled(MuiAppBar, {
 export interface HeaderProps {
   isSignIn: boolean;
   showMenu: boolean;
+  usingSidebar?: boolean;
 }
 
-export default function Header({ isSignIn, showMenu }: HeaderProps) {
+export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps) {
   const theme = useTheme();
   const mdAndUp = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -83,7 +85,7 @@ export default function Header({ isSignIn, showMenu }: HeaderProps) {
 
   return (
     <>
-      <AppBar color="inherit" sx={{ boxShadow: 1 }} open={openSidebar}>
+      <AppBar color="inherit" sx={{ boxShadow: 1 }} open={openSidebar} sidebar={usingSidebar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -96,7 +98,7 @@ export default function Header({ isSignIn, showMenu }: HeaderProps) {
             >
               <MenuIcon />
             </IconButton>
-            <Box sx={{ flexGrow: 1, mt: 1 }}>
+            <Box sx={{ flexGrow: 1 }}>
               {showMenu ? (
                 <Breadcrumb />
               ) : (

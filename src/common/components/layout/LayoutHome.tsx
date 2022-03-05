@@ -19,7 +19,7 @@ export default function LayoutHome({ children }: LayoutHomeProps) {
   return (
     <ThemeProvider theme={theme}>
       <Header isSignIn showMenu={false} />
-      <Grid component="main" sx={{ minHeight: '100vh' }}>
+      <Grid component="main" sx={{ minHeight: '100vh', marginTop: { xs: '50px', md: '90px' } }}>
         {children}
       </Grid>
       <Copyright sx={{ mt: 5, mb: 1 }} />
