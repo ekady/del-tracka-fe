@@ -94,11 +94,11 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
       <List>
         {menu.map(({ path, name, icon }: menuItem) => (
           <Link href={path} passHref key={path}>
-            <ListItem button>
+            <ListItem button sx={{ background: currentRouter === path ? theme.palette.primary.main : null }}>
               <ListItemIcon>
-                <Icon sx={{ color: currentRouter === path ? theme.palette.primary.main : null }}>{icon}</Icon>
+                <Icon sx={{ color: currentRouter === path ? theme.palette.common.white : null }}>{icon}</Icon>
               </ListItemIcon>
-              <ListItemText primary={name} sx={{ color: currentRouter === path ? theme.palette.primary.main : null }} />
+              <ListItemText primary={name} sx={{ color: currentRouter === path ? theme.palette.common.white : null }} />
             </ListItem>
           </Link>
         ))}

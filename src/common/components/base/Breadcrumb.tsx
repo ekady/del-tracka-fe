@@ -24,7 +24,7 @@ export interface BreadcrumbType {
 }
 
 const convertBreadcrumb = (string: string) => {
-  return string.replace(/-/g, ' ').replace(/oe/g, 'ö').replace(/ae/g, 'ä').replace(/ue/g, 'ü').toLowerCase();
+  return string.replace(/-/g, ' ').replace(/oe/g, 'ö').replace(/ae/g, 'ä').toLowerCase();
 };
 
 const Breadcrumb = () => {
