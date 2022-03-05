@@ -21,7 +21,7 @@ export default function DashboardTotal() {
 
   return (
     <Grid container spacing={3} columns={10}>
-      <Grid item xs={12} sm={3} lg={2} xl={1}>
+      <Grid item xs={12} sm={3} lg={2}>
         <Paper>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.error.main, fontWeight: 'bold' }}>
             20
@@ -29,7 +29,7 @@ export default function DashboardTotal() {
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>Total Projects</Typography>
         </Paper>
       </Grid>
-      <Grid item xs={12} sm={3} lg={2} xl={1}>
+      <Grid item xs={12} sm={3} lg={2}>
         <Paper>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
             100

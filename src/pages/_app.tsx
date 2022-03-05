@@ -13,6 +13,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
+import '@/styles/global.scss';
 
 // Charts
 import 'chart.js/auto';

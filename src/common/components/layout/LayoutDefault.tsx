@@ -21,7 +21,7 @@ export default function LayoutDefault({ children }: LayoutHomeProps) {
       <Grid container component="main" sx={{ minHeight: '100vh', flexGrow: 1, pt: 6 }}>
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
-          <Header isSignIn showMenu={true} />
+          <Header isSignIn showMenu={true} usingSidebar />
           <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3 }}>
             {children}
           </Container>

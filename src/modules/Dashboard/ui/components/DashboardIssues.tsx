@@ -60,7 +60,7 @@ export default function DashboardIssues() {
 
   return (
     <Grid container spacing={3} columns={12}>
-      <Grid item xs={12} sm={6} md={5} lg={4} xl={2}>
+      <Grid item xs={12} sm={6} md={5} lg={4}>
         <Paper>
           <Typography>All Issues</Typography>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -68,7 +68,7 @@ export default function DashboardIssues() {
           </Box>
         </Paper>
       </Grid>
-      <Grid item xs={12} sm={6} md={5} lg={4} xl={2}>
+      <Grid item xs={12} sm={6} md={5} lg={4}>
         <Paper>
           <Typography>Issues Assign to You</Typography>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>

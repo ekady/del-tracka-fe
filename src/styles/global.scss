@@ -1,0 +1,21 @@
+$material-design-icons-font-directory-path: '~material-design-icons-iconfont/dist/fonts/';
+
+@import '~material-design-icons-iconfont/src/material-design-icons';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+  font-size: 14px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
