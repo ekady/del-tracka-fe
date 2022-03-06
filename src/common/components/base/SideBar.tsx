@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
+import ListItemMUI from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Drawer as MuiDrawer, Toolbar, Typography } from '@mui/material';
@@ -76,6 +76,14 @@ const IconButton = styled(Box)(() => ({
   },
 }));
 
+const ListItem = styled(ListItemMUI, {
+  shouldForwardProp: (prop) => prop !== 'selected',
+})(({ selected }) => ({
+  '&:hover': {
+    backgroundColor: selected ? '#2B75B3' : '#eee',
+  },
+}));
+
 export interface SideBarProps {
   isOpen: boolean;
   isMobile: boolean;
@@ -94,7 +102,10 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
       <List>
         {menu.map(({ path, name, icon }: menuItem) => (
           <Link href={path} passHref key={path}>
-            <ListItem button sx={{ background: currentRouter === path ? theme.palette.primary.main : null }}>
+            <ListItem
+              selected={currentRouter === path}
+              sx={{ background: currentRouter === path ? theme.palette.primary.main : null }}
+            >
               <ListItemIcon>
                 <Icon sx={{ color: currentRouter === path ? theme.palette.common.white : null }}>{icon}</Icon>
               </ListItemIcon>
