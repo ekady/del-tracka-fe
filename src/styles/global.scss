@@ -19,3 +19,12 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.cursor {
+  &-default {
+    cursor: default;
+  }
+  &-pointer {
+    cursor: pointer;
+  }
+}

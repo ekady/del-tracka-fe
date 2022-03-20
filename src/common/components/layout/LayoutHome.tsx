@@ -1,8 +1,10 @@
 // React
 import * as React from 'react';
 
-// Components
+// MUI Components
 import { Grid } from '@mui/material';
+
+// Local Components
 import { Copyright } from '../base';
 import { Header } from '../base';
 

@@ -2,9 +2,7 @@
 import { ReactNode, useState } from 'react';
 
 // MUI Components
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Button, Menu, MenuItem } from '@mui/material';
 
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
