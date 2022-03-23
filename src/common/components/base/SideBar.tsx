@@ -145,11 +145,11 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
       ) : (
         <Drawer open={isOpen} variant="permanent">
           <Toolbar disableGutters>
-            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }}>
+            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }} onClick={() => toggleDrawer(false)}>
               <Box sx={{ display: isOpen ? 'flex' : 'none', alignItems: 'center' }}>
                 <Image src={IconLogo} width={70} alt="logo" />
               </Box>
-              <IconButton onClick={() => toggleDrawer(false)}>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+              <IconButton>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
             </ListItem>
           </Toolbar>
           <Divider />

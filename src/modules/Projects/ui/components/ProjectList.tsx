@@ -57,7 +57,7 @@ export default function ProjectList({ projectList, handleDelete, handleEdit }: P
       {projectList &&
         projectList.map(({ id, name, sprints }, index) => (
           <Box key={id}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box>
               <ListItemButton
                 disableTouchRipple
                 className="cursor-default"
