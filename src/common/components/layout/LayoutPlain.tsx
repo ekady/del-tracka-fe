@@ -4,9 +4,10 @@ import * as React from 'react';
 // Next Components
 import Image from 'next/image';
 
-// Components
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+// MUI Components
+import { Box, Grid } from '@mui/material';
+
+// Local Components
 import { Copyright } from '../base';
 import { Container } from '@mui/material';
 

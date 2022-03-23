@@ -4,19 +4,22 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // MUI Components
-import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItemMUI from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Drawer as MuiDrawer, Toolbar, Typography } from '@mui/material';
+import {
+  Drawer as MuiDrawer,
+  Toolbar,
+  Typography,
+  Box,
+  SwipeableDrawer,
+  List,
+  Divider,
+  ListItemButton as ListItemMUI,
+  ListItemIcon,
+  ListItemText,
+  Icon,
+} from '@mui/material';
 
 // MUI Icons
-import Icon from '@mui/material/Icon';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from '@mui/icons-material/';
 
 // MUI utils
 import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
@@ -95,7 +98,8 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
     if ((isMobile && isClickList) || !isClickList) handleOpenDrawer();
   };
   const theme = useTheme();
-  const currentRouter = useRouter().pathname;
+  const mainPath = useRouter().pathname.match(/^\/((\w|-)*)/);
+  const currentRouter = mainPath ? mainPath[0] : '';
 
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(true)} onKeyDown={() => toggleDrawer(true)}>
@@ -141,11 +145,11 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
       ) : (
         <Drawer open={isOpen} variant="permanent">
           <Toolbar disableGutters>
-            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }}>
+            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }} onClick={() => toggleDrawer(false)}>
               <Box sx={{ display: isOpen ? 'flex' : 'none', alignItems: 'center' }}>
                 <Image src={IconLogo} width={70} alt="logo" />
               </Box>
-              <IconButton onClick={() => toggleDrawer(false)}>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+              <IconButton>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
             </ListItem>
           </Toolbar>
           <Divider />

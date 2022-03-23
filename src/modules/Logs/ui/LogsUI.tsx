@@ -31,8 +31,19 @@ export interface LogsUIProps {
   isUsingFeature?: boolean;
 }
 
+interface SeparatorValueProps {
+  value: string | number;
+  isNotUsingSeparator?: boolean;
+}
+
+const SeparatorValue = ({ value, isNotUsingSeparator }: SeparatorValueProps) => (
+  <Box sx={{ my: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+    <Typography>{value}</Typography>
+    {!isNotUsingSeparator && <Typography>-</Typography>}
+  </Box>
+);
+
 export default function LogsUI(props: LogsUIProps) {
-  const Separator = () => <Typography>-</Typography>;
   return (
     <>
       {props.logs.map((item) => (
@@ -41,37 +52,21 @@ export default function LogsUI(props: LogsUIProps) {
           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', ml: 1 }}>
             {props.notFullInfo ? (
               <>
-                {props.isUsingDate && (
-                  <>
-                    <Typography>{item.date}</Typography> <Separator />
-                  </>
-                )}
-                {props.isUsingProjectName && (
-                  <>
-                    <Typography>{item.projectName}</Typography> <Separator />
-                  </>
-                )}
-                {props.isUsingCardNumber && (
-                  <>
-                    <Typography>{item.cardNumber}</Typography> <Separator />
-                  </>
-                )}
-                {props.isUsingFeature && (
-                  <>
-                    <Typography>{item.feature}</Typography> <Separator />
-                  </>
-                )}
+                {props.isUsingDate && <SeparatorValue value={item.date} />}
+                {props.isUsingProjectName && <SeparatorValue value={item.projectName} />}
+                {props.isUsingCardNumber && <SeparatorValue value={item.cardNumber} />}
+                {props.isUsingFeature && <SeparatorValue value={item.feature} />}
               </>
             ) : (
               <>
-                <Typography>{item.date}</Typography> <Separator />
-                <Typography>{item.projectName}</Typography> <Separator />
-                <Typography>{item.cardNumber}</Typography> <Separator />
-                <Typography>{item.feature}</Typography> <Separator />
+                <SeparatorValue value={item.date} />
+                <SeparatorValue value={item.projectName} />
+                <SeparatorValue value={item.cardNumber} />
+                <SeparatorValue value={item.feature} />
               </>
             )}
           </Box>
-          <Typography>{item.activity}</Typography>
+          <SeparatorValue value={item.activity} isNotUsingSeparator />
         </Box>
       ))}
     </>

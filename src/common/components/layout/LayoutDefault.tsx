@@ -1,14 +1,15 @@
 // React
 import * as React from 'react';
 
-// Components
+// MUI Components
 import { Grid, Container, Box, CssBaseline } from '@mui/material';
-import { Copyright } from '../base';
-import { Header } from '../base';
 
 // Utils
 import { useTheme, ThemeProvider } from '@mui/material/styles';
 
+// Local Components
+import { Copyright } from '../base';
+import { Header } from '../base';
 interface LayoutHomeProps {
   children: React.ReactNode;
 }
@@ -22,12 +23,12 @@ export default function LayoutDefault({ children }: LayoutHomeProps) {
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header isSignIn showMenu={true} usingSidebar />
-          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3 }}>
+          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3, height: '100%' }}>
             {children}
           </Container>
         </Box>
       </Grid>
-      <Copyright sx={{ mt: 5, mb: 1 }} />
+      <Copyright sx={{ mb: 1 }} />
     </ThemeProvider>
   );
 }

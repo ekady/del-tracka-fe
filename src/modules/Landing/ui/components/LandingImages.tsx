@@ -2,9 +2,7 @@
 import Image from 'next/image';
 
 // Components
-import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { Box, ImageList, ImageListItem } from '@mui/material';
 
 // Utils
 import { useMediaQuery, useTheme } from '@mui/material';

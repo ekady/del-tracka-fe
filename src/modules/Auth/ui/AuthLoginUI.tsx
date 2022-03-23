@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { emailValidation } from '../../../common/helper';
 import { useForm } from 'react-hook-form';
 
-// Components
+// MUI Components
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+
+// Local Components
 import { CustomInputs } from '../../../common/components/base';
 import { AuthWithGoogle } from './components';
 

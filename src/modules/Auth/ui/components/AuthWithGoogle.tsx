@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Helper
 import { GoogleLogin } from 'react-google-login';
 
-// Components
+// MUI Components
 import { Button } from '@mui/material';
 
 // Icons

@@ -4,33 +4,34 @@ import { useState, MouseEvent } from 'react';
 import Image from 'next/image';
 
 // Components
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import { Box } from '@mui/material';
+import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import {
+  Box,
+  AppBar as MuiAppBar,
+  Container,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemText,
+  ListItemIcon,
+} from '@mui/material';
 
 // Local Components
 import SideBar from './SideBar';
 import Breadcrumb from './Breadcrumb';
 
 // Icons
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon } from '@mui/icons-material';
 
 // Local Icons
 import { IconLogo } from '../../icons';
 
 // Helper
 import { useTheme, styled } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery } from '@mui/material';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -52,7 +53,7 @@ const AppBar = styled(MuiAppBar, {
   }),
   width: '100%',
   marginLeft: 0,
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('lg')]: {
     width: open && sidebar ? 'calc(100% - 250px)' : sidebar ? `calc(100% - ${theme.spacing(9)})` : '100%',
     marginLeft: open ? `calc(${theme.spacing(9)} + 1px)` : '250px',
   },
@@ -66,7 +67,7 @@ export interface HeaderProps {
 
 export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps) {
   const theme = useTheme();
-  const mdAndUp = useMediaQuery(theme.breakpoints.up('md'));
+  const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);
@@ -94,7 +95,7 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2, display: mdAndUp || !showMenu ? 'none' : 'block' }}
+              sx={{ mr: 2, display: lgAndUp || !showMenu ? 'none' : 'block' }}
             >
               <MenuIcon />
             </IconButton>
@@ -109,7 +110,7 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
             </Box>
             {isSignIn ? (
               <>
-                {mdAndUp ? (
+                {lgAndUp ? (
                   <Button color="inherit" onClick={handleMenu} variant="text" startIcon={<AccountCircle />}>
                     <Typography sx={{ flexGrow: 1, ml: 1, fonstSize: 'small', textTransform: 'capitalize' }}>
                       First Name
@@ -145,7 +146,7 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
           </Toolbar>
         </Container>
       </AppBar>
-      {showMenu && <SideBar isOpen={openSidebar} handleOpenDrawer={handleSidebar} isMobile={!mdAndUp} />}
+      {showMenu && <SideBar isOpen={openSidebar} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>
   );
 }

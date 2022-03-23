@@ -4,15 +4,15 @@ import * as React from 'react';
 // Next Components
 import Image from 'next/image';
 
-// Components
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { Copyright } from '../base';
-import { Container } from '@mui/material';
+// MUI Components
+import { Paper, Box, Grid } from '@mui/material';
 
 // Utils
 import { useTheme, ThemeProvider } from '@mui/material/styles';
+
+// Local Components
+import { Copyright } from '../base';
+import { Container } from '@mui/material';
 
 // Icons
 import { IconLogo } from '../../icons';
