@@ -2,7 +2,7 @@
 import { ReactNode, useState } from 'react';
 
 // MUI Components
-import { Button, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
@@ -32,7 +32,7 @@ export default function TableAction(props: TableActionProps) {
 
   return (
     <div>
-      <Button
+      <IconButton
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
@@ -40,7 +40,7 @@ export default function TableAction(props: TableActionProps) {
         onClick={handleClick}
       >
         <MoreVertIcon />
-      </Button>
+      </IconButton>
       <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"

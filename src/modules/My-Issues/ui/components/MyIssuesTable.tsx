@@ -3,8 +3,9 @@ import { Chip } from '@mui/material';
 
 // Local Component
 import { TableAction, TableBase, TableNoData } from '@/common/components/base';
-import { priority } from '@/common/constants';
-import { StyledTableCell, StyledTableRow, TypeTableBaseHeaders } from '@/common/components/base/TableBase';
+import { level } from '@/common/constants';
+import { TypeTableBaseHeaders } from '@/common/components/base/table/TableBase';
+import { TableCellBase, TableRowBase } from '@/common/components/base/table';
 
 interface IDictionary {
   [index: string]: string;
@@ -16,10 +17,10 @@ function createData(
   projectName: string,
   dateUpdated: string,
   reporter: string,
-  priority: string,
+  level: string,
   status: string,
 ): IDictionary {
-  return { id, mainProblem, projectName, dateUpdated, reporter, priority, status };
+  return { id, mainProblem, projectName, dateUpdated, reporter, level, status };
 }
 
 const rows = [
@@ -30,44 +31,48 @@ const rows = [
 ];
 
 const tableHeaders: TypeTableBaseHeaders[] = [
-  { name: 'Main Problem', value: 'mainProblem' },
-  { name: 'Project Name', value: 'projectName' },
-  { name: 'Date Updated', value: 'dateUpdated' },
-  { name: 'Reporter', value: 'reporter' },
-  { name: 'Priority', value: 'priority' },
-  { name: 'Status', value: 'status' },
+  { name: 'Main Problem', value: 'mainProblem', sortable: true },
+  { name: 'Project Name', value: 'projectName', sortable: true },
+  { name: 'Date Updated', value: 'dateUpdated', sortable: true },
+  { name: 'Reporter', value: 'reporter', sortable: true },
+  { name: 'Level', value: 'level', sortable: true },
+  { name: 'Status', value: 'status', sortable: true },
   { name: 'Action', value: 'action' },
 ];
 
 export default function MyIssuesTable() {
+  const handleChangeTable = (nameFeature: string, value: string | number) => {
+    console.log(nameFeature, value);
+  };
+
   return (
-    <TableBase isUsingSearch tableHeaders={tableHeaders}>
+    <TableBase isUsingSearch tableHeaders={tableHeaders} onChangeTable={handleChangeTable}>
       {rows && rows.length ? (
         rows.map((row) => (
-          <StyledTableRow key={row.id}>
+          <TableRowBase key={row.id} hover>
             {tableHeaders.map((item) =>
               item.value === 'action' ? (
-                <StyledTableCell key={item.value}>
+                <TableCellBase key={item.value}>
                   <TableAction />
-                </StyledTableCell>
-              ) : item.value === 'priority' ? (
-                <StyledTableCell key={item.value}>
+                </TableCellBase>
+              ) : item.value === 'level' ? (
+                <TableCellBase key={item.value}>
                   <Chip
                     label={row[item.value]}
                     sx={{
-                      background: priority[row[item.value]].color,
-                      color: priority[row[item.value]].textColor,
+                      background: level[row[item.value]].color,
+                      color: level[row[item.value]].textColor,
                       border: '1px solid #ccc',
                       width: 100,
                       fontWeight: 'bold',
                     }}
                   />
-                </StyledTableCell>
+                </TableCellBase>
               ) : (
-                <StyledTableCell key={item.value}>{row[item.value]}</StyledTableCell>
+                <TableCellBase key={item.value}>{row[item.value]}</TableCellBase>
               ),
             )}
-          </StyledTableRow>
+          </TableRowBase>
         ))
       ) : (
         <TableNoData tableHeaders={tableHeaders} />

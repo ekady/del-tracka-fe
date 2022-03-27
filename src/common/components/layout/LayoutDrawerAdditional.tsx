@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { Box, Drawer } from '@mui/material';
 
 // Helper
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
 export interface LayoutDefaultWithDrawerProps {
@@ -39,7 +39,7 @@ export default function LayoutDrawerAdditional({ menuList, content }: LayoutDefa
             position: 'absolute',
             bottom: 0,
             marginTop: '-20px',
-            pt: 4,
+            pt: 3,
             zIndex: 1,
             height: 'unset',
             marginLeft: lgAndUp ? '-24px' : '0px',
@@ -48,7 +48,10 @@ export default function LayoutDrawerAdditional({ menuList, content }: LayoutDefa
       >
         {menuList}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, height: '100%' }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', pl: { xs: 0, lg: 3 }, height: '100%', overflow: 'hidden' }}
+      >
         {content}
       </Box>
     </Box>

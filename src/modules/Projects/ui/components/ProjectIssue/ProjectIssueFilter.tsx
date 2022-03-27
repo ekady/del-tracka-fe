@@ -13,7 +13,7 @@ const TextField = styled(TextFieldMUI)(() => ({
   },
 }));
 
-export default function MyIssuesFilter() {
+export default function ProjectIssueFilter() {
   return (
     <Box
       sx={{
@@ -51,15 +51,6 @@ export default function MyIssuesFilter() {
           alignItems: 'center',
         }}
       >
-        <Box sx={{ pr: { xs: 0, md: 3 }, minWidth: { xs: '100%', md: 200 } }}>
-          <Typography sx={{ mb: 1, mt: { xs: 1, md: 0 } }}>Project Name</Typography>
-          <Autocomplete
-            multiple
-            id="tags-outlined"
-            options={[]}
-            renderInput={(params) => <TextField {...params} size="small" placeholder="Project Name" />}
-          />
-        </Box>
         <Box sx={{ px: { xs: 0, md: 3 }, minWidth: { xs: '100%', md: 200 } }}>
           <Typography sx={{ mb: 1, mt: { xs: 1, md: 0 } }}>Level</Typography>
           <Autocomplete
