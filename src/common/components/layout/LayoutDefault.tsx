@@ -23,7 +23,7 @@ export default function LayoutDefault({ children }: LayoutHomeProps) {
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header isSignIn showMenu={true} usingSidebar />
-          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3, height: '100%' }}>
+          <Container maxWidth="xl" sx={{ flexGrow: 1, pt: 5, px: 3, height: '100%', overflowX: 'hidden' }}>
             {children}
           </Container>
         </Box>

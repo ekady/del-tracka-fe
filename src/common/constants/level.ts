@@ -2,7 +2,7 @@ type Indexable = {
   [key: string]: any;
 };
 
-const priority: Indexable = {
+const level: Indexable = {
   CRITICAL: {
     color: '#E54242',
     textColor: '#fff',
@@ -25,4 +25,4 @@ const priority: Indexable = {
   },
 };
 
-export default priority;
+export default level;

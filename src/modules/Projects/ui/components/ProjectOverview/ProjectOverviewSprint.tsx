@@ -1,4 +1,9 @@
+// React
 import { useState } from 'react';
+
+// Next
+import { useRouter } from 'next/router';
+
 // MUI Components
 import { Box, IconButton, Typography } from '@mui/material';
 
@@ -7,7 +12,7 @@ import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
 import { TableBase, BaseDialogAlert } from '@/common/components/base';
-import { TypeTableBaseHeaders } from '@/common/components/base/TableBase';
+import { TypeTableBaseHeaders } from '@/common/components/base/table/TableBase';
 import { BaseDialogAlertProps } from '@/common/components/base/BaseDialogAlert';
 
 interface IDictionary {
@@ -47,6 +52,7 @@ export default function ProjectOverviewSprint() {
     description: 'New Project has been added',
     notUsingCancel: true,
   });
+  const router = useRouter();
 
   const dialogHandler = () => {
     setDialogAlertOpt({ ...dialogAlertOpt, isOpen: false });
@@ -85,9 +91,14 @@ export default function ProjectOverviewSprint() {
       </IconButton>
     </Box>
   );
+
+  const redirectSprintPage = (sprintId: string | number) => {
+    router.push(`${router.asPath}/${sprintId}`);
+  };
+
   return (
     <>
-      <TableBase header={<SprintButton />} tableHeaders={tableHeaders} tableRows={rows} />
+      <TableBase header={<SprintButton />} tableHeaders={tableHeaders} tableRows={rows} rowClick={redirectSprintPage} />
       <BaseDialogAlert handleCancel={dialogHandler} handleOk={dialogHandler} {...dialogAlertOpt} />
     </>
   );
