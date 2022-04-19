@@ -40,7 +40,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'sidebar',
-})<AppBarProps>(({ theme, open, sidebar }) => ({
+})<AppBarProps>(({ theme, open }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -53,10 +53,6 @@ const AppBar = styled(MuiAppBar, {
   }),
   width: '100%',
   marginLeft: 0,
-  [theme.breakpoints.up('lg')]: {
-    width: open && sidebar ? 'calc(100% - 250px)' : sidebar ? `calc(100% - ${theme.spacing(9)})` : '100%',
-    marginLeft: open ? `calc(${theme.spacing(9)} + 1px)` : '250px',
-  },
 }));
 
 export interface HeaderProps {
@@ -70,7 +66,7 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
+  const [openSidebar, setOpenSidebar] = useState<boolean>(true);
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -86,22 +82,38 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
 
   return (
     <>
-      <AppBar color="inherit" sx={{ boxShadow: 1 }} open={openSidebar} sidebar={usingSidebar}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <IconButton
-              onClick={handleSidebar}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2, display: lgAndUp || !showMenu ? 'none' : 'block' }}
-            >
-              <MenuIcon />
-            </IconButton>
+      <AppBar
+        color="inherit"
+        sx={{ boxShadow: 'none', zIndex: lgAndUp ? theme.zIndex.drawer + 1 : theme.zIndex.drawer - 1 }}
+        open={openSidebar}
+        sidebar={usingSidebar}
+      >
+        <Toolbar disableGutters>
+          {usingSidebar && (
+            <Box sx={{ display: 'flex', width: lgAndUp ? 280 : 20, justifyContent: 'space-between', boxSizing: 'border-box' }}>
+              {lgAndUp && (
+                <Box sx={{ display: 'flex', alignItems: 'center', pl: 2 }}>
+                  <Image src={IconLogo} width={70} alt="logo" />
+                </Box>
+              )}
+              <IconButton
+                onClick={handleSidebar}
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ display: 'block', mx: lgAndUp ? 'unset' : 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          )}
+          <Container maxWidth={false} sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>
-              {showMenu ? (
-                <Breadcrumb />
+              {showMenu && usingSidebar ? (
+                <Box sx={{ mx: lgAndUp ? 'unset' : 3 }}>
+                  <Breadcrumb />
+                </Box>
               ) : (
                 <Typography>
                   <Image src={IconLogo} width={70} alt="logo" />
@@ -143,8 +155,8 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
                 <Typography sx={{ fonstSize: 'small', textTransform: 'capitalize' }}>Log In</Typography>
               </Button>
             )}
-          </Toolbar>
-        </Container>
+          </Container>
+        </Toolbar>
       </AppBar>
       {showMenu && <SideBar isOpen={openSidebar} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>

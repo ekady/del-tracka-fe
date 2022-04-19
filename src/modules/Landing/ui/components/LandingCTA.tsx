@@ -18,7 +18,7 @@ export default function LandingCTA() {
         mt: 24,
       }}
     >
-      <Typography component="h5" variant="h5">
+      <Typography component="h5" variant="h5" sx={{ textAlign: 'center' }}>
         SIGN IN &amp; START WORKING NOW
       </Typography>
       <Box sx={{ mt: 3 }}>

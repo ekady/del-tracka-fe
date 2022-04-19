@@ -43,15 +43,13 @@ export default function LayoutDrawerAdditional({ menuList, content }: LayoutDefa
             zIndex: 1,
             height: 'unset',
             marginLeft: lgAndUp ? '-24px' : '0px',
+            backgroundColor: 'transparent',
           },
         }}
       >
         {menuList}
       </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', pl: { xs: 0, lg: 3 }, height: '100%', overflow: 'hidden' }}
-      >
+      <Box component="main" sx={{ flexGrow: 1, pl: { xs: 0, lg: 3 }, height: '100%', overflow: 'hidden' }}>
         {content}
       </Box>
     </Box>
