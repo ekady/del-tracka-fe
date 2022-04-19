@@ -5,5 +5,6 @@ export { default as SideBar } from './SideBar';
 export { default as Breadcrumb } from './Breadcrumb';
 export { default as BaseDialog } from './BaseDialog';
 export { default as BaseDialogAlert } from './BaseDialogAlert';
-
-export { TableBase, TableAction, TableNoData } from './table';
+export { default as TableAction } from './TableAction';
+export { default as TableHeader } from './TableHeader';
+export { default as StyledDataTable } from './StyledDataTable';

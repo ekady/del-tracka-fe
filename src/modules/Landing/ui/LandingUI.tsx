@@ -15,7 +15,7 @@ export default function LandingUI() {
 
   return (
     <Box>
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <LandingBanner />
         <LandingFeature
           direction={smAndUp ? 'row-reverse' : 'column-reverse'}

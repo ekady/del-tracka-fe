@@ -1,21 +1,24 @@
 // MUI Components
-import { Chip } from '@mui/material';
+import { Box, Chip } from '@mui/material';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Local Component
-import { TableAction, TableBase, TableNoData } from '@/common/components/base';
+import { StyledDataTable, TableAction, TableHeader } from '@/common/components/base';
 import { level } from '@/common/constants';
-import { TypeTableBaseHeaders } from '@/common/components/base/table/TableBase';
-import { TableCellBase, TableRowBase } from '@/common/components/base/table';
+import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
+
+// Constants
+import status from '@/common/constants/status';
 
 interface Indexable {
-  [index: string]: string | number;
+  [index: string]: string;
 }
 
 export type ProjectIssueType = {
   id: string;
   level: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
-  status: 'open' | 'in progress' | 'review' | 'hold' | 'closed';
-  bugNumber: number | string;
+  status: 'OPEN' | 'IN_PROGRESS' | 'REQUEST_REVIEW' | 'UNDER_REVIEW' | 'HOLD' | 'CLOSE';
+  bugNumber: string;
   mainProblem: string;
   feature: string;
   dateUpdated: string;
@@ -26,8 +29,8 @@ export type ProjectIssueType = {
 function createData(
   id: string,
   level: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW',
-  status: 'open' | 'in progress' | 'review' | 'hold' | 'closed',
-  bugNumber: number | string,
+  status: 'OPEN' | 'IN_PROGRESS' | 'REQUEST_REVIEW' | 'UNDER_REVIEW' | 'HOLD' | 'CLOSE',
+  bugNumber: string,
   mainProblem: string,
   feature: string,
   dateUpdated: string,
@@ -37,66 +40,85 @@ function createData(
   return { id, level, status, bugNumber, mainProblem, feature, dateUpdated, reporter, assigneeAvatar };
 }
 
-const rows = [
-  createData('1', 'CRITICAL', 'open', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-  createData('2', 'HIGH', 'in progress', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-  createData('3', 'LOW', 'open', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-  createData('4', 'NORMAL', 'in progress', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-  createData('5', 'MEDIUM', 'open', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-  createData('6', 'HIGH', 'in progress', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-];
-
-const tableHeaders: TypeTableBaseHeaders[] = [
-  { name: 'Bug Number', value: 'bugNumber', sortable: true, optionsData: { textAlign: 'center' } },
-  { name: 'Main Problem', value: 'mainProblem', sortable: true },
-  { name: 'Feature', value: 'feature', sortable: true, optionsData: { textTransform: 'capitalize' } },
-  { name: 'Level', value: 'level', sortable: true },
-  { name: 'Status', value: 'status', sortable: true, optionsData: { textTransform: 'capitalize' } },
-  { name: 'Date Updated', value: 'dateUpdated', sortable: true },
-  { name: 'Reporter', value: 'reporter', sortable: true, optionsData: { textTransform: 'capitalize' } },
-  { name: 'Assignee', value: 'assigneeAvatar', sortable: true },
-  { name: 'Action', value: 'action' },
-];
-
 export default function ProjectIssueTable() {
-  const handleChangeTable = (nameFeature: string, value: string | number) => {
-    console.log(nameFeature, value);
-  };
+  const renderCellStatus = (params: GridRenderCellParams<string>) => (
+    <Chip
+      label={params.value ? status[params.value].name : ''}
+      sx={{
+        background: params.value ? status[params.value].color : '',
+        color: params.value ? status[params.value].textColor : '',
+        border: '1px solid #ccc',
+        width: 150,
+        fontWeight: 'bold',
+        justifyContent: 'space-between',
+      }}
+      onDelete={() => {
+        //
+      }}
+      deleteIcon={<ProjectIssueChangeStatus currentStatus={params.value ?? ''} />}
+    />
+  );
+  const renderCellLevel = (params: GridRenderCellParams<string>) => (
+    <Chip
+      label={params.value ?? ''}
+      sx={{
+        background: params.value ? level[params.value].color : 'white',
+        color: params.value ? level[params.value].textColor : 'black',
+        border: '1px solid #ccc',
+        width: 130,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+      }}
+    />
+  );
+  const renderCellAction = () => <TableAction />;
+
+  const tableHeaders: GridColDef[] = [
+    { headerName: 'Bug Number', field: 'bugNumber' },
+    { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
+    { headerName: 'Feature', field: 'feature', width: 200 },
+    { headerName: 'Level', field: 'level', width: 200, renderCell: renderCellLevel },
+    { headerName: 'Date Updated', field: 'dateUpdated', width: 200 },
+    { headerName: 'Reporter', field: 'reporter', width: 200 },
+    { headerName: 'Assignee', field: 'assigneeAvatar' },
+    { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
+    { headerName: 'Action', field: 'action', width: 70, renderCell: renderCellAction },
+  ];
+
+  const rows = [
+    createData(
+      '1',
+      'CRITICAL',
+      'OPEN',
+      '01',
+      'Cannot be saved Cannot be saved Cannot be saved Cannot be saved',
+      'Profile',
+      '2021-01-01',
+      'Reporter',
+      'Chixi',
+    ),
+    createData('2', 'HIGH', 'IN_PROGRESS', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
+    createData('3', 'LOW', 'REQUEST_REVIEW', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
+    createData('4', 'NORMAL', 'UNDER_REVIEW', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
+    createData('5', 'MEDIUM', 'HOLD', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
+    createData('6', 'HIGH', 'CLOSE', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
+  ];
 
   return (
-    <TableBase isUsingSearch tableHeaders={tableHeaders} onChangeTable={handleChangeTable}>
-      {rows && rows.length ? (
-        rows.map((row) => (
-          <TableRowBase key={row.id} hover>
-            {tableHeaders.map((item) =>
-              item.value === 'action' ? (
-                <TableCellBase key={item.value}>
-                  <TableAction />
-                </TableCellBase>
-              ) : item.value === 'level' ? (
-                <TableCellBase key={item.value}>
-                  <Chip
-                    label={row[item.value]}
-                    sx={{
-                      background: level[row[item.value]].color,
-                      color: level[row[item.value]].textColor,
-                      border: '1px solid #ccc',
-                      width: 100,
-                      fontWeight: 'bold',
-                    }}
-                  />
-                </TableCellBase>
-              ) : (
-                <TableCellBase TableCellProps={{ sx: { ...item.optionsData } }} key={item.value}>
-                  {row[item.value]}
-                </TableCellBase>
-              ),
-            )}
-          </TableRowBase>
-        ))
-      ) : (
-        <TableNoData tableHeaders={tableHeaders} />
-      )}
-    </TableBase>
+    <>
+      <TableHeader isUsingSearch />
+      <Box sx={{ height: 20 }} />
+      <StyledDataTable
+        rows={rows}
+        columns={tableHeaders}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        disableSelectionOnClick
+        disableColumnMenu
+        autoHeight
+        autoPageSize
+        rowHeight={60}
+      />
+    </>
   );
 }

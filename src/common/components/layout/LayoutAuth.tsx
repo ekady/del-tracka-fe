@@ -11,7 +11,6 @@ import { Paper, Box, Grid } from '@mui/material';
 import { useTheme, ThemeProvider } from '@mui/material/styles';
 
 // Local Components
-import { Copyright } from '../base';
 import { Container } from '@mui/material';
 
 // Icons
@@ -26,21 +25,26 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ minHeight: '100vh' }}>
+      <Grid
+        component="main"
+        sx={{ display: 'flex', minHeight: '100vh', py: 4 }}
+        alignItems={{ xs: 'start', md: 'center' }}
+        justifyContent="center"
+      >
         <Grid
           item
-          xs={false}
+          xs={11}
           sm={6}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
+          md={5}
+          xl={4}
+          maxWidth={250}
+          component={Paper}
+          elevation={6}
+          alignItems="center"
+          justifyContent="center"
+          square
+          sx={{ py: 5, height: '100%', display: 'flex' }}
+        >
           <Box
             sx={{
               my: 3,
@@ -56,9 +60,8 @@ export default function LayoutAuth({ children }: LayoutAuthProps) {
             <Box sx={{ mb: 1 }}>
               <Image src={IconLogo} alt="logo" width={70} />
             </Box>
-            <Container maxWidth="xl">{children}</Container>
+            <Container maxWidth={false}>{children}</Container>
           </Box>
-          <Copyright sx={{ mt: 3, mb: 1 }} />
         </Grid>
       </Grid>
     </ThemeProvider>

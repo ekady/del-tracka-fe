@@ -8,9 +8,9 @@ export default function DashboardUI() {
   return (
     <>
       <DashboardTotal />
-      <Box sx={{ py: 2 }} />
+      <Box sx={{ height: 30 }} />
       <DashboardIssues />
-      <Box sx={{ py: 2 }} />
+      <Box sx={{ height: 30 }} />
       <DashboardActivities />
     </>
   );

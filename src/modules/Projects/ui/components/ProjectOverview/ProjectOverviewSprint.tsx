@@ -6,13 +6,13 @@ import { useRouter } from 'next/router';
 
 // MUI Components
 import { Box, IconButton, Typography } from '@mui/material';
+import { GridColDef, GridRowParams } from '@mui/x-data-grid';
 
 // MUI Icons
 import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
-import { TableBase, BaseDialogAlert } from '@/common/components/base';
-import { TypeTableBaseHeaders } from '@/common/components/base/table/TableBase';
+import { BaseDialogAlert, TableHeader, StyledDataTable } from '@/common/components/base';
 import { BaseDialogAlertProps } from '@/common/components/base/BaseDialogAlert';
 
 interface IDictionary {
@@ -36,12 +36,12 @@ const rows = [
   createData('1', 'Sprint 1', '4', '5', '3', '4'),
 ];
 
-const tableHeaders: TypeTableBaseHeaders[] = [
-  { name: 'Sprint', value: 'name' },
-  { name: 'Open', value: 'open' },
-  { name: 'In Progress', value: 'inProgress' },
-  { name: 'Review', value: 'underReview' },
-  { name: 'Close', value: 'close' },
+const tableHeaders: GridColDef[] = [
+  { headerName: 'Sprint', field: 'name', width: 150 },
+  { headerName: 'Open', field: 'open', width: 150 },
+  { headerName: 'In Progress', field: 'inProgress', width: 150 },
+  { headerName: 'Review', field: 'underReview', width: 150 },
+  { headerName: 'Close', field: 'close', width: 150 },
 ];
 
 export default function ProjectOverviewSprint() {
@@ -92,13 +92,27 @@ export default function ProjectOverviewSprint() {
     </Box>
   );
 
-  const redirectSprintPage = (sprintId: string | number) => {
-    router.push(`${router.asPath}/${sprintId}`);
+  const redirectSprintPage = (params: GridRowParams) => {
+    const id = params.id ?? '';
+    router.push(`${router.asPath}/${id}`);
   };
 
   return (
     <>
-      <TableBase header={<SprintButton />} tableHeaders={tableHeaders} tableRows={rows} rowClick={redirectSprintPage} />
+      <TableHeader isUsingSearch header={<SprintButton />} />
+      <Box sx={{ height: 20 }} />
+      <StyledDataTable
+        rows={rows}
+        columns={tableHeaders}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        disableSelectionOnClick
+        disableColumnMenu
+        autoHeight
+        autoPageSize
+        rowHeight={60}
+        onRowClick={redirectSprintPage}
+      />
       <BaseDialogAlert handleCancel={dialogHandler} handleOk={dialogHandler} {...dialogAlertOpt} />
     </>
   );

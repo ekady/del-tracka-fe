@@ -26,14 +26,10 @@ export default function LayoutPlain({ children }: LayoutPlainProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100%', width: '100%' }}>
+      <Grid component="main" sx={{ height: '100%', width: '100%' }}>
         <Box
           sx={{
             my: 3,
-            mx: {
-              xs: 4,
-              lg: 8,
-            },
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -52,13 +48,12 @@ export default function LayoutPlain({ children }: LayoutPlainProps) {
               flexDirection: 'column',
               alignItems: 'center',
             }}
-            maxWidth="xl"
+            maxWidth={false}
           >
             {children}
           </Container>
         </Box>
       </Grid>
-      <Copyright sx={{ mt: 7, mb: 1 }} />
     </ThemeProvider>
   );
 }

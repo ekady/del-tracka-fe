@@ -17,10 +17,12 @@ import { TableAction } from '@/common/components/base';
 const ListItemButton = styled(ListItemButtonMUI, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })(({ selected }) => ({
+  borderRadius: 8,
+  border: '1px solid #ddd',
   cursor: 'pointer',
-  backgroundColor: selected ? '#ccc' : '#fff',
+  backgroundColor: selected ? '#c9d5dd' : '#fff',
   '&:hover': {
-    backgroundColor: selected ? '#ccc' : '#eee',
+    backgroundColor: selected ? '#c9d5dd' : '#e9f1f7',
   },
 }));
 
@@ -78,8 +80,8 @@ export default function ProjectList({ projectList, handleDelete, handleEdit }: P
     <List>
       {projectList &&
         projectList.map(({ id, name, sprints }, index) => (
-          <Box key={id}>
-            <Box>
+          <Box key={id} sx={{ marginBottom: '8px' }}>
+            <Box sx={{ px: 2, marginBottom: '4px' }}>
               <ListItemButton disableTouchRipple className="cursor-default" selected={currProject === id}>
                 <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
                   {open[index] ? <ExpandLess /> : <ExpandMore />}
@@ -91,13 +93,19 @@ export default function ProjectList({ projectList, handleDelete, handleEdit }: P
               </ListItemButton>
             </Box>
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
+              <List component="div" disablePadding sx={{ px: 2 }}>
                 {sprints.map((sprint) => (
-                  <Link href={`/projects/${id}/${sprint.id}`} passHref key={sprint.id}>
-                    <ListItemButton disableTouchRipple selected={currProject === id && currSprint === sprint.id} sx={{ pl: 4 }}>
+                  <ListItemButton
+                    key={sprint.id}
+                    disableTouchRipple
+                    selected={currProject === id && currSprint === sprint.id}
+                    sx={{ pl: 4, marginBottom: '4px' }}
+                  >
+                    <Link href={`/projects/${id}/${sprint.id}`} passHref>
                       <ListItemText primary={sprint.name} />
-                    </ListItemButton>
-                  </Link>
+                    </Link>
+                    <TableAction hideView handleEdit={handleEdit} handleDelete={handleDelete} />
+                  </ListItemButton>
                 ))}
               </List>
             </Collapse>

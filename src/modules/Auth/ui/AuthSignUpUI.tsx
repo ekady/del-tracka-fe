@@ -39,9 +39,6 @@ export default function AuthLoginUI() {
     },
     password: {
       required: true,
-      validate: {
-        samePassword: (v: string) => v === getValues('confirm_password'),
-      },
     },
     confirm_password: {
       required: true,

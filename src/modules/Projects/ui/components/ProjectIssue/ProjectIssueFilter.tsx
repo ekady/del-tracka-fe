@@ -4,9 +4,6 @@ import { Autocomplete, Box, TextField as TextFieldMUI, Typography } from '@mui/m
 // MUI Utils
 import { styled } from '@mui/material/styles';
 
-// MUI Colors
-import { grey } from '@mui/material/colors';
-
 const TextField = styled(TextFieldMUI)(() => ({
   '& .MuiInputBase-root': {
     backgroundColor: '#fff',
@@ -26,9 +23,10 @@ export default function ProjectIssueFilter() {
         alignItems: 'center',
         px: 3,
         py: 2,
-        background: grey[200],
         borderRadius: 4,
         width: '100%',
+        background: 'white',
+        border: '1px solid #ddd',
       }}
     >
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>

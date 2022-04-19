@@ -34,7 +34,7 @@ export default function DashboardTotal() {
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
             100
           </Typography>
-          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>Total Bugs</Typography>
+          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>Total Issues</Typography>
         </Paper>
       </Grid>
     </Grid>

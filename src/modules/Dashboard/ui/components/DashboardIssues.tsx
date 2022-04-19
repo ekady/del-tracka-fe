@@ -9,10 +9,14 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Doughnut } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 
+// Constant
+import status from '@/common/constants/status';
+
 const Paper = styled(MUIPaper)(() => ({
   width: '100%',
   height: 250,
-  padding: 15,
+  paddingLeft: 15,
+  paddingRight: 15,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -32,11 +36,11 @@ const Typography = styled(MUITypography)(() => ({
 
 export default function DashboardIssues() {
   const theme = useTheme();
-  const { primary, secondary } = theme.palette;
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
 
+  const labels = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
   const data = {
-    labels: ['Open', 'In Progress', 'Done'],
+    labels: labels.map((label) => status[label].name),
     datasets: [
       {
         label: 'My First Dataset',
@@ -49,7 +53,7 @@ export default function DashboardIssues() {
     maintainAspectRatio: false,
     datasets: {
       doughnut: {
-        backgroundColor: [primary.main, secondary.main, '#1DBBFF'],
+        backgroundColor: labels.map((label) => status[label].color),
         hoverOffset: 4,
       },
     },

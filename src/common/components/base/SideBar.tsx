@@ -16,10 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
   Icon,
+  Container,
 } from '@mui/material';
-
-// MUI Icons
-import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from '@mui/icons-material/';
 
 // MUI utils
 import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
@@ -38,6 +36,8 @@ const openedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
+  border: 'none',
+  paddingLeft: 16,
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -46,10 +46,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
+  border: 'none',
+  width: 0,
 });
 
 const Drawer = styled(MuiDrawer, {
@@ -69,19 +67,11 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const IconButton = styled(Box)(() => ({
-  cursor: 'pointer',
-  borderRadius: '50%',
-  height: 24,
-  width: 24,
-  '&:hover': {
-    backgroundColor: '#eee',
-  },
-}));
-
 const ListItem = styled(ListItemMUI, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })(({ selected }) => ({
+  border: '1px solid trasparent',
+  borderRadius: 10,
   '&:hover': {
     backgroundColor: selected ? '#2B75B3' : '#eee',
   },
@@ -102,13 +92,13 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
   const currentRouter = mainPath ? mainPath[0] : '';
 
   const list = () => (
-    <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(true)} onKeyDown={() => toggleDrawer(true)}>
+    <Box sx={{ py: 1 }} role="presentation" onClick={() => toggleDrawer(true)} onKeyDown={() => toggleDrawer(true)}>
       <List>
         {menu.map(({ path, name, icon }: menuItem) => (
           <Link href={path} passHref key={path}>
             <ListItem
               selected={currentRouter === path}
-              sx={{ background: currentRouter === path ? theme.palette.primary.main : null }}
+              sx={{ background: currentRouter === path ? theme.palette.primary.main : null, mb: 1 }}
             >
               <ListItemIcon>
                 <Icon sx={{ color: currentRouter === path ? theme.palette.common.white : null }}>{icon}</Icon>
@@ -118,7 +108,6 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
           </Link>
         ))}
       </List>
-      <Divider />
     </Box>
   );
 
@@ -133,27 +122,21 @@ export default function SideBar({ isOpen, handleOpenDrawer, isMobile }: SideBarP
           onOpen={() => toggleDrawer(false)}
         >
           <Toolbar disableGutters>
-            <ListItem sx={{ py: 0 }}>
+            <Container>
               <Typography sx={{ flexGrow: 1 }}>
                 <Image src={IconLogo} width={70} alt="logo" />
               </Typography>
-            </ListItem>
+            </Container>
           </Toolbar>
           <Divider />
-          {list()}
+          <Container>{list()}</Container>
+          <Divider />
         </SwipeableDrawer>
       ) : (
-        <Drawer open={isOpen} variant="permanent">
-          <Toolbar disableGutters>
-            <ListItem sx={{ justifyContent: isOpen ? 'space-between' : 'flex-start', py: 0 }} onClick={() => toggleDrawer(false)}>
-              <Box sx={{ display: isOpen ? 'flex' : 'none', alignItems: 'center' }}>
-                <Image src={IconLogo} width={70} alt="logo" />
-              </Box>
-              <IconButton>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
-            </ListItem>
-          </Toolbar>
-          <Divider />
+        <Drawer open={isOpen} variant="permanent" sx={{ boxSizing: 'border-box' }}>
+          <Toolbar disableGutters />
           {list()}
+          <Divider />
         </Drawer>
       )}
     </>
