@@ -7,7 +7,7 @@ import { Box, useMediaQuery } from '@mui/material';
 
 // Components
 import { LayoutDefault, LayoutDrawerAdditional } from '@/common/components/layout';
-import ProjectDetail from '@/modules/Projects/ui/ProjectDetail';
+import ProjectIssueDetail from '@/modules/Projects/ui/ProjectIssueDetail';
 import ProjectsUI, { TypeProject } from '@/modules/Projects/ui/ProjectsUI';
 
 const dummyProjectList: TypeProject[] = [
@@ -22,22 +22,22 @@ const dummyProjectList: TypeProject[] = [
   },
 ];
 
-const ProjectSettingPage = () => {
+const ProjectSprintPage = () => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   if (lgAndUp) {
     return (
       <Box sx={{ position: 'relative', height: '100%' }}>
-        <LayoutDrawerAdditional menuList={<ProjectsUI projectList={dummyProjectList} />} content={<ProjectDetail />} />
+        <LayoutDrawerAdditional menuList={<ProjectsUI projectList={dummyProjectList} />} content={<ProjectIssueDetail />} />
       </Box>
     );
   }
-  return <ProjectDetail />;
+  return <ProjectIssueDetail />;
 };
 
-ProjectSettingPage.getLayout = (page: ReactElement) => {
+ProjectSprintPage.getLayout = (page: ReactElement) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
 
-export default ProjectSettingPage;
+export default ProjectSprintPage;

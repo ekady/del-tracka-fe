@@ -1,13 +1,20 @@
+// React
+import { useState } from 'react';
+
 // Helper
 import { useForm } from 'react-hook-form';
 
-// Components
-import { Box, Button, Divider, Grid, TextField, Typography } from '@mui/material';
-import { CustomInputs } from '../../../common/components/base';
+// MUI Components
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+
+// Local Components
+import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from './components';
 
 export type ProfileData = {
   firstName: string;
   lastName: string;
+  password: string;
+  confirm_password: string;
 };
 
 interface ProfileProps {
@@ -18,13 +25,14 @@ interface ProfileProps {
 }
 
 export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditButton }: ProfileProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProfileData>({ mode: 'all' });
+  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
 
-  const validation = {
+  const form = useForm<ProfileData>({ mode: 'all' });
+  const { handleSubmit, getValues } = form;
+
+  const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
+
+  const validationChangeData = {
     firstName: {
       required: true,
     },
@@ -33,10 +41,27 @@ export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditB
     },
   };
 
+  const validationChangePassword = {
+    password: {
+      required: true,
+    },
+    confirm_password: {
+      required: true,
+      validate: {
+        sameConfirmPassword: (v: string) => v === getValues('password'),
+      },
+    },
+  };
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     submit(data);
   });
+
+  const buttonChangePassword = !isFirstTime && (
+    <Button color="secondary" variant="contained" sx={{ mt: 4 }} onClick={onClickChangePassword}>
+      Change Password
+    </Button>
+  );
 
   return (
     <Grid container spacing={2} xs={12} md={12} item>
@@ -49,75 +74,30 @@ export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditB
         <Divider orientation="horizontal" flexItem sx={{ mb: 2 }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: {
-              xs: 'center',
-              sm: 'flex-end',
-            },
-            justifyContent: 'center',
-            mr: {
-              xs: 0,
-              sm: 3,
-            },
-          }}
-        >
-          <Box sx={{ width: 200 }}>
-            <Typography align="center" component="p" variant="subtitle2" sx={{ mt: 1, color: 'black' }}>
-              Profile Picture
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: 200,
-              height: 200,
-              backgroundColor: 'primary.dark',
-              '&:hover': {
-                backgroundColor: 'primary.main',
-                opacity: [0.9, 0.8, 0.7],
-              },
-            }}
-          />
-        </Box>
+        <ProfileChangeImage />
       </Grid>
       <Grid item xs={12} sm={4}>
-        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
-          <CustomInputs
-            Component={TextField}
-            name="First Name"
-            error={errors.firstName}
-            componentProps={{
-              ...register('firstName', {
-                ...validation.firstName,
-              }),
-              margin: 'normal',
-              fullWidth: true,
-              placeholder: isEditable ? 'Enter Your First Name' : '',
-              id: 'firstName',
-              name: 'firstName',
-              disabled: !isEditable,
-            }}
-          />
-          <CustomInputs
-            Component={TextField}
-            name="Last Name"
-            error={errors.lastName}
-            componentProps={{
-              ...register('lastName', {
-                ...validation.lastName,
-              }),
-              margin: 'normal',
-              fullWidth: true,
-              placeholder: isEditable ? 'Enter Your Last Name' : '',
-              name: 'lastName',
-              id: 'lastName',
-              disabled: !isEditable,
-            }}
-          />
+        <Box component="form" noValidate sx={{ mt: 1 }}>
+          <ProfileChangeData formMethods={form} formOptions={validationChangeData} disabled={!isEditable} />
+          {isChangePassword ? (
+            <>
+              <Box sx={{ my: 2 }}>
+                <Typography align="center" component="span" variant="subtitle2" sx={{ color: 'black' }}>
+                  Change Password
+                </Typography>
+                <Button color="primary" variant="outlined" onClick={onClickChangePassword} size="small" sx={{ ml: 2 }}>
+                  Cancel
+                </Button>
+              </Box>
+              <ProfileChangePassword formMethods={form} formOptions={validationChangePassword} disabled={!isEditable} />
+            </>
+          ) : (
+            buttonChangePassword
+          )}
+        </Box>
+        <Box>
           {isEditable ? (
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 4 }}>
+            <Button fullWidth variant="contained" sx={{ mt: 4 }} onClick={onSubmit}>
               Save {isFirstTime ? 'and Next' : ''}
             </Button>
           ) : (

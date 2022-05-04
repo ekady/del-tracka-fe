@@ -2,6 +2,7 @@ import { useState, MouseEvent } from 'react';
 
 // Next Component
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Components
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -17,6 +18,7 @@ import {
   MenuItem,
   ListItemText,
   ListItemIcon,
+  Divider,
 } from '@mui/material';
 
 // Local Components
@@ -24,7 +26,7 @@ import SideBar from './SideBar';
 import Breadcrumb from './Breadcrumb';
 
 // Icons
-import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon, Settings } from '@mui/icons-material';
 
 // Local Icons
 import { IconLogo } from '../../icons';
@@ -142,6 +144,15 @@ export default function Header({ isSignIn, showMenu, usingSidebar }: HeaderProps
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
+                  <Link href="/settings" passHref>
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <Settings fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Settings</ListItemText>
+                    </MenuItem>
+                  </Link>
+                  <Divider />
                   <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                       <LogoutIcon fontSize="small" />

@@ -34,7 +34,14 @@ export default function CustomInputs({ Component, componentProps, name, defaultH
       <InputLabel margin="dense" sx={{ fontSize: '0.875rem', color: 'black' }}>
         {name}
       </InputLabel>
-      <Component {...componentProps} error={isError} helperText={errorMessage} size="small" sx={sx} />
+      <Component
+        {...componentProps}
+        InputProps={{ sx: { backgroundColor: 'white' } }}
+        error={isError}
+        helperText={errorMessage}
+        size="small"
+        sx={{ ...sx }}
+      />
     </>
   );
 }

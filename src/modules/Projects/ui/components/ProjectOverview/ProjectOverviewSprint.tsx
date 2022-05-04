@@ -83,7 +83,7 @@ export default function ProjectOverviewSprint() {
     });
   };
 
-  const SprintButton = () => (
+  const sprintButton = (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Typography fontSize={16}>Sprint</Typography>
       <IconButton color="primary" onClick={openDialogWarning}>
@@ -99,7 +99,7 @@ export default function ProjectOverviewSprint() {
 
   return (
     <>
-      <TableHeader isUsingSearch header={<SprintButton />} />
+      <TableHeader isUsingSearch header={sprintButton} />
       <Box sx={{ height: 20 }} />
       <StyledDataTable
         rows={rows}

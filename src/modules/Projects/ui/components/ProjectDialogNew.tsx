@@ -1,11 +1,9 @@
-// MUI Componnets
-import { Box, TextField } from '@mui/material';
-
 // Local Components
-import { BaseDialog, CustomInputs } from '@/common/components/base';
+import { BaseDialog } from '@/common/components/base';
 
 // Helper
 import { useForm } from 'react-hook-form';
+import ProjectNewForm from './ProjectNewForm';
 
 export interface ProjectDialogNewProps {
   handleOk?: () => void;
@@ -16,19 +14,23 @@ export interface ProjectDialogNewProps {
 
 export type ProjectName = {
   projectName: string;
+  description: string;
 };
 
 export default function ProjectDialogNew({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) {
+  const form = useForm<ProjectName>({ mode: 'all' });
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
     trigger,
-  } = useForm<ProjectName>({ mode: 'all' });
+  } = form;
 
   const validation = {
     projectName: {
+      required: true,
+    },
+    description: {
       required: true,
     },
   };
@@ -50,6 +52,7 @@ export default function ProjectDialogNew({ isEdit, isOpen, handleOk, handleCance
   const resetForm = () => {
     reset({
       projectName: '',
+      description: '',
     });
   };
 
@@ -63,21 +66,7 @@ export default function ProjectDialogNew({ isEdit, isOpen, handleOk, handleCance
 
   return (
     <BaseDialog {...propsBaseDialog}>
-      <Box component="form" noValidate onSubmit={handleClickOk} sx={{ mt: 1 }}>
-        <CustomInputs
-          Component={TextField}
-          name="Project Name"
-          error={errors.projectName}
-          componentProps={{
-            ...register('projectName', { ...validation.projectName }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter Project Name',
-            name: 'projectName',
-            id: 'projectName',
-          }}
-        />
-      </Box>
+      <ProjectNewForm formOptions={validation} formMethods={form} onSubmit={handleClickOk} />
     </BaseDialog>
   );
 }

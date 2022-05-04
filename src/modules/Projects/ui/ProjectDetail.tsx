@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
 // Local Components
-import { ProjectOverview, ProjectOverviewActivity, ProjectOverviewSprint } from './components';
+import { ProjectOverview, ProjectOverviewActivity, ProjectOverviewSprint, ProjectDetailTitle } from './components';
 import { ProjectOverviewProps } from './components/ProjectOverview/ProjectOverview';
 
 const dummyProjectOverview: ProjectOverviewProps[] = [
@@ -22,17 +22,21 @@ export default function ProjectDetail() {
 
   return (
     <>
-      <Grid container gap={2} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
+      <Grid container gap={2} justifyContent={{ xs: 'start', sm: 'space-between' }}>
+        <ProjectDetailTitle />
+      </Grid>
+      <Box sx={{ height: 40 }} />
+      <Grid container gap={1} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
         {dummyProjectOverview.map((po) => (
           <ProjectOverview key={po.category} {...po} />
         ))}
       </Grid>
-      <Box sx={{ height: 80 }} />
-      <Grid container gap={2} columns={13} justifyContent={{ xs: 'center', md: 'space-between' }}>
-        <Grid item xs={12} lg={9}>
+      <Box sx={{ height: 50 }} />
+      <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>
+        <Grid item xs={12} xl={7}>
           <ProjectOverviewSprint />
         </Grid>
-        <Grid item xs={12} lg="auto" sx={{ pt: lgAndUp ? 0 : 5 }}>
+        <Grid item xs={12} xl={4} sx={{ pt: lgAndUp ? 0 : 5 }}>
           <ProjectOverviewActivity />
         </Grid>
       </Grid>

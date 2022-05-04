@@ -31,7 +31,7 @@ export default function TableAction(props: TableActionProps) {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -61,6 +61,6 @@ export default function TableAction(props: TableActionProps) {
         {!props.hideDelete && <MenuItem onClick={() => handleClose(props.handleDelete)}>Delete</MenuItem>}
         {props.children}
       </Menu>
-    </div>
+    </>
   );
 }
