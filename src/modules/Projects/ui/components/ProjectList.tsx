@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // MUI Components
-import { Box, Collapse, Icon, List, ListItemButton as ListItemButtonMUI, ListItemText, styled } from '@mui/material';
+import { Box, Collapse, Icon, List, ListItemButton as ListItemButtonMUI, ListItemText, MenuItem, styled } from '@mui/material';
 
 // MUI Icons
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
@@ -43,11 +43,9 @@ export type TypeProject = {
 
 export interface ProjectListProps {
   projectList?: TypeProject[];
-  handleEdit?: () => void;
-  handleDelete?: () => void;
 }
 
-export default function ProjectList({ projectList, handleDelete, handleEdit }: ProjectListProps) {
+export default function ProjectList({ projectList }: ProjectListProps) {
   const [open, setOpen] = useState<indexable>({ 0: false, 1: false, 2: false });
   const [currProject, setCurrProject] = useState<string>('');
   const [currSprint, setCurrSprint] = useState<string>('');
@@ -89,7 +87,14 @@ export default function ProjectList({ projectList, handleDelete, handleEdit }: P
                 <Link href={`/projects/${id}`} passHref>
                   <ListItemText className="cursor-pointer" primary={name} />
                 </Link>
-                <TableAction hideView handleEdit={handleEdit} handleDelete={handleDelete} />
+                <TableAction hideView hideDelete hideEdit>
+                  <Link href={`/projects/${id}/setting`} passHref>
+                    <MenuItem>Settings</MenuItem>
+                  </Link>
+                  <Link href={`/projects/${id}/member`} passHref>
+                    <MenuItem>Member</MenuItem>
+                  </Link>
+                </TableAction>
               </ListItemButton>
             </Box>
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
@@ -104,7 +109,6 @@ export default function ProjectList({ projectList, handleDelete, handleEdit }: P
                     <Link href={`/projects/${id}/${sprint.id}`} passHref>
                       <ListItemText primary={sprint.name} />
                     </Link>
-                    <TableAction hideView handleEdit={handleEdit} handleDelete={handleDelete} />
                   </ListItemButton>
                 ))}
               </List>

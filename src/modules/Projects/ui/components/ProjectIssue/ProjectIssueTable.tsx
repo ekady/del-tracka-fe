@@ -1,5 +1,5 @@
 // MUI Components
-import { Box, Chip } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Local Component
@@ -9,6 +9,7 @@ import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
 
 // Constants
 import status from '@/common/constants/status';
+import { AddCircleOutlined } from '@mui/icons-material';
 
 interface Indexable {
   [index: string]: string;
@@ -74,7 +75,7 @@ export default function ProjectIssueTable() {
   const renderCellAction = () => <TableAction />;
 
   const tableHeaders: GridColDef[] = [
-    { headerName: 'Bug Number', field: 'bugNumber' },
+    { headerName: 'Bug Number', field: 'bugNumber', width: 120, align: 'center' },
     { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
     { headerName: 'Feature', field: 'feature', width: 200 },
     { headerName: 'Level', field: 'level', width: 200, renderCell: renderCellLevel },
@@ -82,7 +83,7 @@ export default function ProjectIssueTable() {
     { headerName: 'Reporter', field: 'reporter', width: 200 },
     { headerName: 'Assignee', field: 'assigneeAvatar' },
     { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-    { headerName: 'Action', field: 'action', width: 70, renderCell: renderCellAction },
+    { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
   ];
 
   const rows = [
@@ -104,9 +105,15 @@ export default function ProjectIssueTable() {
     createData('6', 'HIGH', 'CLOSE', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
   ];
 
+  const buttonAddIssue = (
+    <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
+      Add New Issue
+    </Button>
+  );
+
   return (
     <>
-      <TableHeader isUsingSearch />
+      <TableHeader header={buttonAddIssue} isUsingSearch />
       <Box sx={{ height: 20 }} />
       <StyledDataTable
         rows={rows}

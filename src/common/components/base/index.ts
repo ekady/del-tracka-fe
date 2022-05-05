@@ -8,3 +8,6 @@ export { default as BaseDialogAlert } from './BaseDialogAlert';
 export { default as TableAction } from './TableAction';
 export { default as TableHeader } from './TableHeader';
 export { default as StyledDataTable } from './StyledDataTable';
+export { default as FileUploader } from './FileUploader';
+export { default as CarouselImages } from './CarouselImages';
+export { default as TableMenuSelection } from './TableMenuSelection';
