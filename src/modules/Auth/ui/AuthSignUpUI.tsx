@@ -2,15 +2,17 @@
 import Link from 'next/link';
 
 // Helper
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { emailValidation } from '../../../common/helper';
 
 // MUI Components
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
 import { AuthWithGoogle } from './components';
-import { CustomInputs } from '../../../common/components/base';
+import { CustomInput } from '@/common/base';
+import { ChangeEvent } from 'react';
+import { FunctionVoidWithParams } from '@/common/types';
 
 export type AuthSignUpData = {
   email: string;
@@ -22,13 +24,13 @@ type Forms = 'email' | 'password' | 'confirm_password';
 
 export default function AuthLoginUI() {
   const {
-    register,
     handleSubmit,
     getFieldState,
     formState: { errors },
     getValues,
     trigger,
-  } = useForm<AuthSignUpData>({ mode: 'all' });
+    control,
+  } = useForm<AuthSignUpData>({ mode: 'onSubmit' });
 
   const validation = {
     email: {
@@ -48,10 +50,21 @@ export default function AuthLoginUI() {
     },
   };
 
-  const validateTargetForm = async (formTarget?: Forms) => {
-    if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
-      await trigger(formTarget);
-    }
+  const validateTargetForm = (formTarget?: Forms) => {
+    return async () => {
+      if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
+        await trigger(formTarget);
+      }
+    };
+  };
+
+  const onChangeInput = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    onChange: FunctionVoidWithParams,
+    formTarget?: Forms,
+  ) => {
+    onChange(event.target.value);
+    validateTargetForm(formTarget);
   };
 
   const onSubmit = handleSubmit((data) => console.log(data));
@@ -63,56 +76,56 @@ export default function AuthLoginUI() {
       </Typography>
       <Divider orientation="horizontal" flexItem sx={{ my: 2 }} />
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
-        <CustomInputs
-          Component={TextField}
-          name="Email Address"
-          error={errors.email}
-          componentProps={{
-            ...register('email', { ...validation.email }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter email address',
-            id: 'email',
-            name: 'email',
-            autoComplete: 'email',
-            autoFocus: true,
-          }}
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=""
+          rules={validation.email}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Email Address"
+              error={errors.email}
+              TextFieldProps={{ placeholder: 'Enter email address', type: 'email', ...field }}
+            />
+          )}
         />
-        <CustomInputs
-          Component={TextField}
-          name="Password"
-          error={errors.password}
-          componentProps={{
-            ...register('password', {
-              ...validation.password,
-              onChange: async () => await validateTargetForm('confirm_password'),
-              onBlur: async () => await validateTargetForm('confirm_password'),
-            }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter password',
-            type: 'password',
-            name: 'password',
-            id: 'password',
-          }}
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          rules={validation.password}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Password"
+              error={errors.password}
+              TextFieldProps={{
+                placeholder: 'Enter password',
+                type: 'password',
+                ...field,
+                onChange: (e) => onChangeInput(e, field.onChange, 'password'),
+                onBlur: async () => validateTargetForm('password'),
+              }}
+            />
+          )}
         />
-        <CustomInputs
-          Component={TextField}
-          name="Confirm Password"
-          error={errors.confirm_password}
-          componentProps={{
-            ...register('confirm_password', {
-              ...validation.confirm_password,
-              onChange: async () => await validateTargetForm('password'),
-              onBlur: async () => await validateTargetForm('password'),
-            }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter confirm password',
-            name: 'confirm_password',
-            type: 'password',
-            id: 'confirm_password',
-          }}
+        <Controller
+          name="confirm_password"
+          control={control}
+          defaultValue=""
+          rules={validation.confirm_password}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Confirm Password"
+              error={errors.confirm_password}
+              TextFieldProps={{
+                placeholder: 'Enter confirm password',
+                type: 'password',
+                ...field,
+                onChange: (e) => onChangeInput(e, field.onChange, 'confirm_password'),
+                onBlur: async () => validateTargetForm('confirm_password'),
+              }}
+            />
+          )}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ my: 2 }}>
           Sign Up

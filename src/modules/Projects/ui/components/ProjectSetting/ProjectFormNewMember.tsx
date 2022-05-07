@@ -5,10 +5,10 @@ import { MouseEvent } from 'react';
 import { RegisterOptions, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 // Local Components
-import { CustomInputs } from '@/common/components/base';
+import { CustomInput } from '@/common/base';
 
 export type ProjectFormNewMemberField = {
   userIds: string[];
@@ -36,37 +36,24 @@ export default function ProjectFormNewMember({ formMethods, formOptions, onSubmi
   return (
     <Grid container columns={12} columnSpacing={1} alignItems="start" justifyContent="space-between">
       <Grid item xs={12} md={5}>
-        <CustomInputs
-          Component={TextField}
-          name="User"
+        <CustomInput
+          fieldname="User"
           error={errors.userIds}
-          componentProps={{
-            ...register('userIds', {
-              ...formOptions.userIds,
-            }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter User',
+          TextFieldProps={{
+            placeholder: !disabled ? 'Enter User' : '',
             disabled,
+            ...register('userIds', { ...formOptions.userIds }),
           }}
         />
       </Grid>
       <Grid item xs={12} md={5}>
-        <CustomInputs
-          Component={TextField}
-          name="Role"
+        <CustomInput
+          fieldname="Role"
           error={errors.roleId}
-          componentProps={{
-            ...register('roleId', {
-              ...formOptions.roleId,
-            }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Select role',
-            type: 'roleId',
-            name: 'roleId',
-            id: 'roleId',
+          TextFieldProps={{
+            placeholder: !disabled ? 'Select role' : '',
             disabled,
+            ...register('roleId', { ...formOptions.roleId }),
           }}
         />
       </Grid>

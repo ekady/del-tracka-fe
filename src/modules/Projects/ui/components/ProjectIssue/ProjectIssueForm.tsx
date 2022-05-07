@@ -1,9 +1,9 @@
 // MUI Components
 import { level } from '@/common/constants';
-import { Autocomplete, Grid, TextField } from '@mui/material';
+import { Autocomplete, Grid } from '@mui/material';
 
 // Local Components
-import { CustomInputs, FileUploader } from '@/common/components/base';
+import { CustomInput, FileUploader } from '@/common/base';
 
 export interface IssueForm {
   mainProblem: string;
@@ -24,63 +24,33 @@ export default function ProjectIssueForm({ hideUploadFile }: ProjectIssueFormPro
     <>
       <Grid container columnSpacing={3} component="main">
         <Grid item xs={12} md={6}>
-          <CustomInputs
-            Component={TextField}
-            name="Main Problem"
-            // error={error.type}
-            componentProps={{
-              margin: 'normal',
-              fullWidth: true,
-              placeholder: 'Enter main problem',
-              id: 'main-problem',
-              name: 'mainProblem',
-            }}
+          <CustomInput
+            fieldname="Main Problem"
+            // error={errors.mainProblem}
+            TextFieldProps={{ placeholder: 'Enter main problem' }}
           />
-          <CustomInputs
-            Component={TextField}
-            name="Feature"
-            // error={error.type}
-            componentProps={{
-              margin: 'normal',
-              fullWidth: true,
-              placeholder: 'Enter feature',
-              id: 'feature',
-              name: 'feature',
-            }}
+          <CustomInput
+            fieldname="Feature"
+            // error={errors.mainProblem}
+            TextFieldProps={{ placeholder: 'Enter feature' }}
           />
           <Autocomplete
             options={[]}
             renderInput={(params) => (
-              <CustomInputs
-                Component={TextField}
-                name="Reporter"
-                // error={error.type}
-                componentProps={{
-                  ...params,
-                  margin: 'normal',
-                  fullWidth: true,
-                  placeholder: 'Enter reporter',
-                  id: 'reporter',
-                  name: 'reporter',
-                }}
+              <CustomInput
+                fieldname="Reporter"
+                // error={errors.mainProblem}
+                TextFieldProps={{ placeholder: 'Enter reporter', ...params, size: 'small' }}
               />
             )}
           />
           <Autocomplete
             options={[]}
             renderInput={(params) => (
-              <CustomInputs
-                Component={TextField}
-                name="Assign To"
-                // error={error.type}
-                componentProps={{
-                  ...params,
-                  margin: 'normal',
-                  fullWidth: true,
-                  placeholder: 'Enter assign to',
-                  id: 'assign-to',
-                  name: 'assignTo',
-                }}
+              <CustomInput
+                fieldname="Assign To"
+                // error={errors.mainProblem}
+                TextFieldProps={{ placeholder: 'Enter assign to', ...params, size: 'small' }}
               />
             )}
           />
@@ -89,34 +59,17 @@ export default function ProjectIssueForm({ hideUploadFile }: ProjectIssueFormPro
           <Autocomplete
             options={Object.keys(level)}
             renderInput={(params) => (
-              <CustomInputs
-                Component={TextField}
-                name="Priority"
-                // error={error.type}
-                componentProps={{
-                  ...params,
-                  margin: 'normal',
-                  fullWidth: true,
-                  placeholder: 'Enter priority',
-                  id: 'priority',
-                  name: 'priority',
-                }}
+              <CustomInput
+                fieldname="Priority"
+                // error={errors.mainProblem}
+                TextFieldProps={{ placeholder: 'Enter priority', ...params, size: 'small' }}
               />
             )}
           />
-          <CustomInputs
-            Component={TextField}
-            name="Detail"
-            // error={error.type}
-            componentProps={{
-              margin: 'normal',
-              fullWidth: true,
-              placeholder: 'Enter detail',
-              id: 'detail',
-              name: 'detail',
-              multiline: true,
-              rows: 8,
-            }}
+          <CustomInput
+            fieldname="Detail"
+            // error={errors.mainProblem}
+            TextFieldProps={{ placeholder: 'Enter detail', multiline: true, rows: 8 }}
           />
         </Grid>
         {!hideUploadFile && (

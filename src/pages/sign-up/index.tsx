@@ -2,7 +2,7 @@
 import { ReactElement } from 'react';
 
 // Components
-import { LayoutAuth } from '../../common/components/layout';
+import { LayoutAuth } from '../../common/layout';
 import AuthSignUpUI from '../../modules/Auth/ui/AuthSignUpUI';
 
 export default function SignUp() {

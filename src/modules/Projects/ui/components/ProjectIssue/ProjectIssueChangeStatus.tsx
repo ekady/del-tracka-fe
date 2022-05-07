@@ -1,5 +1,5 @@
 // Local Components
-import { TableMenuSelection } from '@/common/components/base';
+import { TableMenuSelection } from '@/common/base';
 
 // Constants
 import status from '@/common/constants/status';

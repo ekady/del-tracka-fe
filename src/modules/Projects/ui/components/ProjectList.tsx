@@ -12,7 +12,7 @@ import { Box, Collapse, Icon, List, ListItemButton as ListItemButtonMUI, ListIte
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 // Local Components
-import { TableAction } from '@/common/components/base';
+import { TableAction } from '@/common/base';
 
 const ListItemButton = styled(ListItemButtonMUI, {
   shouldForwardProp: (prop) => prop !== 'selected',

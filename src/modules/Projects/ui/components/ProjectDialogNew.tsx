@@ -1,5 +1,5 @@
 // Local Components
-import { BaseDialog } from '@/common/components/base';
+import { BaseDialog } from '@/common/base';
 
 // Helper
 import { useForm } from 'react-hook-form';

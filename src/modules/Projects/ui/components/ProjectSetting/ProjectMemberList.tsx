@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Local Components
-import { StyledDataTable, TableHeader, TableMenuSelection } from '@/common/components/base';
+import { TableHeader, TableMenuSelection } from '@/common/base';
+import { DataGridStyled } from '@/common/base/DataTable/styled';
 
 interface Indexable {
   [index: string]: string;
@@ -56,7 +57,7 @@ export default function ProjectMemberList({ hideSelectOption }: ProjectMemberLis
     { headerName: 'Name', field: 'name', width: 120 },
     { headerName: 'Date Added', field: 'dateAdded', width: 300 },
     { headerName: 'Added By', field: 'addedBy', width: 200 },
-    { headerName: 'Role', field: 'role', width: 200, editable: true, renderCell: renderCellRole, type: 'autocomplete' },
+    { headerName: 'Role', field: 'role', width: 200, editable: true, renderCell: renderCellRole },
   ];
 
   const rows = [
@@ -70,7 +71,7 @@ export default function ProjectMemberList({ hideSelectOption }: ProjectMemberLis
     <>
       <TableHeader header={<Typography fontWeight="bold">Health Care Member</Typography>} isUsingSearch />
       <Box sx={{ height: 20 }} />
-      <StyledDataTable
+      <DataGridStyled
         rows={rows}
         columns={tableHeaders}
         pageSize={5}

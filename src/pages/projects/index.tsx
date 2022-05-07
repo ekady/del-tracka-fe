@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
 // Components
-import { LayoutDefault, LayoutDrawerAdditional } from '@/common/components/layout';
+import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
 import ProjectsUI, { TypeProject } from '@/modules/Projects/ui/ProjectsUI';
 
 const dummyProjectList: TypeProject[] = [

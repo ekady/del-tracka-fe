@@ -12,8 +12,8 @@ import { grey } from '@mui/material/colors';
 
 // Local Components
 import { ProjectDialogNew, ProjectList } from './components';
-import { BaseDialogAlert } from '@/common/components/base';
-import { BaseDialogAlertProps } from '@/common/components/base/BaseDialogAlert';
+import { BaseDialogAlert } from '@/common/base';
+import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
 
 type TypeSprint = {
   id: string;

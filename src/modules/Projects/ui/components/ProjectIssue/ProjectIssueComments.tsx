@@ -1,12 +1,15 @@
+// React
+import { useEffect } from 'react';
+
+// React Hook Form
 import { useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box, Button, Divider, TextField } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 
 // Local Components
-import { CustomInputs } from '@/common/components/base';
+import { CustomInput } from '@/common/base';
 import ProjectIssueComment from './ProjectIssueComment';
-import { useEffect } from 'react';
 
 export interface Comment {
   comment: string;
@@ -43,26 +46,14 @@ export default function ProjectIssueComments() {
 
   return (
     <>
-      <Box>
-        <CustomInputs
-          Component={TextField}
-          name="Add Comment"
-          error={errors.comment}
-          componentProps={{
-            ...register('comment', { ...validation.comment }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter comment',
-            id: 'comment',
-            name: 'comment',
-            multiline: true,
-            rows: 3,
-          }}
-        />
-        <Button variant="contained" color="primary" onClick={onSubmit}>
-          Add
-        </Button>
-      </Box>
+      <CustomInput
+        fieldname="Comment"
+        error={errors.comment}
+        TextFieldProps={{ placeholder: 'Enter Comment', ...register('comment', { ...validation.comment }) }}
+      />
+      <Button variant="contained" color="primary" onClick={onSubmit}>
+        Add
+      </Button>
       <Divider sx={{ mt: 3, mb: 2 }} />
       {[1, 2, 3, 4].map((_, index) => (
         <Box key={index}>

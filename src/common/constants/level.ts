@@ -1,8 +1,10 @@
-type Indexable = {
-  [key: string]: any;
+import { InformationWithColor } from '../types';
+
+type Color = {
+  [key: string]: InformationWithColor;
 };
 
-const level: Indexable = {
+const level: Color = {
   CRITICAL: {
     color: '#E54242',
     textColor: '#fff',

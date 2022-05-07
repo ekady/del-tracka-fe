@@ -1,12 +1,14 @@
-// Helper
-import { UseFormReturn, RegisterOptions } from 'react-hook-form';
+// React
+import { ChangeEvent } from 'react';
 
-// MUI Components
-import { TextField } from '@mui/material';
+// React Hook Form
+import { UseFormReturn, RegisterOptions, Controller } from 'react-hook-form';
 
 // Local Components
-import { CustomInputs } from '@/common/components/base';
+import { CustomInput } from '@/common/base';
 import { ProfileData } from '../ProfileUI';
+
+import { FunctionVoidWithParams } from '@/common/types';
 
 export type ProfileChangePasswordField = {
   password: string;
@@ -28,7 +30,7 @@ type ProfileChangePasswordForm = 'password' | 'confirm_password';
 
 export default function ProfileChangePassword({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) {
   const {
-    register,
+    control,
     formState: { errors },
     getFieldState,
     trigger,
@@ -40,45 +42,56 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
     }
   };
 
+  const onChangeInput = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    onChange: FunctionVoidWithParams,
+    formTarget?: ProfileChangePasswordForm,
+  ) => {
+    onChange(event.target.value);
+    validateTargetForm(formTarget);
+  };
+
   return (
     <>
-      <CustomInputs
-        Component={TextField}
-        name="Password"
-        error={errors.password}
-        componentProps={{
-          ...register('password', {
-            ...formOptions.password,
-            onChange: async () => await validateTargetForm('confirm_password'),
-            onBlur: async () => await validateTargetForm('confirm_password'),
-          }),
-          margin: 'normal',
-          fullWidth: true,
-          placeholder: 'Enter password',
-          type: 'password',
-          name: 'password',
-          id: 'password',
-          disabled,
-        }}
+      <Controller
+        name="password"
+        control={control}
+        defaultValue=""
+        rules={formOptions.password}
+        render={({ field }) => (
+          <CustomInput
+            fieldname="Password"
+            error={errors.password}
+            TextFieldProps={{
+              placeholder: !disabled ? 'Enter password' : '',
+              type: 'password',
+              ...field,
+              onChange: (e) => onChangeInput(e, field.onChange, 'password'),
+              onBlur: async () => validateTargetForm('password'),
+              disabled,
+            }}
+          />
+        )}
       />
-      <CustomInputs
-        Component={TextField}
-        name="Confirm Password"
-        error={errors.confirm_password}
-        componentProps={{
-          ...register('confirm_password', {
-            ...formOptions.confirm_password,
-            onChange: async () => await validateTargetForm('password'),
-            onBlur: async () => await validateTargetForm('password'),
-          }),
-          margin: 'normal',
-          fullWidth: true,
-          placeholder: 'Enter confirm password',
-          name: 'confirm_password',
-          type: 'password',
-          id: 'confirm_password',
-          disabled,
-        }}
+      <Controller
+        name="confirm_password"
+        control={control}
+        defaultValue=""
+        rules={formOptions.confirm_password}
+        render={({ field }) => (
+          <CustomInput
+            fieldname="Confirm Password"
+            error={errors.confirm_password}
+            TextFieldProps={{
+              placeholder: !disabled ? 'Enter confirm password' : '',
+              type: 'password',
+              ...field,
+              onChange: (e) => onChangeInput(e, field.onChange, 'confirm_password'),
+              onBlur: async () => validateTargetForm('confirm_password'),
+              disabled,
+            }}
+          />
+        )}
       />
     </>
   );

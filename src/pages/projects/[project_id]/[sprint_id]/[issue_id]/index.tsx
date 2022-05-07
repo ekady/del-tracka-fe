@@ -6,7 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Box, useMediaQuery } from '@mui/material';
 
 // Components
-import { LayoutDefault, LayoutDrawerAdditional } from '@/common/components/layout';
+import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
 import ProjectIssueDetail from '@/modules/Projects/ui/ProjectIssueDetail';
 import ProjectsUI, { TypeProject } from '@/modules/Projects/ui/ProjectsUI';
 
