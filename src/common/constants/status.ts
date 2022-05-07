@@ -1,8 +1,10 @@
-type Indexable = {
-  [key: string]: any;
+import { InformationWithColor } from '../types';
+
+type Status = {
+  [key: string]: InformationWithColor;
 };
 
-const status: Indexable = {
+const status: Status = {
   OPEN: {
     value: 'OPEN',
     name: 'Open',

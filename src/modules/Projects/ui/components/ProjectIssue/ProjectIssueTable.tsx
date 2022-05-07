@@ -3,9 +3,10 @@ import { Box, Button, Chip } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Local Component
-import { StyledDataTable, TableAction, TableHeader } from '@/common/components/base';
+import { TableAction, TableHeader } from '@/common/base';
 import { level } from '@/common/constants';
 import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
+import { DataGridStyled } from '@/common/base/DataTable/styled';
 
 // Constants
 import status from '@/common/constants/status';
@@ -115,7 +116,7 @@ export default function ProjectIssueTable() {
     <>
       <TableHeader header={buttonAddIssue} isUsingSearch />
       <Box sx={{ height: 20 }} />
-      <StyledDataTable
+      <DataGridStyled
         rows={rows}
         columns={tableHeaders}
         pageSize={5}

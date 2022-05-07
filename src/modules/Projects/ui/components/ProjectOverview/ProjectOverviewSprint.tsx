@@ -12,8 +12,9 @@ import { GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
-import { BaseDialogAlert, TableHeader, StyledDataTable } from '@/common/components/base';
-import { BaseDialogAlertProps } from '@/common/components/base/BaseDialogAlert';
+import { BaseDialogAlert, TableHeader } from '@/common/base';
+import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert/type';
+import { DataGridStyled } from '@/common/base/DataTable/styled';
 
 interface IDictionary {
   [index: string]: string | number;
@@ -101,7 +102,7 @@ export default function ProjectOverviewSprint() {
     <>
       <TableHeader isUsingSearch header={sprintButton} />
       <Box sx={{ height: 20 }} />
-      <StyledDataTable
+      <DataGridStyled
         rows={rows}
         columns={tableHeaders}
         pageSize={5}

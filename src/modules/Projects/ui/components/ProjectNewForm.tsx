@@ -1,11 +1,11 @@
 // React Hook Form
-import { RegisterOptions, UseFormReturn } from 'react-hook-form';
+import { Controller, RegisterOptions, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 
 // Local Components
-import { CustomInputs } from '@/common/components/base';
+import { CustomInput } from '@/common/base';
 import { FormEvent } from 'react';
 
 export type ProjectNewFormField = {
@@ -27,39 +27,37 @@ export interface ProjectNewFormProps {
 
 export default function ProjectNewForm({ formMethods, formOptions, onSubmit, disabled }: ProjectNewFormProps) {
   const {
-    register,
+    control,
     formState: { errors },
   } = formMethods;
 
   return (
     <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
-      <CustomInputs
-        Component={TextField}
-        name="Project Name"
-        error={errors.projectName}
-        componentProps={{
-          ...register('projectName', { ...formOptions.projectName }),
-          margin: 'normal',
-          fullWidth: true,
-          placeholder: 'Enter Project Name',
-          name: 'projectName',
-          id: 'projectName',
-          disabled,
-        }}
+      <Controller
+        name="projectName"
+        control={control}
+        defaultValue=""
+        rules={formOptions.projectName}
+        render={({ field }) => (
+          <CustomInput
+            fieldname="Project Name"
+            error={errors.projectName}
+            TextFieldProps={{ placeholder: !disabled ? 'Enter Project Name' : '', disabled, ...field }}
+          />
+        )}
       />
-      <CustomInputs
-        Component={TextField}
-        name="Description"
-        error={errors.description}
-        componentProps={{
-          ...register('description', { ...formOptions.description }),
-          margin: 'normal',
-          fullWidth: true,
-          placeholder: 'Enter Description',
-          name: 'description',
-          id: 'description',
-          disabled,
-        }}
+      <Controller
+        name="description"
+        control={control}
+        defaultValue=""
+        rules={formOptions.description}
+        render={({ field }) => (
+          <CustomInput
+            fieldname="Description"
+            error={errors.description}
+            TextFieldProps={{ placeholder: !disabled ? 'Enter Description' : '', disabled, ...field }}
+          />
+        )}
       />
     </Box>
   );

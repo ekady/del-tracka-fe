@@ -3,14 +3,14 @@ import Link from 'next/link';
 
 // Helper
 import { emailValidation } from '../../../common/helper';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
-import { CustomInputs } from '../../../common/components/base';
 import { AuthWithGoogle } from './components';
+import { CustomInput } from '@/common/base';
 
 export type AuthLoginData = {
   email: string;
@@ -19,10 +19,10 @@ export type AuthLoginData = {
 
 export default function AuthLoginUI() {
   const {
-    register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthLoginData>({ mode: 'all' });
+    control,
+  } = useForm<AuthLoginData>({ mode: 'onSubmit' });
 
   const validation = {
     email: {
@@ -45,34 +45,31 @@ export default function AuthLoginUI() {
       </Typography>
       <Divider orientation="horizontal" flexItem sx={{ my: 2 }} />
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
-        <CustomInputs
-          Component={TextField}
-          name="Email Address"
-          error={errors.email}
-          componentProps={{
-            ...register('email', { ...validation.email }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter email address',
-            id: 'email',
-            name: 'email',
-            autoComplete: 'email',
-            autoFocus: true,
-          }}
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=""
+          rules={validation.email}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Email Address"
+              error={errors.email}
+              TextFieldProps={{ placeholder: 'Enter email address', type: 'email', ...field }}
+            />
+          )}
         />
-        <CustomInputs
-          Component={TextField}
-          name="Password"
-          error={errors.password}
-          componentProps={{
-            ...register('password', { ...validation.password }),
-            margin: 'normal',
-            fullWidth: true,
-            placeholder: 'Enter password',
-            type: 'password',
-            name: 'password',
-            id: 'password',
-          }}
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          rules={validation.password}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Pasword"
+              error={errors.password}
+              TextFieldProps={{ placeholder: 'Enter password', type: 'password', ...field }}
+            />
+          )}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ my: 2 }}>
           Sign In

@@ -2,7 +2,7 @@
 import { Box, Typography } from '@mui/material';
 
 // Local Components
-import { FileUploader } from '@/common/components/base';
+import { FileUploader } from '@/common/base';
 
 export default function ProfileChangeImage() {
   return (

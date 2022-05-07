@@ -5,7 +5,8 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 // Constants
 import { level } from '@/common/constants';
 import status from '@/common/constants/status';
-import { StyledDataTable, TableAction, TableHeader } from '@/common/components/base';
+import { TableAction, TableHeader } from '@/common/base';
+import { DataGridStyled } from '@/common/base/DataTable/styled';
 
 interface IDictionary {
   [index: string]: string;
@@ -75,7 +76,7 @@ export default function MyIssuesTable() {
     <>
       <TableHeader isUsingSearch />
       <Box sx={{ height: 20 }} />
-      <StyledDataTable
+      <DataGridStyled
         rows={rows}
         columns={tableHeaders}
         pageSize={5}

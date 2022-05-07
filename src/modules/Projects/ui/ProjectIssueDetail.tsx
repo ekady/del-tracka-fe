@@ -6,7 +6,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 
 // Local Components
 import { ProjectIssueActivity, ProjectIssueComments, ProjectIssueForm } from './components';
-import { CarouselImages } from '@/common/components/base';
+import { CarouselImages } from '@/common/base';
 
 const images = [
   'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',

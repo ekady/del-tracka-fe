@@ -2,7 +2,7 @@
 import { ReactElement } from 'react';
 
 // Components
-import { LayoutDefault } from '../../common/components/layout';
+import { LayoutDefault } from '../../common/layout';
 import ProfileUI, { ProfileData } from '../../modules/Profile/ui/ProfileUI';
 
 const Settings = () => {
