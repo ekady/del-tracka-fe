@@ -1,9 +1,11 @@
+// React
+import { ChangeEvent } from 'react';
+
 // Next Components
 import Link from 'next/link';
 
-// Helper
+// React Hook Form
 import { Controller, useForm } from 'react-hook-form';
-import { emailValidation } from '../../../common/helper';
 
 // MUI Components
 import { Box, Button, Divider, Typography } from '@mui/material';
@@ -11,18 +13,20 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 // Local Components
 import { AuthWithGoogle } from './components';
 import { CustomInput } from '@/common/base';
-import { ChangeEvent } from 'react';
-import { FunctionVoidWithParams } from '@/common/types';
 
-export type AuthSignUpData = {
-  email: string;
-  password: string;
-  confirm_password: string;
+// Helper
+import { emailValidation } from '@/common/helper';
+
+import { FunctionVoidWithParams, PasswordForm } from '@/types';
+import { AuthLoginData, AuthLoginForm } from './AuthLoginUI';
+
+export type AuthSignUpData = AuthLoginData & {
+  [key in PasswordForm]: string;
 };
 
-type Forms = 'email' | 'password' | 'confirm_password';
+export type AuthSignUpForm = AuthLoginForm | PasswordForm;
 
-export default function AuthLoginUI() {
+const AuthSignUpUI = () => {
   const {
     handleSubmit,
     getFieldState,
@@ -50,7 +54,7 @@ export default function AuthLoginUI() {
     },
   };
 
-  const validateTargetForm = (formTarget?: Forms) => {
+  const validateTargetForm = (formTarget?: AuthSignUpForm) => {
     return async () => {
       if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
         await trigger(formTarget);
@@ -60,8 +64,8 @@ export default function AuthLoginUI() {
 
   const onChangeInput = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    onChange: FunctionVoidWithParams,
-    formTarget?: Forms,
+    onChange: FunctionVoidWithParams<string>,
+    formTarget?: AuthSignUpForm,
   ) => {
     onChange(event.target.value);
     validateTargetForm(formTarget);
@@ -140,4 +144,6 @@ export default function AuthLoginUI() {
       </Box>
     </>
   );
-}
+};
+
+export default AuthSignUpUI;

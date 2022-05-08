@@ -1,10 +1,12 @@
-import { InformationWithColor } from '../types';
+import { InformationWithColor } from '@/types';
 
-type Status = {
-  [key: string]: InformationWithColor;
+export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REQUEST_REVIEW' | 'UNDER_REVIEW' | 'CLOSE' | 'HOLD';
+
+export type StatusIndexable = {
+  [key in StatusType]: InformationWithColor;
 };
 
-const status: Status = {
+const STATUS: StatusIndexable = {
   OPEN: {
     value: 'OPEN',
     name: 'Open',
@@ -43,4 +45,4 @@ const status: Status = {
   },
 };
 
-export default status;
+export default STATUS;

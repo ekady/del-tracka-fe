@@ -4,25 +4,20 @@ import Image from 'next/image';
 // Components
 import { Box, Grid, Typography } from '@mui/material';
 
-export declare type StaticImageData = {
-  src: string;
-  height: number;
-  width: number;
-  placeholder?: string;
-};
+import { StaticImageData } from '@/types';
 
-export interface FeatureText {
+export type FeatureText = {
   title: string;
   subtitle: string;
-}
+};
 
-export interface LandingFeatureProps {
+export type LandingFeatureProps = {
   icon: StaticImageData;
   featureItems: FeatureText[];
   direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-}
+};
 
-export default function LandingFeature({ featureItems, icon, direction }: LandingFeatureProps) {
+const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) => {
   const isRowReverse = direction === 'row-reverse';
   const isColumnReverse = direction === 'column-reverse';
 
@@ -58,4 +53,6 @@ export default function LandingFeature({ featureItems, icon, direction }: Landin
       </Grid>
     </Grid>
   );
-}
+};
+
+export default LandingFeature;

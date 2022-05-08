@@ -1,3 +1,6 @@
+// React
+import { ReactNode } from 'react';
+
 // MUI Components
 import { Box, Drawer, PaperProps } from '@mui/material';
 
@@ -8,7 +11,10 @@ import { useMediaQuery } from '@mui/material';
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
 
-import { LayoutDefaultWithDrawerProps } from './type';
+export type LayoutDefaultWithDrawerProps = {
+  menuList: ReactNode;
+  content: ReactNode;
+};
 
 const drawerWidth = SIDEBAR_WIDTH + 40;
 

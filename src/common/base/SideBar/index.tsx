@@ -26,12 +26,18 @@ import { IconLogo } from '@/common/icons';
 // Local Components
 import { Drawer, ListItem } from './styled';
 
-// Local Types
-import { SideBarProps } from './type';
-
 // Constant
 import { menu } from '@/common/constants';
-import { menuItem } from '@/common/types';
+import { MenuItem } from '@/types';
+
+// Local Types
+import { FunctionVoid } from '@/types';
+
+export type SideBarProps = {
+  isOpen: boolean;
+  isMobile: boolean;
+  handleOpenDrawer: FunctionVoid;
+};
 
 const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const theme = useTheme();
@@ -47,7 +53,7 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const list = (
     <Box sx={{ py: 1 }} role="presentation" onClick={toggleDrawer(true)} onKeyDown={toggleDrawer(true)}>
       <List>
-        {menu.map(({ path, name, icon }: menuItem) => (
+        {menu.map(({ path, name, icon }: MenuItem) => (
           <Link href={path} passHref key={path}>
             <ListItem
               selected={currentRouter === path}

@@ -1,6 +1,3 @@
-// Next
-import Image from 'next/image';
-
 // MUI Components
 import { Box, IconButton, styled } from '@mui/material';
 
@@ -52,9 +49,11 @@ export const RemoveIconButton = styled(IconButton)(() => ({
   backgroundColor: '#00000057',
 }));
 
-export const NextImage = styled(Image)(() => ({
-  textAlign: 'center',
-  lineHeight: 14,
-  textTransform: 'uppercase',
-  fontWeight: 'bold',
+export const ImageWraper = styled('span')(() => ({
+  '& > span > img': {
+    textAlign: 'center',
+    lineHeight: 14,
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  },
 }));

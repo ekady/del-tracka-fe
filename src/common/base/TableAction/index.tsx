@@ -7,8 +7,16 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
 
-import { TableActionProps } from './type';
-import { FunctionVoid } from '@/common/types';
+import { FunctionVoid, PropsChildren } from '@/types';
+
+export type TableActionProps = PropsChildren & {
+  hideView?: boolean;
+  handleView?: FunctionVoid;
+  hideDelete?: boolean;
+  handleDelete?: FunctionVoid;
+  hideEdit?: boolean;
+  handleEdit?: FunctionVoid;
+};
 
 const TableAction = ({ children, handleDelete, handleEdit, handleView, hideDelete, hideEdit, hideView }: TableActionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

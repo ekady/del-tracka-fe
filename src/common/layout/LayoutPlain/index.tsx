@@ -1,6 +1,3 @@
-// React
-import { FC } from 'react';
-
 // Next Components
 import Image from 'next/image';
 
@@ -16,7 +13,9 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Icons
 import { IconLogo } from '@/common/icons';
 
-const LayoutPlain: FC = ({ children }) => {
+import { PropsChildren } from '@/types';
+
+const LayoutPlain = ({ children }: PropsChildren) => {
   const theme = useTheme();
 
   return (

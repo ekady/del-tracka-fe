@@ -1,6 +1,3 @@
-// React
-import { FC } from 'react';
-
 // MUI Components
 import { Grid, Container, Box, CssBaseline } from '@mui/material';
 
@@ -10,7 +7,9 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Local Components
 import { Header } from '@/common/base';
 
-const LayoutDefault: FC = ({ children }) => {
+import { PropsChildren } from '@/types';
+
+const LayoutDefault = ({ children }: PropsChildren) => {
   const theme = useTheme();
 
   return (

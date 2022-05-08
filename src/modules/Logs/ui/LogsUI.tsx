@@ -1,17 +1,10 @@
 // MUI Component
-import { Box, Typography as TypographyMUI } from '@mui/material';
+import { Box } from '@mui/material';
 
 // MUI Icons
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-// MUI utils
-import { styled } from '@mui/material/styles';
-
-const Typography = styled(TypographyMUI)(() => ({
-  paddingLeft: 5,
-  paddingRight: 5,
-  fontSize: 12,
-}));
+import { SeparatorValue } from '@/common/base';
 
 export type Logs = {
   id: string;
@@ -22,28 +15,16 @@ export type Logs = {
   activity: string;
 };
 
-export interface LogsUIProps {
+export type LogsUIProps = {
   logs: Logs[];
   notFullInfo?: boolean;
   isUsingDate?: boolean;
   isUsingProjectName?: boolean;
   isUsingCardNumber?: boolean;
   isUsingFeature?: boolean;
-}
+};
 
-interface SeparatorValueProps {
-  value: string | number;
-  isNotUsingSeparator?: boolean;
-}
-
-const SeparatorValue = ({ value, isNotUsingSeparator }: SeparatorValueProps) => (
-  <Box sx={{ my: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-    <Typography>{value}</Typography>
-    {!isNotUsingSeparator && <Typography>-</Typography>}
-  </Box>
-);
-
-export default function LogsUI(props: LogsUIProps) {
+const LogsUI = (props: LogsUIProps) => {
   return (
     <>
       {props.logs.map((item) => (
@@ -71,4 +52,6 @@ export default function LogsUI(props: LogsUIProps) {
       ))}
     </>
   );
-}
+};
+
+export default LogsUI;

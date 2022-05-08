@@ -1,6 +1,6 @@
-import { IndexableString } from '../types';
+import { Indexable } from '@/types';
 
-const validationMessages: IndexableString = {
+const validationMessages: Indexable<string> = {
   required: '{attribute} is required.',
   email: 'Format {attribute} must be correct.',
   samePassword: '{attribute} must be same with confirm password',

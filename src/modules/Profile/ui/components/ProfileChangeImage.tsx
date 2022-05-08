@@ -4,21 +4,15 @@ import { Box, Typography } from '@mui/material';
 // Local Components
 import { FileUploader } from '@/common/base';
 
-export default function ProfileChangeImage() {
+const ProfileChangeImage = () => {
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: {
-          xs: 'center',
-          sm: 'flex-end',
-        },
+        alignItems: { xs: 'center', sm: 'flex-end' },
         justifyContent: 'center',
-        mr: {
-          xs: 0,
-          sm: 3,
-        },
+        mr: { xs: 0, sm: 3 },
       }}
     >
       <Box sx={{ width: 200 }}>
@@ -37,4 +31,6 @@ export default function ProfileChangeImage() {
       />
     </Box>
   );
-}
+};
+
+export default ProfileChangeImage;

@@ -1,35 +1,16 @@
 // MUI Components
-import { Box, Grid, Paper as MUIPaper, Typography as MUITypography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 // MUI utils
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 // Charts
 import { Line } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 
-const Paper = styled(MUIPaper)(() => ({
-  width: '100%',
-  height: 400,
-  padding: 15,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'flex-start',
-  boxShadow: 'none',
-  border: '1px solid #ddd',
-  borderRadius: '20px',
-}));
+import { PaperActivities, TypographyActivities } from './styled';
 
-const Typography = styled(MUITypography)(() => ({
-  fontWeight: 'bold',
-  fontSize: 14,
-  letterSpacing: 0.5,
-  color: '#4F4F4F',
-  marginBottom: 10,
-}));
-
-export default function DashboardActivities() {
+const DashboardActivities = () => {
   const theme = useTheme();
   const { primary, secondary } = theme.palette;
 
@@ -65,13 +46,15 @@ export default function DashboardActivities() {
   return (
     <Grid container spacing={3} columns={12}>
       <Grid item xs={12}>
-        <Paper>
-          <Typography>Your Activities</Typography>
+        <PaperActivities>
+          <TypographyActivities>Your Activities</TypographyActivities>
           <Box sx={{ height: 330, width: '97%' }}>
             <Line data={data} options={optionsChart} />
           </Box>
-        </Paper>
+        </PaperActivities>
       </Grid>
     </Grid>
   );
-}
+};
+
+export default DashboardActivities;

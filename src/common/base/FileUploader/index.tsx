@@ -1,6 +1,9 @@
 // React
 import { ChangeEvent, DragEvent, ReactNode, useRef, useState } from 'react';
 
+// Next
+import Image from 'next/image';
+
 // MUI Components
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
@@ -8,8 +11,26 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 import { Cancel } from '@mui/icons-material';
 
 // Local types
-import { FileUploaderProps } from './type';
-import { IndexableFile } from '@/common/types';
+import { FunctionVoidWithParams, Indexable } from '@/types';
+
+export type FileUploaderProps = {
+  multiple?: boolean;
+  value?: Indexable<File>;
+  handleValue?: FunctionVoidWithParams<Indexable<File>>;
+  accept?: readonly string[];
+  buttonUploadText?: string;
+  description?: string;
+  hideDescription?: boolean;
+  buttonOutsideContainer?: boolean;
+  hideRemoveIcon?: boolean;
+  hideTextFile?: boolean;
+  imageFullWidth?: boolean;
+  widthContainer?: number | string;
+  heightContainer?: number | string;
+  width?: number | string;
+  height?: number | string;
+  disabled?: boolean;
+};
 
 // Helper
 import { formatBytes } from '@/common/helper';
@@ -19,8 +40,8 @@ import {
   FilesUploadContainer,
   FileTextContainer,
   ImageContainer,
+  ImageWraper,
   InputFile,
-  NextImage,
   RemoveIconButton,
 } from './styled';
 
@@ -69,7 +90,7 @@ const FileUploader = ({
 
   const addNewFiles = (newFiles: FileList) => {
     if (newFiles && newFiles.length) {
-      const filesContainer: IndexableFile = {};
+      const filesContainer: Indexable<File> = {};
       for (const file of Array.from(newFiles)) {
         if (!validateExtension(file.name)) continue;
         filesContainer[file.name] = file;
@@ -173,12 +194,14 @@ const FileUploader = ({
                       height: imageFullWidth ? '100%' : sizes.image.height,
                     }}
                   >
-                    <NextImage
-                      src={URL.createObjectURL(value[file])}
-                      alt={getFileExtension(file)}
-                      layout="fill"
-                      objectFit="cover"
-                    />
+                    <ImageWraper>
+                      <Image
+                        src={URL.createObjectURL(value[file])}
+                        alt={getFileExtension(file)}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </ImageWraper>
                     {!hideRemoveIcon && !disabled && (
                       <RemoveIconButton onClick={() => removeFile(file)}>
                         <Cancel />

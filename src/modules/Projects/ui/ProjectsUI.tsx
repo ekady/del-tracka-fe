@@ -15,6 +15,8 @@ import { ProjectDialogNew, ProjectList } from './components';
 import { BaseDialogAlert } from '@/common/base';
 import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
 
+import { FunctionVoid } from '@/types';
+
 type TypeSprint = {
   id: string;
   name: string;
@@ -28,7 +30,7 @@ export type TypeProject = {
 
 export interface ProjectsProps {
   projectList?: TypeProject[];
-  handleAdd?: () => void;
+  handleAdd?: FunctionVoid;
 }
 
 export default function ProjectsUI({ projectList }: ProjectsProps) {

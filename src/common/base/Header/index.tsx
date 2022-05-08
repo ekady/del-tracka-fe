@@ -4,8 +4,20 @@ import { useState, MouseEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// Components
-import { Box, Container, Toolbar, Button, IconButton, Menu, MenuItem, ListItemText, ListItemIcon, Divider } from '@mui/material';
+// MUI Components
+import {
+  Box,
+  Container,
+  Toolbar,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+  AppBarProps as MuiAppBarProps,
+} from '@mui/material';
 
 // Icons
 import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon, Settings } from '@mui/icons-material';
@@ -22,8 +34,16 @@ import { AppBar, LogoContainer, Text, TitleContainer } from './styled';
 // Local Icons
 import { IconLogo } from '@/common/icons';
 
-// Local Types
-import { HeaderProps } from './type';
+export type AppBarProps = MuiAppBarProps & {
+  open?: boolean;
+  sidebar?: boolean;
+};
+
+export type HeaderProps = {
+  isSignIn: boolean;
+  showMenu: boolean;
+  usingSidebar?: boolean;
+};
 
 const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
   const theme = useTheme();

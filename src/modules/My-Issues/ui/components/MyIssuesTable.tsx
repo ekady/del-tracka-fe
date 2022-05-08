@@ -1,16 +1,14 @@
 // MUI Components
-import { Box, Chip } from '@mui/material';
+import { Box } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Constants
-import { level } from '@/common/constants';
-import status from '@/common/constants/status';
-import { TableAction, TableHeader } from '@/common/base';
+import { TableAction, TableHeader, TableCellStatus, TableCellLevel } from '@/common/base';
 import { DataGridStyled } from '@/common/base/DataTable/styled';
 
-interface IDictionary {
-  [index: string]: string;
-}
+import { Indexable } from '@/types';
+import { StatusType } from '@/common/constants/status';
+import { LevelType } from '@/common/constants/level';
 
 function createData(
   id: string,
@@ -20,41 +18,17 @@ function createData(
   reporter: string,
   level: string,
   status: string,
-): IDictionary {
+): Indexable<string> {
   return { id, mainProblem, projectName, dateUpdated, reporter, level, status };
 }
 
-const renderCellStatus = (params: GridRenderCellParams<string>) => (
-  <Chip
-    label={params.value ? status[params.value].name : ''}
-    sx={{
-      background: params.value ? status[params.value].color : 'white',
-      color: params.value ? status[params.value].textColor : 'black',
-      border: '1px solid #ccc',
-      width: 130,
-      fontWeight: 'bold',
-      justifyContent: 'center',
-    }}
-  />
-);
+const renderCellStatus = (params: GridRenderCellParams<string>) => <TableCellStatus status={params.value as StatusType} />;
 
-const renderCellLevel = (params: GridRenderCellParams<string>) => (
-  <Chip
-    label={params.value ?? ''}
-    sx={{
-      background: params.value ? level[params.value].color : 'white',
-      color: params.value ? level[params.value].textColor : 'black',
-      border: '1px solid #ccc',
-      width: 130,
-      fontWeight: 'bold',
-      justifyContent: 'center',
-    }}
-  />
-);
+const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
 
 const renderCellAction = () => <TableAction />;
 
-export default function MyIssuesTable() {
+const MyIssuesTable = () => {
   const tableHeaders: GridColDef[] = [
     { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
     { headerName: 'Project Name', field: 'projectName', width: 200 },
@@ -89,4 +63,6 @@ export default function MyIssuesTable() {
       />
     </>
   );
-}
+};
+
+export default MyIssuesTable;

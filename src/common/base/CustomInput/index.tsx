@@ -1,10 +1,18 @@
-// Components
-import { InputLabel, TextField } from '@mui/material';
+// React Hook Form
+import { FieldError } from 'react-hook-form';
+
+// MUI Components
+import { InputLabel, TextField, TextFieldProps } from '@mui/material';
 
 // Constants
 import { validationMessages } from '@/common/constants';
 
-import { CustomInputProps } from './type';
+export type CustomInputProps = {
+  TextFieldProps?: TextFieldProps;
+  fieldname?: string;
+  defaultHelperText?: string;
+  error?: FieldError;
+};
 
 const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: CustomInputProps) => {
   const errorType = error?.type ?? '';

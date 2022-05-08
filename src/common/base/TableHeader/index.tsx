@@ -1,10 +1,17 @@
+// React
+import { ReactNode } from 'react';
+
 // MUI Components
-import { Box, InputAdornment, TextField } from '@mui/material';
+import { Box, InputAdornment, TextField, TextFieldProps } from '@mui/material';
 
 // MUI Icons
 import { SearchRounded } from '@mui/icons-material';
 
-import { TableHeaderProps } from './type';
+export type TableHeaderProps = {
+  TextFieldProps?: TextFieldProps;
+  isUsingSearch?: boolean;
+  header?: ReactNode;
+};
 
 const TableHeader = ({ TextFieldProps, isUsingSearch, header }: TableHeaderProps) => {
   return (

@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Helper
 import { useForm } from 'react-hook-form';
@@ -9,26 +9,25 @@ import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 
 // Local Components
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from './components';
+import { ProfileChangeDataField } from './components/ProfileChangeData';
+import { ProfileChangePasswordField } from './components/ProfileChangePassword';
 
-export type ProfileData = {
-  firstName: string;
-  lastName: string;
-  password: string;
-  confirm_password: string;
-};
+import { FunctionVoid, FunctionVoidWithParams } from '@/types';
 
-interface ProfileProps {
+export type ProfileData = ProfileChangeDataField & ProfileChangePasswordField;
+
+export type ProfileProps = {
   isFirstTime: boolean;
   isEditable: boolean;
-  submit: (v: ProfileData) => void;
-  handleEditButton?: () => void;
-}
+  submit: FunctionVoidWithParams<ProfileData>;
+  handleEditButton?: FunctionVoid;
+};
 
-export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditButton }: ProfileProps) {
+const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: ProfileProps) => {
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
 
   const form = useForm<ProfileData>({ mode: 'all' });
-  const { handleSubmit, getValues } = form;
+  const { handleSubmit, getValues, resetField } = form;
 
   const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
 
@@ -56,6 +55,13 @@ export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditB
   const onSubmit = handleSubmit((data) => {
     submit(data);
   });
+
+  useEffect(() => {
+    if (!isChangePassword) {
+      resetField('password');
+      resetField('confirm_password');
+    }
+  }, [isChangePassword]);
 
   const buttonChangePassword = !isFirstTime && (
     <Button color="secondary" variant="contained" sx={{ mt: 4 }} onClick={onClickChangePassword}>
@@ -109,4 +115,6 @@ export default function ProfileUI({ isFirstTime, isEditable, submit, handleEditB
       </Grid>
     </Grid>
   );
-}
+};
+
+export default ProfileUI;

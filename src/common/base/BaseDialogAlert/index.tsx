@@ -7,8 +7,23 @@ import { grey, blueGrey } from '@mui/material/colors';
 // Local Components
 import { CheckCircle, DialogContainer, DialogActions, DialogTitle, Delete, TextContainer, Warning } from './styled';
 
-// Local Type
-import { BaseDialogAlertProps } from './type';
+import { FunctionVoid, PropsChildren } from '@/types';
+
+export type DialogAlertType = 'warning' | 'delete' | 'success';
+
+export type BaseDialogAlertProps = PropsChildren & {
+  type?: DialogAlertType;
+  handleOk?: FunctionVoid;
+  notUsingOk?: boolean;
+  textOk?: string;
+  handleCancel?: FunctionVoid;
+  notUsingCancel?: boolean;
+  textCancel?: string;
+  isOpen?: boolean;
+  titleDialog: string;
+  description?: string;
+  subDescription?: string;
+};
 
 const BaseDialogAlert = ({
   type,

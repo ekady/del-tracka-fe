@@ -17,8 +17,13 @@ import { BoxArrow, ButtonArrow, CircleIndicator } from './styled';
 // Constants
 import { CarouselSize } from './constants';
 
-// Types
-import { CarouselImagesProps } from './type';
+export type CarouselImagesProps = {
+  images: string[];
+  thumbsHeight?: number | string;
+  thumbsWidth?: number | string;
+  imageHeight?: number | string;
+  imageWidth?: number | string;
+};
 
 const CarouselImages = ({ images, thumbsHeight, thumbsWidth, imageHeight, imageWidth }: CarouselImagesProps) => {
   const thumbSize = {

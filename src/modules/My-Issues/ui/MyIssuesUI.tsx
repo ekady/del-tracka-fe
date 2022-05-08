@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 // Local Components
 import { MyIssuesFilter, MyIssuesTable } from './components';
 
-export default function MyIssuesUI() {
+const MyIssuesUI = () => {
   return (
     <>
       <MyIssuesFilter />
@@ -12,4 +12,6 @@ export default function MyIssuesUI() {
       <MyIssuesTable />
     </>
   );
-}
+};
+
+export default MyIssuesUI;
