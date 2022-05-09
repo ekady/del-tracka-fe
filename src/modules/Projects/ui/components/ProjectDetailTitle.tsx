@@ -8,7 +8,7 @@ import { Settings } from '@mui/icons-material';
 // MUI Icons
 import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
 
-export default function ProjectDetailTitle() {
+const ProjectDetailTitle = () => {
   const router = useRouter();
 
   const memberAndSettings = (
@@ -50,4 +50,6 @@ export default function ProjectDetailTitle() {
       </Grid>
     </>
   );
-}
+};
+
+export default ProjectDetailTitle;

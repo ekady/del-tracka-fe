@@ -1,20 +1,20 @@
 // Next Components
 import Image from 'next/image';
 
-// Helper
+// React Google Login
 import { GoogleLogin } from 'react-google-login';
 
 // MUI Components
 import { Button } from '@mui/material';
 
 // Icons
-import { IconGoogle } from '../../../../common/icons';
+import { IconGoogle } from '@/common/icons';
 
-interface AuthWithGoogleProps {
+export type AuthWithGoogleProps = {
   isSignIn: boolean;
-}
+};
 
-export default function AuthWithGoogle({ isSignIn }: AuthWithGoogleProps) {
+const AuthWithGoogle = ({ isSignIn }: AuthWithGoogleProps) => {
   return (
     <GoogleLogin
       clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
@@ -37,4 +37,6 @@ export default function AuthWithGoogle({ isSignIn }: AuthWithGoogleProps) {
       )}
     />
   );
-}
+};
+
+export default AuthWithGoogle;

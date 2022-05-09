@@ -7,9 +7,9 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Constant
-import { feature } from '../constant/landing';
+import { FEATURE } from '../constant/landing';
 
-export default function LandingUI() {
+const LandingUI = () => {
   const theme = useTheme();
   const smAndUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -19,13 +19,13 @@ export default function LandingUI() {
         <LandingBanner />
         <LandingFeature
           direction={smAndUp ? 'row-reverse' : 'column-reverse'}
-          featureItems={feature.feature1.items}
-          icon={feature.feature1.icon}
+          featureItems={FEATURE.feature1.items}
+          icon={FEATURE.feature1.icon}
         />
         <LandingFeature
           direction={smAndUp ? 'row' : 'column-reverse'}
-          featureItems={feature.feature2.items}
-          icon={feature.feature2.icon}
+          featureItems={FEATURE.feature2.items}
+          icon={FEATURE.feature2.icon}
         />
         <LandingImages />
       </Container>
@@ -34,4 +34,6 @@ export default function LandingUI() {
       </Container>
     </Box>
   );
-}
+};
+
+export default LandingUI;

@@ -1,8 +1,7 @@
 // Next Components
 import Link from 'next/link';
 
-// Helper
-import { emailValidation } from '../../../common/helper';
+// React Hook Form
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
@@ -12,12 +11,17 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import { AuthWithGoogle } from './components';
 import { CustomInput } from '@/common/base';
 
+// Helper
+import { emailValidation } from '@/common/helper';
+
+export type AuthLoginForm = 'email' | 'password';
+
 export type AuthLoginData = {
   email: string;
   password: string;
 };
 
-export default function AuthLoginUI() {
+const AuthLoginUI = () => {
   const {
     handleSubmit,
     formState: { errors },
@@ -84,4 +88,6 @@ export default function AuthLoginUI() {
       </Box>
     </>
   );
-}
+};
+
+export default AuthLoginUI;

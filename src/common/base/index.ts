@@ -10,3 +10,6 @@ export { default as TableHeader } from './TableHeader';
 export { default as FileUploader } from './FileUploader';
 export { default as CarouselImages } from './CarouselImages';
 export { default as TableMenuSelection } from './TableMenuSelection';
+export { default as SeparatorValue } from './SeparatorValue';
+export { default as TableCellStatus } from './TableCellStatus';
+export { default as TableCellLevel } from './TableCellLevel';

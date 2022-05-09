@@ -1,10 +1,12 @@
-import { InformationWithColor } from '../types';
+import { InformationWithColor } from '@/types';
 
-type Color = {
-  [key: string]: InformationWithColor;
+export type LevelType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
+
+export type LevelIndexable = {
+  [key in LevelType]: InformationWithColor;
 };
 
-const level: Color = {
+const LEVEL: LevelIndexable = {
   CRITICAL: {
     color: '#E54242',
     textColor: '#fff',
@@ -27,4 +29,4 @@ const level: Color = {
   },
 };
 
-export default level;
+export default LEVEL;

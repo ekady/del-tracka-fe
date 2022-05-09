@@ -8,27 +8,23 @@ import { UseFormReturn, RegisterOptions, Controller } from 'react-hook-form';
 import { CustomInput } from '@/common/base';
 import { ProfileData } from '../ProfileUI';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { FunctionVoidWithParams, PasswordForm } from '@/types';
 
 export type ProfileChangePasswordField = {
-  password: string;
-  confirm_password: string;
+  [key in PasswordForm]: string;
 };
 
 export type ProfileChangePasswordValidation = {
-  password: RegisterOptions;
-  confirm_password: RegisterOptions;
+  [key in PasswordForm]: RegisterOptions;
 };
 
-export interface ProfileChangePasswordProps {
+export type ProfileChangePasswordProps = {
   formMethods: UseFormReturn<ProfileData>;
   formOptions: ProfileChangePasswordValidation;
   disabled?: boolean;
-}
+};
 
-type ProfileChangePasswordForm = 'password' | 'confirm_password';
-
-export default function ProfileChangePassword({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) {
+const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) => {
   const {
     control,
     formState: { errors },
@@ -36,7 +32,7 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
     trigger,
   } = formMethods;
 
-  const validateTargetForm = async (formTarget?: ProfileChangePasswordForm) => {
+  const validateTargetForm = async (formTarget?: PasswordForm) => {
     if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
       await trigger(formTarget);
     }
@@ -44,8 +40,8 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
 
   const onChangeInput = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    onChange: FunctionVoidWithParams,
-    formTarget?: ProfileChangePasswordForm,
+    onChange: FunctionVoidWithParams<string>,
+    formTarget?: PasswordForm,
   ) => {
     onChange(event.target.value);
     validateTargetForm(formTarget);
@@ -63,9 +59,9 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
             fieldname="Password"
             error={errors.password}
             TextFieldProps={{
+              ...field,
               placeholder: !disabled ? 'Enter password' : '',
               type: 'password',
-              ...field,
               onChange: (e) => onChangeInput(e, field.onChange, 'password'),
               onBlur: async () => validateTargetForm('password'),
               disabled,
@@ -83,9 +79,9 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
             fieldname="Confirm Password"
             error={errors.confirm_password}
             TextFieldProps={{
+              ...field,
               placeholder: !disabled ? 'Enter confirm password' : '',
               type: 'password',
-              ...field,
               onChange: (e) => onChangeInput(e, field.onChange, 'confirm_password'),
               onBlur: async () => validateTargetForm('confirm_password'),
               disabled,
@@ -95,4 +91,6 @@ export default function ProfileChangePassword({ formMethods, formOptions, disabl
       />
     </>
   );
-}
+};
+
+export default ProfileChangePassword;

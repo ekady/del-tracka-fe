@@ -39,7 +39,7 @@ const dummyLogs: Logs[] = [
   },
 ];
 
-export default function ProjectOverviewActivity() {
+const ProjectOverviewActivity = () => {
   return (
     <Box>
       <Typography sx={{ mb: 2, marginTop: '5px' }} fontSize={16}>
@@ -48,4 +48,6 @@ export default function ProjectOverviewActivity() {
       <LogsUI logs={dummyLogs} notFullInfo />
     </Box>
   );
-}
+};
+
+export default ProjectOverviewActivity;

@@ -10,13 +10,13 @@ import { ProjectOverview, ProjectOverviewActivity, ProjectOverviewSprint, Projec
 import { ProjectOverviewProps } from './components/ProjectOverview/ProjectOverview';
 
 const dummyProjectOverview: ProjectOverviewProps[] = [
-  { category: 'Open', categoryValue: 20, color: '#1C1632', textColor: '#fff' },
-  { category: 'In Progress', categoryValue: 20, color: '#1C4D76', textColor: '#fff' },
-  { category: 'Under Review', categoryValue: 20, color: '#1D84BB', textColor: '#fff' },
-  { category: 'Close', categoryValue: 20, color: '#1DBBFF', textColor: '#fff' },
+  { name: 'Open', value: 20, color: '#1C1632', textColor: '#fff' },
+  { name: 'In Progress', value: 20, color: '#1C4D76', textColor: '#fff' },
+  { name: 'Under Review', value: 20, color: '#1D84BB', textColor: '#fff' },
+  { name: 'Close', value: 20, color: '#1DBBFF', textColor: '#fff' },
 ];
 
-export default function ProjectDetail() {
+const ProjectDetail = () => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -28,7 +28,7 @@ export default function ProjectDetail() {
       <Box sx={{ height: 40 }} />
       <Grid container gap={1} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
         {dummyProjectOverview.map((po) => (
-          <ProjectOverview key={po.category} {...po} />
+          <ProjectOverview key={po.name} {...po} />
         ))}
       </Grid>
       <Box sx={{ height: 50 }} />
@@ -42,4 +42,6 @@ export default function ProjectDetail() {
       </Grid>
     </>
   );
-}
+};
+
+export default ProjectDetail;

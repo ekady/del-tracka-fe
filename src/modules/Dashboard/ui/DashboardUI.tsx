@@ -4,7 +4,7 @@ import { DashboardTotal, DashboardIssues, DashboardActivities } from './componen
 // Local Components
 import { Box } from '@mui/material';
 
-export default function DashboardUI() {
+const DashboardUI = () => {
   return (
     <>
       <DashboardTotal />
@@ -14,4 +14,6 @@ export default function DashboardUI() {
       <DashboardActivities />
     </>
   );
-}
+};
+
+export default DashboardUI;

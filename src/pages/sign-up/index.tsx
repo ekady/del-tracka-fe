@@ -5,10 +5,12 @@ import { ReactElement } from 'react';
 import { LayoutAuth } from '../../common/layout';
 import AuthSignUpUI from '../../modules/Auth/ui/AuthSignUpUI';
 
-export default function SignUp() {
+const SignUp = () => {
   return <AuthSignUpUI />;
-}
+};
 
 SignUp.getLayout = (page: ReactElement) => {
   return <LayoutAuth>{page}</LayoutAuth>;
 };
+
+export default SignUp;

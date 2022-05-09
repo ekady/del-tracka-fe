@@ -15,13 +15,13 @@ export type ProfileChangeDataValidation = {
   lastName: RegisterOptions;
 };
 
-export interface ProfileChangeDataProps {
+export type ProfileChangeDataProps = {
   formMethods: UseFormReturn<ProfileData>;
   formOptions: ProfileChangeDataValidation;
   disabled?: boolean;
-}
+};
 
-export default function ProfileChangeData({ formMethods, formOptions, disabled }: ProfileChangeDataProps) {
+const ProfileChangeData = ({ formMethods, formOptions, disabled }: ProfileChangeDataProps) => {
   const {
     control,
     formState: { errors },
@@ -57,4 +57,6 @@ export default function ProfileChangeData({ formMethods, formOptions, disabled }
       />
     </>
   );
-}
+};
+
+export default ProfileChangeData;

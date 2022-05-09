@@ -1,8 +1,18 @@
 // MUI Components
 import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-// Local Type
-import { BaseDialogProps } from './type';
+import { FunctionVoid, PropsChildren } from '@/types';
+
+export type BaseDialogProps = PropsChildren & {
+  handleOk?: FunctionVoid;
+  notUsingOk?: boolean;
+  textOk?: string;
+  handleCancel?: FunctionVoid;
+  notUsingCancel?: boolean;
+  textCancel?: string;
+  isOpen?: boolean;
+  titleDialog: string;
+};
 
 const BaseDialog = ({
   isOpen,

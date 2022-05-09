@@ -4,18 +4,19 @@ import { Box, Typography } from '@mui/material';
 // Local Components
 import { ProjectIssueFilter, ProjectIssueTable } from './components';
 
-export interface ProjectIssuesProps {
-  sprint: string | number;
-}
+// Types
+import { SprintType } from '../types';
 
-export default function ProjectIssues({ sprint }: ProjectIssuesProps) {
+export type ProjectIssuesProps = SprintType;
+
+const ProjectIssues = ({ name }: ProjectIssuesProps) => {
   return (
     <>
       <Box>
         <Typography variant="h6" gutterBottom>
           Health Care 1
         </Typography>
-        <Typography>{sprint}</Typography>
+        <Typography>{name}</Typography>
       </Box>
       <Box height={25} />
       <Box>
@@ -25,4 +26,6 @@ export default function ProjectIssues({ sprint }: ProjectIssuesProps) {
       </Box>
     </>
   );
-}
+};
+
+export default ProjectIssues;

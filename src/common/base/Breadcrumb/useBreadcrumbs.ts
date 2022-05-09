@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 // Next
 import { useRouter } from 'next/router';
 
-// Local
-import { BreadcrumbType } from './type';
+export type BreadcrumbType = {
+  breadcrumb: string;
+  href: string;
+};
 
 const convertBreadcrumb = (string: string) => {
   return string.replace(/-/g, ' ').replace(/oe/g, 'ö').replace(/ae/g, 'ä').toLowerCase();

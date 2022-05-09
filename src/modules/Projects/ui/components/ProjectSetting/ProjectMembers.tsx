@@ -2,13 +2,13 @@
 import { useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 
 // Local Components
 import ProjectFormNewMember, { ProjectFormNewMemberField } from './ProjectFormNewMember';
 import ProjectMemberList from './ProjectMemberList';
 
-export default function ProjectMembers() {
+const ProjectMembers = () => {
   const form = useForm<ProjectFormNewMemberField>({ mode: 'all' });
   const { handleSubmit } = form;
   const validation = {
@@ -23,4 +23,6 @@ export default function ProjectMembers() {
       <ProjectMemberList />
     </>
   );
-}
+};
+
+export default ProjectMembers;

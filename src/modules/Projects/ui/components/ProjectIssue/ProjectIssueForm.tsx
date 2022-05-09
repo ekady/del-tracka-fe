@@ -1,23 +1,23 @@
 // MUI Components
 import { level } from '@/common/constants';
-import { Autocomplete, Grid } from '@mui/material';
+import { Autocomplete, Button, Grid } from '@mui/material';
 
 // Local Components
 import { CustomInput, FileUploader } from '@/common/base';
 
-export interface IssueForm {
+export type IssueFormType = {
   mainProblem: string;
   feature: string;
   reporter: string;
   assignTo?: string;
   detail?: string;
   priority: string;
-}
+};
 
-export interface ProjectIssueFormProps {
-  data?: IssueForm;
+export type ProjectIssueFormProps = {
+  data?: IssueFormType;
   hideUploadFile?: boolean;
-}
+};
 
 export default function ProjectIssueForm({ hideUploadFile }: ProjectIssueFormProps) {
   return (
@@ -77,6 +77,9 @@ export default function ProjectIssueForm({ hideUploadFile }: ProjectIssueFormPro
             <FileUploader multiple />
           </Grid>
         )}
+        <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end' }}>
+          <Button variant="contained">Save</Button>
+        </Grid>
       </Grid>
     </>
   );

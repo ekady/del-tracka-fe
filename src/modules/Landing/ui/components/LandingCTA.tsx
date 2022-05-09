@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 // Next Components
 import Link from 'next/link';
 
-export default function LandingCTA() {
+const LandingCTA = () => {
   return (
     <Box
       sx={{
@@ -30,4 +30,6 @@ export default function LandingCTA() {
       </Box>
     </Box>
   );
-}
+};
+
+export default LandingCTA;

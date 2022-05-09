@@ -6,9 +6,8 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { TableHeader, TableMenuSelection } from '@/common/base';
 import { DataGridStyled } from '@/common/base/DataTable/styled';
 
-interface Indexable {
-  [index: string]: string;
-}
+// Types
+import { Indexable } from '@/types';
 
 export type ProjectMemberListType = {
   id: string;
@@ -19,11 +18,11 @@ export type ProjectMemberListType = {
   roleName: string;
 };
 
-export interface ProjectMemberListProps {
+export type ProjectMemberListProps = {
   hideSelectOption?: boolean;
-}
+};
 
-function createData({ id, name, dateAdded, addedBy, role, roleName }: ProjectMemberListType): Indexable {
+function createData({ id, name, dateAdded, addedBy, role, roleName }: ProjectMemberListType): Indexable<string, string> {
   return { id, name, dateAdded, addedBy, role, roleName };
 }
 
@@ -34,7 +33,7 @@ const roleExample = [
   { text: 'Submitter', value: 'SUBMITTER' },
 ];
 
-export default function ProjectMemberList({ hideSelectOption }: ProjectMemberListProps) {
+const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
   const onChangeRole = (role: string) => {
     console.log(role);
   };
@@ -86,4 +85,6 @@ export default function ProjectMemberList({ hideSelectOption }: ProjectMemberLis
       />
     </>
   );
-}
+};
+
+export default ProjectMemberList;

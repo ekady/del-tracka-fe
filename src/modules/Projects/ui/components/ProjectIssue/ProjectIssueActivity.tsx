@@ -36,6 +36,8 @@ const dummyLogs: Logs[] = [
   },
 ];
 
-export default function ProjectIssueActivity() {
+const ProjectIssueActivity = () => {
   return <LogsUI logs={dummyLogs} notFullInfo isUsingDate />;
-}
+};
+
+export default ProjectIssueActivity;

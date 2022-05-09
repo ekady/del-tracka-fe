@@ -1,6 +1,6 @@
-import { IconTask, IconTracking } from '../../../common/icons';
+import { IconTask, IconTracking } from '@/common/icons';
 
-export const feature = {
+export const FEATURE = {
   feature1: {
     icon: IconTracking,
     items: [

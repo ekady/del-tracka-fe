@@ -10,13 +10,17 @@ import { useMediaQuery } from '@mui/material';
 
 // Components
 import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
-import ProjectsUI, { TypeProject } from '@/modules/Projects/ui/ProjectsUI';
+import ProjectsUI from '@/modules/Projects/ui/ProjectsUI';
 
-const dummyProjectList: TypeProject[] = [
-  { id: '1', name: 'Health Care', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },
+// Types
+import { ProjectType } from '@/modules/Projects/types';
+
+const dummyProjectList: ProjectType[] = [
+  { id: '1', name: 'Health Care', description: '', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },
   {
     id: '2',
     name: 'Dums',
+    description: '',
     sprints: [
       { id: 'sprint-1', name: 'Sprint 1' },
       { id: 'sprint-2', name: 'Sprint 2' },

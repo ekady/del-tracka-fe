@@ -2,10 +2,21 @@
 import { useState, MouseEvent } from 'react';
 
 // MUI Components
-import { IconButton, Menu, MenuItem, Fade, ListSubheader, Divider } from '@mui/material';
+import { IconButton, Menu, MenuItem, Fade, ListSubheader, Divider, IconButtonProps, MenuItemProps } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-import { TableMenuSelectionProps } from './type';
+import { FunctionVoidWithParams, Indexable } from '@/types';
+
+export type TableMenuSelectionProps = {
+  list: Indexable<string, string>[];
+  currentValue?: string;
+  handleChange?: FunctionVoidWithParams<string>;
+  IconProps?: IconButtonProps;
+  MenuItemProps?: MenuItemProps;
+  title?: string;
+  itemText?: string;
+  itemValue?: string;
+};
 
 const TableMenuSelection = ({
   list,

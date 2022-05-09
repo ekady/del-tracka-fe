@@ -8,10 +8,9 @@ import { Box } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import { FormEvent } from 'react';
 
-export type ProjectNewFormField = {
-  projectName: string;
-  description: string;
-};
+// Types
+import { ProjectNameType } from '../../types';
+import { FunctionVoidWithParams } from '@/types';
 
 export type ProjectNewFormValidation = {
   projectName: RegisterOptions;
@@ -19,13 +18,13 @@ export type ProjectNewFormValidation = {
 };
 
 export interface ProjectNewFormProps {
-  formMethods: UseFormReturn<ProjectNewFormField>;
+  formMethods: UseFormReturn<ProjectNameType>;
   formOptions: ProjectNewFormValidation;
-  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: FunctionVoidWithParams<FormEvent<HTMLFormElement>>;
   disabled?: boolean;
 }
 
-export default function ProjectNewForm({ formMethods, formOptions, onSubmit, disabled }: ProjectNewFormProps) {
+const ProjectNewForm = ({ formMethods, formOptions, onSubmit, disabled }: ProjectNewFormProps) => {
   const {
     control,
     formState: { errors },
@@ -61,4 +60,6 @@ export default function ProjectNewForm({ formMethods, formOptions, onSubmit, dis
       />
     </Box>
   );
-}
+};
+
+export default ProjectNewForm;

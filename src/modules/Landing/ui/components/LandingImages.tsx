@@ -7,7 +7,7 @@ import { Box, ImageList, ImageListItem } from '@mui/material';
 // Utils
 import { useMediaQuery, useTheme } from '@mui/material';
 
-export default function LandingImages() {
+const LandingImages = () => {
   const theme = useTheme();
   const smAndUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -29,7 +29,9 @@ export default function LandingImages() {
       </ImageList>
     </Box>
   );
-}
+};
+
+export default LandingImages;
 
 const itemData = [
   {
