@@ -11,11 +11,11 @@ import { Box, Button, Divider } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import ProjectIssueComment from './ProjectIssueComment';
 
-export interface Comment {
+export type CommentType = {
   comment: string;
-}
+};
 
-export default function ProjectIssueComments() {
+const ProjectIssueComments = () => {
   const data = {
     comment:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id risus lacus. In eget sem a mauris ultricies elementum. Curabitur iaculis, ipsum sed ultrices molestie, mauris dui imperdiet erat, non venenatis ante ante vitae magna. Sed viverra neque ante, rutrum dapibus tortor bibendum nec. Etiam eu lorem faucibus, volutpat arcu placerat, egestas nisi. Nunc sit amet urna in magna lacinia laoreet ac a massa. Cras ac felis vitae est placerat elementum in sed lectus. Aliquam at arcu lorem. Vestibulum nisl nisl, ullamcorper nec ullamcorper nec, finibus imperdiet lacus. Phasellus quam nisi, porttitor ac vestibulum eget, euismod a orci. ',
@@ -28,7 +28,7 @@ export default function ProjectIssueComments() {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
     reset,
-  } = useForm<Comment>({ mode: 'onSubmit' });
+  } = useForm<CommentType>({ mode: 'onSubmit' });
 
   const validation = {
     comment: {
@@ -63,4 +63,6 @@ export default function ProjectIssueComments() {
       ))}
     </>
   );
-}
+};
+
+export default ProjectIssueComments;

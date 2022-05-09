@@ -10,24 +10,27 @@ import { Button, Grid } from '@mui/material';
 // Local Components
 import { CustomInput } from '@/common/base';
 
+// Types
+import { FunctionVoidWithParams } from '@/types';
+
+export type ProjectNewMemberForm = 'userIds' | 'roleId';
+
 export type ProjectFormNewMemberField = {
-  userIds: string[];
-  roleId: string;
+  [key in ProjectNewMemberForm]: string;
 };
 
 export type ProjectFormNewMemberValidation = {
-  userIds: RegisterOptions;
-  roleId: RegisterOptions;
+  [key in ProjectNewMemberForm]: RegisterOptions;
 };
 
-export interface ProjectFormNewMemberProps {
+export type ProjectFormNewMemberProps = {
   formMethods: UseFormReturn<ProjectFormNewMemberField>;
   formOptions: ProjectFormNewMemberValidation;
   disabled?: boolean;
-  onSubmit?: (e: MouseEvent<HTMLButtonElement>) => void;
-}
+  onSubmit?: FunctionVoidWithParams<MouseEvent<HTMLButtonElement>>;
+};
 
-export default function ProjectFormNewMember({ formMethods, formOptions, onSubmit, disabled }: ProjectFormNewMemberProps) {
+const ProjectFormNewMember = ({ formMethods, formOptions, onSubmit, disabled }: ProjectFormNewMemberProps) => {
   const {
     register,
     formState: { errors },
@@ -64,4 +67,6 @@ export default function ProjectFormNewMember({ formMethods, formOptions, onSubmi
       </Grid>
     </Grid>
   );
-}
+};
+
+export default ProjectFormNewMember;

@@ -5,11 +5,13 @@ import { useForm } from 'react-hook-form';
 import { Box, Button } from '@mui/material';
 
 // Local Components
-import { ProjectName } from '../ProjectDialogNew';
 import ProjectNewForm from '../ProjectNewForm';
 
-export default function ProjectInformation() {
-  const form = useForm<ProjectName>({ mode: 'all' });
+// Types
+import { ProjectNameType } from '@/modules/Projects/types';
+
+const ProjectInformation = () => {
+  const form = useForm<ProjectNameType>({ mode: 'all' });
   const {
     handleSubmit,
     formState: { errors },
@@ -40,4 +42,6 @@ export default function ProjectInformation() {
       </Button>
     </>
   );
-}
+};
+
+export default ProjectInformation;

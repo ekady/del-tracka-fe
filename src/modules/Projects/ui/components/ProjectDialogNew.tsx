@@ -1,24 +1,25 @@
 // Local Components
 import { BaseDialog } from '@/common/base';
+import { FunctionVoid } from '@/types';
 
 // Helper
 import { useForm } from 'react-hook-form';
+
+// Local Component
 import ProjectNewForm from './ProjectNewForm';
 
-export interface ProjectDialogNewProps {
-  handleOk?: () => void;
-  handleCancel?: () => void;
+// Types
+import { ProjectNameType } from '../../types';
+
+export type ProjectDialogNewProps = {
+  handleOk?: FunctionVoid;
+  handleCancel?: FunctionVoid;
   isEdit?: boolean;
   isOpen?: boolean;
-}
-
-export type ProjectName = {
-  projectName: string;
-  description: string;
 };
 
-export default function ProjectDialogNew({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) {
-  const form = useForm<ProjectName>({ mode: 'all' });
+const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) => {
+  const form = useForm<ProjectNameType>({ mode: 'all' });
   const {
     handleSubmit,
     formState: { errors },
@@ -69,4 +70,6 @@ export default function ProjectDialogNew({ isEdit, isOpen, handleOk, handleCance
       <ProjectNewForm formOptions={validation} formMethods={form} onSubmit={handleClickOk} />
     </BaseDialog>
   );
-}
+};
+
+export default ProjectDialogNew;

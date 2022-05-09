@@ -2,21 +2,26 @@
 import { TableMenuSelection } from '@/common/base';
 
 // Constants
-import status from '@/common/constants/status';
+import STATUS, { StatusType } from '@/common/constants/status';
 
-export interface ProjectIssueChangeStatusProps {
+// Types
+import { FunctionVoidWithParams, Indexable } from '@/types';
+
+export type ProjectIssueChangeStatusProps = {
   currentStatus: string;
-  handleChange?: (status: string) => void;
-}
+  handleChange?: FunctionVoidWithParams<string>;
+};
 
-export default function ProjectIssueChangeStatus({ currentStatus, handleChange }: ProjectIssueChangeStatusProps) {
+const ProjectIssueChangeStatus = ({ currentStatus, handleChange }: ProjectIssueChangeStatusProps) => {
   return (
     <TableMenuSelection
-      list={Object.keys(status).map((key) => status[key])}
+      list={Object.keys(STATUS).map((key) => STATUS[key as StatusType] as Indexable<string, string>)}
       itemText="name"
       currentValue={currentStatus}
       handleChange={handleChange}
-      IconProps={{ sx: { color: status[currentStatus].textColor, padding: 0, mr: 1 } }}
+      IconProps={{ sx: { color: STATUS[currentStatus as StatusType].textColor, padding: 0, mr: 1 } }}
     />
   );
-}
+};
+
+export default ProjectIssueChangeStatus;

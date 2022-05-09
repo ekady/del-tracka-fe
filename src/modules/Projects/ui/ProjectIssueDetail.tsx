@@ -21,7 +21,7 @@ const images = [
 // View: Disabled form, contain form without upload image, media, comments, logs
 // Edit: Form contain upload image, comments, logs
 
-export default function ProjectIssueDetail() {
+const ProjectIssueDetail = () => {
   const [tab, setTab] = useState<string>('form');
 
   const setVariantButton = (type: string) => {
@@ -63,4 +63,6 @@ export default function ProjectIssueDetail() {
       )}
     </>
   );
-}
+};
+
+export default ProjectIssueDetail;

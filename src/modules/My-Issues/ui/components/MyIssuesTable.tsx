@@ -18,7 +18,7 @@ function createData(
   reporter: string,
   level: string,
   status: string,
-): Indexable<string> {
+): Indexable<string, string> {
   return { id, mainProblem, projectName, dateUpdated, reporter, level, status };
 }
 

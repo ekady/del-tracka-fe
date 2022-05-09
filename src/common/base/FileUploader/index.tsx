@@ -13,10 +13,12 @@ import { Cancel } from '@mui/icons-material';
 // Local types
 import { FunctionVoidWithParams, Indexable } from '@/types';
 
+type FileIndexable = Indexable<string, File>;
+
 export type FileUploaderProps = {
   multiple?: boolean;
-  value?: Indexable<File>;
-  handleValue?: FunctionVoidWithParams<Indexable<File>>;
+  value?: FileIndexable;
+  handleValue?: FunctionVoidWithParams<FileIndexable>;
   accept?: readonly string[];
   buttonUploadText?: string;
   description?: string;
@@ -90,7 +92,7 @@ const FileUploader = ({
 
   const addNewFiles = (newFiles: FileList) => {
     if (newFiles && newFiles.length) {
-      const filesContainer: Indexable<File> = {};
+      const filesContainer: FileIndexable = {};
       for (const file of Array.from(newFiles)) {
         if (!validateExtension(file.name)) continue;
         filesContainer[file.name] = file;

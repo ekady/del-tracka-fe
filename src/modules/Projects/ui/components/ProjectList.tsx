@@ -6,52 +6,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // MUI Components
-import { Box, Collapse, Icon, List, ListItemButton as ListItemButtonMUI, ListItemText, MenuItem, styled } from '@mui/material';
+import { Collapse, Icon, List, ListItemText, MenuItem } from '@mui/material';
 
 // MUI Icons
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 // Local Components
 import { TableAction } from '@/common/base';
+import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List/styled';
 
-const ListItemButton = styled(ListItemButtonMUI, {
-  shouldForwardProp: (prop) => prop !== 'selected',
-})(({ selected }) => ({
-  borderRadius: 8,
-  border: '1px solid #ddd',
-  cursor: 'pointer',
-  backgroundColor: selected ? '#c9d5dd' : '#fff',
-  '&:hover': {
-    backgroundColor: selected ? '#c9d5dd' : '#e9f1f7',
-  },
-}));
+// Types
+import { ProjectType } from '../../types';
+import { Indexable } from '@/types';
 
-type indexable = {
-  [key: string | number]: boolean;
+export type ProjectListProps = {
+  projectList?: ProjectType[];
 };
 
-type TypeSprint = {
-  id: string;
-  name: string;
-};
-
-export type TypeProject = {
-  id: string;
-  name: string;
-  sprints: TypeSprint[];
-};
-
-export interface ProjectListProps {
-  projectList?: TypeProject[];
-}
-
-export default function ProjectList({ projectList }: ProjectListProps) {
-  const [open, setOpen] = useState<indexable>({ 0: false, 1: false, 2: false });
+const ProjectList = ({ projectList }: ProjectListProps) => {
+  const [open, setOpen] = useState<Indexable<number, boolean>>({ 0: false, 1: false, 2: false });
   const [currProject, setCurrProject] = useState<string>('');
   const [currSprint, setCurrSprint] = useState<string>('');
 
   const handleClick = (index: number) => {
-    setOpen({ ...open, [index]: !open[index] });
+    setOpen((prevOpen) => ({ ...prevOpen, [index]: !prevOpen[index] }));
   };
 
   const router = useRouter();
@@ -68,7 +46,7 @@ export default function ProjectList({ projectList }: ProjectListProps) {
     const indexAt = projectList?.findIndex((p) => p.id === currProject) ?? -1;
     if (indexAt !== -1) {
       setOpen((o) => {
-        const closed: indexable = Object.keys(o).reduce((curr, row) => ({ ...curr, [+row]: false }), {});
+        const closed: Indexable<number, boolean> = Object.keys(o).reduce((curr, row) => ({ ...curr, [+row]: false }), {});
         return { ...closed, [indexAt]: true };
       });
     }
@@ -78,9 +56,9 @@ export default function ProjectList({ projectList }: ProjectListProps) {
     <List>
       {projectList &&
         projectList.map(({ id, name, sprints }, index) => (
-          <Box key={id} sx={{ marginBottom: '8px' }}>
-            <Box sx={{ px: 2, marginBottom: '4px' }}>
-              <ListItemButton disableTouchRipple className="cursor-default" selected={currProject === id}>
+          <ListContainer key={id} sx={{ px: 2 }}>
+            <ListItemContainer>
+              <ListButton disableTouchRipple className="cursor-default" selected={currProject === id}>
                 <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
                   {open[index] ? <ExpandLess /> : <ExpandMore />}
                 </Icon>
@@ -95,12 +73,12 @@ export default function ProjectList({ projectList }: ProjectListProps) {
                     <MenuItem>Member</MenuItem>
                   </Link>
                 </TableAction>
-              </ListItemButton>
-            </Box>
+              </ListButton>
+            </ListItemContainer>
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding sx={{ px: 2 }}>
+              <List component="div" disablePadding>
                 {sprints.map((sprint) => (
-                  <ListItemButton
+                  <ListButton
                     key={sprint.id}
                     disableTouchRipple
                     selected={currProject === id && currSprint === sprint.id}
@@ -109,12 +87,14 @@ export default function ProjectList({ projectList }: ProjectListProps) {
                     <Link href={`/projects/${id}/${sprint.id}`} passHref>
                       <ListItemText primary={sprint.name} />
                     </Link>
-                  </ListItemButton>
+                  </ListButton>
                 ))}
               </List>
             </Collapse>
-          </Box>
+          </ListContainer>
         ))}
     </List>
   );
-}
+};
+
+export default ProjectList;

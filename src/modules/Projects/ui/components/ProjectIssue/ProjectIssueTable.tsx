@@ -1,25 +1,24 @@
 // MUI Components
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
+// MUI Icons
+import { AddCircleOutlined } from '@mui/icons-material';
+
 // Local Component
-import { TableAction, TableHeader } from '@/common/base';
-import { level } from '@/common/constants';
+import { TableAction, TableCellLevel, TableCellStatus, TableHeader } from '@/common/base';
 import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
 import { DataGridStyled } from '@/common/base/DataTable/styled';
 
-// Constants
-import status from '@/common/constants/status';
-import { AddCircleOutlined } from '@mui/icons-material';
-
-interface Indexable {
-  [index: string]: string;
-}
+// Types
+import { StatusType } from '@/common/constants/status';
+import { LevelType } from '@/common/constants/level';
+import { Indexable } from '@/types';
 
 export type ProjectIssueType = {
   id: string;
-  level: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
-  status: 'OPEN' | 'IN_PROGRESS' | 'REQUEST_REVIEW' | 'UNDER_REVIEW' | 'HOLD' | 'CLOSE';
+  level: LevelType;
+  status: StatusType;
   bugNumber: string;
   mainProblem: string;
   feature: string;
@@ -30,49 +29,26 @@ export type ProjectIssueType = {
 
 function createData(
   id: string,
-  level: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW',
-  status: 'OPEN' | 'IN_PROGRESS' | 'REQUEST_REVIEW' | 'UNDER_REVIEW' | 'HOLD' | 'CLOSE',
+  level: LevelType,
+  status: StatusType,
   bugNumber: string,
   mainProblem: string,
   feature: string,
   dateUpdated: string,
   reporter: string,
   assigneeAvatar: string,
-): Indexable {
+): Indexable<string, string> {
   return { id, level, status, bugNumber, mainProblem, feature, dateUpdated, reporter, assigneeAvatar };
 }
 
-export default function ProjectIssueTable() {
+const ProjectIssueTable = () => {
   const renderCellStatus = (params: GridRenderCellParams<string>) => (
-    <Chip
-      label={params.value ? status[params.value].name : ''}
-      sx={{
-        background: params.value ? status[params.value].color : '',
-        color: params.value ? status[params.value].textColor : '',
-        border: '1px solid #ccc',
-        width: 150,
-        fontWeight: 'bold',
-        justifyContent: 'space-between',
-      }}
-      onDelete={() => {
-        //
-      }}
-      deleteIcon={<ProjectIssueChangeStatus currentStatus={params.value ?? ''} />}
+    <TableCellStatus
+      SelectOption={<ProjectIssueChangeStatus currentStatus={params.value ?? ''} />}
+      status={params.value as StatusType}
     />
   );
-  const renderCellLevel = (params: GridRenderCellParams<string>) => (
-    <Chip
-      label={params.value ?? ''}
-      sx={{
-        background: params.value ? level[params.value].color : 'white',
-        color: params.value ? level[params.value].textColor : 'black',
-        border: '1px solid #ccc',
-        width: 130,
-        fontWeight: 'bold',
-        justifyContent: 'center',
-      }}
-    />
-  );
+  const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
   const renderCellAction = () => <TableAction />;
 
   const tableHeaders: GridColDef[] = [
@@ -129,4 +105,6 @@ export default function ProjectIssueTable() {
       />
     </>
   );
-}
+};
+
+export default ProjectIssueTable;

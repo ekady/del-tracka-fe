@@ -16,24 +16,14 @@ import { BaseDialogAlert } from '@/common/base';
 import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
 
 import { FunctionVoid } from '@/types';
+import { ProjectType } from '../types';
 
-type TypeSprint = {
-  id: string;
-  name: string;
-};
-
-export type TypeProject = {
-  id: string;
-  name: string;
-  sprints: TypeSprint[];
-};
-
-export interface ProjectsProps {
-  projectList?: TypeProject[];
+export type ProjectsProps = {
+  projectList?: ProjectType[];
   handleAdd?: FunctionVoid;
-}
+};
 
-export default function ProjectsUI({ projectList }: ProjectsProps) {
+const ProjectsUI = ({ projectList }: ProjectsProps) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [dialogAlertOpt, setDialogAlertOpt] = useState<BaseDialogAlertProps>({
     isOpen: false,
@@ -68,18 +58,18 @@ export default function ProjectsUI({ projectList }: ProjectsProps) {
     });
   };
 
-  const handleDialogDelete = () => {
-    setDialogAlertOpt({
-      ...dialogAlertOpt,
-      isOpen: true,
-      type: 'delete',
-      titleDialog: 'Delete Project',
-      description: 'Are you sure want to delete this project?',
-      subDescription: "This project isn't empty",
-      notUsingCancel: false,
-      handleOk: () => openDialogSuccess('Success delete this project'),
-    });
-  };
+  // const handleDialogDelete = () => {
+  //   setDialogAlertOpt({
+  //     ...dialogAlertOpt,
+  //     isOpen: true,
+  //     type: 'delete',
+  //     titleDialog: 'Delete Project',
+  //     description: 'Are you sure want to delete this project?',
+  //     subDescription: "This project isn't empty",
+  //     notUsingCancel: false,
+  //     handleOk: () => openDialogSuccess('Success delete this project'),
+  //   });
+  // };
 
   if (!projectList || !projectList.length) {
     return (
@@ -101,8 +91,10 @@ export default function ProjectsUI({ projectList }: ProjectsProps) {
         </Button>
         <ProjectDialogNew isOpen={openDialog} handleCancel={handleClose} handleOk={handleClose} />
       </Box>
-      <ProjectList projectList={projectList} handleDelete={handleDialogDelete} handleEdit={handleOpenDialog} />
+      <ProjectList projectList={projectList} />
       <BaseDialogAlert handleCancel={handleDialogAlert} handleOk={handleDialogAlert} {...dialogAlertOpt} />
     </>
   );
-}
+};
+
+export default ProjectsUI;

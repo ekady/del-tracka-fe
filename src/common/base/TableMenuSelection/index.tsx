@@ -5,10 +5,10 @@ import { useState, MouseEvent } from 'react';
 import { IconButton, Menu, MenuItem, Fade, ListSubheader, Divider, IconButtonProps, MenuItemProps } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-import { FunctionVoidWithParams, IndexableWithUndefined } from '@/types';
+import { FunctionVoidWithParams, Indexable } from '@/types';
 
 export type TableMenuSelectionProps = {
-  list: IndexableWithUndefined<string>[];
+  list: Indexable<string, string>[];
   currentValue?: string;
   handleChange?: FunctionVoidWithParams<string>;
   IconProps?: IconButtonProps;

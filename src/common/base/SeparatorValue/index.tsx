@@ -4,13 +4,13 @@ import { Text } from './styled';
 
 export type SeparatorValueProps = {
   value: string | number;
-  isNotUsingSeparator?: boolean;
+  isUsingSeparator?: boolean;
 };
 
-const SeparatorValue = ({ value, isNotUsingSeparator }: SeparatorValueProps) => (
+const SeparatorValue = ({ value, isUsingSeparator }: SeparatorValueProps) => (
   <Box sx={{ my: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
     <Text>{value}</Text>
-    {!isNotUsingSeparator && <Text>-</Text>}
+    {isUsingSeparator && <Text>-</Text>}
   </Box>
 );
 

@@ -13,12 +13,11 @@ import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
 import { BaseDialogAlert, TableHeader } from '@/common/base';
-import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert/type';
 import { DataGridStyled } from '@/common/base/DataTable/styled';
 
-interface IDictionary {
-  [index: string]: string | number;
-}
+// Types
+import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
+import { Indexable } from '@/types';
 
 function createData(
   id: string,
@@ -27,7 +26,7 @@ function createData(
   inProgress: string | number,
   underReview: string | number,
   close: string | number,
-): IDictionary {
+): Indexable<string, string | number> {
   return { id, name, open, inProgress, underReview, close };
 }
 
@@ -45,7 +44,7 @@ const tableHeaders: GridColDef[] = [
   { headerName: 'Close', field: 'close', width: 150 },
 ];
 
-export default function ProjectOverviewSprint() {
+const ProjectOverviewSprint = () => {
   const [dialogAlertOpt, setDialogAlertOpt] = useState<BaseDialogAlertProps>({
     isOpen: false,
     type: 'success',
@@ -117,4 +116,6 @@ export default function ProjectOverviewSprint() {
       <BaseDialogAlert handleCancel={dialogHandler} handleOk={dialogHandler} {...dialogAlertOpt} />
     </>
   );
-}
+};
+
+export default ProjectOverviewSprint;
