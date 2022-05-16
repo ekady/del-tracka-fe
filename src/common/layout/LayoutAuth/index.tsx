@@ -32,7 +32,7 @@ const LayoutAuth = ({ children }: PropsChildren) => {
           sm={6}
           md={5}
           xl={4}
-          maxWidth={250}
+          maxWidth={500}
           component={Paper}
           elevation={6}
           alignItems="center"

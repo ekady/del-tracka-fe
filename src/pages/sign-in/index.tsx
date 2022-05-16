@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 
 // Components
 import { LayoutAuth } from '../../common/layout';
-import AuthLoginUI from '../../modules/Auth/ui/AuthLoginUI';
+import AuthLoginUI from '../../features/Auth/ui/AuthLoginUI';
 
 const SignIn = () => {
   return <AuthLoginUI />;

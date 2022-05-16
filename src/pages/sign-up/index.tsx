@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 
 // Components
 import { LayoutAuth } from '../../common/layout';
-import AuthSignUpUI from '../../modules/Auth/ui/AuthSignUpUI';
+import AuthSignUpUI from '../../features/Auth/ui/AuthSignUpUI';
 
 const SignUp = () => {
   return <AuthSignUpUI />;

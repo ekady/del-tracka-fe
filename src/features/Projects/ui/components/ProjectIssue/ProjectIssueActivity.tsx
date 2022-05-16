@@ -1,5 +1,5 @@
 // Local Component
-import LogsUI, { Logs } from '@/modules/Logs/ui/LogsUI';
+import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
 
 const dummyLogs: Logs[] = [
   {

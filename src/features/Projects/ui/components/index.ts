@@ -1,5 +1,5 @@
-export { default as ProjectDialogNew } from './ProjectDialogNew';
-export { default as ProjectList } from './ProjectList';
+export { default as ProjectDialogNew } from '../ProjectDialogNew';
+export { default as ProjectList } from '../ProjectList';
 export { default as ProjectDetailTitle } from './ProjectDetailTitle';
 export { default as ProjectNewForm } from './ProjectNewForm';
 

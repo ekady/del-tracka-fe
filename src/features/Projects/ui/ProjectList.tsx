@@ -16,7 +16,7 @@ import { TableAction } from '@/common/base';
 import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List/styled';
 
 // Types
-import { ProjectType } from '../../types';
+import { ProjectType } from '../types';
 import { Indexable } from '@/types';
 
 export type ProjectListProps = {

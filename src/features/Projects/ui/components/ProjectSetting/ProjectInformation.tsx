@@ -8,7 +8,7 @@ import { Box, Button } from '@mui/material';
 import ProjectNewForm from '../ProjectNewForm';
 
 // Types
-import { ProjectNameType } from '@/modules/Projects/types';
+import { ProjectNameType } from '@/features/Projects/types';
 
 const ProjectInformation = () => {
   const form = useForm<ProjectNameType>({ mode: 'all' });

@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import DashboardUI from '@/modules/Dashboard/ui/DashboardUI';
+import DashboardUI from '@/features/Dashboard/ui/DashboardUI';
 
 const DashboardPage = () => {
   return <DashboardUI />;

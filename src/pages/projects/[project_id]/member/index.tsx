@@ -7,11 +7,11 @@ import { Box, useMediaQuery } from '@mui/material';
 
 // Components
 import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
-import ProjectsUI from '@/modules/Projects/ui/ProjectsUI';
-import { ProjectMemberList } from '@/modules/Projects/ui/components';
+import ProjectsUI from '@/features/Projects/ui/ProjectsUI';
+import { ProjectMemberList } from '@/features/Projects/ui/components';
 
 // Types
-import { ProjectType } from '@/modules/Projects/types';
+import { ProjectType } from '@/features/Projects/types';
 
 const dummyProjectList: ProjectType[] = [
   { id: '1', name: 'Health Care', description: '', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },

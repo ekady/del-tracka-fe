@@ -6,7 +6,7 @@ import { Box, Button } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LogsUI, { Logs } from '@/modules/Logs/ui/LogsUI';
+import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
 
 const dummyLogs: Logs[] = [
   {

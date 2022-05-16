@@ -6,10 +6,10 @@ import { FunctionVoid } from '@/types';
 import { useForm } from 'react-hook-form';
 
 // Local Component
-import ProjectNewForm from './ProjectNewForm';
+import ProjectNewForm from './components/ProjectNewForm';
 
 // Types
-import { ProjectNameType } from '../../types';
+import { ProjectNameType } from '../types';
 
 export type ProjectDialogNewProps = {
   handleOk?: FunctionVoid;

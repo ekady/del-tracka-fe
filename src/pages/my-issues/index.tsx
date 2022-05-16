@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import MyIssuesUI from '@/modules/My-Issues/ui/MyIssuesUI';
+import MyIssuesUI from '@/features/My-Issues/ui/MyIssuesUI';
 
 const MyIssuesPage = () => {
   return <MyIssuesUI />;

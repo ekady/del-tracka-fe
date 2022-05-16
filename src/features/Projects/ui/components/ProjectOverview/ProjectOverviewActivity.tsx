@@ -2,7 +2,7 @@
 import { Box, Typography } from '@mui/material';
 
 // Local Component
-import LogsUI, { Logs } from '@/modules/Logs/ui/LogsUI';
+import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
 
 const dummyLogs: Logs[] = [
   {

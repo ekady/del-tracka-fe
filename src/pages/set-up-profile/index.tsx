@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 
 // Components
 import { LayoutPlain } from '../../common/layout';
-import ProfileUI, { ProfileData } from '../../modules/Profile/ui/ProfileUI';
+import ProfileUI, { ProfileData } from '../../features/Profile/ui/ProfileUI';
 
 const SetUpProfile = () => {
   const submitHander = (v: ProfileData) => {
