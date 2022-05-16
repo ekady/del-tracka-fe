@@ -12,30 +12,41 @@ import { ChartOptions } from 'chart.js';
 // Constant
 import STATUS, { StatusType } from '@/common/constants/status';
 
+// Store
+import { useSelector } from 'react-redux';
+import { RootState } from '@/common/redux/store';
+
+// Local Component
 import { PaperIssues, TypographyIssues } from './styled';
 
+const LABELS: StatusType[] = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
+const labels = LABELS.map((label) => STATUS[label as StatusType].name);
+const labelsColor = LABELS.map((label) => STATUS[label as StatusType].color);
+
+const issueAllSelector = (state: RootState) => state.dashboard.data.allIssues;
+const issueAssignSelector = (state: RootState) => state.dashboard.data.allAssignTo;
+
 const DashboardIssues = () => {
+  const issueAll = useSelector(issueAllSelector);
+  const issueAssignTo = useSelector(issueAssignSelector);
+
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
 
-  const labels = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
-  const data = {
-    labels: labels.map((label) => STATUS[label as StatusType].name),
-    datasets: [
-      {
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-      },
-    ],
+  const dataAll = {
+    labels,
+    datasets: [{ label: 'All Issues', data: issueAll }],
+  };
+
+  const dataAssignTo = {
+    labels,
+    datasets: [{ label: 'Issues Assign To You', data: issueAssignTo }],
   };
 
   const optionsChart: ChartOptions<'doughnut'> = {
     maintainAspectRatio: false,
     datasets: {
-      doughnut: {
-        backgroundColor: labels.map((label) => STATUS[label as StatusType].color),
-        hoverOffset: 4,
-      },
+      doughnut: { backgroundColor: labelsColor, hoverOffset: 4 },
     },
     plugins: {
       legend: { position: mdAndDown ? 'bottom' : 'right' },
@@ -48,7 +59,7 @@ const DashboardIssues = () => {
         <PaperIssues>
           <TypographyIssues>All Issues</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Doughnut data={data} options={optionsChart} />
+            <Doughnut data={dataAll} options={optionsChart} />
           </Box>
         </PaperIssues>
       </Grid>
@@ -56,7 +67,7 @@ const DashboardIssues = () => {
         <PaperIssues>
           <TypographyIssues>Issues Assign to You</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Doughnut data={data} options={optionsChart} />
+            <Doughnut data={dataAssignTo} options={optionsChart} />
           </Box>
         </PaperIssues>
       </Grid>

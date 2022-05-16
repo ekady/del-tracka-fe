@@ -8,18 +8,28 @@ import { useTheme } from '@mui/material/styles';
 import { Line } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 
+// Store
+import { RootState } from '@/common/redux/store';
+import { useSelector } from 'react-redux';
+
 import { PaperActivities, TypographyActivities } from './styled';
 
+const activitiesSelector = (state: RootState) => state.dashboard.data.activities;
+const activitiesLabelSelector = (state: RootState) => state.dashboard.data.activitiesLabel;
+
 const DashboardActivities = () => {
+  const activities = useSelector(activitiesSelector);
+  const activitiesLabel = useSelector(activitiesLabelSelector);
+
   const theme = useTheme();
   const { primary, secondary } = theme.palette;
 
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    labels: activitiesLabel,
     datasets: [
       {
         label: 'Activities',
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: activities,
         fill: false,
         borderColor: secondary.main,
         tension: 0.1,
