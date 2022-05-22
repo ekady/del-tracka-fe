@@ -12,23 +12,23 @@ import { ChartOptions } from 'chart.js';
 // Constant
 import STATUS, { StatusType } from '@/common/constants/status';
 
-// Store
-import { useSelector } from 'react-redux';
-import { RootState } from '@/common/redux/store';
-
 // Local Component
 import { PaperIssues, TypographyIssues } from './styled';
+
+import { useAppSelector } from '@/common/hooks';
+import { selectissueAll, selectIssueAssignTo } from '../store/dashboard.selector';
 
 const LABELS: StatusType[] = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
 const labels = LABELS.map((label) => STATUS[label as StatusType].name);
 const labelsColor = LABELS.map((label) => STATUS[label as StatusType].color);
-
-const issueAllSelector = (state: RootState) => state.dashboard.data.allIssues;
-const issueAssignSelector = (state: RootState) => state.dashboard.data.allAssignTo;
+const labelGrey = ['#dddbdbd6'];
 
 const DashboardIssues = () => {
-  const issueAll = useSelector(issueAllSelector);
-  const issueAssignTo = useSelector(issueAssignSelector);
+  const issueAll = useAppSelector(selectissueAll);
+  const issueAssignTo = useAppSelector(selectIssueAssignTo);
+
+  const isIssueAllZero = issueAll.every((issue: number) => issue === 0.01);
+  const isIssueAssignToZero = issueAssignTo.every((issue: number) => issue === 0.01);
 
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -43,15 +43,24 @@ const DashboardIssues = () => {
     datasets: [{ label: 'Issues Assign To You', data: issueAssignTo }],
   };
 
-  const optionsChart: ChartOptions<'doughnut'> = {
+  const optionsChart = (isAllZero: boolean): ChartOptions<'doughnut'> => ({
     maintainAspectRatio: false,
     datasets: {
-      doughnut: { backgroundColor: labelsColor, hoverOffset: 4 },
+      doughnut: { backgroundColor: isAllZero ? labelGrey : labelsColor, hoverOffset: 4 },
     },
     plugins: {
       legend: { position: mdAndDown ? 'bottom' : 'right' },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const label = context.label || '';
+            const value = Number(context.parsed.toFixed(0));
+            return `${label}: ${value}`;
+          },
+        },
+      },
     },
-  };
+  });
 
   return (
     <Grid container spacing={3} columns={12}>
@@ -59,7 +68,7 @@ const DashboardIssues = () => {
         <PaperIssues>
           <TypographyIssues>All Issues</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Doughnut data={dataAll} options={optionsChart} />
+            <Doughnut data={dataAll} options={optionsChart(isIssueAllZero)} />
           </Box>
         </PaperIssues>
       </Grid>
@@ -67,7 +76,7 @@ const DashboardIssues = () => {
         <PaperIssues>
           <TypographyIssues>Issues Assign to You</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Doughnut data={dataAssignTo} options={optionsChart} />
+            <Doughnut data={dataAssignTo} options={optionsChart(isIssueAssignToZero)} />
           </Box>
         </PaperIssues>
       </Grid>

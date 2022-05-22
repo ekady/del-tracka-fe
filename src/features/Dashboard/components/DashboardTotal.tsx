@@ -4,19 +4,15 @@ import { Grid, Typography } from '@mui/material';
 // MUI utils
 import { useTheme } from '@mui/material/styles';
 
-// Store
-import { RootState } from '@/common/redux/store';
-
 // Local Components
 import { PaperTotal } from './styled';
-import { useSelector } from 'react-redux';
 
-const totalProjectsSelector = (state: RootState) => state.dashboard.data.totalProjects;
-const totalIssuesSelector = (state: RootState) => state.dashboard.data.totalIssues;
+import { useAppSelector } from '@/common/hooks';
+import { selectTotalIssues, selectTotalProjects } from '../store/dashboard.selector';
 
 const DashboardTotal = () => {
-  const totalProjects = useSelector(totalProjectsSelector);
-  const totalIssues = useSelector(totalIssuesSelector);
+  const totalIssues = useAppSelector(selectTotalIssues);
+  const totalProjects = useAppSelector(selectTotalProjects);
 
   const theme = useTheme();
 

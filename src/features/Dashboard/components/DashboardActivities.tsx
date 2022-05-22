@@ -8,18 +8,14 @@ import { useTheme } from '@mui/material/styles';
 import { Line } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 
-// Store
-import { RootState } from '@/common/redux/store';
-import { useSelector } from 'react-redux';
-
 import { PaperActivities, TypographyActivities } from './styled';
+import { useAppSelector } from '@/common/hooks';
 
-const activitiesSelector = (state: RootState) => state.dashboard.data.activities;
-const activitiesLabelSelector = (state: RootState) => state.dashboard.data.activitiesLabel;
+import { selectActivities, selectActivitiesLabel } from '../store/dashboard.selector';
 
 const DashboardActivities = () => {
-  const activities = useSelector(activitiesSelector);
-  const activitiesLabel = useSelector(activitiesLabelSelector);
+  const activities = useAppSelector(selectActivities);
+  const activitiesLabel = useAppSelector(selectActivitiesLabel);
 
   const theme = useTheme();
   const { primary, secondary } = theme.palette;

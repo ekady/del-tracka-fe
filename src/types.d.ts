@@ -32,4 +32,21 @@ export declare type StaticImageData = {
   placeholder?: string;
 };
 
-export declare type PasswordForm = 'password' | 'confirm_password';
+export declare type UserType = {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  imageURL: string | null;
+  id: string | null;
+  isFirstLogin: boolean;
+};
+
+export declare type Credential = {
+  token: string | null;
+  refreshToken: string | null;
+};
+
+export interface StateStore<T> {
+  state?: unknown;
+  data: T;
+}

@@ -2,8 +2,8 @@
 import { ReactElement } from 'react';
 
 // Components
-import { LayoutAuth } from '../../common/layout';
-import AuthSignUpUI from '../../features/Auth/ui/AuthSignUpUI';
+import { LayoutAuth } from '@/common/layout';
+import AuthSignUpUI from '@/features/Auth/components/AuthSignUpUI';
 
 const SignUp = () => {
   return <AuthSignUpUI />;

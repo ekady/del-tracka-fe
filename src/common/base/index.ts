@@ -13,3 +13,4 @@ export { default as TableMenuSelection } from './TableMenuSelection';
 export { default as SeparatorValue } from './SeparatorValue';
 export { default as TableCellStatus } from './TableCellStatus';
 export { default as TableCellLevel } from './TableCellLevel';
+export { default as ButtonLoading } from './ButtonLoading';

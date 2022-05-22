@@ -8,25 +8,23 @@ import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
-import { AuthWithGoogle } from './components';
-import { CustomInput } from '@/common/base';
+import AuthWithGoogle from './AuthWithGoogle';
+import { ButtonLoading, CustomInput } from '@/common/base';
 
 // Helper
 import { emailValidation } from '@/common/helper';
 
-import { FunctionVoidWithParams, PasswordForm } from '@/types';
-import { AuthLoginData, AuthLoginForm } from './AuthLoginUI';
+import { FunctionVoidWithParams } from '@/types';
+import { SignUpRequest, useSignupMutation } from '../store/auth.api.slice';
+import { toast } from 'react-toastify';
 
-export type AuthSignUpData = AuthLoginData & {
-  [key in PasswordForm]: string;
-};
-
-export type AuthSignUpForm = AuthLoginForm | PasswordForm;
+type AuthSignUpForm = keyof SignUpRequest;
 
 const AuthSignUpUI = () => {
+  const [signUp, { isLoading, isSuccess }] = useSignupMutation();
   const {
     handleSubmit,
     getFieldState,
@@ -34,7 +32,8 @@ const AuthSignUpUI = () => {
     getValues,
     trigger,
     control,
-  } = useForm<AuthSignUpData>({ mode: 'onSubmit' });
+    reset,
+  } = useForm<SignUpRequest>({ mode: 'onSubmit' });
 
   const validation = {
     email: {
@@ -46,7 +45,7 @@ const AuthSignUpUI = () => {
     password: {
       required: true,
     },
-    confirm_password: {
+    confirmPassword: {
       required: true,
       validate: {
         sameConfirmPassword: (v: string) => v === getValues('password'),
@@ -71,7 +70,13 @@ const AuthSignUpUI = () => {
     validateTargetForm(formTarget);
   };
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await signUp(data).unwrap();
+      toast.success('Sign up success!');
+      reset();
+    } catch {}
+  });
 
   return (
     <>
@@ -79,6 +84,14 @@ const AuthSignUpUI = () => {
         SIGN UP
       </Typography>
       <Divider orientation="horizontal" flexItem sx={{ my: 2 }} />
+      {isSuccess && (
+        <Alert severity="success">
+          Sign Up Success! Back to{' '}
+          <Link href="/sign-in" passHref>
+            <a className="text-underline">Sign In</a>
+          </Link>
+        </Alert>
+      )}
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
         <Controller
           name="email"
@@ -113,31 +126,31 @@ const AuthSignUpUI = () => {
           )}
         />
         <Controller
-          name="confirm_password"
+          name="confirmPassword"
           control={control}
           defaultValue=""
-          rules={validation.confirm_password}
+          rules={validation.confirmPassword}
           render={({ field }) => (
             <CustomInput
               fieldname="Confirm Password"
-              error={errors.confirm_password}
+              error={errors.confirmPassword}
               TextFieldProps={{
                 placeholder: 'Enter confirm password',
                 type: 'password',
                 ...field,
-                onChange: (e) => onChangeInput(e, field.onChange, 'confirm_password'),
-                onBlur: async () => validateTargetForm('confirm_password'),
+                onChange: (e) => onChangeInput(e, field.onChange, 'confirmPassword'),
+                onBlur: async () => validateTargetForm('confirmPassword'),
               }}
             />
           )}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ my: 2 }}>
+        <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }} loading={isLoading}>
           Sign Up
-        </Button>
+        </ButtonLoading>
         <AuthWithGoogle isSignIn={false} />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
         <Link href="/sign-in" passHref>
-          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }}>
+          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={isLoading}>
             Sign In
           </Button>
         </Link>

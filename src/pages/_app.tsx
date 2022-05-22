@@ -19,7 +19,11 @@ import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
 
 // Store
-import store from '@/common/redux/store';
+import store from '@/common/store/store';
+
+// Toast
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Charts
 import 'chart.js/auto';
@@ -52,6 +56,16 @@ export default function MyApp(props: AppPropsWithLayout) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          newestOnTop
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </ThemeProvider>
     </CacheProvider>
   );
