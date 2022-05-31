@@ -2,27 +2,22 @@
 import { ChangeEvent } from 'react';
 
 // React Hook Form
-import { UseFormReturn, RegisterOptions, Controller } from 'react-hook-form';
+import { RegisterOptions, Controller } from 'react-hook-form';
 
 // Local Components
 import { CustomInput } from '@/common/base';
-import { ProfileData } from '../ProfileUI';
 
-import { FunctionVoidWithParams, PasswordForm } from '@/types';
+import { ProfileChildProps } from './Profile';
+import { FunctionVoidWithParams } from '@/types';
+import { ProfilePassword } from '../store/profile.api.slice';
 
-export type ProfileChangePasswordField = {
-  [key in PasswordForm]: string;
-};
+type ProfileChangePasswordKey = keyof ProfilePassword;
 
 export type ProfileChangePasswordValidation = {
-  [key in PasswordForm]: RegisterOptions;
+  [key in ProfileChangePasswordKey]: RegisterOptions;
 };
 
-export type ProfileChangePasswordProps = {
-  formMethods: UseFormReturn<ProfileData>;
-  formOptions: ProfileChangePasswordValidation;
-  disabled?: boolean;
-};
+export type ProfileChangePasswordProps = ProfileChildProps<ProfileChangePasswordValidation>;
 
 const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) => {
   const {
@@ -32,7 +27,7 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
     trigger,
   } = formMethods;
 
-  const validateTargetForm = async (formTarget?: PasswordForm) => {
+  const validateTargetForm = async (formTarget?: ProfileChangePasswordKey) => {
     if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
       await trigger(formTarget);
     }
@@ -41,7 +36,7 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
   const onChangeInput = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     onChange: FunctionVoidWithParams<string>,
-    formTarget?: PasswordForm,
+    formTarget?: ProfileChangePasswordKey,
   ) => {
     onChange(event.target.value);
     validateTargetForm(formTarget);
@@ -50,40 +45,40 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
   return (
     <>
       <Controller
-        name="password"
+        name="resetPassword"
         control={control}
         defaultValue=""
-        rules={formOptions.password}
+        rules={formOptions.resetPassword}
         render={({ field }) => (
           <CustomInput
             fieldname="Password"
-            error={errors.password}
+            error={errors.resetPassword}
             TextFieldProps={{
               ...field,
               placeholder: !disabled ? 'Enter password' : '',
               type: 'password',
-              onChange: (e) => onChangeInput(e, field.onChange, 'password'),
-              onBlur: async () => validateTargetForm('password'),
+              onChange: (e) => onChangeInput(e, field.onChange, 'resetPassword'),
+              onBlur: async () => validateTargetForm('resetPassword'),
               disabled,
             }}
           />
         )}
       />
       <Controller
-        name="confirm_password"
+        name="confirmResetPassword"
         control={control}
         defaultValue=""
-        rules={formOptions.confirm_password}
+        rules={formOptions.confirmResetPassword}
         render={({ field }) => (
           <CustomInput
             fieldname="Confirm Password"
-            error={errors.confirm_password}
+            error={errors.confirmResetPassword}
             TextFieldProps={{
               ...field,
               placeholder: !disabled ? 'Enter confirm password' : '',
               type: 'password',
-              onChange: (e) => onChangeInput(e, field.onChange, 'confirm_password'),
-              onBlur: async () => validateTargetForm('confirm_password'),
+              onChange: (e) => onChangeInput(e, field.onChange, 'confirmResetPassword'),
+              onBlur: async () => validateTargetForm('confirmResetPassword'),
               disabled,
             }}
           />

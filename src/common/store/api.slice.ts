@@ -2,11 +2,6 @@ import { Credential, UserType } from '@/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
 
-export interface UserInfoResponse {
-  credential: Credential;
-  user: UserType;
-}
-
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -17,12 +12,19 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Profile', 'Credential'],
   endpoints: (builder) => ({
-    getUserInfo: builder.query<UserInfoResponse, void>({
+    getUserInfo: builder.query<UserType, void>({
       query: () => '/user-info',
+      providesTags: ['Profile'],
+    }),
+    getCredential: builder.query<Credential, void>({
+      query: () => '/token',
+      providesTags: ['Credential'],
     }),
   }),
   refetchOnMountOrArgChange: true,
 });
 
-export const { useGetUserInfoQuery } = apiSlice;
+export const { useGetUserInfoQuery, useGetCredentialQuery } = apiSlice;
+export const { resetApiState } = apiSlice.util;

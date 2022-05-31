@@ -4,8 +4,8 @@ import { FieldError } from 'react-hook-form';
 // MUI Components
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
 
-// Constants
-import { validationMessages } from '@/common/constants';
+// Helper
+import { extractErrorMessage } from '@/common/helper';
 
 export type CustomInputProps = {
   TextFieldProps?: TextFieldProps;
@@ -15,9 +15,7 @@ export type CustomInputProps = {
 };
 
 const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: CustomInputProps) => {
-  const errorType = error?.type ?? '';
-  const fieldnameAlias = fieldname ?? '';
-  const errorMessage = !!errorType ? validationMessages[errorType]?.replace('{attribute}', fieldnameAlias) : defaultHelperText;
+  const [containError, errorMessage] = extractErrorMessage(error, fieldname, defaultHelperText);
 
   const defaultStyle = {
     marginTop: 0,
@@ -31,7 +29,7 @@ const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: Cu
         {fieldname}
       </InputLabel>
       <TextField
-        error={!!errorType}
+        error={containError}
         helperText={errorMessage}
         size="small"
         margin="normal"

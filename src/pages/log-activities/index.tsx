@@ -1,49 +1,28 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 // MUI Component
 import { Box, Button } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
+import { Logs } from '@/features/Logs/components';
 
-const dummyLogs: Logs[] = [
-  {
-    id: '1',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '2',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '3',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '4',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-];
+import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api';
+import { useAppDispatch, useAppSelector } from '@/common/store/store';
+import { selectLogsData } from '@/features/Logs/store/logs.selector';
 
 const LogsPage = () => {
+  const dispatch = useAppDispatch();
+  const { isLoading } = useGetLogActivitiesQuery();
+  const logs = useAppSelector(selectLogsData);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetApiState());
+    };
+  }, [dispatch]);
+
   return (
     <>
       <Box sx={{ mb: 5, justifyContent: 'end', display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
@@ -54,7 +33,7 @@ const LogsPage = () => {
           Export to PDF
         </Button>
       </Box>
-      <LogsUI logs={dummyLogs} />
+      <Logs logs={logs} TableProps={{ loading: isLoading }} />
     </>
   );
 };

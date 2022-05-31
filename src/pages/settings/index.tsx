@@ -1,14 +1,26 @@
 // React
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 // Components
-import { LayoutDefault } from '../../common/layout';
-import ProfileUI, { ProfileData } from '../../features/Profile/ui/ProfileUI';
+import { LayoutDefault } from '@/common/layout';
+import ProfileUI from '@/features/Profile/components/Profile';
+
+import { ProfileRequest, useUpdateProfileMutation } from '@/features/Profile/store/profile.api.slice';
+import { toast } from 'react-toastify';
 
 const Settings = () => {
-  const submitHander = (v: ProfileData) => {
-    console.log(v);
+  const [updateProfile, { isSuccess }] = useUpdateProfileMutation();
+
+  const submitHander = async (v: ProfileRequest) => {
+    await updateProfile(v);
   };
+
+  useEffect(() => {
+    if (isSuccess) toast.success('Profile Updated!');
+    return () => {
+      toast.dismiss();
+    };
+  }, [isSuccess]);
 
   return <ProfileUI isFirstTime={false} submit={submitHander} isEditable={true} />;
 };

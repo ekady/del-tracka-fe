@@ -5,12 +5,17 @@ import { Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // Local Components
-import { PaperTotal } from './styled';
+import { BaseCard } from '@/common/base';
+import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useAppSelector } from '@/common/hooks';
+import { useAppSelector } from '@/common/store/store';
 import { selectTotalIssues, selectTotalProjects } from '../store/dashboard.selector';
+import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
+
+const baseCardStyle: BaseCardProps = { sx: { alignItems: 'center' } };
 
 const DashboardTotal = () => {
+  const { isFetching, isLoading } = useGetDashboardDatasQuery();
   const totalIssues = useAppSelector(selectTotalIssues);
   const totalProjects = useAppSelector(selectTotalProjects);
 
@@ -19,20 +24,20 @@ const DashboardTotal = () => {
   return (
     <Grid container spacing={3} columns={10}>
       <Grid item xs={12} sm={3} lg={2}>
-        <PaperTotal>
+        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.error.main, fontWeight: 'bold' }}>
             {totalProjects}
           </Typography>
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>Total Projects</Typography>
-        </PaperTotal>
+        </BaseCard>
       </Grid>
       <Grid item xs={12} sm={3} lg={2}>
-        <PaperTotal>
+        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
             {totalIssues}
           </Typography>
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>Total Issues</Typography>
-        </PaperTotal>
+        </BaseCard>
       </Grid>
     </Grid>
   );

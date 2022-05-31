@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent, DragEvent, ReactNode, useRef, useState } from 'react';
+import { ChangeEvent, DetailedHTMLProps, DragEvent, InputHTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react';
 
 // Next
 import Image from 'next/image';
@@ -13,29 +13,8 @@ import { Cancel } from '@mui/icons-material';
 // Local types
 import { FunctionVoidWithParams, Indexable } from '@/types';
 
-type FileIndexable = Indexable<string, File>;
-
-export type FileUploaderProps = {
-  multiple?: boolean;
-  value?: FileIndexable;
-  handleValue?: FunctionVoidWithParams<FileIndexable>;
-  accept?: readonly string[];
-  buttonUploadText?: string;
-  description?: string;
-  hideDescription?: boolean;
-  buttonOutsideContainer?: boolean;
-  hideRemoveIcon?: boolean;
-  hideTextFile?: boolean;
-  imageFullWidth?: boolean;
-  widthContainer?: number | string;
-  heightContainer?: number | string;
-  width?: number | string;
-  height?: number | string;
-  disabled?: boolean;
-};
-
 // Helper
-import { formatBytes } from '@/common/helper';
+import { formatBytes, extractErrorMessage } from '@/common/helper';
 import {
   ButtonContainer,
   FilesContainer,
@@ -49,6 +28,41 @@ import {
 
 // Constants
 import { FileUploaderSize, IMAGE_EXTENSION } from './constants';
+
+import { FieldError } from 'react-hook-form';
+
+export type Thumbnail = {
+  src: string;
+  size: string | number;
+  filename: string;
+};
+export const extractSrcThumbnailFile = (x: Thumbnail | File): string => {
+  if ('src' in x) return x.src;
+  return URL.createObjectURL(x);
+};
+
+export type FileIndexable = Indexable<string, File | Thumbnail>;
+
+export type FileUploaderProps = {
+  multiple?: boolean;
+  value?: FileIndexable | null | undefined;
+  handleValue?: FunctionVoidWithParams<FileIndexable>;
+  accept?: readonly string[];
+  buttonUploadText?: string;
+  description?: string;
+  hideDescription?: boolean;
+  buttonOutsideContainer?: boolean;
+  hideRemoveIcon?: boolean;
+  hideTextFile?: boolean;
+  imageFullWidth?: boolean;
+  widthContainer?: number | string;
+  heightContainer?: number | string;
+  width?: number | string;
+  height?: number | string;
+  error?: FieldError;
+  disabled?: boolean;
+  InputProps?: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+};
 
 const FileUploader = ({
   multiple,
@@ -67,18 +81,24 @@ const FileUploader = ({
   width,
   height,
   disabled,
+  error,
+  InputProps,
 }: FileUploaderProps) => {
   const [isDrop, setIsDrop] = useState<boolean>(false);
   const inputField = useRef<HTMLInputElement>(null);
+  const [containError, errorMessage] = extractErrorMessage(error, 'Image', '');
   const theme = useTheme();
 
-  const sizes = {
-    image: { width: width ?? FileUploaderSize.DefaultImageWidth, height: height ?? FileUploaderSize.DefaultImageHeight },
-    container: {
-      width: widthContainer ?? FileUploaderSize.DefaultContainerWidth,
-      height: heightContainer ?? FileUploaderSize.DefaultContainerHeight,
-    },
-  };
+  const sizes = useMemo(
+    () => ({
+      image: { width: width ?? FileUploaderSize.DefaultImageWidth, height: height ?? FileUploaderSize.DefaultImageHeight },
+      container: {
+        width: widthContainer ?? FileUploaderSize.DefaultContainerWidth,
+        height: heightContainer ?? FileUploaderSize.DefaultContainerHeight,
+      },
+    }),
+    [height, heightContainer, width, widthContainer],
+  );
 
   const getFileExtension = (filename: string) => {
     return filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
@@ -153,6 +173,7 @@ const FileUploader = ({
         onChange={onHandleFileUpload}
         multiple={multiple}
         accept={accept.join(', ').toString()}
+        {...InputProps}
       />
       <Button variant="contained" onClick={handleUploadButtonClick}>
         {buttonUploadText ? buttonUploadText : 'Upload File'}
@@ -198,7 +219,7 @@ const FileUploader = ({
                   >
                     <ImageWraper>
                       <Image
-                        src={URL.createObjectURL(value[file])}
+                        src={extractSrcThumbnailFile(value[file])}
                         alt={getFileExtension(file)}
                         layout="fill"
                         objectFit="cover"
@@ -216,7 +237,7 @@ const FileUploader = ({
                         {file}
                       </Typography>
                       <Box height={5} />
-                      <Typography fontSize={12}>{formatBytes(value[file].size)}</Typography>
+                      <Typography fontSize={12}>{formatBytes(Number(value[file].size))}</Typography>
                     </FileTextContainer>
                   )}
                 </Box>
@@ -227,6 +248,11 @@ const FileUploader = ({
           <ButtonContainer>{buttonUploadContainer}</ButtonContainer>
         )}
       </FilesUploadContainer>
+      {containError && (
+        <Typography width={sizes.container.width} color="red" align="center" fontSize="0.75rem">
+          {errorMessage}
+        </Typography>
+      )}
       {buttonOutsideContainer && !disabled && (
         <ButtonContainer sx={{ height: 'unset', width: sizes.container.width, mt: 2 }}>{buttonUpload}</ButtonContainer>
       )}

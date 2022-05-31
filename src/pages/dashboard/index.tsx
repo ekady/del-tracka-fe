@@ -2,27 +2,27 @@
 import { ReactElement, useEffect } from 'react';
 
 // Components
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { LayoutDefault } from '@/common/layout';
 import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/Dashboard/components';
 
-import { useAppDispatch } from '@/common/hooks';
-import { resetApiState, useGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
+import { useAppDispatch } from '@/common/store/store';
+import { resetApiState, useLazyGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
 
 const DashboardPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading } = useGetDashboardDatasQuery();
+  const [getData] = useLazyGetDashboardDatasQuery();
 
   useEffect(() => {
+    getData();
     return () => {
       dispatch(resetApiState());
     };
-  }, [dispatch]);
+  }, [dispatch, getData]);
 
   return (
     <>
-      {isLoading && <CircularProgress />}
       <DashboardTotal />
       <Box sx={{ height: 30 }} />
       <DashboardIssues />

@@ -6,7 +6,7 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { TableAction, TableHeader, TableCellStatus, TableCellLevel } from '@/common/base';
 import { DataGridStyled } from '@/common/base/DataTable/styled';
 
-import { Indexable } from '@/types';
+import { Indexable, TableAndSearchProps } from '@/types';
 import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
 
@@ -23,12 +23,10 @@ function createData(
 }
 
 const renderCellStatus = (params: GridRenderCellParams<string>) => <TableCellStatus status={params.value as StatusType} />;
-
 const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
-
 const renderCellAction = () => <TableAction />;
 
-const MyIssuesTable = () => {
+const MyIssuesTable = ({ TableProps, SearchProps }: TableAndSearchProps) => {
   const tableHeaders: GridColDef[] = [
     { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
     { headerName: 'Project Name', field: 'projectName', width: 200 },
@@ -48,7 +46,7 @@ const MyIssuesTable = () => {
 
   return (
     <>
-      <TableHeader isUsingSearch />
+      <TableHeader isUsingSearch TextFieldProps={SearchProps} />
       <Box sx={{ height: 20 }} />
       <DataGridStyled
         rows={rows}
@@ -60,6 +58,8 @@ const MyIssuesTable = () => {
         autoHeight
         autoPageSize
         rowHeight={60}
+        sortingMode="server"
+        {...TableProps}
       />
     </>
   );

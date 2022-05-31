@@ -13,10 +13,15 @@ import { ChartOptions } from 'chart.js';
 import STATUS, { StatusType } from '@/common/constants/status';
 
 // Local Component
-import { PaperIssues, TypographyIssues } from './styled';
+import { TypographyIssues } from './styled';
+import { BaseCard } from '@/common/base';
+import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useAppSelector } from '@/common/hooks';
+import { useAppSelector } from '@/common/store/store';
 import { selectissueAll, selectIssueAssignTo } from '../store/dashboard.selector';
+import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
+
+const baseCardStyle: BaseCardProps = { sx: { height: 250 } };
 
 const LABELS: StatusType[] = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
 const labels = LABELS.map((label) => STATUS[label as StatusType].name);
@@ -26,6 +31,7 @@ const labelGrey = ['#dddbdbd6'];
 const DashboardIssues = () => {
   const issueAll = useAppSelector(selectissueAll);
   const issueAssignTo = useAppSelector(selectIssueAssignTo);
+  const { isFetching, isLoading } = useGetDashboardDatasQuery();
 
   const isIssueAllZero = issueAll.every((issue: number) => issue === 0.01);
   const isIssueAssignToZero = issueAssignTo.every((issue: number) => issue === 0.01);
@@ -65,20 +71,20 @@ const DashboardIssues = () => {
   return (
     <Grid container spacing={3} columns={12}>
       <Grid item xs={12} sm={6} md={5} lg={4}>
-        <PaperIssues>
+        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <TypographyIssues>All Issues</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut data={dataAll} options={optionsChart(isIssueAllZero)} />
           </Box>
-        </PaperIssues>
+        </BaseCard>
       </Grid>
       <Grid item xs={12} sm={6} md={5} lg={4}>
-        <PaperIssues>
+        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <TypographyIssues>Issues Assign to You</TypographyIssues>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut data={dataAssignTo} options={optionsChart(isIssueAssignToZero)} />
           </Box>
-        </PaperIssues>
+        </BaseCard>
       </Grid>
     </Grid>
   );

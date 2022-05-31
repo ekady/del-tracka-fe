@@ -1,25 +1,17 @@
 // Helper
-import { UseFormReturn, RegisterOptions, Controller } from 'react-hook-form';
+import { RegisterOptions, Controller } from 'react-hook-form';
 
 // Local Components
 import { CustomInput } from '@/common/base';
-import { ProfileData } from '../ProfileUI';
 
-export type ProfileChangeDataField = {
-  firstName: string;
-  lastName: string;
-};
+import { Profile } from '../store/profile.api.slice';
+import { ProfileChildProps } from './Profile';
 
 export type ProfileChangeDataValidation = {
-  firstName: RegisterOptions;
-  lastName: RegisterOptions;
+  [key in keyof Profile]: RegisterOptions;
 };
 
-export type ProfileChangeDataProps = {
-  formMethods: UseFormReturn<ProfileData>;
-  formOptions: ProfileChangeDataValidation;
-  disabled?: boolean;
-};
+export type ProfileChangeDataProps = ProfileChildProps<ProfileChangeDataValidation>;
 
 const ProfileChangeData = ({ formMethods, formOptions, disabled }: ProfileChangeDataProps) => {
   const {

@@ -2,52 +2,52 @@
 import { useEffect, useState } from 'react';
 
 // Helper
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 
 // Local Components
-import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from './components';
-import { ProfileChangeDataField } from './components/ProfileChangeData';
-import { ProfileChangePasswordField } from './components/ProfileChangePassword';
+import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';
 
 import { FunctionVoid, FunctionVoidWithParams } from '@/types';
+import { ProfileRequest } from '../store/profile.api.slice';
 
-export type ProfileData = ProfileChangeDataField & ProfileChangePasswordField;
+export type ProfileChildProps<T> = {
+  formMethods: UseFormReturn<ProfileRequest>;
+  formOptions: T;
+  disabled?: boolean;
+};
 
 export type ProfileProps = {
   isFirstTime: boolean;
   isEditable: boolean;
-  submit: FunctionVoidWithParams<ProfileData>;
+  disabled?: boolean;
+  submit: FunctionVoidWithParams<ProfileRequest>;
   handleEditButton?: FunctionVoid;
 };
 
-const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: ProfileProps) => {
+const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }: ProfileProps) => {
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
 
-  const form = useForm<ProfileData>({ mode: 'all' });
+  const form = useForm<ProfileRequest>({ mode: 'all' });
   const { handleSubmit, getValues, resetField } = form;
 
   const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
 
   const validationChangeData = {
-    firstName: {
-      required: true,
-    },
-    lastName: {
-      required: true,
-    },
+    firstName: { required: true },
+    lastName: { required: true },
   };
 
+  const validationImage = { image: { required: true } };
+
   const validationChangePassword = {
-    password: {
-      required: true,
-    },
-    confirm_password: {
+    resetPassword: { required: true },
+    confirmResetPassword: {
       required: true,
       validate: {
-        sameConfirmPassword: (v: string) => v === getValues('password'),
+        sameConfirmPassword: (v: string) => v === getValues('resetPassword'),
       },
     },
   };
@@ -58,10 +58,10 @@ const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: Profil
 
   useEffect(() => {
     if (!isChangePassword) {
-      resetField('password');
-      resetField('confirm_password');
+      resetField('resetPassword');
+      resetField('confirmResetPassword');
     }
-  }, [isChangePassword]);
+  }, [isChangePassword, resetField]);
 
   const buttonChangePassword = !isFirstTime && (
     <Button color="secondary" variant="contained" sx={{ mt: 4 }} onClick={onClickChangePassword}>
@@ -80,11 +80,11 @@ const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: Profil
         <Divider orientation="horizontal" flexItem sx={{ mb: 2 }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <ProfileChangeImage />
+        <ProfileChangeImage formMethods={form} formOptions={validationImage} disabled={!isEditable || disabled} />
       </Grid>
       <Grid item xs={12} sm={4}>
         <Box component="form" noValidate sx={{ mt: 1 }}>
-          <ProfileChangeData formMethods={form} formOptions={validationChangeData} disabled={!isEditable} />
+          <ProfileChangeData formMethods={form} formOptions={validationChangeData} disabled={!isEditable || disabled} />
           {isChangePassword ? (
             <>
               <Box sx={{ my: 2 }}>
@@ -95,7 +95,11 @@ const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: Profil
                   Cancel
                 </Button>
               </Box>
-              <ProfileChangePassword formMethods={form} formOptions={validationChangePassword} disabled={!isEditable} />
+              <ProfileChangePassword
+                formMethods={form}
+                formOptions={validationChangePassword}
+                disabled={!isEditable || disabled}
+              />
             </>
           ) : (
             buttonChangePassword
@@ -103,7 +107,7 @@ const ProfileUI = ({ isFirstTime, isEditable, submit, handleEditButton }: Profil
         </Box>
         <Box>
           {isEditable ? (
-            <Button fullWidth variant="contained" sx={{ mt: 4 }} onClick={onSubmit}>
+            <Button fullWidth variant="contained" sx={{ mt: 4 }} onClick={onSubmit} disabled={disabled}>
               Save {isFirstTime ? 'and Next' : ''}
             </Button>
           ) : (

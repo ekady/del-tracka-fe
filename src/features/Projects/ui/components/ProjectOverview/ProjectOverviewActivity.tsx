@@ -2,9 +2,10 @@
 import { Box, Typography } from '@mui/material';
 
 // Local Component
-import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
+import { Logs } from '@/features/Logs/components';
+import { LogsResponse } from '@/features/Logs/store/logs.api';
 
-const dummyLogs: Logs[] = [
+const dummyLogs: LogsResponse[] = [
   {
     id: '1',
     projectName: 'Health',
@@ -45,7 +46,7 @@ const ProjectOverviewActivity = () => {
       <Typography sx={{ mb: 2, marginTop: '5px' }} fontSize={16}>
         Activities
       </Typography>
-      <LogsUI logs={dummyLogs} notFullInfo />
+      <Logs logs={dummyLogs} notFullInfo />
     </Box>
   );
 };

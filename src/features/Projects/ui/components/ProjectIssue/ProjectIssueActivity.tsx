@@ -1,7 +1,8 @@
 // Local Component
-import LogsUI, { Logs } from '@/features/Logs/ui/LogsUI';
+import { Logs } from '@/features/Logs/components';
+import { LogsResponse } from '@/features/Logs/store/logs.api';
 
-const dummyLogs: Logs[] = [
+const dummyLogs: LogsResponse[] = [
   {
     id: '1',
     projectName: 'Health',
@@ -37,7 +38,7 @@ const dummyLogs: Logs[] = [
 ];
 
 const ProjectIssueActivity = () => {
-  return <LogsUI logs={dummyLogs} notFullInfo isUsingDate />;
+  return <Logs logs={dummyLogs} notFullInfo isUsingDate />;
 };
 
 export default ProjectIssueActivity;
