@@ -1,4 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
+import { PaginationParams, PaginationResponse } from '@/types';
 
 export interface LogsResponse {
   id: string;
@@ -11,8 +12,10 @@ export interface LogsResponse {
 
 export const logsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getLogActivities: builder.query<LogsResponse[], void>({
-      query: () => '/log-activities',
+    getLogActivities: builder.query<PaginationResponse<LogsResponse>, PaginationParams>({
+      query: (arg) => {
+        return { url: '/log-activities', params: arg };
+      },
     }),
   }),
 });

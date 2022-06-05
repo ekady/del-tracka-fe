@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 
 // MUI Components
-import { Box, Drawer, PaperProps } from '@mui/material';
+import { Box, Breakpoint, Drawer, PaperProps } from '@mui/material';
 
 // Helper
 import { useTheme } from '@mui/material/styles';
@@ -14,13 +14,19 @@ import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
 export type LayoutDefaultWithDrawerProps = {
   menuList: ReactNode;
   content: ReactNode;
+  hideContent?: boolean;
+  hideMenu?: boolean;
+  mediaQueryForShow?: Breakpoint;
+  isMenu?: boolean;
 };
 
 const drawerWidth = SIDEBAR_WIDTH + 40;
 
-const LayoutDrawerAdditional = ({ menuList, content }: LayoutDefaultWithDrawerProps) => {
+const LayoutDrawerAdditional = ({ menuList, content, hideMenu, mediaQueryForShow, isMenu }: LayoutDefaultWithDrawerProps) => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const showQuery = useMediaQuery(theme.breakpoints.up(mediaQueryForShow || 'lg'));
+  const hideMenuQuery = hideMenu && !showQuery;
 
   const paperProps: PaperProps = {
     sx: {
@@ -50,11 +56,13 @@ const LayoutDrawerAdditional = ({ menuList, content }: LayoutDefaultWithDrawerPr
 
   return (
     <Box sx={{ display: 'flex', height: '100%' }}>
-      <Drawer sx={drawerStyle} variant="permanent" anchor="left" PaperProps={paperProps}>
-        {menuList}
-      </Drawer>
+      {!hideMenuQuery && (
+        <Drawer sx={drawerStyle} variant="permanent" anchor="left" PaperProps={paperProps}>
+          {menuList}
+        </Drawer>
+      )}
       <Box component="main" sx={contentStyle}>
-        {content}
+        {isMenu && !showQuery ? menuList : content}
       </Box>
     </Box>
   );

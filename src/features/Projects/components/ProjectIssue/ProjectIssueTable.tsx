@@ -76,8 +76,8 @@ const ProjectIssueTable = () => {
       'Chixi',
     ),
     createData('2', 'HIGH', 'IN_PROGRESS', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-    createData('3', 'LOW', 'REQUEST_REVIEW', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-    createData('4', 'NORMAL', 'UNDER_REVIEW', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
+    createData('3', 'LOW', 'REVIEW', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
+    createData('4', 'NORMAL', 'REVIEW', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
     createData('5', 'MEDIUM', 'HOLD', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
     createData('6', 'HIGH', 'CLOSE', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
   ];

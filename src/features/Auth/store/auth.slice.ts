@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { StateStore } from '@/types';
-import { UserInfoResponse } from '@/common/store/api.slice';
+import { Credential, StateStore, UserType } from '@/types';
+
+type UserInfoResponse = {
+  credential: Credential;
+  user: UserType;
+};
 
 const name = 'auth';
 

@@ -2,44 +2,47 @@
 import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 import { FunctionVoid, PropsChildren } from '@/types';
+import ButtonLoading from '../ButtonLoading';
 
 export type BaseDialogProps = PropsChildren & {
   handleOk?: FunctionVoid;
-  notUsingOk?: boolean;
+  hideButtonOk?: boolean;
   textOk?: string;
   handleCancel?: FunctionVoid;
-  notUsingCancel?: boolean;
+  hideCancel?: boolean;
   textCancel?: string;
   isOpen?: boolean;
   titleDialog: string;
+  loading?: boolean;
 };
 
 const BaseDialog = ({
   isOpen,
   handleOk,
-  notUsingOk,
+  hideButtonOk,
   textOk,
   handleCancel,
-  notUsingCancel,
+  hideCancel,
   textCancel,
   titleDialog,
+  loading,
   children,
 }: BaseDialogProps) => {
   return (
-    <Dialog open={!!isOpen} onClose={handleCancel} PaperProps={{ sx: { borderRadius: 5 } }}>
+    <Dialog open={!!isOpen} onClose={() => handleCancel && handleCancel()} PaperProps={{ sx: { borderRadius: 5 } }}>
       <DialogTitle>{titleDialog}</DialogTitle>
       <Divider />
       <DialogContent sx={{ mb: 5, minHeight: 100, minWidth: 300 }}>{children}</DialogContent>
       <DialogActions sx={{ mb: 1, px: 3 }}>
-        {!notUsingCancel && (
-          <Button onClick={handleCancel} variant="outlined" fullWidth>
+        {!hideCancel && (
+          <Button onClick={() => handleCancel && handleCancel()} variant="outlined" fullWidth disabled={loading}>
             {textCancel ? textCancel : 'Cancel'}
           </Button>
         )}
-        {!notUsingOk && (
-          <Button onClick={handleOk} type="submit" variant="contained" fullWidth>
+        {!hideButtonOk && (
+          <ButtonLoading onClick={handleOk} type="submit" variant="contained" fullWidth loading={loading}>
             {textOk ? textOk : 'Ok'}
-          </Button>
+          </ButtonLoading>
         )}
       </DialogActions>
     </Dialog>

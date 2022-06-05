@@ -14,3 +14,4 @@ export { default as TableCellStatus } from './TableCellStatus';
 export { default as TableCellLevel } from './TableCellLevel';
 export { default as ButtonLoading } from './ButtonLoading';
 export { default as BaseCard } from './BaseCard';
+export { default as DataTable } from './DataTable';

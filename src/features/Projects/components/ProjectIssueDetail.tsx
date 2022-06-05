@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Box, Button, ButtonGroup } from '@mui/material';
 
 // Local Components
-import { ProjectIssueActivity, ProjectIssueComments, ProjectIssueForm } from './components';
+import { ProjectIssueActivity, ProjectIssueComments, ProjectIssueForm } from './';
 import { CarouselImages } from '@/common/base';
 
 const images = [

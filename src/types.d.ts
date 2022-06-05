@@ -78,7 +78,7 @@ export interface PaginationResponse<ContentType> {
 }
 
 export type TableAndSearchProps = {
-  TableProps?: Omit<DataGridProps, 'columns' | 'rows'>;
+  TableProps?: Omit<DataGridProps, 'columns'>;
   SearchProps?: TextFieldProps;
 };
 

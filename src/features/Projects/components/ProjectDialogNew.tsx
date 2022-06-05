@@ -6,10 +6,11 @@ import { FunctionVoid } from '@/types';
 import { useForm } from 'react-hook-form';
 
 // Local Component
-import ProjectNewForm from './components/ProjectNewForm';
+import ProjectNewForm from './ProjectNewForm';
 
 // Types
-import { ProjectNameType } from '../types';
+import { ProjectRequest } from '../types';
+import { useCreataProjectMutation } from '../store/project.api.slice';
 
 export type ProjectDialogNewProps = {
   handleOk?: FunctionVoid;
@@ -19,7 +20,8 @@ export type ProjectDialogNewProps = {
 };
 
 const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) => {
-  const form = useForm<ProjectNameType>({ mode: 'all' });
+  const [createProject, { isLoading }] = useCreataProjectMutation();
+  const form = useForm<ProjectRequest>({ mode: 'all' });
   const {
     handleSubmit,
     formState: { errors },
@@ -28,7 +30,7 @@ const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDia
   } = form;
 
   const validation = {
-    projectName: {
+    name: {
       required: true,
     },
     description: {
@@ -38,21 +40,27 @@ const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDia
 
   const handleClickOk = handleSubmit(async (data) => {
     await trigger();
-    if (errors.projectName?.type) return;
+    if (errors.name?.type) return;
 
-    console.log(data);
-    handleOk && handleOk();
-    resetForm();
+    try {
+      await createProject(data);
+      handleOk && handleOk();
+      resetForm();
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   const handleClickCancel = () => {
-    handleCancel && handleCancel();
-    resetForm();
+    if (!isLoading) {
+      handleCancel && handleCancel();
+      resetForm();
+    }
   };
 
   const resetForm = () => {
     reset({
-      projectName: '',
+      name: '',
       description: '',
     });
   };
@@ -60,13 +68,13 @@ const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDia
   const propsBaseDialog = {
     titleDialog: isEdit ? 'Edit Project Name' : 'Add Project',
     isOpen: !!isOpen,
-    handleCancel: handleClickCancel,
+    handleCancel: () => handleClickCancel(),
     handleOk: handleClickOk,
     textOk: isEdit ? 'Edit' : 'Add',
   };
 
   return (
-    <BaseDialog {...propsBaseDialog}>
+    <BaseDialog {...propsBaseDialog} loading={isLoading}>
       <ProjectNewForm formOptions={validation} formMethods={form} onSubmit={handleClickOk} />
     </BaseDialog>
   );

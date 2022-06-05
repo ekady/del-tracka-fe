@@ -9,6 +9,7 @@ import { AutocompleteOptions, FilterProps } from '@/types';
 
 import STATUS, { StatusType } from '@/common/constants/status';
 import LEVEL, { LevelType } from '@/common/constants/level';
+import { memo } from 'react';
 
 const listStatus: AutocompleteOptions[] = Object.keys(STATUS).map((status) => ({
   value: STATUS[status as StatusType].value,
@@ -28,7 +29,7 @@ const MyIssuesFilter = ({ onChange }: FilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={[]}
-            onChange={onChange && onChange('projectName')}
+            onChange={(_, value) => onChange && onChange('projectName', value)}
             renderInput={(params) => (
               <CustomInput
                 fieldname="Project Name"
@@ -45,7 +46,7 @@ const MyIssuesFilter = ({ onChange }: FilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={listLevel}
-            onChange={onChange && onChange('level')}
+            onChange={(_, value) => onChange && onChange('level', value)}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -55,7 +56,7 @@ const MyIssuesFilter = ({ onChange }: FilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={listStatus}
-            onChange={onChange && onChange('status')}
+            onChange={(_, value) => onChange && onChange('status', value)}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}
@@ -66,4 +67,4 @@ const MyIssuesFilter = ({ onChange }: FilterProps) => {
   );
 };
 
-export default MyIssuesFilter;
+export default memo(MyIssuesFilter);

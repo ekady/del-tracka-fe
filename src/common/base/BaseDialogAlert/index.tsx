@@ -6,43 +6,50 @@ import { grey, blueGrey } from '@mui/material/colors';
 
 // Local Components
 import { CheckCircle, DialogContainer, DialogActions, DialogTitle, Delete, TextContainer, Warning } from './styled';
+import ButtonLoading from '../ButtonLoading';
 
 import { FunctionVoid, PropsChildren } from '@/types';
 
-export type DialogAlertType = 'warning' | 'delete' | 'success';
+export type DialogAlertType = 'warning' | 'error' | 'success';
 
 export type BaseDialogAlertProps = PropsChildren & {
   type?: DialogAlertType;
   handleOk?: FunctionVoid;
-  notUsingOk?: boolean;
+  hideButtonOk?: boolean;
   textOk?: string;
   handleCancel?: FunctionVoid;
-  notUsingCancel?: boolean;
+  hideCancel?: boolean;
   textCancel?: string;
   isOpen?: boolean;
   titleDialog: string;
   description?: string;
   subDescription?: string;
+  loading?: boolean;
 };
 
 const BaseDialogAlert = ({
   type,
   isOpen,
   handleOk,
-  notUsingOk,
+  hideButtonOk,
   textOk,
   handleCancel,
-  notUsingCancel,
+  hideCancel,
   textCancel,
   titleDialog,
   description,
   subDescription,
+  loading,
   children,
 }: BaseDialogAlertProps) => {
+  const onCancel = () => {
+    if (!loading) handleCancel && handleCancel();
+  };
+
   return (
-    <Dialog open={!!isOpen} onClose={handleCancel} PaperProps={{ sx: { borderRadius: 5 } }}>
+    <Dialog open={!!isOpen} onClose={onCancel} PaperProps={{ sx: { borderRadius: 5 } }}>
       <DialogContainer>
-        {type === 'warning' ? <Warning /> : type === 'delete' ? <Delete /> : <CheckCircle />}
+        {type === 'warning' ? <Warning /> : type === 'error' ? <Delete /> : <CheckCircle />}
         <DialogTitle>{titleDialog}</DialogTitle>
         <DialogContent>
           <TextContainer>
@@ -53,15 +60,15 @@ const BaseDialogAlert = ({
         {children}
       </DialogContainer>
       <DialogActions>
-        {!notUsingCancel && (
-          <Button onClick={handleCancel} variant="outlined" fullWidth>
+        {!hideCancel && (
+          <Button onClick={onCancel} variant="outlined" fullWidth disabled={loading}>
             {textCancel ? textCancel : 'Cancel'}
           </Button>
         )}
-        {!notUsingOk && (
-          <Button onClick={handleOk} type="submit" variant="contained" fullWidth>
+        {!hideButtonOk && (
+          <ButtonLoading onClick={handleOk} type="submit" variant="contained" fullWidth loading={loading}>
             {textOk ? textOk : 'Ok'}
-          </Button>
+          </ButtonLoading>
         )}
       </DialogActions>
     </Dialog>

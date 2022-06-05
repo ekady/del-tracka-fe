@@ -1,50 +1,39 @@
 // React
 import type { ReactElement } from 'react';
 
-// Helper
-import { useTheme } from '@mui/material/styles';
-import { Box, useMediaQuery } from '@mui/material';
+// MUI
+import { Box, Typography } from '@mui/material';
 
 // Components
-import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
-import ProjectIssues from '@/features/Projects/ui/ProjectIssues';
-import ProjectsUI from '@/features/Projects/ui/ProjectsUI';
-
-// Types
-import { ProjectType } from '@/features/Projects/types';
-
-const dummyProjectList: ProjectType[] = [
-  { id: '1', name: 'Health Care', description: '', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },
-  {
-    id: '2',
-    name: 'Dums',
-    description: '',
-    sprints: [
-      { id: 'sprint-1', name: 'Sprint 1' },
-      { id: 'sprint-2', name: 'Sprint 2' },
-    ],
-  },
-];
+import { LayoutDefault } from '@/common/layout';
+import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import { ProjectIssueFilter, ProjectIssueTable } from '@/features/Projects/components';
 
 const ProjectSprintPage = () => {
-  const theme = useTheme();
-  const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-
-  if (lgAndUp) {
-    return (
-      <Box sx={{ position: 'relative', height: '100%' }}>
-        <LayoutDrawerAdditional
-          menuList={<ProjectsUI projectList={dummyProjectList} />}
-          content={<ProjectIssues name="First" id="" />}
-        />
+  return (
+    <>
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Health Care 1
+        </Typography>
+        <Typography>Sprint 1</Typography>
       </Box>
-    );
-  }
-  return <ProjectIssues name="First" id="" />;
+      <Box height={25} />
+      <Box>
+        <ProjectIssueFilter />
+        <Box sx={{ height: 40 }} />
+        <ProjectIssueTable />
+      </Box>
+    </>
+  );
 };
 
 ProjectSprintPage.getLayout = (page: ReactElement) => {
-  return <LayoutDefault>{page}</LayoutDefault>;
+  return (
+    <LayoutDefault>
+      <LayoutProject hideMenu content={page} />
+    </LayoutDefault>
+  );
 };
 
 export default ProjectSprintPage;

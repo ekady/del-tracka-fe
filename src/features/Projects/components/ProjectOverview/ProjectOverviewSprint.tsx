@@ -12,39 +12,26 @@ import { GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
-import { BaseDialogAlert, TableHeader } from '@/common/base';
-import { DataGridStyled } from '@/common/base/DataTable/styled';
+import { BaseDialogAlert, DataTable, TableHeader } from '@/common/base';
 
 // Types
 import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
-import { Indexable } from '@/types';
-
-function createData(
-  id: string,
-  name: string,
-  open: string | number,
-  inProgress: string | number,
-  underReview: string | number,
-  close: string | number,
-): Indexable<string, string | number> {
-  return { id, name, open, inProgress, underReview, close };
-}
-
-const rows = [
-  createData('3', 'Sprint 3', '12', '2', '23', '45'),
-  createData('2', 'Sprint 2', '23', '31', '12', '23'),
-  createData('1', 'Sprint 1', '4', '5', '3', '4'),
-];
+import { SprintType } from '../../types';
 
 const tableHeaders: GridColDef[] = [
   { headerName: 'Sprint', field: 'name', width: 150 },
   { headerName: 'Open', field: 'open', width: 150 },
   { headerName: 'In Progress', field: 'inProgress', width: 150 },
-  { headerName: 'Review', field: 'underReview', width: 150 },
+  { headerName: 'Review', field: 'review', width: 150 },
   { headerName: 'Close', field: 'close', width: 150 },
 ];
 
-const ProjectOverviewSprint = () => {
+export type ProjectOverviewSprintProps = {
+  data: SprintType[];
+  loading?: boolean;
+};
+
+const ProjectOverviewSprint = ({ data, loading }: ProjectOverviewSprintProps) => {
   const [dialogAlertOpt, setDialogAlertOpt] = useState<BaseDialogAlertProps>({
     isOpen: false,
     type: 'success',
@@ -99,19 +86,16 @@ const ProjectOverviewSprint = () => {
 
   return (
     <>
-      <TableHeader isUsingSearch header={sprintButton} />
+      <TableHeader header={sprintButton} />
       <Box sx={{ height: 20 }} />
-      <DataGridStyled
-        rows={rows}
+      <DataTable
+        rows={data}
         columns={tableHeaders}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
-        disableColumnMenu
-        autoHeight
-        autoPageSize
-        rowHeight={60}
         onRowClick={redirectSprintPage}
+        paginationMode="client"
+        sortingMode="client"
+        rowCount={undefined}
+        loading={loading}
       />
       <BaseDialogAlert handleCancel={dialogHandler} handleOk={dialogHandler} {...dialogAlertOpt} />
     </>

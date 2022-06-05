@@ -1,47 +1,65 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
-// Helper
-import { useTheme } from '@mui/material/styles';
-import { Box, useMediaQuery } from '@mui/material';
+// MUI
+import { Collapse, Icon, ListItemText } from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 // Components
-import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
-import ProjectsUI from '@/features/Projects/ui/ProjectsUI';
-import ProjectSetting from '@/features/Projects/ui/ProjectSetting';
+import { LayoutDefault } from '@/common/layout';
+import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/features/Projects/components/ProjectSetting';
+import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import { ListButton, ListContainer, ListContentContainer, ListItemContainer } from '@/common/base/List/styled';
 
-// Types
-import { ProjectType } from '@/features/Projects/types';
+import { Indexable } from '@/types';
+import { useRouter } from 'next/router';
 
-const dummyProjectList: ProjectType[] = [
-  { id: '1', name: 'Health Care', description: '', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },
-  {
-    id: '2',
-    name: 'Dums',
-    description: '',
-    sprints: [
-      { id: 'sprint-1', name: 'Sprint 1' },
-      { id: 'sprint-2', name: 'Sprint 2' },
-    ],
-  },
+const menus = [
+  { menu: 'Project Information', component: <ProjectInformation />, isLazyLoad: false },
+  { menu: 'Member', component: <ProjectMembers />, isLazyLoad: false },
+  { menu: 'Other', component: <ProjectOtherSetting />, isLazyLoad: true },
 ];
 
-const ProjectSprintPage = () => {
-  const theme = useTheme();
-  const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
+const ProjectSettingPage = () => {
+  const router = useRouter();
+  const [open, setOpen] = useState<Indexable<number, boolean>>({ 0: false, 1: false, 2: false });
 
-  if (lgAndUp) {
-    return (
-      <Box sx={{ position: 'relative', height: '100%' }}>
-        <LayoutDrawerAdditional menuList={<ProjectsUI projectList={dummyProjectList} />} content={<ProjectSetting />} />
-      </Box>
-    );
-  }
-  return <ProjectSetting />;
+  const handleClick = (index: number) => {
+    return () => {
+      setOpen((prevOpen) => ({ ...prevOpen, [index]: !prevOpen[index] }));
+    };
+  };
+
+  useEffect(() => {
+    setOpen({ 0: false, 1: false, 2: false });
+  }, [router]);
+  return (
+    <>
+      {menus.map(({ menu, component, isLazyLoad }, index) => (
+        <ListContainer key={`${menu}-${index}`}>
+          <ListItemContainer>
+            <ListButton disableTouchRipple onClick={handleClick(index)}>
+              <ListItemText className="cursor-pointer" primary={menu} />
+              <Icon className="cursor-pointer" sx={{ mr: 1 }}>
+                {open[index] ? <ExpandLess /> : <ExpandMore />}
+              </Icon>
+            </ListButton>
+          </ListItemContainer>
+          <Collapse in={open[index]} timeout="auto" mountOnEnter={isLazyLoad}>
+            <ListContentContainer maxWidth={false}>{component}</ListContentContainer>
+          </Collapse>
+        </ListContainer>
+      ))}
+    </>
+  );
 };
 
-ProjectSprintPage.getLayout = (page: ReactElement) => {
-  return <LayoutDefault>{page}</LayoutDefault>;
+ProjectSettingPage.getLayout = (page: ReactElement) => {
+  return (
+    <LayoutDefault>
+      <LayoutProject hideMenu content={page} />
+    </LayoutDefault>
+  );
 };
 
-export default ProjectSprintPage;
+export default ProjectSettingPage;

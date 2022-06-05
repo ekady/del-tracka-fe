@@ -8,14 +8,14 @@ import { Box, Button } from '@mui/material';
 import { LayoutDefault } from '@/common/layout';
 import { Logs } from '@/features/Logs/components';
 
-import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api';
-import { useAppDispatch, useAppSelector } from '@/common/store/store';
-import { selectLogsData } from '@/features/Logs/store/logs.selector';
+import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api.slice';
+import { useAppDispatch } from '@/common/store/store';
+import { useTableChange } from '@/common/hooks/useTableChange';
 
 const LogsPage = () => {
+  const { onLimitPage, tableOption } = useTableChange();
   const dispatch = useAppDispatch();
-  const { isLoading } = useGetLogActivitiesQuery();
-  const logs = useAppSelector(selectLogsData);
+  const { isLoading, isFetching, data } = useGetLogActivitiesQuery(tableOption);
 
   useEffect(() => {
     return () => {
@@ -33,7 +33,15 @@ const LogsPage = () => {
           Export to PDF
         </Button>
       </Box>
-      <Logs logs={logs} TableProps={{ loading: isLoading }} />
+      <Logs
+        TableProps={{
+          rows: data?.content ?? [],
+          rowCount: data?.totalContent ?? 0,
+          loading: isFetching || isLoading,
+          onPageSizeChange: (limit) => onLimitPage('limit', limit),
+          onPageChange: (page) => onLimitPage('page', page),
+        }}
+      />
     </>
   );
 };

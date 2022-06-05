@@ -1,25 +1,43 @@
-import { useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { GridSortModel } from '@mui/x-data-grid';
+import { debounce } from '@mui/material';
+
 import { PaginationParams } from '@/types';
-import { onFilterChange, onSearchChange, onSortChange } from '../helper/tableChange';
+import { table } from '../constants';
+
+const initialState: PaginationParams = {
+  limit: table.initialLimit,
+  page: table.initialPage,
+  search: '',
+  sort: '',
+};
 
 export const useTableChange = () => {
-  const [tableOption, setTableOption] = useState<PaginationParams>({});
-  let debounce: ReturnType<typeof setTimeout> | null = null;
+  const [tableOption, setTableOption] = useState<PaginationParams>(initialState);
 
-  const onSearch = onSearchChange((search: PaginationParams) => {
-    if (debounce) clearTimeout(debounce);
-    debounce = setTimeout(() => {
-      setTableOption((prevTableOption) => ({ ...prevTableOption, ...search }));
-    }, 300);
-  });
+  const onSearch = debounce((event: ChangeEvent<HTMLInputElement>) => {
+    const search = { search: event?.target?.value ?? '' };
+    setTableOption((prevTableOption) => ({ ...prevTableOption, ...search }));
+  }, 300);
 
-  const onSort = onSortChange((sort: PaginationParams) => {
+  const onSort = useCallback((model: GridSortModel) => {
+    const sort = model.reduce((_, sort) => ({ sort: `${sort.field}-${sort.sort}` }), { sort: '' });
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...sort }));
-  });
+  }, []);
 
-  const onFilter = onFilterChange((filter: PaginationParams) => {
-    setTableOption((prevTableOption) => ({ ...prevTableOption, ...filter }));
-  });
+  const onFilter = useCallback((fieldname, value) => {
+    setTableOption((prevTableOption) => ({ ...prevTableOption, [fieldname]: value?.value ?? '' }));
+  }, []);
 
-  return { tableOption, onSearch, onSort, onFilter };
+  const onLimitPage = useCallback((type: 'limit' | 'page', number: number) => {
+    setTableOption((prevTableOption) => ({ ...prevTableOption, [type]: number }));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      onSearch.clear();
+    };
+  }, [onSearch]);
+
+  return { tableOption, onSearch, onSort, onFilter, onLimitPage };
 };

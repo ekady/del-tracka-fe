@@ -1,4 +1,4 @@
-import { configureStore, isRejectedWithValue, Middleware, isPending } from '@reduxjs/toolkit';
+import { configureStore, isRejectedWithValue, Middleware } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 // Slice Reducer

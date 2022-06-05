@@ -12,8 +12,8 @@ import { useTableChange } from '@/common/hooks/useTableChange';
 import { useLazyGetMyIssuesQuery } from '@/features/My-Issues/store/myIssues.api.slice';
 
 const MyIssuesPage = () => {
-  const [getIssues, { isLoading, isFetching }] = useLazyGetMyIssuesQuery();
-  const { onFilter, onSearch, onSort, tableOption } = useTableChange();
+  const [getIssues, { data, isFetching, isLoading }] = useLazyGetMyIssuesQuery();
+  const { onFilter, onSearch, onSort, tableOption, onLimitPage } = useTableChange();
 
   useEffect(() => {
     const response = getIssues(tableOption);
@@ -27,7 +27,14 @@ const MyIssuesPage = () => {
       <MyIssuesFilter onChange={onFilter} />
       <Box sx={{ height: 40 }} />
       <MyIssuesTable
-        TableProps={{ onSortModelChange: onSort, loading: isFetching || isLoading }}
+        TableProps={{
+          rows: data?.content ?? [],
+          rowCount: data?.totalContent ?? 0,
+          loading: isFetching || isLoading,
+          onSortModelChange: onSort,
+          onPageSizeChange: (limit) => onLimitPage('limit', limit),
+          onPageChange: (page) => onLimitPage('page', page),
+        }}
         SearchProps={{ onChange: onSearch }}
       />
     </>

@@ -1,10 +1,9 @@
-import { DataGridStyled } from '@/common/base/DataTable/styled';
-import { TableAndSearchProps } from '@/types';
 import { GridColDef } from '@mui/x-data-grid';
-import { LogsResponse } from '../store/logs.api';
+
+import { DataTable } from '@/common/base';
+import { TableAndSearchProps } from '@/types';
 
 export type LogsProps = TableAndSearchProps & {
-  logs: LogsResponse[];
   notFullInfo?: boolean;
   isUsingDate?: boolean;
   isUsingProjectName?: boolean;
@@ -18,15 +17,7 @@ const cardNumber: GridColDef = { headerName: 'Card Number', field: 'cardNumber',
 const feature: GridColDef = { headerName: 'Feature', field: 'feature', width: 200, sortable: false };
 const activity: GridColDef = { headerName: 'Activity', field: 'activity', width: 200, sortable: false };
 
-const LogsUI = ({
-  logs,
-  notFullInfo,
-  isUsingProjectName,
-  isUsingDate,
-  isUsingCardNumber,
-  isUsingFeature,
-  TableProps,
-}: LogsProps) => {
+const LogsUI = ({ notFullInfo, isUsingProjectName, isUsingDate, isUsingCardNumber, isUsingFeature, TableProps }: LogsProps) => {
   const tableHeaders: GridColDef[] = [activity];
   if (notFullInfo) {
     if (isUsingFeature) tableHeaders.unshift(feature);
@@ -34,20 +25,7 @@ const LogsUI = ({
     if (isUsingProjectName) tableHeaders.unshift(projectName);
     if (isUsingDate) tableHeaders.unshift(date);
   } else tableHeaders.unshift(...[date, projectName, cardNumber, feature]);
-  return (
-    <DataGridStyled
-      rows={logs}
-      columns={tableHeaders}
-      pageSize={5}
-      rowsPerPageOptions={[5]}
-      disableSelectionOnClick
-      disableColumnMenu
-      autoHeight
-      autoPageSize
-      disableColumnFilter
-      {...TableProps}
-    />
-  );
+  return <DataTable rows={[]} columns={tableHeaders} {...TableProps} />;
 };
 
 export default LogsUI;

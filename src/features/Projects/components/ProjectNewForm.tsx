@@ -9,16 +9,15 @@ import { CustomInput } from '@/common/base';
 import { FormEvent } from 'react';
 
 // Types
-import { ProjectNameType } from '../../types';
+import { ProjectRequest } from '../types';
 import { FunctionVoidWithParams } from '@/types';
 
 export type ProjectNewFormValidation = {
-  projectName: RegisterOptions;
-  description: RegisterOptions;
+  [key in keyof ProjectRequest]: RegisterOptions;
 };
 
 export interface ProjectNewFormProps {
-  formMethods: UseFormReturn<ProjectNameType>;
+  formMethods: UseFormReturn<ProjectRequest>;
   formOptions: ProjectNewFormValidation;
   onSubmit?: FunctionVoidWithParams<FormEvent<HTMLFormElement>>;
   disabled?: boolean;
@@ -33,15 +32,15 @@ const ProjectNewForm = ({ formMethods, formOptions, onSubmit, disabled }: Projec
   return (
     <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
       <Controller
-        name="projectName"
+        name="name"
         control={control}
         defaultValue=""
-        rules={formOptions.projectName}
+        rules={formOptions.name}
         render={({ field }) => (
           <CustomInput
             fieldname="Project Name"
-            error={errors.projectName}
-            TextFieldProps={{ placeholder: !disabled ? 'Enter Project Name' : '', disabled, ...field }}
+            error={errors.name}
+            TextFieldProps={{ placeholder: 'Enter Project Name', disabled, ...field }}
           />
         )}
       />
@@ -54,7 +53,7 @@ const ProjectNewForm = ({ formMethods, formOptions, onSubmit, disabled }: Projec
           <CustomInput
             fieldname="Description"
             error={errors.description}
-            TextFieldProps={{ placeholder: !disabled ? 'Enter Description' : '', disabled, ...field }}
+            TextFieldProps={{ placeholder: 'Enter Description', disabled, ...field }}
           />
         )}
       />

@@ -1,47 +1,64 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
-// Helper
-import { useTheme } from '@mui/material/styles';
-import { Box, useMediaQuery } from '@mui/material';
+// MUI
+import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 
 // Components
-import { LayoutDefault, LayoutDrawerAdditional } from '@/common/layout';
-import ProjectDetail from '@/features/Projects/ui/ProjectDetail';
-import ProjectsUI from '@/features/Projects/ui/ProjectsUI';
+import { LayoutDefault } from '@/common/layout';
+import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import {
+  ProjectDetailTitle,
+  ProjectOverview,
+  ProjectOverviewActivity,
+  ProjectOverviewSprint,
+} from '@/features/Projects/components';
 
-// Types
-import { ProjectType } from '@/features/Projects/types';
+import { ProjectRoles } from '@/features/Projects/constant/role';
+import STATUS from '@/common/constants/status';
 
-const dummyProjectList: ProjectType[] = [
-  { id: '1', name: 'Health Care', description: '', sprints: [{ id: 'sprint-1', name: 'Sprint 1' }] },
-  {
-    id: '2',
-    name: 'Dums',
-    description: '',
-    sprints: [
-      { id: 'sprint-1', name: 'Sprint 1' },
-      { id: 'sprint-2', name: 'Sprint 2' },
-    ],
-  },
-];
+import useProjectId from '@/features/Projects/hooks/useProjectId';
 
-const ProjectSettingPage = () => {
+const ProjecOverviewDetailPage = () => {
+  const { data, isFetching, isLoading } = useProjectId();
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
-  if (lgAndUp) {
-    return (
-      <Box sx={{ position: 'relative', height: '100%' }}>
-        <LayoutDrawerAdditional menuList={<ProjectsUI projectList={dummyProjectList} />} content={<ProjectDetail />} />
-      </Box>
-    );
-  }
-  return <ProjectDetail />;
+  return (
+    <>
+      <Grid container gap={2} justifyContent={{ xs: 'start', sm: 'space-between' }}>
+        <ProjectDetailTitle
+          title={data?.name ?? ''}
+          description={data?.description}
+          canAccessSettings={data?.asRole === ProjectRoles.ADMIN || data?.asRole === ProjectRoles.MAINTAINER}
+        />
+      </Grid>
+      <Box sx={{ height: 40 }} />
+      <Grid container gap={1} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
+        <ProjectOverview {...STATUS.OPEN} value={data?.totalOpen ?? 0} />
+        <ProjectOverview {...STATUS.IN_PROGRESS} value={data?.totalInProgress ?? 0} />
+        <ProjectOverview {...STATUS.REVIEW} value={data?.totalReview ?? 0} />
+        <ProjectOverview {...STATUS.CLOSE} value={data?.totalClose ?? 0} />
+      </Grid>
+      <Box sx={{ height: 50 }} />
+      <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>
+        <Grid item xs={12}>
+          <ProjectOverviewSprint data={data?.sprints ?? []} loading={isLoading || isFetching} />
+        </Grid>
+        <Grid item xs={12} sx={{ pt: lgAndUp ? 0 : 5 }}>
+          <ProjectOverviewActivity />
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
-ProjectSettingPage.getLayout = (page: ReactElement) => {
-  return <LayoutDefault>{page}</LayoutDefault>;
+ProjecOverviewDetailPage.getLayout = (page: ReactElement) => {
+  return (
+    <LayoutDefault>
+      <LayoutProject hideMenu content={page} />
+    </LayoutDefault>
+  );
 };
 
-export default ProjectSettingPage;
+export default ProjecOverviewDetailPage;
