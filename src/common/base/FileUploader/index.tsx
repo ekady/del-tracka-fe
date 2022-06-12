@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent, DragEvent, ReactNode, useRef, useState } from 'react';
+import { ChangeEvent, DetailedHTMLProps, DragEvent, InputHTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react';
 
 // Next
 import Image from 'next/image';
@@ -13,11 +13,38 @@ import { Cancel } from '@mui/icons-material';
 // Local types
 import { FunctionVoidWithParams, Indexable } from '@/types';
 
-type FileIndexable = Indexable<string, File>;
+// Helper
+import { formatBytes, extractErrorMessage } from '@/common/helper';
+import {
+  ButtonContainer,
+  FilesContainer,
+  FilesUploadContainer,
+  FileTextContainer,
+  ImageContainer,
+  InputFile,
+  RemoveIconButton,
+} from './styled';
+
+// Constants
+import { FileUploaderSize, IMAGE_EXTENSION } from './constants';
+
+import { FieldError } from 'react-hook-form';
+
+export type Thumbnail = {
+  src: string;
+  size: string | number;
+  filename: string;
+};
+export const extractSrcThumbnailFile = (x: Thumbnail | File): string => {
+  if ('src' in x) return x.src;
+  return URL.createObjectURL(x);
+};
+
+export type FileIndexable = Indexable<string, File | Thumbnail>;
 
 export type FileUploaderProps = {
   multiple?: boolean;
-  value?: FileIndexable;
+  value?: FileIndexable | null | undefined;
   handleValue?: FunctionVoidWithParams<FileIndexable>;
   accept?: readonly string[];
   buttonUploadText?: string;
@@ -31,24 +58,10 @@ export type FileUploaderProps = {
   heightContainer?: number | string;
   width?: number | string;
   height?: number | string;
+  error?: FieldError;
   disabled?: boolean;
+  InputProps?: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 };
-
-// Helper
-import { formatBytes } from '@/common/helper';
-import {
-  ButtonContainer,
-  FilesContainer,
-  FilesUploadContainer,
-  FileTextContainer,
-  ImageContainer,
-  ImageWraper,
-  InputFile,
-  RemoveIconButton,
-} from './styled';
-
-// Constants
-import { FileUploaderSize, IMAGE_EXTENSION } from './constants';
 
 const FileUploader = ({
   multiple,
@@ -67,18 +80,24 @@ const FileUploader = ({
   width,
   height,
   disabled,
+  error,
+  InputProps,
 }: FileUploaderProps) => {
   const [isDrop, setIsDrop] = useState<boolean>(false);
   const inputField = useRef<HTMLInputElement>(null);
+  const [containError, errorMessage] = extractErrorMessage(error, 'Image', '');
   const theme = useTheme();
 
-  const sizes = {
-    image: { width: width ?? FileUploaderSize.DefaultImageWidth, height: height ?? FileUploaderSize.DefaultImageHeight },
-    container: {
-      width: widthContainer ?? FileUploaderSize.DefaultContainerWidth,
-      height: heightContainer ?? FileUploaderSize.DefaultContainerHeight,
-    },
-  };
+  const sizes = useMemo(
+    () => ({
+      image: { width: width ?? FileUploaderSize.DefaultImageWidth, height: height ?? FileUploaderSize.DefaultImageHeight },
+      container: {
+        width: widthContainer ?? FileUploaderSize.DefaultContainerWidth,
+        height: heightContainer ?? FileUploaderSize.DefaultContainerHeight,
+      },
+    }),
+    [height, heightContainer, width, widthContainer],
+  );
 
   const getFileExtension = (filename: string) => {
     return filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename;
@@ -153,6 +172,7 @@ const FileUploader = ({
         onChange={onHandleFileUpload}
         multiple={multiple}
         accept={accept.join(', ').toString()}
+        {...InputProps}
       />
       <Button variant="contained" onClick={handleUploadButtonClick}>
         {buttonUploadText ? buttonUploadText : 'Upload File'}
@@ -189,34 +209,39 @@ const FileUploader = ({
             {!imageFullWidth && !disabled && <Box marginBottom={3}>{buttonUploadContainer}</Box>}
             <FilesContainer sx={{ overflow: imageFullWidth ? 'hidden' : 'auto', height: imageFullWidth ? '100%' : '80%' }}>
               {Object.keys(value).map((file) => (
-                <Box key={file} margin={1} width={imageFullWidth ? '100%' : 'unset'} height={imageFullWidth ? '100%' : '80%'}>
+                <Box
+                  key={file}
+                  margin={1}
+                  width={imageFullWidth ? '100%' : 'unset'}
+                  height={imageFullWidth ? '100%' : '80%'}
+                  position="relative"
+                >
                   <ImageContainer
                     sx={{
+                      position: 'relative',
                       width: imageFullWidth ? '100%' : sizes.image.width,
                       height: imageFullWidth ? '100%' : sizes.image.height,
                     }}
                   >
-                    <ImageWraper>
-                      <Image
-                        src={URL.createObjectURL(value[file])}
-                        alt={getFileExtension(file)}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                    </ImageWraper>
-                    {!hideRemoveIcon && !disabled && (
-                      <RemoveIconButton onClick={() => removeFile(file)}>
-                        <Cancel />
-                      </RemoveIconButton>
-                    )}
+                    <Image
+                      src={extractSrcThumbnailFile(value[file])}
+                      alt={getFileExtension(file)}
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </ImageContainer>
+                  {!hideRemoveIcon && !disabled && (
+                    <RemoveIconButton onClick={() => removeFile(file)}>
+                      <Cancel />
+                    </RemoveIconButton>
+                  )}
                   {!hideTextFile && (
                     <FileTextContainer width={imageFullWidth ? '100%' : sizes.image.width}>
                       <Typography fontWeight="bold" fontSize={12}>
                         {file}
                       </Typography>
                       <Box height={5} />
-                      <Typography fontSize={12}>{formatBytes(value[file].size)}</Typography>
+                      <Typography fontSize={12}>{formatBytes(Number(value[file].size))}</Typography>
                     </FileTextContainer>
                   )}
                 </Box>
@@ -227,6 +252,11 @@ const FileUploader = ({
           <ButtonContainer>{buttonUploadContainer}</ButtonContainer>
         )}
       </FilesUploadContainer>
+      {containError && (
+        <Typography width={sizes.container.width} color="red" align="center" fontSize="0.75rem">
+          {errorMessage}
+        </Typography>
+      )}
       {buttonOutsideContainer && !disabled && (
         <ButtonContainer sx={{ height: 'unset', width: sizes.container.width, mt: 2 }}>{buttonUpload}</ButtonContainer>
       )}

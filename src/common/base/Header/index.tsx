@@ -1,10 +1,11 @@
 import { useState, MouseEvent, ReactNode } from 'react';
 
-// Next Component
+// Next
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-// MUI Components
+// MUI
 import {
   Box,
   Container,
@@ -19,10 +20,8 @@ import {
   AppBarProps as MuiAppBarProps,
 } from '@mui/material';
 
-// Icons
 import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon, Settings } from '@mui/icons-material';
 
-// Helper
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 
@@ -33,6 +32,10 @@ import { AppBar, LogoContainer, Text, TitleContainer } from './styled';
 
 // Local Icons
 import { IconLogo } from '@/common/icons';
+
+// Hooks
+import { useAppDispatch } from '@/common/store/store';
+import { resetState } from '@/features/Auth/store/auth.slice';
 
 export type AppBarProps = MuiAppBarProps & {
   open?: boolean;
@@ -46,6 +49,8 @@ export type HeaderProps = {
 };
 
 const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -62,6 +67,12 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
 
   const handleSidebar = () => {
     setOpenSidebar(!openSidebar);
+  };
+
+  const onLogout = () => {
+    handleClose();
+    dispatch(resetState());
+    router.push('/sign-in');
   };
 
   const logInInfo: ReactNode = lgAndUp ? (
@@ -131,7 +142,7 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
                     </MenuItem>
                   </Link>
                   <Divider />
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={onLogout}>
                     <ListItemIcon>
                       <LogoutIcon fontSize="small" />
                     </ListItemIcon>

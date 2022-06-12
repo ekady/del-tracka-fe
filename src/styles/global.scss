@@ -29,6 +29,12 @@ a {
   }
 }
 
+.text {
+  &-underline {
+    text-decoration: underline;
+  }
+}
+
 ul {
   padding-right: 0px;
   padding-left: 0px;

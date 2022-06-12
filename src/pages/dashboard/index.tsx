@@ -1,12 +1,30 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 // Components
+import { Box } from '@mui/material';
+
 import { LayoutDefault } from '@/common/layout';
-import DashboardUI from '@/modules/Dashboard/ui/DashboardUI';
+import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/Dashboard/components';
+
+import { useLazyGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
 
 const DashboardPage = () => {
-  return <DashboardUI />;
+  const [getData] = useLazyGetDashboardDatasQuery();
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  return (
+    <>
+      <DashboardTotal />
+      <Box sx={{ height: 30 }} />
+      <DashboardIssues />
+      <Box sx={{ height: 30 }} />
+      <DashboardActivities />
+    </>
+  );
 };
 
 DashboardPage.getLayout = (page: ReactElement) => {

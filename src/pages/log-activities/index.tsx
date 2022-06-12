@@ -1,49 +1,28 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 // MUI Component
 import { Box, Button } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LogsUI, { Logs } from '@/modules/Logs/ui/LogsUI';
+import { Logs } from '@/features/Logs/components';
 
-const dummyLogs: Logs[] = [
-  {
-    id: '1',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '2',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '3',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-  {
-    id: '4',
-    projectName: 'Health',
-    date: '2021-02-09',
-    cardNumber: 'Card#12',
-    feature: 'Course',
-    activity: 'Mess move A to Review Waiting',
-  },
-];
+import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api.slice';
+import { useAppDispatch } from '@/common/store/store';
+import { useTableChange } from '@/common/hooks/useTableChange';
 
 const LogsPage = () => {
+  const { onLimitPage, tableOption } = useTableChange();
+  const dispatch = useAppDispatch();
+  const { isLoading, isFetching, data } = useGetLogActivitiesQuery(tableOption);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetApiState());
+    };
+  }, [dispatch]);
+
   return (
     <>
       <Box sx={{ mb: 5, justifyContent: 'end', display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
@@ -54,7 +33,15 @@ const LogsPage = () => {
           Export to PDF
         </Button>
       </Box>
-      <LogsUI logs={dummyLogs} />
+      <Logs
+        TableProps={{
+          rows: data?.content ?? [],
+          rowCount: data?.totalContent ?? 0,
+          loading: isFetching || isLoading,
+          onPageSizeChange: (limit) => onLimitPage('limit', limit),
+          onPageChange: (page) => onLimitPage('page', page),
+        }}
+      />
     </>
   );
 };

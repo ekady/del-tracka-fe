@@ -7,6 +7,9 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import type { NextPage } from 'next';
 
+// React redux
+import { Provider } from 'react-redux';
+
 // Utils
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +17,13 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
+
+// Store
+import store from '@/common/store/store';
+
+// Toast
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Charts
 import 'chart.js/auto';
@@ -45,7 +55,17 @@ export default function MyApp(props: AppPropsWithLayout) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {getLayout(<Component {...pageProps} />)}
+        <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          newestOnTop
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </ThemeProvider>
     </CacheProvider>
   );

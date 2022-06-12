@@ -25,6 +25,13 @@ export const FilesContainer = styled(Box)(() => ({
 export const ImageContainer = styled(Box)(() => ({
   position: 'relative',
   background: 'lightgray',
+
+  '& > span > img': {
+    textAlign: 'center',
+    lineHeight: 14,
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  },
 }));
 
 export const FileTextContainer = styled(Box)(() => ({
@@ -47,13 +54,4 @@ export const RemoveIconButton = styled(IconButton)(() => ({
   right: 2,
   color: 'white',
   backgroundColor: '#00000057',
-}));
-
-export const ImageWraper = styled('span')(() => ({
-  '& > span > img': {
-    textAlign: 'center',
-    lineHeight: 14,
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
-  },
 }));
