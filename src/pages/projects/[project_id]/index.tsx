@@ -43,7 +43,7 @@ const ProjecOverviewDetailPage = () => {
       <Box sx={{ height: 50 }} />
       <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>
         <Grid item xs={12}>
-          <ProjectOverviewSprint data={data?.sprints ?? []} loading={isLoading || isFetching} />
+          <ProjectOverviewSprint sprints={data?.sprints ?? []} loading={isLoading || isFetching} />
         </Grid>
         <Grid item xs={12} sx={{ pt: lgAndUp ? 0 : 5 }}>
           <ProjectOverviewActivity />

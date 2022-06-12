@@ -18,8 +18,8 @@ export declare type InformationWithColor = {
 };
 
 export declare type AutocompleteOptions = {
-  label: string | number | undefined;
-  value: string | number | undefined;
+  label: string;
+  value: string;
 };
 
 export declare type MenuItem = {

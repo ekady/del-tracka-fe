@@ -15,7 +15,7 @@ const useDialogAlert = () => {
 
   const closeDialogAlert = (callback?: FunctionVoid) => {
     setDialogAlertOpt((option) => ({ ...option, isOpen: !option.isOpen }));
-    callback && callback();
+    if (callback && typeof callback === 'function') callback();
   };
 
   const openDialogSuccess = (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {

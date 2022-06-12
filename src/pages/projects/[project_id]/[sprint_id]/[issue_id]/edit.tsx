@@ -7,7 +7,7 @@ import ProjectIssueDetail from '@/features/Projects/components/ProjectIssueDetai
 import LayoutProject from '@/features/Projects/layout/LayoutProject';
 
 const ProjectSprintIssuePage = () => {
-  return <ProjectIssueDetail category="detail" />;
+  return <ProjectIssueDetail category="edit" />;
 };
 
 ProjectSprintIssuePage.getLayout = (page: ReactElement) => {

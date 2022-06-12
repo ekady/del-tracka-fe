@@ -57,7 +57,7 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
   ];
   return (
     <>
-      <TableHeader header={<Typography fontWeight="bold">Health Care Member</Typography>} isUsingSearch />
+      <TableHeader header={<Typography fontWeight="bold">Health Care Member</Typography>} />
       <Box sx={{ height: 20 }} />
       <DataTable
         rows={data ?? []}

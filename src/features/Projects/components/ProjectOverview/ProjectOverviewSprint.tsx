@@ -1,9 +1,3 @@
-// React
-import { useState } from 'react';
-
-// Next
-import { useRouter } from 'next/router';
-
 // MUI Components
 import { Box, IconButton, Typography } from '@mui/material';
 import { GridColDef, GridRowParams } from '@mui/x-data-grid';
@@ -15,8 +9,14 @@ import { AddCircleOutlined } from '@mui/icons-material';
 import { BaseDialogAlert, DataTable, TableHeader } from '@/common/base';
 
 // Types
-import { BaseDialogAlertProps } from '@/common/base/BaseDialogAlert';
 import { SprintType } from '../../types';
+
+import { toast } from 'react-toastify';
+
+// Hooks
+import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
+import useProjectId from '../../hooks/useProjectId';
+import { useCreateNewSprintMutation } from '../../store/project.api.slice';
 
 const tableHeaders: GridColDef[] = [
   { headerName: 'Sprint', field: 'name', width: 150 },
@@ -27,53 +27,42 @@ const tableHeaders: GridColDef[] = [
 ];
 
 export type ProjectOverviewSprintProps = {
-  data: SprintType[];
+  sprints: SprintType[];
   loading?: boolean;
 };
 
-const ProjectOverviewSprint = ({ data, loading }: ProjectOverviewSprintProps) => {
-  const [dialogAlertOpt, setDialogAlertOpt] = useState<BaseDialogAlertProps>({
-    isOpen: false,
-    type: 'success',
-    titleDialog: 'Success',
-    description: 'New Project has been added',
-    notUsingCancel: true,
-  });
-  const router = useRouter();
+const ProjectOverviewSprint = ({ sprints, loading }: ProjectOverviewSprintProps) => {
+  const { projectId, router, data, refetch } = useProjectId();
+  const [addNewSprint, { isLoading }] = useCreateNewSprintMutation();
+  const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
 
-  const dialogHandler = () => {
-    setDialogAlertOpt({ ...dialogAlertOpt, isOpen: false });
+  const handleAddNewSprint = async () => {
+    try {
+      const response = await addNewSprint({
+        id: projectId,
+        body: { newestSprint: data?.newestSprint ? data.newestSprint + 1 : 1 },
+      });
+      if ('error' in response) toast.error('An error has occured');
+      else {
+        openDialogSuccess('Success', 'New sprint has been created', { handleOk: closeDialogAlert });
+        refetch();
+      }
+    } catch {
+      //
+    }
   };
 
-  const openDialogSuccess = (description?: string) => {
-    setDialogAlertOpt({
-      ...dialogAlertOpt,
-      isOpen: true,
-      type: 'success',
-      titleDialog: 'Success',
-      description,
-      subDescription: '',
-      notUsingCancel: true,
-    });
-  };
-
-  const openDialogWarning = () => {
-    setDialogAlertOpt({
-      ...dialogAlertOpt,
-      isOpen: true,
-      type: 'warning',
-      titleDialog: 'Add New Sprint',
-      description: 'Are you sure want to add new sprint?',
-      subDescription: 'Next sprint will be Sprint 4',
-      notUsingCancel: false,
-      handleOk: () => openDialogSuccess('New Sprint has been added'),
+  const dialogWarning = () => {
+    openDialogWarning('Add New Sprint', 'Are you sure you want to add new sprint?', {
+      subDescription: `Next sprint will be Sprint ${data && data?.newestSprint ? data.newestSprint + 1 : 1}`,
+      handleOk: handleAddNewSprint,
     });
   };
 
   const sprintButton = (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Typography fontSize={16}>Sprint</Typography>
-      <IconButton color="primary" onClick={openDialogWarning}>
+      <IconButton color="primary" onClick={dialogWarning}>
         <AddCircleOutlined />
       </IconButton>
     </Box>
@@ -89,7 +78,7 @@ const ProjectOverviewSprint = ({ data, loading }: ProjectOverviewSprintProps) =>
       <TableHeader header={sprintButton} />
       <Box sx={{ height: 20 }} />
       <DataTable
-        rows={data}
+        rows={sprints}
         columns={tableHeaders}
         onRowClick={redirectSprintPage}
         paginationMode="client"
@@ -97,7 +86,7 @@ const ProjectOverviewSprint = ({ data, loading }: ProjectOverviewSprintProps) =>
         rowCount={undefined}
         loading={loading}
       />
-      <BaseDialogAlert handleCancel={dialogHandler} handleOk={dialogHandler} {...dialogAlertOpt} />
+      <BaseDialogAlert handleCancel={closeDialogAlert} {...dialogAlertOpt} loading={isLoading} />
     </>
   );
 };

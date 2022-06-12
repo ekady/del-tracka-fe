@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // MUI Components
-import { Box, Button, ButtonGroup } from '@mui/material';
+import { Box, Button, ButtonGroup, Typography } from '@mui/material';
 
 // Local Components
 import { ProjectIssueActivity, ProjectIssueComments, ProjectIssueForm } from './';
@@ -21,7 +21,14 @@ const images = [
 // View: Disabled form, contain form without upload image, media, comments, logs
 // Edit: Form contain upload image, comments, logs
 
-const ProjectIssueDetail = () => {
+export type ProjectIssueDetailProps = {
+  category: 'create' | 'edit' | 'detail';
+};
+
+const ProjectIssueDetail = ({ category }: ProjectIssueDetailProps) => {
+  const isDetail = category === 'detail';
+  const isCreate = category === 'create';
+
   const [tab, setTab] = useState<string>('form');
 
   const setVariantButton = (type: string) => {
@@ -34,26 +41,39 @@ const ProjectIssueDetail = () => {
   };
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="center">
+      <Box display={isCreate ? 'none' : 'flex'} alignItems="center" justifyContent="center">
         <ButtonGroup disableElevation variant="outlined" aria-label="outlined primary button group">
           <Button variant={setVariantButton('form')} onClick={() => onClickButton('form')}>
             Form
           </Button>
-          <Button variant={setVariantButton('media')} onClick={() => onClickButton('media')}>
-            Media
-          </Button>
-          <Button variant={setVariantButton('comments')} onClick={() => onClickButton('comments')}>
-            Comments
-          </Button>
-          <Button variant={setVariantButton('activities')} onClick={() => onClickButton('activities')}>
-            Activities
-          </Button>
+          {!isCreate && (
+            <>
+              {isDetail && (
+                <Button variant={setVariantButton('media')} onClick={() => onClickButton('media')}>
+                  Media
+                </Button>
+              )}
+              <Button variant={setVariantButton('comments')} onClick={() => onClickButton('comments')}>
+                Comments
+              </Button>
+              <Button variant={setVariantButton('activities')} onClick={() => onClickButton('activities')}>
+                Activities
+              </Button>
+            </>
+          )}
         </ButtonGroup>
       </Box>
+      {isCreate && (
+        <Box>
+          <Typography variant="h6" component="h2">
+            New Issues
+          </Typography>
+        </Box>
+      )}
 
       <Box height={40} />
 
-      {tab === 'form' && <ProjectIssueForm />}
+      {tab === 'form' && <ProjectIssueForm hideUploadFile={isDetail} disabled={isDetail} />}
       {tab === 'comments' && <ProjectIssueComments />}
       {tab === 'activities' && <ProjectIssueActivity />}
       {tab === 'media' && (

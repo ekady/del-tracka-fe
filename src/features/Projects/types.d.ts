@@ -1,3 +1,5 @@
+import { Thumbnail } from '@/common/base/FileUploader';
+import { AutocompleteOptions } from '@/types';
 import { ProjectRoles } from './constant/role';
 
 export declare type ProjectRolesType = keyof typeof ProjectRoles;
@@ -18,6 +20,7 @@ export declare type SprintType = {
   inProgress?: number;
   review?: number;
   close?: number;
+  newestSprint?: number | null;
 };
 
 export declare type ProjectRequest = {
@@ -33,4 +36,31 @@ export declare type ProjectResponse = ProjectRequest & {
   totalInProgress?: number;
   totalReview?: number;
   totalClose?: number;
+  newestSprint?: number | null;
+};
+
+export declare type ProjectSprintIssueDetail = {
+  id: string;
+  mainProblem: string;
+  feature: string;
+  reporter: AutocompleteOptions | null;
+  assignee?: AutocompleteOptions | null;
+  detail?: string;
+  level: AutocompleteOptions | null;
+  image?: FileIndexable | null;
+  imageUrl?: Thumbnail[];
+};
+
+export declare type ProjectSprintIssue = ProjectSprintIssueDetail & {
+  status: StatusType;
+  bugNumber: string;
+  dateUpdated: string;
+  assigneeAvatar?: string | null;
+};
+
+export declare type ProjectSprintInfo = {
+  idProject: string;
+  projectName: string;
+  idSprint: string;
+  sprint: string;
 };

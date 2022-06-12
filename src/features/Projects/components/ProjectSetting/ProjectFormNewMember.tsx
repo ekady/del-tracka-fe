@@ -1,5 +1,5 @@
 // React
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -17,28 +17,34 @@ import { ProjectRolesArray } from '../../constant/role';
 import { ProjectMemberRequest, useAddMemberMutation } from '../../store/project.api.slice';
 
 import { toast } from 'react-toastify';
+import { AutocompleteOptions, FunctionVoidWithParams } from '@/types';
 
 const ProjectFormNewMember = () => {
   const projectId = useRouter().query.project_id as string;
-  const [addMember, { isLoading }] = useAddMemberMutation();
+  const [addMember, { isLoading, fulfilledTimeStamp, isUninitialized }] = useAddMemberMutation();
+  const [labelRole, setLabelRole] = useState<AutocompleteOptions | null>(null);
   const {
     handleSubmit,
     formState: { errors },
     control,
-    resetField,
-  } = useForm<ProjectMemberRequest>({ mode: 'all', defaultValues: { role: 'MAINTAINER' } });
+    reset,
+  } = useForm<ProjectMemberRequest>({ mode: 'all', defaultValues: { role: '', id: '' } });
 
   const validation = {
     id: { required: true },
     role: { required: true },
   };
 
+  const onChangeAutoComplete = (onChangeForm: FunctionVoidWithParams<string>, item: AutocompleteOptions | null) => {
+    onChangeForm(item?.value ?? '');
+    setLabelRole(item);
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       const response = await addMember({ id: projectId, body: { id: data.id, role: data.role } });
       if ('data' in response) {
-        toast.success('Member added successfully');
-        resetField('id', { defaultValue: '' });
+        toast.success('Member added successfully: ' + data.id);
       }
     } catch {
       //
@@ -46,9 +52,11 @@ const ProjectFormNewMember = () => {
   });
 
   useEffect(() => {
-    resetField('id', { defaultValue: '' });
-    resetField('role', { defaultValue: 'MAINTAINER' });
-  }, [projectId, resetField]);
+    if (fulfilledTimeStamp || isUninitialized) {
+      reset();
+      setLabelRole(null);
+    }
+  }, [projectId, reset, fulfilledTimeStamp, isUninitialized]);
 
   return (
     <Grid container columns={12} columnSpacing={1} alignItems="start" justifyContent="space-between">
@@ -59,7 +67,11 @@ const ProjectFormNewMember = () => {
           defaultValue=""
           rules={validation.id}
           render={({ field }) => (
-            <CustomInput fieldname="User" error={errors.id} TextFieldProps={{ placeholder: 'Enter user', ...field }} />
+            <CustomInput
+              fieldname="User"
+              error={errors.id}
+              TextFieldProps={{ placeholder: 'Enter user', ...field, disabled: isLoading }}
+            />
           )}
         />
       </Grid>
@@ -68,13 +80,13 @@ const ProjectFormNewMember = () => {
           name="role"
           control={control}
           rules={validation.role}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange } }) => (
             <Autocomplete
               id="tags-outlined"
               options={ProjectRolesArray}
-              onChange={(_, item) => onChange(item?.value)}
-              value={ProjectRolesArray.find((item) => item.value === value)}
-              disableClearable
+              disableClearable={!!labelRole}
+              value={labelRole}
+              onChange={(_, item) => onChangeAutoComplete(onChange, item)}
               renderInput={(params) => (
                 <CustomInput
                   fieldname="Role"

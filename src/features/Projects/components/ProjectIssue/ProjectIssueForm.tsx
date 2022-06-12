@@ -1,84 +1,188 @@
 // MUI Components
-import { level } from '@/common/constants';
 import { Autocomplete, Button, Grid } from '@mui/material';
 
 // Local Components
 import { CustomInput, FileUploader } from '@/common/base';
 
-export type IssueFormType = {
-  mainProblem: string;
-  feature: string;
-  reporter: string;
-  assignTo?: string;
-  detail?: string;
-  priority: string;
-};
+import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
+
+import { ProjectSprintIssueDetail } from '../../types';
+import { levelList } from '@/common/constants/level';
 
 export type ProjectIssueFormProps = {
-  data?: IssueFormType;
+  data?: ProjectSprintIssueDetail;
   hideUploadFile?: boolean;
+  disabled?: boolean;
 };
 
-export default function ProjectIssueForm({ hideUploadFile }: ProjectIssueFormProps) {
+type ProjectSprintIssueDetailForm = {
+  [key in keyof ProjectSprintIssueDetail]: RegisterOptions;
+};
+
+const defaultValue: ProjectSprintIssueDetail = {
+  id: '',
+  feature: '',
+  level: null,
+  mainProblem: '',
+  reporter: null,
+  assignee: null,
+  detail: '',
+  image: null,
+};
+
+export default function ProjectIssueForm({ hideUploadFile, disabled, data }: ProjectIssueFormProps) {
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ mode: 'all', defaultValues: data ?? defaultValue });
+
+  const validations: ProjectSprintIssueDetailForm = {
+    id: { required: false },
+    feature: { required: true },
+    level: { required: true },
+    mainProblem: { required: true },
+    reporter: { required: false },
+    assignee: { required: false },
+    detail: { required: true },
+    image: { required: false },
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+  });
+
   return (
     <>
       <Grid container columnSpacing={3} component="main">
         <Grid item xs={12} md={6}>
-          <CustomInput
-            fieldname="Main Problem"
-            // error={errors.mainProblem}
-            TextFieldProps={{ placeholder: 'Enter main problem' }}
-          />
-          <CustomInput
-            fieldname="Feature"
-            // error={errors.mainProblem}
-            TextFieldProps={{ placeholder: 'Enter feature' }}
-          />
-          <Autocomplete
-            options={[]}
-            renderInput={(params) => (
+          <Controller
+            name="mainProblem"
+            control={control}
+            rules={validations.mainProblem}
+            render={({ field }) => (
               <CustomInput
-                fieldname="Reporter"
-                // error={errors.mainProblem}
-                TextFieldProps={{ placeholder: 'Enter reporter', ...params, size: 'small' }}
+                fieldname="Main Problem"
+                error={errors.mainProblem}
+                TextFieldProps={{ placeholder: 'Enter main problem', disabled, ...field }}
               />
             )}
           />
-          <Autocomplete
-            options={[]}
-            renderInput={(params) => (
+          <Controller
+            name="feature"
+            control={control}
+            rules={validations.feature}
+            render={({ field }) => (
               <CustomInput
-                fieldname="Assign To"
-                // error={errors.mainProblem}
-                TextFieldProps={{ placeholder: 'Enter assign to', ...params, size: 'small' }}
+                fieldname="Feature"
+                error={errors.feature}
+                TextFieldProps={{ placeholder: 'Enter feature', disabled, ...field }}
+              />
+            )}
+          />
+          <Controller
+            name="reporter"
+            control={control}
+            rules={validations.reporter}
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
+                options={[]}
+                disabled={disabled}
+                disableClearable={!!value}
+                value={value ? value : null}
+                onChange={(_, item) => onChange(item)}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                renderInput={(params) => (
+                  <CustomInput
+                    fieldname="Reporter"
+                    error={errors.reporter as FieldError}
+                    TextFieldProps={{ placeholder: 'Enter reporter', ...params, size: 'small' }}
+                  />
+                )}
+              />
+            )}
+          />
+          <Controller
+            name="assignee"
+            control={control}
+            rules={validations.assignee}
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
+                options={[]}
+                disabled={disabled}
+                disableClearable={!!value}
+                value={value ? value : null}
+                onChange={(_, item) => onChange(item)}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                renderInput={(params) => (
+                  <CustomInput
+                    fieldname="Assign To"
+                    error={errors.assignee as FieldError}
+                    TextFieldProps={{ placeholder: 'Enter assign to', ...params, size: 'small' }}
+                  />
+                )}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Autocomplete
-            options={Object.keys(level)}
-            renderInput={(params) => (
-              <CustomInput
-                fieldname="Priority"
-                // error={errors.mainProblem}
-                TextFieldProps={{ placeholder: 'Enter priority', ...params, size: 'small' }}
+          <Controller
+            name="level"
+            control={control}
+            rules={validations.level}
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
+                options={levelList}
+                disabled={disabled}
+                disableClearable={!!value}
+                value={value ? value : null}
+                onChange={(_, item) => onChange(item)}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                renderInput={(params) => (
+                  <CustomInput
+                    fieldname="Priority"
+                    error={errors.level as FieldError}
+                    TextFieldProps={{ placeholder: 'Enter level', ...params, size: 'small' }}
+                  />
+                )}
               />
             )}
           />
-          <CustomInput
-            fieldname="Detail"
-            // error={errors.mainProblem}
-            TextFieldProps={{ placeholder: 'Enter detail', multiline: true, rows: 8 }}
+          <Controller
+            name="detail"
+            control={control}
+            rules={validations.detail}
+            render={({ field }) => (
+              <CustomInput
+                fieldname="Detail"
+                error={errors.detail}
+                TextFieldProps={{ placeholder: 'Enter detail', disabled, multiline: true, rows: 8, ...field }}
+              />
+            )}
           />
         </Grid>
         {!hideUploadFile && (
           <Grid item xs={12} marginTop={2}>
-            <FileUploader multiple />
+            <Controller
+              name="image"
+              control={control}
+              rules={validations.image}
+              render={({ field: { value, onChange } }) => (
+                <FileUploader
+                  multiple
+                  disabled={disabled}
+                  error={errors.image}
+                  value={value}
+                  handleValue={(img) => onChange(img)}
+                />
+              )}
+            />
           </Grid>
         )}
         <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end' }}>
-          <Button variant="contained">Save</Button>
+          <Button variant="contained" onClick={onSubmit}>
+            Save
+          </Button>
         </Grid>
       </Grid>
     </>

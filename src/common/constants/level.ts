@@ -1,4 +1,4 @@
-import { InformationWithColor } from '@/types';
+import { AutocompleteOptions, InformationWithColor } from '@/types';
 
 export type LevelType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
 
@@ -38,5 +38,10 @@ const LEVEL: LevelIndexable = {
     value: 'LOW',
   },
 };
+
+export const levelList: readonly AutocompleteOptions[] = Object.keys(LEVEL).map((level) => ({
+  value: LEVEL[level as LevelType].value as string,
+  label: LEVEL[level as LevelType].name as string,
+}));
 
 export default LEVEL;

@@ -6,11 +6,11 @@ import { LayoutDefault } from '@/common/layout';
 import ProjectIssueDetail from '@/features/Projects/components/ProjectIssueDetail';
 import LayoutProject from '@/features/Projects/layout/LayoutProject';
 
-const ProjectSprintIssuePage = () => {
-  return <ProjectIssueDetail category="detail" />;
+const ProjectSprintNewIssuePage = () => {
+  return <ProjectIssueDetail category="create" />;
 };
 
-ProjectSprintIssuePage.getLayout = (page: ReactElement) => {
+ProjectSprintNewIssuePage.getLayout = (page: ReactElement) => {
   return (
     <LayoutDefault>
       <LayoutProject hideMenu content={page} />
@@ -18,4 +18,4 @@ ProjectSprintIssuePage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default ProjectSprintIssuePage;
+export default ProjectSprintNewIssuePage;

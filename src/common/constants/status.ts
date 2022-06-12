@@ -1,4 +1,4 @@
-import { InformationWithColor } from '@/types';
+import { AutocompleteOptions, InformationWithColor } from '@/types';
 
 export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'CLOSE' | 'HOLD';
 
@@ -38,5 +38,10 @@ const STATUS: StatusIndexable = {
     textColor: '#000',
   },
 };
+
+export const statusList: readonly AutocompleteOptions[] = Object.keys(STATUS).map((status) => ({
+  value: STATUS[status as StatusType].value as string,
+  label: STATUS[status as StatusType].name as string,
+}));
 
 export default STATUS;

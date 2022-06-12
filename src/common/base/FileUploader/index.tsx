@@ -21,7 +21,6 @@ import {
   FilesUploadContainer,
   FileTextContainer,
   ImageContainer,
-  ImageWraper,
   InputFile,
   RemoveIconButton,
 } from './styled';
@@ -210,27 +209,32 @@ const FileUploader = ({
             {!imageFullWidth && !disabled && <Box marginBottom={3}>{buttonUploadContainer}</Box>}
             <FilesContainer sx={{ overflow: imageFullWidth ? 'hidden' : 'auto', height: imageFullWidth ? '100%' : '80%' }}>
               {Object.keys(value).map((file) => (
-                <Box key={file} margin={1} width={imageFullWidth ? '100%' : 'unset'} height={imageFullWidth ? '100%' : '80%'}>
+                <Box
+                  key={file}
+                  margin={1}
+                  width={imageFullWidth ? '100%' : 'unset'}
+                  height={imageFullWidth ? '100%' : '80%'}
+                  position="relative"
+                >
                   <ImageContainer
                     sx={{
+                      position: 'relative',
                       width: imageFullWidth ? '100%' : sizes.image.width,
                       height: imageFullWidth ? '100%' : sizes.image.height,
                     }}
                   >
-                    <ImageWraper>
-                      <Image
-                        src={extractSrcThumbnailFile(value[file])}
-                        alt={getFileExtension(file)}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                    </ImageWraper>
-                    {!hideRemoveIcon && !disabled && (
-                      <RemoveIconButton onClick={() => removeFile(file)}>
-                        <Cancel />
-                      </RemoveIconButton>
-                    )}
+                    <Image
+                      src={extractSrcThumbnailFile(value[file])}
+                      alt={getFileExtension(file)}
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </ImageContainer>
+                  {!hideRemoveIcon && !disabled && (
+                    <RemoveIconButton onClick={() => removeFile(file)}>
+                      <Cancel />
+                    </RemoveIconButton>
+                  )}
                   {!hideTextFile && (
                     <FileTextContainer width={imageFullWidth ? '100%' : sizes.image.width}>
                       <Typography fontWeight="bold" fontSize={12}>

@@ -7,19 +7,14 @@ import { Box } from '@mui/material';
 import { LayoutDefault } from '@/common/layout';
 import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/Dashboard/components';
 
-import { useAppDispatch } from '@/common/store/store';
-import { resetApiState, useLazyGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
+import { useLazyGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
 
 const DashboardPage = () => {
-  const dispatch = useAppDispatch();
   const [getData] = useLazyGetDashboardDatasQuery();
 
   useEffect(() => {
     getData();
-    return () => {
-      dispatch(resetApiState());
-    };
-  }, [dispatch, getData]);
+  }, [getData]);
 
   return (
     <>

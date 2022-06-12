@@ -1,13 +1,26 @@
+import { FileIndexable } from '@/common/base/FileUploader';
+import { convertImageIndexableFormData, convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
 import { LogsResponse } from '@/features/Logs/store/logs.api.slice';
-import { ProjectMember, ProjectRequest, ProjectResponse } from '../types';
+import { PaginationParams, PaginationResponse } from '@/types';
+import {
+  ProjectMember,
+  ProjectRequest,
+  ProjectResponse,
+  ProjectSprintInfo,
+  ProjectSprintIssue,
+  ProjectSprintIssueDetail,
+  SprintType,
+} from '../types';
 
 export type ProjectMemberRequest = Pick<ProjectMember, 'id' | 'role'>;
 
-type ProjectSettingRequest<T> = {
-  id: string;
-  body: T;
+type ProjectSettingRequest<BodyType, IdType = string> = {
+  id: IdType;
+  body: BodyType;
 };
+
+type ProjectIds = Pick<ProjectSprintInfo, 'idProject' | 'idSprint'> & { idIssue?: string };
 
 export const projectApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
@@ -58,6 +71,58 @@ export const projectApiSlice = apiSlice.injectEndpoints({
         body,
       }),
     }),
+    createNewSprint: builder.mutation<SprintType, ProjectSettingRequest<Pick<SprintType, 'newestSprint'>>>({
+      query: ({ id, body }) => ({
+        url: `/project/${id}/sprint-new`,
+        method: 'post',
+        body,
+      }),
+    }),
+    getSprintInfo: builder.query<ProjectSprintInfo, ProjectIds>({
+      query: ({ idProject, idSprint }) => `/project/${idProject}/info/${idSprint}`,
+    }),
+    getSprintIssues: builder.query<PaginationResponse<ProjectSprintIssue>, ProjectSettingRequest<PaginationParams, ProjectIds>>({
+      query: ({ id, body }) => ({ url: `/project/${id.idProject}/${id.idSprint}`, params: convertParams(body) }),
+    }),
+    getIssue: builder.query<ProjectSprintIssueDetail, ProjectIds>({
+      query: ({ idProject, idSprint, idIssue }) => `/project/${idProject}/${idSprint}/${idIssue}`,
+      transformResponse: (response) => {
+        const res = response as ProjectSprintIssueDetail;
+        if (res.imageUrl && res.imageUrl.length > 0) {
+          res.image = res.imageUrl.reduce((acc, curr) => {
+            acc[curr.src] = curr;
+            return acc;
+          }, {} as FileIndexable);
+        }
+        return res;
+      },
+    }),
+    createUpdateIssue: builder.mutation<ProjectSprintIssueDetail, ProjectSettingRequest<ProjectSprintIssueDetail, ProjectIds>>({
+      query: ({ id, body }) => {
+        const formData = new FormData();
+        const { feature, level, mainProblem, reporter, assignee, detail, image } = body;
+
+        formData.append('feature', feature);
+        formData.append('mainProblem', mainProblem);
+        formData.append('level', level?.value ?? '');
+        formData.append('reporter', reporter?.value ?? '');
+        formData.append('assignee', assignee?.value ?? '');
+        formData.append('detail', detail ?? '');
+        !!image && convertImageIndexableFormData(formData, image, 'image', 'imageOld');
+
+        return {
+          url: `/project/${id.idProject}/${id.idSprint}${id.idIssue ? `/${id.idIssue}` : ''}`,
+          method: id.idIssue ? 'put' : 'post',
+          body: formData,
+        };
+      },
+    }),
+    deleteIssue: builder.mutation<ProjectSprintIssueDetail, ProjectIds>({
+      query: ({ idProject, idSprint, idIssue }) => ({
+        url: `/project/${idProject}/${idSprint}/${idIssue}`,
+        method: 'delete',
+      }),
+    }),
   }),
 });
 
@@ -74,5 +139,10 @@ export const {
   useGetProjectMembersQuery,
   useAddMemberMutation,
   useUpdateRoleMemberMutation,
+  useCreateNewSprintMutation,
+  useGetSprintInfoQuery,
+  useLazyGetSprintInfoQuery,
+  useGetSprintIssuesQuery,
+  useLazyGetSprintIssuesQuery,
 } = projectApiSlice;
 export const { resetApiState } = projectApiSlice.util;

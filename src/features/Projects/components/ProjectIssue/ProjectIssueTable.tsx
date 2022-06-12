@@ -6,42 +6,19 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
-import { TableAction, TableCellLevel, TableCellStatus, TableHeader } from '@/common/base';
+import { DataTable, TableAction, TableCellLevel, TableCellStatus, TableHeader } from '@/common/base';
 import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
-import { DataGridStyled } from '@/common/base/DataTable/styled';
 
 // Types
+import { TableAndSearchProps } from '@/types';
+
 import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
-import { Indexable } from '@/types';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export type ProjectIssueType = {
-  id: string;
-  level: LevelType;
-  status: StatusType;
-  bugNumber: string;
-  mainProblem: string;
-  feature: string;
-  dateUpdated: string;
-  reporter: string;
-  assigneeAvatar: string;
-};
-
-function createData(
-  id: string,
-  level: LevelType,
-  status: StatusType,
-  bugNumber: string,
-  mainProblem: string,
-  feature: string,
-  dateUpdated: string,
-  reporter: string,
-  assigneeAvatar: string,
-): Indexable<string, string> {
-  return { id, level, status, bugNumber, mainProblem, feature, dateUpdated, reporter, assigneeAvatar };
-}
-
-const ProjectIssueTable = () => {
+const ProjectIssueTable = ({ SearchProps, TableProps }: TableAndSearchProps) => {
+  const router = useRouter();
   const renderCellStatus = (params: GridRenderCellParams<string>) => (
     <TableCellStatus
       SelectOption={<ProjectIssueChangeStatus currentStatus={params.value ?? ''} />}
@@ -63,46 +40,19 @@ const ProjectIssueTable = () => {
     { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
   ];
 
-  const rows = [
-    createData(
-      '1',
-      'CRITICAL',
-      'OPEN',
-      '01',
-      'Cannot be saved Cannot be saved Cannot be saved Cannot be saved',
-      'Profile',
-      '2021-01-01',
-      'Reporter',
-      'Chixi',
-    ),
-    createData('2', 'HIGH', 'IN_PROGRESS', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-    createData('3', 'LOW', 'REVIEW', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-    createData('4', 'NORMAL', 'REVIEW', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-    createData('5', 'MEDIUM', 'HOLD', '01', 'Cannot be saved', 'Profile', '2021-01-01', 'Reporter', 'Chixi'),
-    createData('6', 'HIGH', 'CLOSE', '05', 'Cannot be edited', 'Profile', '2021-01-01', 'Reporter', 'Diyos'),
-  ];
-
   const buttonAddIssue = (
-    <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
-      Add New Issue
-    </Button>
+    <Link href={`${router.asPath}/new-issue`} passHref>
+      <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
+        Add New Issue
+      </Button>
+    </Link>
   );
 
   return (
     <>
-      <TableHeader header={buttonAddIssue} isUsingSearch />
+      <TableHeader header={buttonAddIssue} isUsingSearch TextFieldProps={SearchProps} />
       <Box sx={{ height: 20 }} />
-      <DataGridStyled
-        rows={rows}
-        columns={tableHeaders}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
-        disableColumnMenu
-        autoHeight
-        autoPageSize
-        rowHeight={60}
-      />
+      <DataTable rows={[]} columns={tableHeaders} {...TableProps} />
     </>
   );
 };

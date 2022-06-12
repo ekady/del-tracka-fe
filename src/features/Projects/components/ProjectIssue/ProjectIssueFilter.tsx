@@ -1,3 +1,6 @@
+// React
+import { memo } from 'react';
+
 // MUI Component
 import { Autocomplete, Typography } from '@mui/material';
 
@@ -5,16 +8,21 @@ import { Autocomplete, Typography } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import { FilterContainer, FilterListSelectContainer, FilterSelectContainer } from '@/common/base/BaseFilter/styled';
 
-export default function ProjectIssueFilter() {
+import { FilterProps } from '@/types';
+
+import { levelList } from '@/common/constants/level';
+import { statusList } from '@/common/constants/status';
+
+const ProjectIssueFilter = ({ onChange }: FilterProps) => {
   return (
     <FilterContainer>
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>
       <FilterListSelectContainer container columnSpacing={1}>
         <FilterSelectContainer item xs={12} md={6}>
           <Autocomplete
-            multiple
             id="tags-outlined"
-            options={[]}
+            options={levelList}
+            onChange={(_, value) => onChange && onChange('level', value)}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -22,9 +30,9 @@ export default function ProjectIssueFilter() {
         </FilterSelectContainer>
         <FilterSelectContainer item xs={12} md={6}>
           <Autocomplete
-            multiple
             id="tags-outlined"
-            options={[]}
+            options={statusList}
+            onChange={(_, value) => onChange && onChange('status', value)}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}
@@ -33,4 +41,6 @@ export default function ProjectIssueFilter() {
       </FilterListSelectContainer>
     </FilterContainer>
   );
-}
+};
+
+export default memo(ProjectIssueFilter);
