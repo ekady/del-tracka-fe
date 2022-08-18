@@ -2,44 +2,44 @@ import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
 
-export declare type Indexable<KeyType, ValueType> = {
+export type Indexable<KeyType, ValueType> = {
   [key in KeyType]: ValueType;
 };
 
-export declare type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
-export declare type FunctionVoid = () => void;
-export declare type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
+export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
+export type FunctionVoid = () => void;
+export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
 
-export declare type InformationWithColor = {
+export type InformationWithColor = {
   value?: string | number;
   name?: string;
   color: string;
   textColor: string;
 };
 
-export declare type AutocompleteOptions = {
+export type AutocompleteOptions = {
   label: string;
   value: string;
 };
 
-export declare type MenuItem = {
+export type MenuItem = {
   name: string;
   path: string;
   icon: string;
 };
 
-export declare type PropsChildren = {
+export type PropsChildren = {
   children?: ReactNode;
 };
 
-export declare type StaticImageData = {
+export type StaticImageData = {
   src: string;
   height: number;
   width: number;
   placeholder?: string;
 };
 
-export declare type UserType = {
+export type UserType = {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
@@ -48,7 +48,7 @@ export declare type UserType = {
   isFirstLogin: boolean;
 };
 
-export declare type Credential = {
+export type Credential = {
   token: string | null;
   refreshToken: string | null;
 };

@@ -42,7 +42,12 @@ const ProjectOtherSetting = () => {
       <Button variant="outlined" color="warning" onClick={openWarning}>
         <Warning sx={{ mr: 1 }} /> <Typography>Delete This Project</Typography>
       </Button>
-      <BaseDialogAlert handleCancel={closeDialogAlert} handleOk={handleDeleteProject} loading={isLoading} {...dialogAlertOpt} />
+      <BaseDialogAlert
+        handleCancel={closeDialogAlert}
+        handleOk={handleDeleteProject}
+        loading={isLoading}
+        {...dialogAlertOpt}
+      />
     </>
   );
 };

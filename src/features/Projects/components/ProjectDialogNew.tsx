@@ -1,6 +1,6 @@
 // Local Components
 import { BaseDialog } from '@/common/base';
-import { FunctionVoid } from '@/types';
+import { FunctionVoid } from '@/common/types';
 
 // Helper
 import { useForm } from 'react-hook-form';

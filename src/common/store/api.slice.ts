@@ -1,4 +1,4 @@
-import { Credential, UserType } from '@/types';
+import { Credential, UserType } from '@/common/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
 

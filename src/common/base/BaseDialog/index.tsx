@@ -1,7 +1,7 @@
 // MUI Components
 import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { FunctionVoid, PropsChildren } from '@/types';
+import { FunctionVoid, PropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
 
 export type BaseDialogProps = PropsChildren & {

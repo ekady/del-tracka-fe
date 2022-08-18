@@ -10,7 +10,7 @@ import { FormEvent } from 'react';
 
 // Types
 import { ProjectRequest } from '../types';
-import { FunctionVoidWithParams } from '@/types';
+import { FunctionVoidWithParams } from '@/common/types';
 
 export type ProjectNewFormValidation = {
   [key in keyof ProjectRequest]: RegisterOptions;

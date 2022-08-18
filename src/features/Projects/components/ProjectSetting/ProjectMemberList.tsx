@@ -29,7 +29,8 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
 
   const onChangeRole = (userId?: string) => async (role: string) => {
     try {
-      if (userId) await updateRoleMember({ id: projectId, body: { id: userId, role: role.toLowerCase().toUpperCase() } });
+      if (userId)
+        await updateRoleMember({ id: projectId, body: { id: userId, role: role.toLowerCase().toUpperCase() } });
     } catch {
       //
     }

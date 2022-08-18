@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { UserType } from '@/types';
+import { UserType } from '@/common/types';
 
 export interface LoginRequest {
   email: string;

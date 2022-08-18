@@ -28,10 +28,10 @@ import { Drawer, ListItem } from './styled';
 
 // Constant
 import { menu } from '@/common/constants';
-import { MenuItem } from '@/types';
+import { MenuItem } from '@/common/types';
 
 // Local Types
-import { FunctionVoid } from '@/types';
+import { FunctionVoid } from '@/common/types';
 
 export type SideBarProps = {
   isOpen: boolean;

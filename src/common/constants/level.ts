@@ -1,4 +1,4 @@
-import { AutocompleteOptions, InformationWithColor } from '@/types';
+import { AutocompleteOptions, InformationWithColor } from '@/common/types';
 
 export type LevelType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
 

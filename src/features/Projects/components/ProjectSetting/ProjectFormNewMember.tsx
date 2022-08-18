@@ -17,7 +17,7 @@ import { ProjectRolesArray } from '../../constant/role';
 import { ProjectMemberRequest, useAddMemberMutation } from '../../store/project.api.slice';
 
 import { toast } from 'react-toastify';
-import { AutocompleteOptions, FunctionVoidWithParams } from '@/types';
+import { AutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
 
 const ProjectFormNewMember = () => {
   const projectId = useRouter().query.project_id as string;

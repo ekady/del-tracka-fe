@@ -2,7 +2,7 @@
 import { Grid, Typography } from '@mui/material';
 
 // Types
-import { InformationWithColor } from '@/types';
+import { InformationWithColor } from '@/common/types';
 
 export type ProjectOverviewProps = InformationWithColor;
 

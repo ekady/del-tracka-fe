@@ -17,7 +17,7 @@ import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List
 
 // Types
 import { ProjectResponse, SprintType } from '../types';
-import { Indexable } from '@/types';
+import { Indexable } from '@/common/types';
 import { ProjectRoles } from '../constant/role';
 
 export type ProjectListProps = {

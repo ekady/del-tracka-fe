@@ -10,7 +10,7 @@ import { DataTable, TableAction, TableCellLevel, TableCellStatus, TableHeader } 
 import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
 
 // Types
-import { TableAndSearchProps } from '@/types';
+import { TableAndSearchProps } from '@/common/types';
 
 import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
@@ -25,7 +25,9 @@ const ProjectIssueTable = ({ SearchProps, TableProps }: TableAndSearchProps) => 
       status={params.value as StatusType}
     />
   );
-  const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
+  const renderCellLevel = (params: GridRenderCellParams<string>) => (
+    <TableCellLevel level={params.value as LevelType} />
+  );
   const renderCellAction = () => <TableAction />;
 
   const tableHeaders: GridColDef[] = [

@@ -1,7 +1,7 @@
 import { GridColDef } from '@mui/x-data-grid';
 
 import { DataTable } from '@/common/base';
-import { TableAndSearchProps } from '@/types';
+import { TableAndSearchProps } from '@/common/types';
 
 export type LogsProps = TableAndSearchProps & {
   notFullInfo?: boolean;
@@ -17,7 +17,14 @@ const cardNumber: GridColDef = { headerName: 'Card Number', field: 'cardNumber',
 const feature: GridColDef = { headerName: 'Feature', field: 'feature', width: 200, sortable: false };
 const activity: GridColDef = { headerName: 'Activity', field: 'activity', width: 200, sortable: false };
 
-const LogsUI = ({ notFullInfo, isUsingProjectName, isUsingDate, isUsingCardNumber, isUsingFeature, TableProps }: LogsProps) => {
+const LogsUI = ({
+  notFullInfo,
+  isUsingProjectName,
+  isUsingDate,
+  isUsingCardNumber,
+  isUsingFeature,
+  TableProps,
+}: LogsProps) => {
   const tableHeaders: GridColDef[] = [activity];
   if (notFullInfo) {
     if (isUsingFeature) tableHeaders.unshift(feature);

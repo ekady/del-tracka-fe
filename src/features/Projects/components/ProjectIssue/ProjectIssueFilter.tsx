@@ -8,7 +8,7 @@ import { Autocomplete, Typography } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import { FilterContainer, FilterListSelectContainer, FilterSelectContainer } from '@/common/base/BaseFilter/styled';
 
-import { FilterProps } from '@/types';
+import { FilterProps } from '@/common/types';
 
 import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';

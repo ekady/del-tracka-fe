@@ -1,4 +1,4 @@
-import { Credential, UserType } from '@/types';
+import { Credential, UserType } from '@/common/types';
 import { apiSlice } from './api.slice';
 import { RootState } from './store';
 
@@ -21,7 +21,8 @@ export const selectUserEmail = (state: RootState) => selectUser(state)?.email ??
 export const selectUserFirstName = (state: RootState) => selectUser(state)?.firstName ?? initialDataProfile.firstName;
 export const selectUserLastName = (state: RootState) => selectUser(state)?.lastName ?? initialDataProfile.lastName;
 export const selectUserImage = (state: RootState) => selectUser(state)?.imageURL ?? initialDataProfile.imageURL;
-export const selectUserIsFirstLogin = (state: RootState) => selectUser(state)?.isFirstLogin ?? initialDataProfile.isFirstLogin;
+export const selectUserIsFirstLogin = (state: RootState) =>
+  selectUser(state)?.isFirstLogin ?? initialDataProfile.isFirstLogin;
 
 export const selectCredential = (state: RootState) => apiSlice.endpoints.getCredential.select()(state).data;
 export const selectCredentialToken = (state: RootState) => selectCredential(state)?.token ?? initialDataToken.token;

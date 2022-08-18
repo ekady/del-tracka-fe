@@ -1,8 +1,7 @@
-import { FileIndexable } from '@/common/base/FileUploader';
-import { convertImageIndexableFormData, convertParams } from '@/common/helper/convert';
+import { convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
 import { LogsResponse } from '@/features/Logs/store/logs.api.slice';
-import { PaginationParams, PaginationResponse } from '@/types';
+import { PaginationParams, PaginationResponse } from '@/common/types';
 import {
   ProjectMember,
   ProjectRequest,
@@ -81,26 +80,27 @@ export const projectApiSlice = apiSlice.injectEndpoints({
     getSprintInfo: builder.query<ProjectSprintInfo, ProjectIds>({
       query: ({ idProject, idSprint }) => `/project/${idProject}/info/${idSprint}`,
     }),
-    getSprintIssues: builder.query<PaginationResponse<ProjectSprintIssue>, ProjectSettingRequest<PaginationParams, ProjectIds>>({
+    getSprintIssues: builder.query<
+      PaginationResponse<ProjectSprintIssue>,
+      ProjectSettingRequest<PaginationParams, ProjectIds>
+    >({
       query: ({ id, body }) => ({ url: `/project/${id.idProject}/${id.idSprint}`, params: convertParams(body) }),
     }),
     getIssue: builder.query<ProjectSprintIssueDetail, ProjectIds>({
       query: ({ idProject, idSprint, idIssue }) => `/project/${idProject}/${idSprint}/${idIssue}`,
       transformResponse: (response) => {
         const res = response as ProjectSprintIssueDetail;
-        if (res.imageUrl && res.imageUrl.length > 0) {
-          res.image = res.imageUrl.reduce((acc, curr) => {
-            acc[curr.src] = curr;
-            return acc;
-          }, {} as FileIndexable);
-        }
+        res.images = res.imageUrls;
         return res;
       },
     }),
-    createUpdateIssue: builder.mutation<ProjectSprintIssueDetail, ProjectSettingRequest<ProjectSprintIssueDetail, ProjectIds>>({
+    createUpdateIssue: builder.mutation<
+      ProjectSprintIssueDetail,
+      ProjectSettingRequest<ProjectSprintIssueDetail, ProjectIds>
+    >({
       query: ({ id, body }) => {
         const formData = new FormData();
-        const { feature, level, mainProblem, reporter, assignee, detail, image } = body;
+        const { feature, level, mainProblem, reporter, assignee, detail, images } = body;
 
         formData.append('feature', feature);
         formData.append('mainProblem', mainProblem);
@@ -108,10 +108,15 @@ export const projectApiSlice = apiSlice.injectEndpoints({
         formData.append('reporter', reporter?.value ?? '');
         formData.append('assignee', assignee?.value ?? '');
         formData.append('detail', detail ?? '');
-        !!image && convertImageIndexableFormData(formData, image, 'image', 'imageOld');
+        if (images && images.length > 0) {
+          images.forEach((image) => {
+            if (image instanceof File) formData.append('image', image);
+            else formData.append('imageOld', image.name);
+          });
+        }
 
         return {
-          url: `/project/${id.idProject}/${id.idSprint}${id.idIssue ? `/${id.idIssue}` : ''}`,
+          url: `/project/${id.idProject}/${id.idSprint}/${id.idIssue ? id.idIssue : ''}`,
           method: id.idIssue ? 'put' : 'post',
           body: formData,
         };

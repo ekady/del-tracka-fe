@@ -2,7 +2,7 @@
 import { Autocomplete, Button, Grid } from '@mui/material';
 
 // Local Components
-import { CustomInput, FileUploader } from '@/common/base';
+import { CustomInput, FileUploaderMultiple } from '@/common/base';
 
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
@@ -27,7 +27,7 @@ const defaultValue: ProjectSprintIssueDetail = {
   reporter: null,
   assignee: null,
   detail: '',
-  image: null,
+  images: [],
 };
 
 export default function ProjectIssueForm({ hideUploadFile, disabled, data }: ProjectIssueFormProps) {
@@ -45,11 +45,11 @@ export default function ProjectIssueForm({ hideUploadFile, disabled, data }: Pro
     reporter: { required: false },
     assignee: { required: false },
     detail: { required: true },
-    image: { required: false },
+    images: { required: true },
   };
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (form) => {
+    console.log(form);
   });
 
   return (
@@ -91,7 +91,7 @@ export default function ProjectIssueForm({ hideUploadFile, disabled, data }: Pro
                 disableClearable={!!value}
                 value={value ? value : null}
                 onChange={(_, item) => onChange(item)}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
+                isOptionEqualToValue={(option, val) => option.value === val.value}
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Reporter"
@@ -113,7 +113,7 @@ export default function ProjectIssueForm({ hideUploadFile, disabled, data }: Pro
                 disableClearable={!!value}
                 value={value ? value : null}
                 onChange={(_, item) => onChange(item)}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
+                isOptionEqualToValue={(option, val) => option.value === val.value}
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Assign To"
@@ -137,7 +137,7 @@ export default function ProjectIssueForm({ hideUploadFile, disabled, data }: Pro
                 disableClearable={!!value}
                 value={value ? value : null}
                 onChange={(_, item) => onChange(item)}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
+                isOptionEqualToValue={(option, val) => option.value === val.value}
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Priority"
@@ -164,16 +164,15 @@ export default function ProjectIssueForm({ hideUploadFile, disabled, data }: Pro
         {!hideUploadFile && (
           <Grid item xs={12} marginTop={2}>
             <Controller
-              name="image"
+              name="images"
               control={control}
-              rules={validations.image}
+              rules={validations.images}
               render={({ field: { value, onChange } }) => (
-                <FileUploader
-                  multiple
+                <FileUploaderMultiple
                   disabled={disabled}
-                  error={errors.image}
+                  error={errors.images as FieldError}
                   value={value}
-                  handleValue={(img) => onChange(img)}
+                  handleValue={(imgs) => onChange(imgs)}
                 />
               )}
             />

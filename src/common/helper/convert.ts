@@ -1,6 +1,4 @@
-import { PaginationParams, PaginationParamsText } from '@/types';
-import { FileIndexable, Thumbnail } from '../base/FileUploader';
-
+import { PaginationParams, PaginationParamsText } from '@/common/types';
 export const convertFileToUrl = (file: File | string | null): string => {
   if (file) {
     if (file instanceof File) return URL.createObjectURL(file);
@@ -20,22 +18,6 @@ export function formatBytes(bytes?: number, decimals = 2) {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
-
-export const convertImageIndexableFormData = (
-  formData: FormData,
-  image: FileIndexable,
-  keyFile: string,
-  keyThumbnail?: string,
-): void => {
-  if (image && Object.keys(image).length) {
-    Object.keys(image).forEach((img) => {
-      if (!!image && image[img]) {
-        if ('src' in image[img] && keyThumbnail) formData.append(keyThumbnail, (image[img] as Thumbnail).src);
-        else formData.append(keyFile, image[img] as File);
-      }
-    });
-  }
-};
 
 export const convertParams = (params?: PaginationParams): PaginationParams => {
   if (params) {

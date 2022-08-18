@@ -1,4 +1,4 @@
-import { FunctionVoid } from '@/types';
+import { FunctionVoid } from '@/common/types';
 import { useState } from 'react';
 import { BaseDialogAlertProps } from '.';
 
@@ -18,7 +18,12 @@ const useDialogAlert = () => {
     if (callback && typeof callback === 'function') callback();
   };
 
-  const openDialogSuccess = (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+  const openDialogSuccess = (
+    title?: string,
+    description?: string,
+    options?: BaseDialogOption,
+    callback?: FunctionVoid,
+  ) => {
     setDialogAlertOpt((option) => ({
       ...option,
       isOpen: true,
@@ -32,7 +37,12 @@ const useDialogAlert = () => {
     callback && callback();
   };
 
-  const openDialogError = (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+  const openDialogError = (
+    title?: string,
+    description?: string,
+    options?: BaseDialogOption,
+    callback?: FunctionVoid,
+  ) => {
     setDialogAlertOpt((option) => ({
       ...option,
       isOpen: true,
@@ -46,7 +56,12 @@ const useDialogAlert = () => {
     callback && callback();
   };
 
-  const openDialogWarning = (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+  const openDialogWarning = (
+    title?: string,
+    description?: string,
+    options?: BaseDialogOption,
+    callback?: FunctionVoid,
+  ) => {
     setDialogAlertOpt((option) => ({
       ...option,
       isOpen: true,

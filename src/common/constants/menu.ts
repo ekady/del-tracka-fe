@@ -1,4 +1,4 @@
-import { MenuItem } from '@/types';
+import { MenuItem } from '@/common/types';
 
 const menu: readonly MenuItem[] = [
   { name: 'Dashboard', path: '/dashboard', icon: 'assessment' },

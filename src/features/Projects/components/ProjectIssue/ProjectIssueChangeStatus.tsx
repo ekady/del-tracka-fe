@@ -5,7 +5,7 @@ import { TableMenuSelection } from '@/common/base';
 import STATUS, { StatusType } from '@/common/constants/status';
 
 // Types
-import { FunctionVoidWithParams, Indexable } from '@/types';
+import { FunctionVoidWithParams, Indexable } from '@/common/types';
 
 export type ProjectIssueChangeStatusProps = {
   currentStatus: string;

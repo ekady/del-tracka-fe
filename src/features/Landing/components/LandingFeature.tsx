@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Components
 import { Box, Grid, Typography } from '@mui/material';
 
-import { StaticImageData } from '@/types';
+import { StaticImageData } from '@/common/types';
 
 export type FeatureText = {
   title: string;

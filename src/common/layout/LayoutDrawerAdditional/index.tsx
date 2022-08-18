@@ -22,7 +22,13 @@ export type LayoutDefaultWithDrawerProps = {
 
 const drawerWidth = SIDEBAR_WIDTH + 40;
 
-const LayoutDrawerAdditional = ({ menuList, content, hideMenu, mediaQueryForShow, isMenu }: LayoutDefaultWithDrawerProps) => {
+const LayoutDrawerAdditional = ({
+  menuList,
+  content,
+  hideMenu,
+  mediaQueryForShow,
+  isMenu,
+}: LayoutDefaultWithDrawerProps) => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const showQuery = useMediaQuery(theme.breakpoints.up(mediaQueryForShow || 'lg'));

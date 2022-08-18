@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Credential, StateStore, UserType } from '@/types';
+import { Credential, StateStore, UserType } from '@/common/types';
 
 type UserInfoResponse = {
   credential: Credential;

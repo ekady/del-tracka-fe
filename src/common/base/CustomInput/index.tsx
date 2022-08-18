@@ -36,7 +36,10 @@ const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: Cu
         fullWidth
         {...TextFieldProps}
         sx={{ ...defaultStyle, ...TextFieldProps?.sx }}
-        InputProps={{ ...TextFieldProps?.InputProps, sx: { backgroundColor: 'white', ...TextFieldProps?.InputProps?.sx } }}
+        InputProps={{
+          ...TextFieldProps?.InputProps,
+          sx: { backgroundColor: 'white', ...TextFieldProps?.InputProps?.sx },
+        }}
       />
     </>
   );

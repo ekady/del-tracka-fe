@@ -13,7 +13,7 @@ import { Container } from '@mui/material';
 // Icons
 import { IconLogo } from '@/common/icons';
 
-import { PropsChildren } from '@/types';
+import { PropsChildren } from '@/common/types';
 
 const LayoutAuth = ({ children }: PropsChildren) => {
   const theme = useTheme();

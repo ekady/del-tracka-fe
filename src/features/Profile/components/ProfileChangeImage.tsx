@@ -2,11 +2,11 @@
 import { Box, Typography } from '@mui/material';
 
 // Local Components
-import { FileUploader } from '@/common/base';
+import { FileUploaderSingle } from '@/common/base';
 
 import { ProfileChildProps } from './Profile';
-import { Controller, FieldError, RegisterOptions } from 'react-hook-form';
-import { FileIndexable } from '@/common/base/FileUploader';
+import { Controller, RegisterOptions } from 'react-hook-form';
+import { Thumbnail } from '@/common/base/FileUploader/types';
 
 export type ProfileImage = {
   image?: RegisterOptions;
@@ -38,21 +38,19 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
       <Controller
         name="image"
         control={control}
-        defaultValue={{}}
+        defaultValue={null}
         rules={formOptions.image}
         render={({ field }) => (
-          <FileUploader
-            hideRemoveIcon
+          <FileUploaderSingle
             hideTextFile
             buttonOutsideContainer
-            imageFullWidth
             widthContainer={200}
             heightContainer={200}
             buttonUploadText="Change Image"
             disabled={disabled}
-            error={errors.image as FieldError}
+            error={errors.image}
             value={field.value}
-            handleValue={(file: FileIndexable) => field.onChange(file)}
+            handleValue={(file: File | Thumbnail | null) => field.onChange(file)}
           />
         )}
       />

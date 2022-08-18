@@ -1,4 +1,4 @@
-import { AutocompleteOptions } from '@/types';
+import { AutocompleteOptions } from '@/common/types';
 
 export enum ProjectRoles {
   ADMIN = 'ADMIN',

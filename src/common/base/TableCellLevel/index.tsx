@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 // MUI
 import { Chip, ChipProps } from '@mui/material';
 
-import { FunctionVoidWithParams } from '@/types';
+import { FunctionVoidWithParams } from '@/common/types';
 import LEVEL, { LevelType } from '@/common/constants/level';
 
 export type TableCellLevelProps = {

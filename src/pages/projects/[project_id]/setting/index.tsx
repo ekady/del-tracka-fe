@@ -11,7 +11,7 @@ import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/featu
 import LayoutProject from '@/features/Projects/layout/LayoutProject';
 import { ListButton, ListContainer, ListContentContainer, ListItemContainer } from '@/common/base/List/styled';
 
-import { Indexable } from '@/types';
+import { Indexable } from '@/common/types';
 import { useRouter } from 'next/router';
 
 const menus = [

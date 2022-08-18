@@ -5,7 +5,7 @@ import { ReactElement } from 'react';
 import { Chip, ChipProps } from '@mui/material';
 
 import STATUS, { StatusType } from '@/common/constants/status';
-import { FunctionVoidWithParams } from '@/types';
+import { FunctionVoidWithParams } from '@/common/types';
 
 export type TableCellStatusProps = {
   status?: StatusType;

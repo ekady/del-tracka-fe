@@ -7,7 +7,7 @@ import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
 
-import { FunctionVoid, PropsChildren } from '@/types';
+import { FunctionVoid, PropsChildren } from '@/common/types';
 
 export type TableActionProps = PropsChildren & {
   hideView?: boolean;
@@ -18,7 +18,15 @@ export type TableActionProps = PropsChildren & {
   handleEdit?: FunctionVoid;
 };
 
-const TableAction = ({ children, handleDelete, handleEdit, handleView, hideDelete, hideEdit, hideView }: TableActionProps) => {
+const TableAction = ({
+  children,
+  handleDelete,
+  handleEdit,
+  handleView,
+  hideDelete,
+  hideEdit,
+  hideView,
+}: TableActionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClose = (fn?: FunctionVoid) => {

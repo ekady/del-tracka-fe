@@ -1,4 +1,4 @@
-import { Indexable } from '@/types';
+import { Indexable } from '@/common/types';
 
 const validationMessages: Indexable<string, string> = {
   required: '{attribute} is required.',

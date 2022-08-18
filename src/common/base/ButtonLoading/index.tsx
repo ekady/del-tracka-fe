@@ -1,4 +1,4 @@
-import { PropsChildren } from '@/types';
+import { PropsChildren } from '@/common/types';
 import { Button, ButtonProps, CircularProgress } from '@mui/material';
 
 export type ButtonLoadingProps = ButtonProps &

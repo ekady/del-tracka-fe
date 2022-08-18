@@ -7,7 +7,7 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Local Components
 import { Header } from '@/common/base';
 
-import { PropsChildren } from '@/types';
+import { PropsChildren } from '@/common/types';
 
 const LayoutDefault = ({ children }: PropsChildren) => {
   const theme = useTheme();

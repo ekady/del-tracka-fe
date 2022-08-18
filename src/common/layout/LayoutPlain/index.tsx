@@ -13,7 +13,7 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Icons
 import { IconLogo } from '@/common/icons';
 
-import { PropsChildren } from '@/types';
+import { PropsChildren } from '@/common/types';
 
 const LayoutPlain = ({ children }: PropsChildren) => {
   const theme = useTheme();

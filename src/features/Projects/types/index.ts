@@ -1,8 +1,9 @@
-import { Thumbnail } from '@/common/base/FileUploader';
-import { AutocompleteOptions } from '@/types';
-import { ProjectRoles } from './constant/role';
+import { Thumbnail } from '@/common/base/FileUploader/types';
+import { StatusType } from '@/common/constants/status';
+import { AutocompleteOptions } from '@/common/types';
+import { ProjectRoles } from '../constant/role';
 
-export declare type ProjectRolesType = keyof typeof ProjectRoles;
+export type ProjectRolesType = keyof typeof ProjectRoles;
 
 export type ProjectMember = {
   id: string;
@@ -13,7 +14,7 @@ export type ProjectMember = {
   roleName: string;
 };
 
-export declare type SprintType = {
+export type SprintType = {
   id: string;
   name: string;
   open?: number;
@@ -23,12 +24,12 @@ export declare type SprintType = {
   newestSprint?: number | null;
 };
 
-export declare type ProjectRequest = {
+export type ProjectRequest = {
   name: string;
   description: string;
 };
 
-export declare type ProjectResponse = ProjectRequest & {
+export type ProjectResponse = ProjectRequest & {
   id: string;
   sprints: SprintType[];
   asRole: ProjectRolesType;
@@ -39,7 +40,7 @@ export declare type ProjectResponse = ProjectRequest & {
   newestSprint?: number | null;
 };
 
-export declare type ProjectSprintIssueDetail = {
+export type ProjectSprintIssueDetail = {
   id: string;
   mainProblem: string;
   feature: string;
@@ -47,18 +48,18 @@ export declare type ProjectSprintIssueDetail = {
   assignee?: AutocompleteOptions | null;
   detail?: string;
   level: AutocompleteOptions | null;
-  image?: FileIndexable | null;
-  imageUrl?: Thumbnail[];
+  images?: (File | Thumbnail)[] | null;
+  imageUrls?: Thumbnail[];
 };
 
-export declare type ProjectSprintIssue = ProjectSprintIssueDetail & {
+export type ProjectSprintIssue = ProjectSprintIssueDetail & {
   status: StatusType;
   bugNumber: string;
   dateUpdated: string;
   assigneeAvatar?: string | null;
 };
 
-export declare type ProjectSprintInfo = {
+export type ProjectSprintInfo = {
   idProject: string;
   projectName: string;
   idSprint: string;

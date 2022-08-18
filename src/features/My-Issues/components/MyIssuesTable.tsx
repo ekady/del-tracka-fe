@@ -5,11 +5,13 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 // Constants
 import { TableAction, TableHeader, TableCellStatus, TableCellLevel, DataTable } from '@/common/base';
 
-import { TableAndSearchProps } from '@/types';
+import { TableAndSearchProps } from '@/common/types';
 import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
 
-const renderCellStatus = (params: GridRenderCellParams<string>) => <TableCellStatus status={params.value as StatusType} />;
+const renderCellStatus = (params: GridRenderCellParams<string>) => (
+  <TableCellStatus status={params.value as StatusType} />
+);
 const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
 const renderCellAction = () => <TableAction />;
 

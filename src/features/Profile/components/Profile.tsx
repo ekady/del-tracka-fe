@@ -10,7 +10,7 @@ import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 // Local Components
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/types';
+import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import { ProfileRequest } from '../store/profile.api.slice';
 
 export type ProfileChildProps<T> = {
@@ -40,7 +40,7 @@ const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton
     lastName: { required: true },
   };
 
-  const validationImage = { image: { required: true } };
+  const validationImage = { image: { required: false } };
 
   const validationChangePassword = {
     resetPassword: { required: true },
@@ -108,7 +108,7 @@ const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton
         <Box>
           {isEditable ? (
             <Button fullWidth variant="contained" sx={{ mt: 4 }} onClick={onSubmit} disabled={disabled}>
-              Save {isFirstTime ? 'and Next' : ''}
+              Save
             </Button>
           ) : (
             <Button fullWidth variant="outlined" sx={{ mt: 4 }} onClick={handleEditButton}>

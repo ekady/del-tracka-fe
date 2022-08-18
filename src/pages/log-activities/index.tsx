@@ -29,7 +29,10 @@ const LogsPage = () => {
         <Button variant="contained" color="secondary">
           Export to Excel
         </Button>
-        <Button variant="contained" sx={{ background: '#27A03B', color: '#fff', ml: { xs: 0, sm: 1 }, mt: { xs: 1, sm: 0 } }}>
+        <Button
+          variant="contained"
+          sx={{ background: '#27A03B', color: '#fff', ml: { xs: 0, sm: 1 }, mt: { xs: 1, sm: 0 } }}
+        >
           Export to PDF
         </Button>
       </Box>

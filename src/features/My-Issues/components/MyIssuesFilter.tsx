@@ -3,9 +3,14 @@ import { Autocomplete } from '@mui/material';
 
 // Local Component
 import { CustomInput } from '@/common/base';
-import { FilterContainer, FilterListSelectContainer, FilterSelectContainer, FilterText } from '@/common/base/BaseFilter/styled';
+import {
+  FilterContainer,
+  FilterListSelectContainer,
+  FilterSelectContainer,
+  FilterText,
+} from '@/common/base/BaseFilter/styled';
 
-import { FilterProps } from '@/types';
+import { FilterProps } from '@/common/types';
 
 import { statusList } from '@/common/constants/status';
 import { levelList } from '@/common/constants/level';

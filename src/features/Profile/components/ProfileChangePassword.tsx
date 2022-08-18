@@ -8,7 +8,7 @@ import { RegisterOptions, Controller } from 'react-hook-form';
 import { CustomInput } from '@/common/base';
 
 import { ProfileChildProps } from './Profile';
-import { FunctionVoidWithParams } from '@/types';
+import { FunctionVoidWithParams } from '@/common/types';
 import { ProfilePassword } from '../store/profile.api.slice';
 
 type ProfileChangePasswordKey = keyof ProfilePassword;

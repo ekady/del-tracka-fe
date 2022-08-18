@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { PaginationParams, PaginationResponse } from '@/types';
+import { PaginationParams, PaginationResponse } from '@/common/types';
 
 export interface LogsResponse {
   id: string;

@@ -1,11 +1,9 @@
-import { FileIndexable } from '@/common/base/FileUploader';
-import { convertImageIndexableFormData } from '@/common/helper';
 import { apiSlice } from '@/common/store/api.slice';
-import { UserType } from '@/types';
+import { UserType } from '@/common/types';
 
 export interface Profile {
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface ProfilePassword {
@@ -14,7 +12,7 @@ export interface ProfilePassword {
 }
 
 export interface ProfileRequest extends Profile, ProfilePassword {
-  image?: FileIndexable | null;
+  image?: File | null;
   imageUrl?: string | null;
 }
 
@@ -24,11 +22,12 @@ export const profileApiSlice = apiSlice.injectEndpoints({
     updateProfile: builder.mutation<UserType, ProfileRequest>({
       query: (body) => {
         const formData = new FormData();
-        formData.append('firstname', body.firstName);
-        formData.append('lastname', body.lastName);
+        formData.append('firstname', body?.firstName ?? '');
+        formData.append('lastname', body?.lastName ?? '');
         !!body.resetPassword && formData.append('resetPassword', body.resetPassword);
         !!body.confirmResetPassword && formData.append('confirmResetPassword', body.confirmResetPassword);
-        !!body.image && convertImageIndexableFormData(formData, body.image, 'image', 'imageOld');
+        if (body.image && body.image instanceof File) formData.append('image', body.image);
+
         return { url: '/profile', method: 'PUT', body: formData };
       },
       invalidatesTags: ['Profile'],

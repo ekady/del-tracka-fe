@@ -1,4 +1,4 @@
-import { PropsChildren } from '@/types';
+import { PropsChildren } from '@/common/types';
 import { LinearProgress, PaperProps } from '@mui/material';
 import { CardBoxStyled, CardPaperStyled } from './styled';
 

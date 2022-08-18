@@ -17,7 +17,7 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 // Helper
 import { emailValidation } from '@/common/helper';
 
-import { FunctionVoidWithParams } from '@/types';
+import { FunctionVoidWithParams } from '@/common/types';
 import { SignUpRequest, useSignupMutation } from '../store/auth.api.slice';
 import { toast } from 'react-toastify';
 
