@@ -1,45 +1,36 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
-// MUI
-import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
+// Next
+import { useRouter } from 'next/router';
 
 // Components
-import { LayoutHome } from '../common/layout';
-import { LandingBanner, LandingCTA, LandingFeature, LandingImages } from '@/features/Landing/components';
+import { LayoutPlain } from '../common/layout';
 
-// Constant
-import { FEATURE } from '@/features/Landing/constant/landing';
+import { Box, CircularProgress } from '@mui/material';
+import { useSession } from 'next-auth/react';
 
-const Home = () => {
-  const theme = useTheme();
-  const smAndUp = useMediaQuery(theme.breakpoints.up('sm'));
+const EntryPoint = () => {
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.data && session.data.user.userToken) {
+      router.replace('/app/dashboard');
+    } else {
+      router.replace('/home');
+    }
+  }, [session, router]);
 
   return (
-    <Box>
-      <Container maxWidth={false}>
-        <LandingBanner />
-        <LandingFeature
-          direction={smAndUp ? 'row-reverse' : 'column-reverse'}
-          featureItems={FEATURE.feature1.items}
-          icon={FEATURE.feature1.icon}
-        />
-        <LandingFeature
-          direction={smAndUp ? 'row' : 'column-reverse'}
-          featureItems={FEATURE.feature2.items}
-          icon={FEATURE.feature2.icon}
-        />
-        <LandingImages />
-      </Container>
-      <Container maxWidth={false} disableGutters>
-        <LandingCTA />
-      </Container>
+    <Box display="flex" alignItems="center" justifyContent="center" height="100%" marginTop={5}>
+      <CircularProgress />
     </Box>
   );
 };
 
-Home.getLayout = (page: ReactElement) => {
-  return <LayoutHome>{page}</LayoutHome>;
+EntryPoint.getLayout = (page: ReactElement) => {
+  return <LayoutPlain>{page}</LayoutPlain>;
 };
 
-export default Home;
+export default EntryPoint;

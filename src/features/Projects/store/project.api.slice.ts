@@ -25,7 +25,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getProjects: builder.query<ProjectResponse[], void>({
-      query: () => '/project',
+      query: () => '/projects',
     }),
     creataProject: builder.mutation<ProjectRequest, ProjectRequest>({
       query: (body) => ({

@@ -18,12 +18,11 @@ import {
   ListItemIcon,
   Divider,
   AppBarProps as MuiAppBarProps,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon, Settings } from '@mui/icons-material';
-
-import { useTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
 
 // Local Components
 import Breadcrumb from '../Breadcrumb';
@@ -34,8 +33,9 @@ import { AppBar, LogoContainer, Text, TitleContainer } from './styled';
 import { IconLogo } from '@/common/icons';
 
 // Hooks
-import { useAppDispatch } from '@/common/store/store';
+import { useAppDispatch } from '@/common/store';
 import { resetState } from '@/features/Auth/store/auth.slice';
+import { signOut } from 'next-auth/react';
 
 export type AppBarProps = MuiAppBarProps & {
   open?: boolean;
@@ -72,7 +72,8 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
   const onLogout = () => {
     handleClose();
     dispatch(resetState());
-    router.push('/sign-in');
+    signOut({ redirect: false });
+    router.replace('/auth/sign-in');
   };
 
   const logInInfo: ReactNode = lgAndUp ? (

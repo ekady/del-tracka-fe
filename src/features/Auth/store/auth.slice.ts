@@ -13,7 +13,7 @@ const name = 'auth';
 const initialData: UserInfoResponse = {
   credential: {
     refreshToken: null,
-    token: null,
+    accessToken: null,
   },
   user: {
     id: null,
@@ -35,8 +35,8 @@ const AuthSlice = createSlice({
   name,
   initialState,
   reducers: {
-    setCredential: (state: StateStore<UserInfoResponse>, action: PayloadAction<UserInfoResponse>) => {
-      state.data = action.payload;
+    setCredential: (state: StateStore<UserInfoResponse>, action: PayloadAction<Credential>) => {
+      state.data.credential = action.payload;
     },
     resetState: (state: StateStore<UserInfoResponse>) => {
       state.data = initialData;

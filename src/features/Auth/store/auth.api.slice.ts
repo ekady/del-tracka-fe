@@ -1,36 +1,37 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { UserType } from '@/common/types';
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface SignUpRequest extends LoginRequest {
-  confirmPassword: string;
-}
-
-export interface AuthResponse {
-  user: UserType;
-}
+import { AuthResponse, LoginRequest, SignUpRequest } from '../interfaces';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    signup: builder.mutation<AuthResponse, SignUpRequest>({
+      query: (body) => ({
+        url: '/auth/sign-up',
+        method: 'post',
+        body,
+      }),
+    }),
     login: builder.mutation<AuthResponse, LoginRequest>({
       query: (body) => ({
-        url: '/login',
+        url: '/auth/sign-in',
         method: 'post',
         body,
       }),
       invalidatesTags: ['Credential'],
     }),
-    signup: builder.mutation<AuthResponse, SignUpRequest>({
-      query: (body) => ({
-        url: '/sign-up',
+    refreshToken: builder.mutation<AuthResponse, void>({
+      query: () => ({
+        url: '/auth/refresh-token',
         method: 'post',
-        body,
       }),
+      invalidatesTags: ['Credential'],
+    }),
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'post',
+      }),
+      invalidatesTags: ['Credential'],
     }),
   }),
 });

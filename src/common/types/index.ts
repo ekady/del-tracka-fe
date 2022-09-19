@@ -49,7 +49,7 @@ export type UserType = {
 };
 
 export type Credential = {
-  token: string | null;
+  accessToken: string | null;
   refreshToken: string | null;
 };
 

@@ -1,6 +1,6 @@
 import { Credential, UserType } from '@/common/types';
 import { apiSlice } from './api.slice';
-import { RootState } from './store';
+import { RootState } from '.';
 
 const initialDataProfile: UserType = {
   id: null,
@@ -12,7 +12,7 @@ const initialDataProfile: UserType = {
 };
 const initialDataToken: Credential = {
   refreshToken: null,
-  token: null,
+  accessToken: null,
 };
 
 export const selectUser = (state: RootState) => apiSlice.endpoints.getUserInfo.select()(state).data;
@@ -25,6 +25,7 @@ export const selectUserIsFirstLogin = (state: RootState) =>
   selectUser(state)?.isFirstLogin ?? initialDataProfile.isFirstLogin;
 
 export const selectCredential = (state: RootState) => apiSlice.endpoints.getCredential.select()(state).data;
-export const selectCredentialToken = (state: RootState) => selectCredential(state)?.token ?? initialDataToken.token;
+export const selectCredentialToken = (state: RootState) =>
+  selectCredential(state)?.accessToken ?? initialDataToken.accessToken;
 export const selectCredentialRefreshToken = (state: RootState) =>
   selectCredential(state)?.refreshToken ?? initialDataToken.refreshToken;

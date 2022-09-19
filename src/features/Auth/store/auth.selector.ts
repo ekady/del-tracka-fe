@@ -1,7 +1,7 @@
-import { RootState } from '@/common/store/store';
+import { RootState } from '@/common/store';
 
 export const selectCredential = (state: RootState) => state.auth.data.credential;
-export const selectCredentialToken = (state: RootState) => state.auth.data.credential.token;
+export const selectCredentialToken = (state: RootState) => state.auth.data.credential.accessToken;
 export const selectCredentialRefreshToken = (state: RootState) => state.auth.data.credential.refreshToken;
 export const selectUser = (state: RootState) => state.auth.data.user;
 export const selectUserId = (state: RootState) => state.auth.data.user.id;

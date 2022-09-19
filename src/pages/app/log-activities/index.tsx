@@ -9,7 +9,7 @@ import { LayoutDefault } from '@/common/layout';
 import { Logs } from '@/features/Logs/components';
 
 import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api.slice';
-import { useAppDispatch } from '@/common/store/store';
+import { useAppDispatch } from '@/common/store';
 import { useTableChange } from '@/common/hooks/useTableChange';
 
 const LogsPage = () => {

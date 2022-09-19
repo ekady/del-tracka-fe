@@ -7,6 +7,10 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import type { NextPage } from 'next';
 
+// Next Auth
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
+
 // React redux
 import { Provider } from 'react-redux';
 
@@ -19,7 +23,7 @@ import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
 
 // Store
-import store from '@/common/store/store';
+import store, { persistor } from '@/common/store';
 
 // Toast
 import { ToastContainer } from 'react-toastify';
@@ -27,6 +31,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Charts
 import 'chart.js/auto';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -41,10 +46,11 @@ type NextPageWithLayout = NextPage & {
 
 type AppPropsWithLayout = MyAppProps & {
   Component: NextPageWithLayout;
+  session: Session;
 };
 
 export default function MyApp(props: AppPropsWithLayout) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -55,15 +61,19 @@ export default function MyApp(props: AppPropsWithLayout) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
+          </PersistGate>
+        </Provider>
         <ToastContainer
-          position="top-right"
-          autoClose={5000}
+          position="top-center"
+          autoClose={8000}
           newestOnTop
           closeOnClick
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
+          hideProgressBar
+          closeButton={false}
+          pauseOnFocusLoss={false}
           theme="colored"
         />
       </ThemeProvider>

@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactElement } from 'react';
 
 // Next Components
 import Link from 'next/link';
@@ -11,19 +11,21 @@ import { Controller, useForm } from 'react-hook-form';
 import { Alert, Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
-import AuthWithGoogle from './AuthWithGoogle';
+import AuthWithGoogle from '@/features/Auth/components/AuthWithGoogle';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 // Helper
 import { emailValidation } from '@/common/helper';
 
 import { FunctionVoidWithParams } from '@/common/types';
-import { SignUpRequest, useSignupMutation } from '../store/auth.api.slice';
+import { useSignupMutation } from '@/features/Auth/store/auth.api.slice';
 import { toast } from 'react-toastify';
+import { LayoutAuth } from '@/common/layout';
+import { SignUpRequest } from '@/features/Auth/interfaces';
 
 type AuthSignUpForm = keyof SignUpRequest;
 
-const AuthSignUpUI = () => {
+const SignUp = () => {
   const [signUp, { isLoading, isSuccess }] = useSignupMutation();
   const {
     handleSubmit,
@@ -36,20 +38,16 @@ const AuthSignUpUI = () => {
   } = useForm<SignUpRequest>({ mode: 'onSubmit' });
 
   const validation = {
+    firstName: { required: true },
+    lastName: { required: true },
     email: {
       required: true,
-      validate: {
-        email: (v: string) => emailValidation(v),
-      },
+      validate: { email: (v: string) => emailValidation(v) },
     },
-    password: {
-      required: true,
-    },
+    password: { required: true },
     confirmPassword: {
       required: true,
-      validate: {
-        sameConfirmPassword: (v: string) => v === getValues('password'),
-      },
+      validate: { sameConfirmPassword: (v: string) => v === getValues('password') },
     },
   };
 
@@ -75,7 +73,9 @@ const AuthSignUpUI = () => {
       await signUp(data).unwrap();
       toast.success('Sign up success!');
       reset();
-    } catch {}
+    } catch {
+      //
+    }
   });
 
   return (
@@ -93,6 +93,32 @@ const AuthSignUpUI = () => {
         </Alert>
       )}
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+        <Controller
+          name="firstName"
+          control={control}
+          defaultValue=""
+          rules={validation.firstName}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="First Name"
+              error={errors.firstName}
+              TextFieldProps={{ placeholder: 'Enter first name', type: 'text', ...field }}
+            />
+          )}
+        />
+        <Controller
+          name="lastName"
+          control={control}
+          defaultValue=""
+          rules={validation.lastName}
+          render={({ field }) => (
+            <CustomInput
+              fieldname="Last Name"
+              error={errors.lastName}
+              TextFieldProps={{ placeholder: 'Enter last name', type: 'text', ...field }}
+            />
+          )}
+        />
         <Controller
           name="email"
           control={control}
@@ -149,7 +175,7 @@ const AuthSignUpUI = () => {
         </ButtonLoading>
         <AuthWithGoogle isSignIn={false} />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
-        <Link href="/sign-in" passHref>
+        <Link href="/auth/sign-in" passHref>
           <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={isLoading}>
             Sign In
           </Button>
@@ -159,4 +185,8 @@ const AuthSignUpUI = () => {
   );
 };
 
-export default AuthSignUpUI;
+SignUp.getLayout = (page: ReactElement) => {
+  return <LayoutAuth>{page}</LayoutAuth>;
+};
+
+export default SignUp;

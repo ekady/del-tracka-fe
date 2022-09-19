@@ -1,29 +1,38 @@
+// React
+import { ReactElement } from 'react';
+
 // Next
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 // React Hook Form
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Alert, Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
-import AuthWithGoogle from './AuthWithGoogle';
+import { LayoutAuth } from '@/common/layout';
+import AuthWithGoogle from '@/features/Auth/components/AuthWithGoogle';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 // Helper
 import { emailValidation } from '@/common/helper';
-import { LoginRequest, useLoginMutation } from '../store/auth.api.slice';
 
-const AuthLoginUI = () => {
-  const router = useRouter();
-  const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+// Store
+import { getSession, signIn } from 'next-auth/react';
+import { LoginRequest } from '@/features/Auth/interfaces';
+import { useAppDispatch } from '@/common/store';
+import { setCredential } from '@/features/Auth/store/auth.slice';
+import { useRouter } from 'next/router';
+
+const SignIn = () => {
   const {
     handleSubmit,
     formState: { errors },
     control,
   } = useForm<LoginRequest>({ mode: 'onSubmit' });
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const validation = {
     email: {
@@ -38,10 +47,14 @@ const AuthLoginUI = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      const response = await login(data).unwrap();
-      if (response) router.replace('/dashboard');
-    } catch {}
+    const redirect = router.query?.callbackUrl?.toString() ?? '/app/dashboard';
+    const response = await signIn('credentials', { email: data.email, password: data.password, redirect: false });
+    const session = await getSession();
+
+    if (response?.ok && session?.user) {
+      dispatch(setCredential(session.user.userToken));
+      router.replace(redirect);
+    }
   });
 
   return (
@@ -50,11 +63,6 @@ const AuthLoginUI = () => {
         SIGN IN
       </Typography>
       <Divider orientation="horizontal" flexItem sx={{ my: 2 }} />
-      {(isSuccess || isError) && (
-        <Alert severity={isSuccess ? 'success' : 'error'}>
-          {isSuccess ? 'Sign In Success! Redirecting...' : 'Email or Password is wrong'}
-        </Alert>
-      )}
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
         <Controller
           name="email"
@@ -82,13 +90,13 @@ const AuthLoginUI = () => {
             />
           )}
         />
-        <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }} loading={isLoading}>
+        <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }}>
           Sign In
         </ButtonLoading>
         <AuthWithGoogle isSignIn />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
-        <Link href="/sign-up" passHref>
-          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={isLoading}>
+        <Link href="/auth/sign-up" passHref>
+          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }}>
             Sign Up
           </Button>
         </Link>
@@ -97,4 +105,8 @@ const AuthLoginUI = () => {
   );
 };
 
-export default AuthLoginUI;
+SignIn.getLayout = (page: ReactElement) => {
+  return <LayoutAuth>{page}</LayoutAuth>;
+};
+
+export default SignIn;

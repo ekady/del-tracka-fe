@@ -12,7 +12,7 @@ import { TypographyActivities } from './styled';
 import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useAppSelector } from '@/common/store/store';
+import { useAppSelector } from '@/common/store';
 import { selectActivities, selectActivitiesLabel } from '../store/dashboard.selector';
 import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
 

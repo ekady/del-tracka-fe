@@ -28,10 +28,7 @@ import { Drawer, ListItem } from './styled';
 
 // Constant
 import { menu } from '@/common/constants';
-import { MenuItem } from '@/common/types';
-
-// Local Types
-import { FunctionVoid } from '@/common/types';
+import { MenuItem, FunctionVoid } from '@/common/types';
 
 export type SideBarProps = {
   isOpen: boolean;
@@ -41,7 +38,7 @@ export type SideBarProps = {
 
 const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const theme = useTheme();
-  const mainPath = useRouter().pathname.match(/^\/((\w|-)*)/);
+  const mainPath = useRouter().pathname.match(/^\/app((\w|-)*)/);
   const currentRouter = mainPath ? mainPath[0] : '';
 
   const toggleDrawer = (isClickList: boolean) => {
@@ -49,6 +46,8 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
       if ((isMobile && isClickList) || !isClickList) handleOpenDrawer();
     };
   };
+
+  console.log(mainPath);
 
   const list = (
     <Box sx={{ py: 1 }} role="presentation" onClick={toggleDrawer(true)} onKeyDown={toggleDrawer(true)}>

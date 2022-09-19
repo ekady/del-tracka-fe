@@ -22,7 +22,7 @@ const LandingCTA = () => {
         SIGN IN &amp; START WORKING NOW
       </Typography>
       <Box sx={{ mt: 3 }}>
-        <Link href="/sign-in" passHref>
+        <Link href="/auth/sign-in" passHref>
           <Button color="secondary" variant="contained">
             Sign In
           </Button>

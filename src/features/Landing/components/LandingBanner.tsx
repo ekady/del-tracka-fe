@@ -20,7 +20,7 @@ const LandingBanner = () => {
             Manage and monitor your application issue together with your team member.
           </Typography>
           <Box sx={{ mt: 3 }}>
-            <Link href="/sign-in" passHref>
+            <Link href="/auth/sign-in" passHref>
               <Button color="secondary" variant="contained">
                 Sign In
               </Button>

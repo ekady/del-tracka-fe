@@ -1,4 +1,4 @@
-import { RootState } from '@/common/store/store';
+import { RootState } from '@/common/store';
 import { dashboardApiSlice, DashboardResponse } from './dashboard.api.slice';
 
 const initialData: DashboardResponse = {

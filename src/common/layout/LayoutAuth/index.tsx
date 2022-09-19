@@ -2,13 +2,10 @@
 import Image from 'next/image';
 
 // MUI Components
-import { Paper, Box, Grid } from '@mui/material';
+import { Paper, Box, Grid, Container } from '@mui/material';
 
 // Utils
 import { useTheme, ThemeProvider } from '@mui/material/styles';
-
-// Local Components
-import { Container } from '@mui/material';
 
 // Icons
 import { IconLogo } from '@/common/icons';

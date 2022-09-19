@@ -1,4 +1,4 @@
-import { RootState } from '@/common/store/store';
+import { RootState } from '@/common/store';
 import { logsApiSlice, LogsResponse } from './logs.api.slice';
 
 export const selectLogsData = (state: RootState) =>
