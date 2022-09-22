@@ -3,6 +3,10 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface ContinueWithProviderRequest {
+  jwtToken: string;
+}
+
 export interface SignUpRequest extends LoginRequest {
   confirmPassword: string;
   firstName: string;

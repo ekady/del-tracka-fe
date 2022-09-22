@@ -1,31 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Credential, StateStore, UserType } from '@/common/types';
+import { Credential, StateStore } from '@/common/types';
 
-type UserInfoResponse = {
+type AuthState = {
   credential: Credential;
-  user: UserType;
 };
 
 const name = 'auth';
 
 // Initial State
-const initialData: UserInfoResponse = {
+const initialData: AuthState = {
   credential: {
     refreshToken: null,
     accessToken: null,
   },
-  user: {
-    id: null,
-    email: null,
-    firstName: null,
-    lastName: null,
-    imageURL: null,
-    isFirstLogin: false,
-  },
 };
 
-const initialState: StateStore<UserInfoResponse> = {
+const initialState: StateStore<AuthState> = {
   data: initialData,
   state: undefined,
 };
@@ -35,10 +26,10 @@ const AuthSlice = createSlice({
   name,
   initialState,
   reducers: {
-    setCredential: (state: StateStore<UserInfoResponse>, action: PayloadAction<Credential>) => {
+    setCredential: (state: StateStore<AuthState>, action: PayloadAction<Credential>) => {
       state.data.credential = action.payload;
     },
-    resetState: (state: StateStore<UserInfoResponse>) => {
+    resetState: (state: StateStore<AuthState>) => {
       state.data = initialData;
     },
   },

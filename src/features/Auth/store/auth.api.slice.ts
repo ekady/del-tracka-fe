@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { AuthResponse, LoginRequest, SignUpRequest } from '../interfaces';
+import { AuthResponse, SignUpRequest } from '../interfaces';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
@@ -10,14 +10,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'post',
         body,
       }),
-    }),
-    login: builder.mutation<AuthResponse, LoginRequest>({
-      query: (body) => ({
-        url: '/auth/sign-in',
-        method: 'post',
-        body,
-      }),
-      invalidatesTags: ['Credential'],
     }),
     refreshToken: builder.mutation<AuthResponse, void>({
       query: () => ({
@@ -36,4 +28,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useSignupMutation } = authApiSlice;
+export const { useSignupMutation } = authApiSlice;

@@ -38,8 +38,7 @@ export type SideBarProps = {
 
 const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const theme = useTheme();
-  const mainPath = useRouter().pathname.match(/^\/app((\w|-)*)/);
-  const currentRouter = mainPath ? mainPath[0] : '';
+  const mainPath = useRouter().pathname;
 
   const toggleDrawer = (isClickList: boolean) => {
     return () => {
@@ -47,21 +46,22 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
     };
   };
 
-  console.log(mainPath);
-
   const list = (
     <Box sx={{ py: 1 }} role="presentation" onClick={toggleDrawer(true)} onKeyDown={toggleDrawer(true)}>
       <List>
         {menu.map(({ path, name, icon }: MenuItem) => (
           <Link href={path} passHref key={path}>
             <ListItem
-              selected={currentRouter === path}
-              sx={{ background: currentRouter === path ? theme.palette.primary.main : null, mb: 1 }}
+              selected={mainPath.includes(path)}
+              sx={{ background: mainPath.includes(path) ? theme.palette.primary.main : null, mb: 1 }}
             >
               <ListItemIcon>
-                <Icon sx={{ color: currentRouter === path ? theme.palette.common.white : null }}>{icon}</Icon>
+                <Icon sx={{ color: mainPath.includes(path) ? theme.palette.common.white : null }}>{icon}</Icon>
               </ListItemIcon>
-              <ListItemText primary={name} sx={{ color: currentRouter === path ? theme.palette.common.white : null }} />
+              <ListItemText
+                primary={name}
+                sx={{ color: mainPath.includes(path) ? theme.palette.common.white : null }}
+              />
             </ListItem>
           </Link>
         ))}

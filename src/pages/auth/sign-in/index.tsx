@@ -1,5 +1,5 @@
 // React
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -24,6 +24,7 @@ import { LoginRequest } from '@/features/Auth/interfaces';
 import { useAppDispatch } from '@/common/store';
 import { setCredential } from '@/features/Auth/store/auth.slice';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
   const {
@@ -33,28 +34,26 @@ const SignIn = () => {
   } = useForm<LoginRequest>({ mode: 'onSubmit' });
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const validation = {
     email: {
       required: true,
-      validate: {
-        email: (v: string) => emailValidation(v),
-      },
+      validate: { email: (v: string) => emailValidation(v) },
     },
-    password: {
-      required: true,
-    },
+    password: { required: true },
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
     const redirect = router.query?.callbackUrl?.toString() ?? '/app/dashboard';
     const response = await signIn('credentials', { email: data.email, password: data.password, redirect: false });
     const session = await getSession();
-
-    if (response?.ok && session?.user) {
+    if (response?.ok && session) {
       dispatch(setCredential(session.user.userToken));
       router.replace(redirect);
-    }
+    } else toast.error('Invalid email or password');
+    setLoading(false);
   });
 
   return (
@@ -73,7 +72,13 @@ const SignIn = () => {
             <CustomInput
               fieldname="Email Address"
               error={errors.email}
-              TextFieldProps={{ placeholder: 'Enter email address', type: 'email', ...field }}
+              TextFieldProps={{
+                placeholder: 'Enter email address',
+                type: 'email',
+                autoComplete: 'current-username',
+                disabled: loading,
+                ...field,
+              }}
             />
           )}
         />
@@ -86,17 +91,23 @@ const SignIn = () => {
             <CustomInput
               fieldname="Pasword"
               error={errors.password}
-              TextFieldProps={{ placeholder: 'Enter password', type: 'password', ...field }}
+              TextFieldProps={{
+                placeholder: 'Enter password',
+                type: 'password',
+                autoComplete: 'current-password',
+                disabled: loading,
+                ...field,
+              }}
             />
           )}
         />
-        <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }}>
+        <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }} loading={loading}>
           Sign In
         </ButtonLoading>
-        <AuthWithGoogle isSignIn />
+        <AuthWithGoogle disabled={loading} />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
         <Link href="/auth/sign-up" passHref>
-          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }}>
+          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={loading}>
             Sign Up
           </Button>
         </Link>
