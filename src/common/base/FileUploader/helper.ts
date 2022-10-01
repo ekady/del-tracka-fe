@@ -1,4 +1,4 @@
-import { Thumbnail } from './types';
+import { Thumbnail } from './interfaces';
 
 export const extractSrcThumbnailFile = (x: Thumbnail | File): string => {
   if ('src' in x) return x.src;

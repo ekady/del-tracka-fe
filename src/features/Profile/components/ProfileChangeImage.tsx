@@ -6,7 +6,7 @@ import { FileUploaderSingle } from '@/common/base';
 
 import { ProfileChildProps } from './Profile';
 import { Controller, RegisterOptions } from 'react-hook-form';
-import { Thumbnail } from '@/common/base/FileUploader/types';
+import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
 export type ProfileImage = {
   image?: RegisterOptions;

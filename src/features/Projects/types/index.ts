@@ -1,4 +1,4 @@
-import { Thumbnail } from '@/common/base/FileUploader/types';
+import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { StatusType } from '@/common/constants/status';
 import { AutocompleteOptions } from '@/common/types';
 import { ProjectRoles } from '../constant/role';

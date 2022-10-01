@@ -1,9 +1,11 @@
-import { useState, MouseEvent, ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 
 // Next
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { signOut } from 'next-auth/react';
 
 // MUI
 import {
@@ -35,46 +37,40 @@ import { IconLogo } from '@/common/icons';
 // Hooks
 import { useAppDispatch } from '@/common/store';
 import { resetState } from '@/features/Auth/store/auth.slice';
-import { signOut } from 'next-auth/react';
+import useHeaderMenu from './useHeaderMenu';
+import { useLogoutMutation } from '@/features/Auth/store/auth.api.slice';
 
-export type AppBarProps = MuiAppBarProps & {
+export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
   sidebar?: boolean;
-};
+}
 
-export type HeaderProps = {
+export interface HeaderProps {
   isSignIn: boolean;
   showMenu: boolean;
   usingSidebar?: boolean;
-};
+}
 
 const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
   const dispatch = useAppDispatch();
+  const [logout] = useLogoutMutation();
   const router = useRouter();
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openSidebar, setOpenSidebar] = useState<boolean>(true);
+  const { anchorEl, handleClose, handleMenu, handleSidebar, openSidebar } = useHeaderMenu();
 
-  const handleMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleSidebar = () => {
-    setOpenSidebar(!openSidebar);
-  };
-
-  const onLogout = () => {
-    handleClose();
-    dispatch(resetState());
-    signOut({ redirect: false });
-    router.replace('/auth/sign-in');
-  };
+  const onLogout = useCallback(async (): Promise<void> => {
+    try {
+      handleClose();
+      dispatch(resetState());
+      await logout().unwrap();
+      await signOut({ redirect: false });
+      router.replace('/auth/sign-in');
+    } catch {
+      //
+    }
+  }, [dispatch, handleClose, logout, router]);
 
   const logInInfo: ReactNode = lgAndUp ? (
     <Button color="inherit" onClick={handleMenu} variant="text" startIcon={<AccountCircle />}>

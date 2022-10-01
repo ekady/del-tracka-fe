@@ -26,6 +26,14 @@ import { setCredential } from '@/features/Auth/store/auth.slice';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
+const validation = {
+  email: {
+    required: true,
+    validate: { email: (v: string) => emailValidation(v) },
+  },
+  password: { required: true },
+};
+
 const SignIn = () => {
   const {
     handleSubmit,
@@ -35,14 +43,6 @@ const SignIn = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  const validation = {
-    email: {
-      required: true,
-      validate: { email: (v: string) => emailValidation(v) },
-    },
-    password: { required: true },
-  };
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);

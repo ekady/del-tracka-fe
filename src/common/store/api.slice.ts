@@ -1,4 +1,4 @@
-import { Credential, UserType } from '@/common/types';
+import { Credential, UserInfo } from '@/common/types';
 import { setCredential } from '@/features/Auth/store/auth.slice';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSession, signOut } from 'next-auth/react';
@@ -24,11 +24,12 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '//api.local/',
-    prepareHeaders: async (headers, { getState }) => {
-      const credential = await getTokens(getState() as RootState);
-      if (!credential) signOut();
-      if (credential?.accessToken) headers.set('Authorization', `Bearer ${credential.accessToken}`);
-      if (credential?.refreshToken) headers.set('Refresh-Token', credential?.refreshToken);
+    prepareHeaders: async (headers, { getState, endpoint }) => {
+      if (endpoint !== 'signup') {
+        const credential = await getTokens(getState() as RootState);
+        if (!credential) signOut();
+        else if (credential?.accessToken) headers.set('Authorization', `Bearer ${credential.accessToken}`);
+      }
       return headers;
     },
   }),
@@ -39,7 +40,7 @@ export const apiSlice = createApi({
   },
   tagTypes: ['Profile', 'Credential'],
   endpoints: (builder) => ({
-    getUserInfo: builder.query<UserType, void>({
+    getUserInfo: builder.query<UserInfo, void>({
       query: () => '/user-info',
       providesTags: ['Profile'],
     }),

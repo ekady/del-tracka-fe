@@ -7,21 +7,21 @@ import { InputLabel, TextField, TextFieldProps } from '@mui/material';
 // Helper
 import { extractErrorMessage } from '@/common/helper';
 
-export type CustomInputProps = {
+export interface CustomInputProps {
   TextFieldProps?: TextFieldProps;
   fieldname?: string;
   defaultHelperText?: string;
   error?: FieldError;
+}
+
+const defaultStyle = {
+  marginTop: 0,
+  marginBottom: 2,
+  fontSize: 14,
 };
 
 const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: CustomInputProps) => {
   const [containError, errorMessage] = extractErrorMessage(error, fieldname, defaultHelperText);
-
-  const defaultStyle = {
-    marginTop: 0,
-    marginBottom: 2,
-    fontSize: 14,
-  };
 
   return (
     <>

@@ -4,7 +4,7 @@ import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } fr
 import { FunctionVoid, PropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
 
-export type BaseDialogProps = PropsChildren & {
+export interface BaseDialogProps extends PropsChildren {
   handleOk?: FunctionVoid;
   hideButtonOk?: boolean;
   textOk?: string;
@@ -14,7 +14,7 @@ export type BaseDialogProps = PropsChildren & {
   isOpen?: boolean;
   titleDialog: string;
   loading?: boolean;
-};
+}
 
 const BaseDialog = ({
   isOpen,

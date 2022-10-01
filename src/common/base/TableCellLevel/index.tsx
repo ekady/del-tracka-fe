@@ -1,5 +1,5 @@
 // React
-import { ReactElement } from 'react';
+import { memo, ReactElement } from 'react';
 
 // MUI
 import { Chip, ChipProps } from '@mui/material';
@@ -7,12 +7,12 @@ import { Chip, ChipProps } from '@mui/material';
 import { FunctionVoidWithParams } from '@/common/types';
 import LEVEL, { LevelType } from '@/common/constants/level';
 
-export type TableCellLevelProps = {
+export interface TableCellLevelProps {
   level?: LevelType;
   SelectOption?: ReactElement;
   ChipProps?: ChipProps;
   onClickSelectOption?: FunctionVoidWithParams<string>;
-};
+}
 
 const TableCellLevel = ({ level, SelectOption, ChipProps }: TableCellLevelProps) => {
   const chipProps = ChipProps ?? {};
@@ -41,4 +41,4 @@ const TableCellLevel = ({ level, SelectOption, ChipProps }: TableCellLevelProps)
   );
 };
 
-export default TableCellLevel;
+export default memo(TableCellLevel);

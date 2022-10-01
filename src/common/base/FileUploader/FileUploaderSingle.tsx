@@ -1,12 +1,12 @@
 // React
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 
 // MUI Components
 import { Box, Typography, useTheme } from '@mui/material';
 
 // Local types
-import { FunctionVoidWithParams } from '@/common/types';
-import { FileUploaderProps, Thumbnail } from './types';
+import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
+import { FileUploaderProps, Thumbnail } from './interfaces';
 
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
@@ -19,7 +19,8 @@ import { FileUploaderEnum } from './constants';
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 
-export type FileUploaderSingleProps = FileUploaderProps<File | Thumbnail>;
+export interface FileUploaderSingleProps extends FileUploaderProps<File | Thumbnail> {}
+
 const FileUploaderSingle = ({
   value,
   handleValue,
@@ -41,14 +42,17 @@ const FileUploaderSingle = ({
   );
   const theme = useTheme();
 
-  const addNewImages: FunctionVoidWithParams<FileList> = (newFiles: FileList) => {
-    const file = newFiles[0];
-    handleValue && handleValue(file);
-  };
+  const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
+    (newFiles: FileList) => {
+      const file = newFiles[0];
+      handleValue && handleValue(file);
+    },
+    [handleValue],
+  );
 
-  const removeImage = () => {
+  const removeImage: FunctionVoid = useCallback(() => {
     handleValue && handleValue(null);
-  };
+  }, [handleValue]);
 
   const textHelper: ReactNode = (
     <Box textAlign="center" display="flex" alignItems="center" height="100%">

@@ -1,12 +1,12 @@
 // React
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 
 // MUI Components
 import { Box, Typography, useTheme } from '@mui/material';
 
 // Local types
 import { FunctionVoidWithParams } from '@/common/types';
-import { FileUploaderProps, Thumbnail } from './types';
+import { FileUploaderProps, Thumbnail } from './interfaces';
 
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
@@ -19,7 +19,8 @@ import { FileUploaderEnum } from './constants';
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 
-export type FileUploaderMultipleProps = FileUploaderProps<(File | Thumbnail)[]>;
+export interface FileUploaderMultipleProps extends FileUploaderProps<(File | Thumbnail)[]> {}
+
 const FileUploaderMultiple = ({
   value,
   handleValue,
@@ -41,16 +42,22 @@ const FileUploaderMultiple = ({
   );
   const theme = useTheme();
 
-  const addNewImages: FunctionVoidWithParams<FileList> = (newFiles: FileList) => {
-    const val = value ?? [];
-    const files = [...val, ...Array.from(newFiles)];
-    handleValue && handleValue(files);
-  };
+  const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
+    (newFiles: FileList) => {
+      const val = value ?? [];
+      const files = [...val, ...Array.from(newFiles)];
+      handleValue && handleValue(files);
+    },
+    [handleValue, value],
+  );
 
-  const removeImage = (fileName: string) => {
-    const files = value?.filter((file) => file.name !== fileName) ?? [];
-    handleValue && handleValue(files);
-  };
+  const removeImage: FunctionVoidWithParams<string> = useCallback(
+    (fileName: string) => {
+      const files = value?.filter((file) => file.name !== fileName) ?? [];
+      handleValue && handleValue(files);
+    },
+    [handleValue, value],
+  );
 
   const buttonUpload: ReactNode = !disabled ? (
     <Box textAlign="center">

@@ -2,56 +2,52 @@ import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
 
-export type Indexable<KeyType, ValueType> = {
-  [key in KeyType]: ValueType;
-};
-
 export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
 export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
 
-export type InformationWithColor = {
+export interface InformationWithColor {
   value?: string | number;
   name?: string;
   color: string;
   textColor: string;
-};
+}
 
-export type AutocompleteOptions = {
+export interface AutocompleteOptions {
   label: string;
   value: string;
-};
+}
 
-export type MenuItem = {
+export interface MenuItem {
   name: string;
   path: string;
   icon: string;
-};
+}
 
-export type PropsChildren = {
+export interface PropsChildren {
   children?: ReactNode;
-};
+}
 
-export type StaticImageData = {
+export interface StaticImageData {
   src: string;
   height: number;
   width: number;
   placeholder?: string;
-};
+}
 
-export type UserType = {
+export interface UserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
   imageURL: string | null;
   id: string | null;
   isFirstLogin: boolean;
-};
+}
 
-export type Credential = {
+export interface Credential {
   accessToken: string | null;
   refreshToken: string | null;
-};
+}
 
 export interface StateStore<DataType> {
   state?: unknown;
@@ -63,7 +59,7 @@ export interface PaginationParams {
   page?: number;
   sort?: string;
   search?: string;
-  filter?: Indexable<string, string | number>;
+  filter?: Record<string, string | number>;
 }
 export type PaginationParamsText = keyof PaginationParams;
 
@@ -77,15 +73,19 @@ export interface PaginationResponse<ContentType> {
   options: PaginationParams;
 }
 
-export type TableAndSearchProps = {
+export interface TableAndSearchProps {
   TableProps?: Omit<DataGridProps, 'columns'>;
   SearchProps?: TextFieldProps;
-};
+}
 
 export type onChangeWithAdditionalParams<ParamsType, OptionType> = (
   params?: ParamsType,
 ) => (event: SyntheticEvent<Element, Event>, value: OptionType | null) => void;
 
-export type FilterProps = {
-  onChange?: onChangeWithAdditionalParams;
-};
+export interface FilterProps<ParamsType, OptionType> {
+  onChange?: onChangeWithAdditionalParams<ParamsType, OptionType>;
+}
+
+export interface StatusMessageResponse {
+  message: string;
+}

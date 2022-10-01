@@ -1,5 +1,5 @@
 // React
-import { ReactElement } from 'react';
+import { memo, ReactElement } from 'react';
 
 // MUI
 import { Chip, ChipProps } from '@mui/material';
@@ -7,12 +7,12 @@ import { Chip, ChipProps } from '@mui/material';
 import STATUS, { StatusType } from '@/common/constants/status';
 import { FunctionVoidWithParams } from '@/common/types';
 
-export type TableCellStatusProps = {
+export interface TableCellStatusProps {
   status?: StatusType;
   SelectOption?: ReactElement;
   ChipProps?: ChipProps;
   onClickSelectOption?: FunctionVoidWithParams<string>;
-};
+}
 
 const TableCellStatus = ({ status, SelectOption, ChipProps }: TableCellStatusProps) => {
   const chipProps = ChipProps ?? {};
@@ -41,4 +41,4 @@ const TableCellStatus = ({ status, SelectOption, ChipProps }: TableCellStatusPro
   );
 };
 
-export default TableCellStatus;
+export default memo(TableCellStatus);

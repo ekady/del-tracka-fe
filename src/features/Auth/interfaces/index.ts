@@ -8,7 +8,7 @@ export interface ContinueWithProviderRequest {
 }
 
 export interface SignUpRequest extends LoginRequest {
-  confirmPassword: string;
+  passwordConfirm: string;
   firstName: string;
   lastName: string;
 }

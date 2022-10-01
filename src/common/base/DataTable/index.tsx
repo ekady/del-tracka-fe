@@ -3,9 +3,7 @@ import { LinearProgress } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { DataGridStyled } from './styled';
 
-export type DataTableProps = DataGridProps;
-
-const DataTable = (props: DataTableProps) => {
+const DataTable = (props: DataGridProps) => {
   return (
     <DataGridStyled
       disableSelectionOnClick

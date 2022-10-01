@@ -12,7 +12,7 @@ import { FunctionVoid, PropsChildren } from '@/common/types';
 
 export type DialogAlertType = 'warning' | 'error' | 'success';
 
-export type BaseDialogAlertProps = PropsChildren & {
+export interface BaseDialogAlertProps extends PropsChildren {
   type?: DialogAlertType;
   handleOk?: FunctionVoid;
   hideButtonOk?: boolean;
@@ -25,7 +25,7 @@ export type BaseDialogAlertProps = PropsChildren & {
   description?: string;
   subDescription?: string;
   loading?: boolean;
-};
+}
 
 const BaseDialogAlert = ({
   type,

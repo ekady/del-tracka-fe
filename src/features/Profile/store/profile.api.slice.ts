@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { UserType } from '@/common/types';
+import { UserInfo } from '@/common/types';
 
 export interface Profile {
   firstName?: string;
@@ -19,7 +19,7 @@ export interface ProfileRequest extends Profile, ProfilePassword {
 export const profileApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    updateProfile: builder.mutation<UserType, ProfileRequest>({
+    updateProfile: builder.mutation<UserInfo, ProfileRequest>({
       query: (body) => {
         const formData = new FormData();
         formData.append('firstname', body?.firstName ?? '');

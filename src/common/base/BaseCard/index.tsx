@@ -1,11 +1,10 @@
-import { PropsChildren } from '@/common/types';
 import { LinearProgress, PaperProps } from '@mui/material';
+import { PropsChildren } from '@/common/types';
 import { CardBoxStyled, CardPaperStyled } from './styled';
 
-export type BaseCardProps = PropsChildren &
-  PaperProps & {
-    loading?: boolean;
-  };
+export interface BaseCardProps extends PropsChildren, PaperProps {
+  loading?: boolean;
+}
 
 const BaseCard = ({ children, loading, ...paperProps }: BaseCardProps) => {
   return (

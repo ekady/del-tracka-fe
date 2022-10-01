@@ -5,7 +5,7 @@ import { TableMenuSelection } from '@/common/base';
 import STATUS, { StatusType } from '@/common/constants/status';
 
 // Types
-import { FunctionVoidWithParams, Indexable } from '@/common/types';
+import { FunctionVoidWithParams } from '@/common/types';
 
 export type ProjectIssueChangeStatusProps = {
   currentStatus: string;
@@ -15,7 +15,7 @@ export type ProjectIssueChangeStatusProps = {
 const ProjectIssueChangeStatus = ({ currentStatus, handleChange }: ProjectIssueChangeStatusProps) => {
   return (
     <TableMenuSelection
-      list={Object.keys(STATUS).map((key) => STATUS[key as StatusType] as Indexable<string, string>)}
+      list={Object.keys(STATUS).map((key) => STATUS[key as StatusType] as Record<string, string>)}
       itemText="name"
       currentValue={currentStatus}
       handleChange={handleChange}

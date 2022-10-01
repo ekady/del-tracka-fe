@@ -1,3 +1,5 @@
+import { ReactNode, useCallback } from 'react';
+
 // Next Components
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,27 +28,29 @@ import { IconLogo } from '@/common/icons';
 // Local Components
 import { Drawer, ListItem } from './styled';
 
-// Constant
 import { menu } from '@/common/constants';
 import { MenuItem, FunctionVoid } from '@/common/types';
 
-export type SideBarProps = {
+export interface SideBarProps {
   isOpen: boolean;
   isMobile: boolean;
   handleOpenDrawer: FunctionVoid;
-};
+}
 
 const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const theme = useTheme();
   const mainPath = useRouter().pathname;
 
-  const toggleDrawer = (isClickList: boolean) => {
-    return () => {
-      if ((isMobile && isClickList) || !isClickList) handleOpenDrawer();
-    };
-  };
+  const toggleDrawer = useCallback(
+    (isClickList: boolean): FunctionVoid => {
+      return () => {
+        if ((isMobile && isClickList) || !isClickList) handleOpenDrawer();
+      };
+    },
+    [handleOpenDrawer, isMobile],
+  );
 
-  const list = (
+  const list: ReactNode = (
     <Box sx={{ py: 1 }} role="presentation" onClick={toggleDrawer(true)} onKeyDown={toggleDrawer(true)}>
       <List>
         {menu.map(({ path, name, icon }: MenuItem) => (

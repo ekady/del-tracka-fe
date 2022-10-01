@@ -13,6 +13,7 @@ import { SessionProvider } from 'next-auth/react';
 
 // React redux
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Utils
 import { ThemeProvider } from '@mui/material/styles';
@@ -31,7 +32,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Charts
 import 'chart.js/auto';
-import { PersistGate } from 'redux-persist/integration/react';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

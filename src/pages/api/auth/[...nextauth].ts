@@ -72,6 +72,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     pages: {
       signIn: '/auth/sign-in',
       newUser: '/auth/sign-up',
+      error: '/auth/error',
     },
     callbacks,
   });

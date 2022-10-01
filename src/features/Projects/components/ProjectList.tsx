@@ -17,7 +17,6 @@ import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List
 
 // Types
 import { ProjectResponse, SprintType } from '../types';
-import { Indexable } from '@/common/types';
 import { ProjectRoles } from '../constant/role';
 
 export type ProjectListProps = {
@@ -25,7 +24,7 @@ export type ProjectListProps = {
 };
 
 const ProjectList = ({ projectList }: ProjectListProps) => {
-  const [open, setOpen] = useState<Indexable<number, boolean>>({ 0: false, 1: false, 2: false });
+  const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
   const [currProject, setCurrProject] = useState<string>('');
   const [currSprint, setCurrSprint] = useState<string>('');
 

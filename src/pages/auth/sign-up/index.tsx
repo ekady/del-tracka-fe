@@ -1,11 +1,11 @@
 // React
-import { ChangeEvent, ReactElement } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 
 // Next Components
 import Link from 'next/link';
 
 // React Hook Form
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, UseFormGetValues } from 'react-hook-form';
 
 // MUI Components
 import { Alert, Box, Button, Divider, Typography } from '@mui/material';
@@ -25,6 +25,20 @@ import { SignUpRequest } from '@/features/Auth/interfaces';
 
 type AuthSignUpForm = keyof SignUpRequest;
 
+const validationRule = (getValues: UseFormGetValues<SignUpRequest>) => ({
+  firstName: { required: true },
+  lastName: { required: true },
+  email: {
+    required: true,
+    validate: { email: (v: string) => emailValidation(v) },
+  },
+  password: { required: true },
+  passwordConfirm: {
+    required: true,
+    validate: { sameConfirmPassword: (v: string) => v === getValues('password') },
+  },
+});
+
 const SignUp = () => {
   const [signUp, { isLoading, isSuccess }] = useSignupMutation();
   const {
@@ -37,36 +51,30 @@ const SignUp = () => {
     reset,
   } = useForm<SignUpRequest>({ mode: 'onSubmit' });
 
-  const validation = {
-    firstName: { required: true },
-    lastName: { required: true },
-    email: {
-      required: true,
-      validate: { email: (v: string) => emailValidation(v) },
+  const validateTargetForm = useCallback(
+    (formTarget?: AuthSignUpForm) => {
+      return async () => {
+        if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
+          await trigger(formTarget);
+        }
+      };
     },
-    password: { required: true },
-    confirmPassword: {
-      required: true,
-      validate: { sameConfirmPassword: (v: string) => v === getValues('password') },
+    [getFieldState, trigger],
+  );
+
+  const validation = useMemo(() => validationRule(getValues), [getValues]);
+
+  const onChangeInput = useCallback(
+    (
+      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      onChange: FunctionVoidWithParams<string>,
+      formTarget?: AuthSignUpForm,
+    ) => {
+      onChange(event.target.value);
+      validateTargetForm(formTarget);
     },
-  };
-
-  const validateTargetForm = (formTarget?: AuthSignUpForm) => {
-    return async () => {
-      if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
-        await trigger(formTarget);
-      }
-    };
-  };
-
-  const onChangeInput = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    onChange: FunctionVoidWithParams<string>,
-    formTarget?: AuthSignUpForm,
-  ) => {
-    onChange(event.target.value);
-    validateTargetForm(formTarget);
-  };
+    [validateTargetForm],
+  );
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -87,7 +95,7 @@ const SignUp = () => {
       {isSuccess && (
         <Alert severity="success">
           Sign Up Success! Back to{' '}
-          <Link href="/sign-in" passHref>
+          <Link href="/auth/sign-in" passHref>
             <a className="text-underline">Sign In</a>
           </Link>
         </Alert>
@@ -152,20 +160,20 @@ const SignUp = () => {
           )}
         />
         <Controller
-          name="confirmPassword"
+          name="passwordConfirm"
           control={control}
           defaultValue=""
-          rules={validation.confirmPassword}
+          rules={validation.passwordConfirm}
           render={({ field }) => (
             <CustomInput
               fieldname="Confirm Password"
-              error={errors.confirmPassword}
+              error={errors.passwordConfirm}
               TextFieldProps={{
                 placeholder: 'Enter confirm password',
                 type: 'password',
                 ...field,
-                onChange: (e) => onChangeInput(e, field.onChange, 'confirmPassword'),
-                onBlur: async () => validateTargetForm('confirmPassword'),
+                onChange: (e) => onChangeInput(e, field.onChange, 'passwordConfirm'),
+                onBlur: async () => validateTargetForm('passwordConfirm'),
               }}
             />
           )}
@@ -173,10 +181,10 @@ const SignUp = () => {
         <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }} loading={isLoading}>
           Sign Up
         </ButtonLoading>
-        <AuthWithGoogle isSignIn={false} />
+        <AuthWithGoogle />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
         <Link href="/auth/sign-in" passHref>
-          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={isLoading}>
+          <Button fullWidth variant="outlined" sx={{ mb: 2 }} disabled={isLoading}>
             Sign In
           </Button>
         </Link>

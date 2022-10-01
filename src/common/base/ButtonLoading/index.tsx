@@ -1,11 +1,10 @@
-import { PropsChildren } from '@/common/types';
 import { Button, ButtonProps, CircularProgress } from '@mui/material';
+import { PropsChildren } from '@/common/types';
 
-export type ButtonLoadingProps = ButtonProps &
-  PropsChildren & {
-    loading?: boolean;
-    loadingSize?: string | number;
-  };
+export interface ButtonLoadingProps extends ButtonProps, PropsChildren {
+  loading?: boolean;
+  loadingSize?: string | number;
+}
 
 const ButtonLoading = (props: ButtonLoadingProps) => {
   const { children, loading, loadingSize, ...buttonProps } = props;

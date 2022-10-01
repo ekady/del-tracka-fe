@@ -11,7 +11,6 @@ import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/featu
 import LayoutProject from '@/features/Projects/layout/LayoutProject';
 import { ListButton, ListContainer, ListContentContainer, ListItemContainer } from '@/common/base/List/styled';
 
-import { Indexable } from '@/common/types';
 import { useRouter } from 'next/router';
 
 const menus = [
@@ -22,7 +21,7 @@ const menus = [
 
 const ProjectSettingPage = () => {
   const router = useRouter();
-  const [open, setOpen] = useState<Indexable<number, boolean>>({ 0: false, 1: false, 2: false });
+  const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
 
   const handleClick = (index: number) => {
     return () => {

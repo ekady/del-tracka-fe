@@ -1,7 +1,7 @@
 import { AppBar as MuiAppBar, Box, styled, Typography } from '@mui/material';
 import { SIDEBAR_WIDTH } from '../SideBar/constants';
 
-import { AppBarProps } from './type';
+import { AppBarProps } from '.';
 
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'sidebar',

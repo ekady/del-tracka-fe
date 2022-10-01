@@ -1,5 +1,6 @@
+import { ChangeEvent, DragEvent, useCallback, useState } from 'react';
+
 import { FunctionVoidWithParams } from '@/common/types';
-import { ChangeEvent, DragEvent, useState } from 'react';
 
 export type ReturnTypeFileUploaderEvent = {
   isDrop: boolean;
@@ -12,30 +13,42 @@ export type ReturnTypeFileUploaderEvent = {
 const useFileUploaderEvent = (disabled: boolean): ReturnTypeFileUploaderEvent => {
   const [isDrop, setIsDrop] = useState<boolean>(false);
 
-  const onHandleDragEnter = (e: DragEvent<HTMLDivElement>) => {
-    if (disabled) return;
-    e.preventDefault();
-    setIsDrop(true);
-  };
+  const onHandleDragEnter = useCallback(
+    (e: DragEvent<HTMLDivElement>): void => {
+      if (disabled) return;
+      e.preventDefault();
+      setIsDrop(true);
+    },
+    [disabled],
+  );
 
-  const onHandleDragExit = (e: DragEvent<HTMLDivElement>) => {
-    if (disabled) return;
-    e.preventDefault();
-    setIsDrop(false);
-  };
+  const onHandleDragExit = useCallback(
+    (e: DragEvent<HTMLDivElement>): void => {
+      if (disabled) return;
+      e.preventDefault();
+      setIsDrop(false);
+    },
+    [disabled],
+  );
 
-  const onHandleFileUpload = (e: ChangeEvent<HTMLInputElement>, callback?: FunctionVoidWithParams<FileList>): void => {
-    if (disabled) return;
-    e.preventDefault();
-    if (callback && e.target.files) callback(e.target.files);
-  };
+  const onHandleFileUpload = useCallback(
+    (e: ChangeEvent<HTMLInputElement>, callback?: FunctionVoidWithParams<FileList>): void => {
+      if (disabled) return;
+      e.preventDefault();
+      if (callback && e.target.files) callback(e.target.files);
+    },
+    [disabled],
+  );
 
-  const onHandleFileDrop = (e: DragEvent<HTMLDivElement>, callback?: FunctionVoidWithParams<FileList>): void => {
-    if (disabled) return;
-    e.preventDefault();
-    setIsDrop(false);
-    if (callback && e.dataTransfer.files) callback(e.dataTransfer.files);
-  };
+  const onHandleFileDrop = useCallback(
+    (e: DragEvent<HTMLDivElement>, callback?: FunctionVoidWithParams<FileList>): void => {
+      if (disabled) return;
+      e.preventDefault();
+      setIsDrop(false);
+      if (callback && e.dataTransfer.files) callback(e.dataTransfer.files);
+    },
+    [disabled],
+  );
 
   return {
     isDrop,

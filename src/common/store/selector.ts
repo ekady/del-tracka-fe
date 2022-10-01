@@ -1,8 +1,8 @@
-import { Credential, UserType } from '@/common/types';
+import { Credential, UserInfo } from '@/common/types';
 import { apiSlice } from './api.slice';
 import { RootState } from '.';
 
-const initialDataProfile: UserType = {
+const initialDataProfile: UserInfo = {
   id: null,
   email: null,
   firstName: null,

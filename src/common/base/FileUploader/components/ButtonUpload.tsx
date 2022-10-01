@@ -1,14 +1,16 @@
-import { Button } from '@mui/material';
 import { ChangeEvent, forwardRef, useMemo } from 'react';
+
+import { Button } from '@mui/material';
+
 import { IMAGE_EXTENSION } from '../constants';
 import { InputFile } from '../styled';
-import { FileUploaderProps } from '../types';
+import { FileUploaderProps } from '../interfaces';
 
-type ButtonUploadProps = Pick<FileUploaderProps, 'buttonUploadText' | 'accept' | 'InputProps'> & {
+interface ButtonUploadProps extends Pick<FileUploaderProps<File>, 'buttonUploadText' | 'accept' | 'InputProps'> {
   onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickUpload: () => void;
   multiple?: boolean;
-};
+}
 const ButtonUpload = forwardRef<HTMLInputElement, ButtonUploadProps>((props, ref) => {
   const { buttonUploadText, accept, InputProps, multiple, onChangeInput, onClickUpload } = props;
   const acceptFile = useMemo(() => {

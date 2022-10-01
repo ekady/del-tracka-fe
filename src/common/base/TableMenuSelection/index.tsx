@@ -1,5 +1,5 @@
 // React
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, memo, useCallback } from 'react';
 
 // MUI Components
 import {
@@ -14,10 +14,10 @@ import {
 } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-import { FunctionVoidWithParams, Indexable } from '@/common/types';
+import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 
-export type TableMenuSelectionProps = {
-  list: Indexable<string, string>[];
+export interface TableMenuSelectionProps {
+  list: Record<string, string>[];
   currentValue?: string;
   handleChange?: FunctionVoidWithParams<string>;
   IconProps?: IconButtonProps;
@@ -25,7 +25,7 @@ export type TableMenuSelectionProps = {
   title?: string;
   itemText?: string;
   itemValue?: string;
-};
+}
 
 const TableMenuSelection = ({
   list,
@@ -34,43 +34,47 @@ const TableMenuSelection = ({
   IconProps,
   MenuItemProps,
   title,
-  itemText,
-  itemValue,
+  itemText = 'text',
+  itemValue = 'value',
 }: TableMenuSelectionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const text = itemText ?? 'text';
-  const value = itemValue ?? 'value';
 
-  const handleOpenClose = (event?: MouseEvent<HTMLElement>) => {
-    if (event && !open) {
-      setAnchorEl(event.currentTarget);
-    } else setAnchorEl(null);
-  };
-  const handleClick = (value: string) => {
-    return () => {
-      handleOpenClose();
-      handleChange && handleChange(value);
-    };
-  };
+  const handleOpenClose = useCallback(
+    (event?: MouseEvent<HTMLElement>): void => {
+      if (event && !Boolean(anchorEl)) {
+        setAnchorEl(event.currentTarget);
+      } else setAnchorEl(null);
+    },
+    [anchorEl],
+  );
+
+  const handleClick = useCallback(
+    (value: string): FunctionVoid => {
+      return () => {
+        handleOpenClose();
+        handleChange && handleChange(value);
+      };
+    },
+    [handleChange, handleOpenClose],
+  );
 
   return (
     <>
       <IconButton
         id="fade-button"
-        aria-controls={open ? 'fade-menu' : undefined}
+        aria-controls={Boolean(anchorEl) ? 'fade-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
         onClick={handleOpenClose}
         {...IconProps}
       >
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {Boolean(anchorEl) ? <ExpandLess /> : <ExpandMore />}
       </IconButton>
       <Menu
         id="fade-menu"
         MenuListProps={{ 'aria-labelledby': 'fade-button' }}
         anchorEl={anchorEl}
-        open={open}
+        open={Boolean(anchorEl)}
         onClick={handleOpenClose}
         TransitionComponent={Fade}
         anchorOrigin={{
@@ -84,12 +88,12 @@ const TableMenuSelection = ({
         <Divider />
         {list.map((item, index) => (
           <MenuItem
-            onClick={handleClick(item[value] ?? '')}
-            key={`${item[value]}&${index}`}
-            disabled={item[value] === currentValue}
+            onClick={handleClick(item[itemValue] ?? '')}
+            key={`${item[itemValue]}&${index}`}
+            disabled={item[itemValue] === currentValue}
             {...MenuItemProps}
           >
-            {item[text]}
+            {item[itemText]}
           </MenuItem>
         ))}
       </Menu>
@@ -97,4 +101,4 @@ const TableMenuSelection = ({
   );
 };
 
-export default TableMenuSelection;
+export default memo(TableMenuSelection);

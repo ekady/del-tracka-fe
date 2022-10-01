@@ -1,5 +1,5 @@
 // React
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 
 // MUI Components
 import { Box, InputAdornment, TextField, TextFieldProps } from '@mui/material';
@@ -7,11 +7,11 @@ import { Box, InputAdornment, TextField, TextFieldProps } from '@mui/material';
 // MUI Icons
 import { SearchRounded } from '@mui/icons-material';
 
-export type TableHeaderProps = {
+export interface TableHeaderProps {
   TextFieldProps?: TextFieldProps;
   isUsingSearch?: boolean;
   header?: ReactNode;
-};
+}
 
 const TableHeader = ({ TextFieldProps, isUsingSearch, header }: TableHeaderProps) => {
   return (
@@ -36,4 +36,4 @@ const TableHeader = ({ TextFieldProps, isUsingSearch, header }: TableHeaderProps
   );
 };
 
-export default TableHeader;
+export default memo(TableHeader);

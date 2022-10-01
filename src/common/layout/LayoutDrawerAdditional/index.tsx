@@ -10,14 +10,14 @@ import { useTheme } from '@mui/material/styles';
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
 
-export type LayoutDefaultWithDrawerProps = {
+export interface LayoutDefaultWithDrawerProps {
   menuList: ReactNode;
   content: ReactNode;
   hideContent?: boolean;
   hideMenu?: boolean;
   mediaQueryForShow?: Breakpoint;
   isMenu?: boolean;
-};
+}
 
 const drawerWidth = SIDEBAR_WIDTH + 40;
 

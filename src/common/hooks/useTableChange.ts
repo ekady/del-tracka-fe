@@ -25,7 +25,7 @@ export const useTableChange = () => {
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...sort }));
   }, []);
 
-  const onFilter = useCallback((fieldname, value) => {
+  const onFilter = useCallback((fieldname: string, value: Record<string, string | number>) => {
     setTableOption((prevTableOption) => ({ ...prevTableOption, [fieldname]: value?.value ?? '' }));
   }, []);
 
