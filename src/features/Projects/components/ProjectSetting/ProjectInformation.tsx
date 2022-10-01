@@ -12,7 +12,7 @@ import ProjectNewForm from '../ProjectNewForm';
 import { ButtonLoading } from '@/common/base';
 
 // Types
-import { ProjectRequest } from '@/features/Projects/types';
+import { ProjectRequest } from '@/features/projects/types';
 
 // Toast
 import { toast } from 'react-toastify';

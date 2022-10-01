@@ -36,9 +36,9 @@ import { IconLogo } from '@/common/icons';
 
 // Hooks
 import { useAppDispatch } from '@/common/store';
-import { resetState } from '@/features/Auth/store/auth.slice';
+import { resetState } from '@/features/auth/store/auth.slice';
 import useHeaderMenu from './useHeaderMenu';
-import { useLogoutMutation } from '@/features/Auth/store/auth.api.slice';
+import { useLogoutMutation } from '@/features/auth/store/auth.api.slice';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;

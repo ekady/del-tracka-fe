@@ -5,9 +5,9 @@ import { ReactElement, useEffect } from 'react';
 import { Box } from '@mui/material';
 
 import { LayoutDefault } from '@/common/layout';
-import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/Dashboard/components';
+import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/dashboard/components';
 
-import { useLazyGetDashboardDatasQuery } from '@/features/Dashboard/store/dashboard.api.slice';
+import { useLazyGetDashboardDatasQuery } from '@/features/dashboard/store/dashboard.api.slice';
 
 const DashboardPage = () => {
   const [getData] = useLazyGetDashboardDatasQuery();

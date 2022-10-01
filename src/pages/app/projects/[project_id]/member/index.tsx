@@ -3,8 +3,8 @@ import type { ReactElement } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { ProjectMemberList } from '@/features/Projects/components';
-import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import { ProjectMemberList } from '@/features/projects/components';
+import LayoutProject from '@/features/projects/layout/LayoutProject';
 
 const ProjectMemberPage = () => {
   return <ProjectMemberList hideSelectOption />;

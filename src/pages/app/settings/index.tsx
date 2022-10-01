@@ -3,9 +3,9 @@ import { ReactElement, useEffect } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import ProfileUI from '@/features/Profile/components/Profile';
+import ProfileUI from '@/features/profile/components/Profile';
 
-import { ProfileRequest, useUpdateProfileMutation } from '@/features/Profile/store/profile.api.slice';
+import { ProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
 import { toast } from 'react-toastify';
 
 const Settings = () => {

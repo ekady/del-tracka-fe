@@ -6,9 +6,9 @@ import { Box, Button } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { Logs } from '@/features/Logs/components';
+import { Logs } from '@/features/logs/components';
 
-import { useGetLogActivitiesQuery, resetApiState } from '@/features/Logs/store/logs.api.slice';
+import { useGetLogActivitiesQuery, resetApiState } from '@/features/logs/store/logs.api.slice';
 import { useAppDispatch } from '@/common/store';
 import { useTableChange } from '@/common/hooks/useTableChange';
 

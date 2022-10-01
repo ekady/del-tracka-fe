@@ -11,17 +11,17 @@ import { Controller, useForm, UseFormGetValues } from 'react-hook-form';
 import { Alert, Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
-import AuthWithGoogle from '@/features/Auth/components/AuthWithGoogle';
+import AuthWithGoogle from '@/features/auth/components/AuthWithGoogle';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 // Helper
 import { emailValidation } from '@/common/helper';
 
 import { FunctionVoidWithParams } from '@/common/types';
-import { useSignupMutation } from '@/features/Auth/store/auth.api.slice';
+import { useSignupMutation } from '@/features/auth/store/auth.api.slice';
 import { toast } from 'react-toastify';
 import { LayoutAuth } from '@/common/layout';
-import { SignUpRequest } from '@/features/Auth/interfaces';
+import { SignUpRequest } from '@/features/auth/interfaces';
 
 type AuthSignUpForm = keyof SignUpRequest;
 

@@ -6,10 +6,10 @@ import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
 
 // Components
 import { LayoutHome } from '@/common/layout';
-import { LandingBanner, LandingCTA, LandingFeature, LandingImages } from '@/features/Landing/components';
+import { LandingBanner, LandingCTA, LandingFeature, LandingImages } from '@/features/home/components';
 
 // Constant
-import { FEATURE } from '@/features/Landing/constant/landing';
+import { FEATURE } from '@/features/home/constant/landing';
 
 const Home = () => {
   const theme = useTheme();

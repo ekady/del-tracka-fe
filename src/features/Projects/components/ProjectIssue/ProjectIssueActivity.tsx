@@ -1,5 +1,5 @@
 // Local Component
-import { Logs } from '@/features/Logs/components';
+import { Logs } from '@/features/logs/components';
 
 const ProjectIssueActivity = () => {
   return <Logs notFullInfo isUsingDate />;

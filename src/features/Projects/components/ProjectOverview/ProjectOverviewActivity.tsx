@@ -2,7 +2,7 @@
 import { Box, Typography } from '@mui/material';
 
 // Local Component
-import { Logs } from '@/features/Logs/components';
+import { Logs } from '@/features/logs/components';
 
 import useProjectIdActivities from '../../hooks/useProjectIdActivities';
 

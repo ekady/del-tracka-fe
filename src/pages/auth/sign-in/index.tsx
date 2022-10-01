@@ -12,7 +12,7 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
 import { LayoutAuth } from '@/common/layout';
-import AuthWithGoogle from '@/features/Auth/components/AuthWithGoogle';
+import AuthWithGoogle from '@/features/auth/components/AuthWithGoogle';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 // Helper
@@ -20,9 +20,9 @@ import { emailValidation } from '@/common/helper';
 
 // Store
 import { getSession, signIn } from 'next-auth/react';
-import { LoginRequest } from '@/features/Auth/interfaces';
+import { LoginRequest } from '@/features/auth/interfaces';
 import { useAppDispatch } from '@/common/store';
-import { setCredential } from '@/features/Auth/store/auth.slice';
+import { setCredential } from '@/features/auth/store/auth.slice';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 

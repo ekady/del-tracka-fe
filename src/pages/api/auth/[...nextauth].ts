@@ -1,5 +1,5 @@
 import { Credential } from '@/common/types';
-import { ContinueWithProviderRequest, LoginRequest } from '@/features/Auth/interfaces';
+import { ContinueWithProviderRequest, LoginRequest } from '@/features/auth/interfaces';
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { CallbacksOptions } from 'next-auth';

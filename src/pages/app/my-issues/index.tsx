@@ -6,10 +6,10 @@ import { Box } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { MyIssuesFilter, MyIssuesTable } from '@/features/My-Issues/components';
+import { MyIssuesFilter, MyIssuesTable } from '@/features/my-issues/components';
 
 import { useTableChange } from '@/common/hooks/useTableChange';
-import { useLazyGetMyIssuesQuery } from '@/features/My-Issues/store/myIssues.api.slice';
+import { useLazyGetMyIssuesQuery } from '@/features/my-issues/store/myIssues.api.slice';
 
 const MyIssuesPage = () => {
   const [getIssues, { data, isFetching, isLoading }] = useLazyGetMyIssuesQuery();

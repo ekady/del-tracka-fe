@@ -1,5 +1,5 @@
 import { Credential, UserInfo } from '@/common/types';
-import { setCredential } from '@/features/Auth/store/auth.slice';
+import { setCredential } from '@/features/auth/store/auth.slice';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSession, signOut } from 'next-auth/react';
 import { HYDRATE } from 'next-redux-wrapper';

@@ -6,11 +6,11 @@ import { Box, Typography } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LayoutProject from '@/features/Projects/layout/LayoutProject';
-import { ProjectIssueFilter, ProjectIssueTable } from '@/features/Projects/components';
+import LayoutProject from '@/features/projects/layout/LayoutProject';
+import { ProjectIssueFilter, ProjectIssueTable } from '@/features/projects/components';
 
 import { useRouter } from 'next/router';
-import { useGetSprintInfoQuery, useLazyGetSprintIssuesQuery } from '@/features/Projects/store/project.api.slice';
+import { useGetSprintInfoQuery, useLazyGetSprintIssuesQuery } from '@/features/projects/store/project.api.slice';
 import { useTableChange } from '@/common/hooks/useTableChange';
 
 const ProjectSprintPage = () => {

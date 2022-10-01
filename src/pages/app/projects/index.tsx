@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import LayoutProject from '@/features/projects/layout/LayoutProject';
 
 const ProjectsPage = () => {
   return (

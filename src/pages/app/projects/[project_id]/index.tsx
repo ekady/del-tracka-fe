@@ -6,18 +6,18 @@ import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import LayoutProject from '@/features/projects/layout/LayoutProject';
 import {
   ProjectDetailTitle,
   ProjectOverview,
   ProjectOverviewActivity,
   ProjectOverviewSprint,
-} from '@/features/Projects/components';
+} from '@/features/projects/components';
 
-import { ProjectRoles } from '@/features/Projects/constant/role';
+import { ProjectRoles } from '@/features/projects/constant/role';
 import STATUS from '@/common/constants/status';
 
-import useProjectId from '@/features/Projects/hooks/useProjectId';
+import useProjectId from '@/features/projects/hooks/useProjectId';
 
 const ProjecOverviewDetailPage = () => {
   const { data, isFetching, isLoading } = useProjectId();

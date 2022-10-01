@@ -6,7 +6,7 @@ import { createWrapper } from 'next-redux-wrapper';
 import { toast } from 'react-toastify';
 
 // Slice Reducer
-import authSlice from '@/features/Auth/store/auth.slice';
+import authSlice from '@/features/auth/store/auth.slice';
 import { apiSlice } from './api.slice';
 
 const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {

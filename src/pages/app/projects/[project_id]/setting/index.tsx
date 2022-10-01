@@ -7,8 +7,8 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/features/Projects/components/ProjectSetting';
-import LayoutProject from '@/features/Projects/layout/LayoutProject';
+import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/features/projects/components/ProjectSetting';
+import LayoutProject from '@/features/projects/layout/LayoutProject';
 import { ListButton, ListContainer, ListContentContainer, ListItemContainer } from '@/common/base/List/styled';
 
 import { useRouter } from 'next/router';

@@ -1,6 +1,6 @@
 import { convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
-import { LogsResponse } from '@/features/Logs/store/logs.api.slice';
+import { LogsResponse } from '@/features/logs/store/logs.api.slice';
 import { PaginationParams, PaginationResponse } from '@/common/types';
 import {
   ProjectMember,
