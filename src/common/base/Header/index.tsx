@@ -65,7 +65,7 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
       handleClose();
       dispatch(resetState());
       await logout().unwrap();
-      await signOut({ redirect: false });
+      signOut({ redirect: false });
       router.replace('/auth/sign-in');
     } catch {
       //

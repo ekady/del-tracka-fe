@@ -1,6 +1,6 @@
 import { apiSlice } from '@/common/store/api.slice';
 import { StatusMessageResponse } from '@/common/types';
-import { AuthResponse, SignUpRequest } from '../interfaces';
+import { SignUpRequest } from '../interfaces';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
@@ -12,19 +12,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body,
       }),
     }),
-    refreshToken: builder.mutation<AuthResponse, void>({
-      query: () => ({
-        url: '/auth/refresh-token',
-        method: 'post',
-      }),
-      invalidatesTags: ['Credential'],
-    }),
-    logout: builder.mutation<void, void>({
+    logout: builder.mutation<StatusMessageResponse, void>({
       query: () => ({
         url: '/auth/sign-out',
         method: 'post',
       }),
-      invalidatesTags: ['Credential'],
     }),
   }),
 });

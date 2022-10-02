@@ -46,7 +46,7 @@ export interface UserInfo {
 
 export interface Credential {
   accessToken: string | null;
-  refreshToken: string | null;
+  refreshToken?: string | null;
 }
 
 export interface StateStore<DataType> {
@@ -88,4 +88,15 @@ export interface FilterProps<ParamsType, OptionType> {
 
 export interface StatusMessageResponse {
   message: string;
+}
+
+export interface ErrorDataResponse {
+  errorType: string;
+  message: string;
+}
+
+export interface ErrorResponse {
+  data: null;
+  errors: ErrorDataResponse[];
+  statusCode: number;
 }

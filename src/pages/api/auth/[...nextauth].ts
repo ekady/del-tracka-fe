@@ -1,6 +1,7 @@
 import { Credential } from '@/common/types';
 import { ContinueWithProviderRequest, LoginRequest } from '@/features/auth/interfaces';
 import axios from 'axios';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { CallbacksOptions } from 'next-auth';
 
@@ -13,6 +14,18 @@ const requestSignIn = async (request?: LoginRequest | ContinueWithProviderReques
     return axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/with-provider`, request);
   }
   return axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sign-in`, request);
+};
+
+const requestRefreshToken = async (refreshToken: string) => {
+  return axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    },
+  );
 };
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
@@ -56,8 +69,22 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     async signIn({ user }) {
       return !!user && user.statusCode === 200;
     },
-    async jwt({ token, user }) {
-      if (user && user.statusCode === 200) token.userToken = user.data;
+    async jwt({ token, user, account }) {
+      if (account && user && user.statusCode === 200) token.userToken = user.data;
+
+      if (token && token.userToken) {
+        const tokenData = token.userToken as Credential;
+        const decodedAccessToken = jwtDecode<JwtPayload>(tokenData?.accessToken ?? '');
+        const isAccessTokenExpire = Date.now() > (decodedAccessToken.exp ?? 0) * 1000;
+
+        if (isAccessTokenExpire) {
+          const refreshResponse = await requestRefreshToken(tokenData?.refreshToken ?? '');
+          const refreshTokenData = refreshResponse.data;
+          if (refreshTokenData && refreshTokenData.statusCode === 200) token.userToken = refreshTokenData.data;
+          else token.userToken = {};
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {

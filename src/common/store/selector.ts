@@ -11,7 +11,6 @@ const initialDataProfile: UserInfo = {
   isFirstLogin: false,
 };
 const initialDataToken: Credential = {
-  refreshToken: null,
   accessToken: null,
 };
 
@@ -27,5 +26,3 @@ export const selectUserIsFirstLogin = (state: RootState) =>
 export const selectCredential = (state: RootState) => apiSlice.endpoints.getCredential.select()(state).data;
 export const selectCredentialToken = (state: RootState) =>
   selectCredential(state)?.accessToken ?? initialDataToken.accessToken;
-export const selectCredentialRefreshToken = (state: RootState) =>
-  selectCredential(state)?.refreshToken ?? initialDataToken.refreshToken;

@@ -11,7 +11,6 @@ const name = 'auth';
 // Initial State
 const initialData: AuthState = {
   credential: {
-    refreshToken: null,
     accessToken: null,
   },
 };

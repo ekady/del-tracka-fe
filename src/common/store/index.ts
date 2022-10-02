@@ -13,23 +13,20 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (typeof window !== undefined) {
     if (isRejectedWithValue(action)) {
       const errorMessage = action.payload.data?.errors?.[0].message ?? action.error.message;
-      toast.error(errorMessage);
+      const errorType = action.payload.data?.errors?.[0].errorType ?? 'ERROR';
+      if (errorType !== 'ACCESS_TOKEN_EXPIRED') toast.error(errorMessage);
     }
   }
   return next(action);
 };
 
-const persistConfig = { key: 'tracka-persist', version: 1, storage, blacklist: [apiSlice.reducerPath] };
-
 const combinedReducer = combineReducers({
-  auth: authSlice,
+  auth: persistReducer({ key: 'tracka-persist-auth', version: 1, storage, blacklist: ['data'] }, authSlice),
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, combinedReducer);
-
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: combinedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
