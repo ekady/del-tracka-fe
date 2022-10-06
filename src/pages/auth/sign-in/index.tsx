@@ -104,10 +104,15 @@ const SignIn = () => {
         <ButtonLoading type="submit" fullWidth variant="contained" sx={{ my: 2 }} loading={loading}>
           Sign In
         </ButtonLoading>
+        <Link href="/auth/forgot-password">
+          <Typography component="p" variant="caption" sx={{ textAlign: 'right', mb: 2, mt: -1, cursor: 'pointer' }}>
+            Forgot Password?
+          </Typography>
+        </Link>
         <AuthWithGoogle disabled={loading} />
         <Divider orientation="horizontal" flexItem sx={{ my: 3 }} />
         <Link href="/auth/sign-up" passHref>
-          <Button type="submit" fullWidth variant="outlined" sx={{ mb: 2 }} disabled={loading}>
+          <Button fullWidth variant="outlined" sx={{ mb: 2 }} disabled={loading}>
             Sign Up
           </Button>
         </Link>

@@ -100,3 +100,9 @@ export interface ErrorResponse {
   errors: ErrorDataResponse[];
   statusCode: number;
 }
+
+export interface ApiResponse<Response> {
+  data: Response;
+  errors: null;
+  statusCode: number;
+}

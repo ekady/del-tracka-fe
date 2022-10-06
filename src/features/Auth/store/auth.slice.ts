@@ -17,7 +17,7 @@ const initialData: AuthState = {
 
 const initialState: StateStore<AuthState> = {
   data: initialData,
-  state: undefined,
+  state: null,
 };
 
 // Register slice

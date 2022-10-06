@@ -22,7 +22,7 @@ const getTokens = async (state: RootState): Promise<Credential | undefined> => {
 const baseQuery: BaseQueryFn = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '//api.local/',
   prepareHeaders: async (headers, { getState, endpoint }) => {
-    if (endpoint !== 'signup') {
+    if (!['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(endpoint)) {
       const credential = await getTokens(getState() as RootState);
       if (!credential) {
         await signOut({ redirect: false });
@@ -67,19 +67,14 @@ export const apiSlice = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: ['Profile', 'Credential'],
+  tagTypes: [],
   endpoints: (builder) => ({
     getUserInfo: builder.query<UserInfo, void>({
       query: () => '/user-info',
-      providesTags: ['Profile'],
-    }),
-    getCredential: builder.query<Credential, void>({
-      query: () => '/token',
-      providesTags: ['Credential'],
     }),
   }),
-  refetchOnMountOrArgChange: true,
 });
 
-export const { useGetUserInfoQuery, useGetCredentialQuery } = apiSlice;
-export const { resetApiState } = apiSlice.util;
+export const { useGetUserInfoQuery } = apiSlice;
+export const { resetApiState, getRunningOperationPromises } = apiSlice.util;
+export const { getUserInfo } = apiSlice.endpoints;

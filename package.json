@@ -18,7 +18,7 @@
     "@mui/material": "^5.10.7",
     "@mui/x-data-grid": "^5.17.5",
     "@next/bundle-analyzer": "^12.2.5",
-    "@reduxjs/toolkit": "^1.8.4",
+    "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "jwt-decode": "^3.1.2",

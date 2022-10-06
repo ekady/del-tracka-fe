@@ -16,3 +16,16 @@ export interface SignUpRequest extends LoginRequest {
 export interface AuthResponse {
   data: Credential;
 }
+
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordForm {
+  password: string;
+  passwordConfirm: string;
+}
+
+export interface ResetPasswordRequest extends ResetPasswordForm {
+  resetToken: string;
+}

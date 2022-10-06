@@ -47,6 +47,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const makeStore = () => store;
 type AppStore = ReturnType<typeof makeStore>;
-export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: process.env.NODE_ENV === 'development' });
 
 export default store;
