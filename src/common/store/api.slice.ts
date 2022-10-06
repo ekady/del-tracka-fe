@@ -71,11 +71,9 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getUserInfo: builder.query<UserInfo, void>({
       query: () => '/user-info',
-      providesTags: ['Profile'],
     }),
     getCredential: builder.query<Credential, void>({
       query: () => '/token',
-      providesTags: ['Credential'],
     }),
   }),
   refetchOnMountOrArgChange: true,
