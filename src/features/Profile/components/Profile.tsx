@@ -60,7 +60,7 @@ const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }
   const [deleteAccount, { isSuccess }] = useDeleteProfileMutation();
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
   const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
-  const logout = useLogout();
+  const logout = useLogout(true);
 
   const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
 
