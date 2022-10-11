@@ -1,8 +1,11 @@
 // React
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+// Next
+import { useRouter } from 'next/dist/client/router';
 
 // Helper
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { UseFormGetValues, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
@@ -11,55 +14,78 @@ import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';
 
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
-import { ProfileRequest } from '../store/profile.api.slice';
+import { ProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
+import { useProfileForm } from '../hooks/useProfileForm';
+import { BaseDialogAlert } from '@/common/base';
+import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
+import { useLogout } from '@/common/hooks/useLogout';
 
-export type ProfileChildProps<T> = {
+export interface ProfileChildProps<T> {
   formMethods: UseFormReturn<ProfileRequest>;
   formOptions: T;
   disabled?: boolean;
-};
+}
 
-export type ProfileProps = {
+export interface ProfileProps {
   isFirstTime: boolean;
   isEditable: boolean;
   disabled?: boolean;
   submit: FunctionVoidWithParams<ProfileRequest>;
   handleEditButton?: FunctionVoid;
+}
+
+const validationChangeData = {
+  firstName: { required: true },
+  lastName: { required: true },
+  email: { required: true },
 };
 
-const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }: ProfileProps) => {
-  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+const validationImage = { picture: { required: false } };
 
-  const form = useForm<ProfileRequest>({ mode: 'all' });
+const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) => ({
+  password: { required: true },
+  passwordConfirm: {
+    required: true,
+    validate: {
+      sameConfirmPassword: (v: string) => v === getValues('password'),
+    },
+  },
+});
+
+const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }: ProfileProps) => {
+  const router = useRouter();
+  const form = useProfileForm();
   const { handleSubmit, getValues, resetField } = form;
 
+  const [deleteAccount, { isSuccess }] = useDeleteProfileMutation();
+  const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
+  const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
+  const logout = useLogout();
+
+  const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
+
   const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
+  const onSubmit = handleSubmit((data) => submit(data));
+  const openDialogDeleteConfirm = useCallback(() => {
+    openDialogWarning('Warning', 'Are your sure want to delete your account?', {
+      handleOk: deleteAccount,
+      handleCancel: closeDialogAlert,
+    });
+  }, [closeDialogAlert, deleteAccount, openDialogWarning]);
 
-  const validationChangeData = {
-    firstName: { required: true },
-    lastName: { required: true },
-  };
-
-  const validationImage = { image: { required: false } };
-
-  const validationChangePassword = {
-    resetPassword: { required: true },
-    confirmResetPassword: {
-      required: true,
-      validate: {
-        sameConfirmPassword: (v: string) => v === getValues('resetPassword'),
-      },
-    },
-  };
-
-  const onSubmit = handleSubmit((data) => {
-    submit(data);
-  });
+  useEffect(() => {
+    if (isSuccess) {
+      openDialogSuccess(undefined, undefined, {
+        handleOk: logout,
+        hideCancel: true,
+      });
+    }
+  }, [isSuccess, router, openDialogSuccess, logout]);
 
   useEffect(() => {
     if (!isChangePassword) {
-      resetField('resetPassword');
-      resetField('confirmResetPassword');
+      resetField('password');
+      resetField('passwordConfirm');
     }
   }, [isChangePassword, resetField]);
 
@@ -97,7 +123,7 @@ const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton
               </Box>
               <ProfileChangePassword
                 formMethods={form}
-                formOptions={validationChangePassword}
+                formOptions={validatePassword}
                 disabled={!isEditable || disabled}
               />
             </>
@@ -115,10 +141,14 @@ const ProfileUI = ({ isFirstTime, isEditable, disabled, submit, handleEditButton
               Edit
             </Button>
           )}
+          <Button fullWidth variant="outlined" color="error" sx={{ mt: 4 }} onClick={openDialogDeleteConfirm}>
+            Delete Account
+          </Button>
         </Box>
       </Grid>
+      <BaseDialogAlert {...dialogAlertOpt} />
     </Grid>
   );
 };
 
-export default ProfileUI;
+export default Profile;

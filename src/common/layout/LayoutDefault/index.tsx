@@ -17,7 +17,7 @@ const LayoutDefault = ({ children }: PropsChildren) => {
       <Grid component="main" sx={{ flexGrow: 1, pt: 6 }}>
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
-          <Header isSignIn showMenu usingSidebar />
+          <Header showMenu usingSidebar />
           <Container maxWidth={false} sx={{ px: 0, pt: 1 }}>
             <Container
               maxWidth={false}

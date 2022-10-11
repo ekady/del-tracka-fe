@@ -47,6 +47,19 @@ const ProfileChangeData = ({ formMethods, formOptions, disabled }: ProfileChange
           />
         )}
       />
+      <Controller
+        name="email"
+        control={control}
+        defaultValue=""
+        rules={formOptions.email}
+        render={({ field }) => (
+          <CustomInput
+            fieldname="Email"
+            error={errors.email}
+            TextFieldProps={{ placeholder: !disabled ? 'Enter Your Email' : '', disabled, ...field }}
+          />
+        )}
+      />
     </>
   );
 };

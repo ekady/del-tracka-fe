@@ -5,8 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { signOut } from 'next-auth/react';
-
 // MUI
 import {
   Box,
@@ -35,10 +33,10 @@ import { AppBar, LogoContainer, Text, TitleContainer } from './styled';
 import { IconLogo } from '@/common/icons';
 
 // Hooks
-import { useAppDispatch } from '@/common/store';
-import { resetState } from '@/features/auth/store/auth.slice';
 import useHeaderMenu from './useHeaderMenu';
-import { useLogoutMutation } from '@/features/auth/store/auth.api.slice';
+import { useGetProfileQuery } from '@/common/store/api.slice';
+import { convertFilePathToUrl } from '@/common/helper/convert';
+import { useLogout } from '@/common/hooks/useLogout';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -46,35 +44,50 @@ export interface AppBarProps extends MuiAppBarProps {
 }
 
 export interface HeaderProps {
-  isSignIn: boolean;
   showMenu: boolean;
   usingSidebar?: boolean;
 }
 
-const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
-  const dispatch = useAppDispatch();
-  const [logout] = useLogoutMutation();
+const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const router = useRouter();
   const theme = useTheme();
+  const { data } = useGetProfileQuery(undefined, { skip: !router.pathname.includes('app') });
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, openSidebar } = useHeaderMenu();
 
   const onLogout = useCallback(async (): Promise<void> => {
     try {
       handleClose();
-      dispatch(resetState());
-      await logout().unwrap();
-      signOut({ redirect: false });
-      router.replace('/auth/sign-in');
+      logout();
     } catch {
       //
     }
-  }, [dispatch, handleClose, logout, router]);
+  }, [handleClose, logout]);
 
   const logInInfo: ReactNode = lgAndUp ? (
-    <Button color="inherit" onClick={handleMenu} variant="text" startIcon={<AccountCircle />}>
-      <Text sx={{ flexGrow: 1, ml: 1 }}>First Name</Text>
+    <Button
+      color="inherit"
+      onClick={handleMenu}
+      variant="text"
+      startIcon={
+        data?.data.picture ? (
+          <Image
+            src={convertFilePathToUrl(data.data.picture)}
+            alt="profile"
+            height={24}
+            width={24}
+            style={{ borderRadius: '50%' }}
+          />
+        ) : (
+          <AccountCircle />
+        )
+      }
+    >
+      <Text sx={{ flexGrow: 1, ml: 1 }}>
+        {data?.data.firstName} {data?.data.lastName}
+      </Text>
     </Button>
   ) : (
     <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
@@ -118,7 +131,7 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
           )}
           <Container maxWidth={false} sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>{menuInfo}</Box>
-            {isSignIn ? (
+            {!!data?.data.email ? (
               <>
                 {logInInfo}
                 <Menu
@@ -130,7 +143,7 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <Link href="/settings" passHref>
+                  <Link href="/app/settings" passHref>
                     <MenuItem onClick={handleClose}>
                       <ListItemIcon>
                         <Settings fontSize="small" />
@@ -148,9 +161,11 @@ const Header = ({ isSignIn, showMenu, usingSidebar }: HeaderProps) => {
                 </Menu>
               </>
             ) : (
-              <Button color="inherit">
-                <Text>Log In</Text>
-              </Button>
+              <Link href="/auth/sign-in" passHref>
+                <Button color="inherit">
+                  <Text>Log In</Text>
+                </Button>
+              </Link>
             )}
           </Container>
         </Toolbar>

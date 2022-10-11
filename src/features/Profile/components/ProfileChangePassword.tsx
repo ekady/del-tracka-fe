@@ -17,7 +17,7 @@ export type ProfileChangePasswordValidation = {
   [key in ProfileChangePasswordKey]: RegisterOptions;
 };
 
-export type ProfileChangePasswordProps = ProfileChildProps<ProfileChangePasswordValidation>;
+export interface ProfileChangePasswordProps extends ProfileChildProps<ProfileChangePasswordValidation> {}
 
 const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) => {
   const {
@@ -45,40 +45,40 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
   return (
     <>
       <Controller
-        name="resetPassword"
+        name="password"
         control={control}
         defaultValue=""
-        rules={formOptions.resetPassword}
+        rules={formOptions.password}
         render={({ field }) => (
           <CustomInput
             fieldname="Password"
-            error={errors.resetPassword}
+            error={errors.password}
             TextFieldProps={{
               ...field,
               placeholder: !disabled ? 'Enter password' : '',
               type: 'password',
-              onChange: (e) => onChangeInput(e, field.onChange, 'resetPassword'),
-              onBlur: async () => validateTargetForm('resetPassword'),
+              onChange: (e) => onChangeInput(e, field.onChange, 'password'),
+              onBlur: async () => validateTargetForm('password'),
               disabled,
             }}
           />
         )}
       />
       <Controller
-        name="confirmResetPassword"
+        name="passwordConfirm"
         control={control}
         defaultValue=""
-        rules={formOptions.confirmResetPassword}
+        rules={formOptions.passwordConfirm}
         render={({ field }) => (
           <CustomInput
             fieldname="Confirm Password"
-            error={errors.confirmResetPassword}
+            error={errors.passwordConfirm}
             TextFieldProps={{
               ...field,
               placeholder: !disabled ? 'Enter confirm password' : '',
               type: 'password',
-              onChange: (e) => onChangeInput(e, field.onChange, 'confirmResetPassword'),
-              onBlur: async () => validateTargetForm('confirmResetPassword'),
+              onChange: (e) => onChangeInput(e, field.onChange, 'passwordConfirm'),
+              onBlur: async () => validateTargetForm('passwordConfirm'),
               disabled,
             }}
           />

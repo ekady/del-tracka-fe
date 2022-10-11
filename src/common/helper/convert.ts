@@ -30,3 +30,10 @@ export const convertParams = (params?: PaginationParams): PaginationParams => {
   }
   return {};
 };
+
+export const convertFilePathToUrl = (path: string): string => {
+  if (!path) return '';
+
+  if (path.includes('gravatars')) return path;
+  return `${process.env.NEXT_PUBLIC_API_URL}/${path}`;
+};

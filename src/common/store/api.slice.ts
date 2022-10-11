@@ -1,5 +1,5 @@
 import nextRouter from 'next/router';
-import { Credential, ErrorDataResponse, ErrorResponse, UserInfo } from '@/common/types';
+import { ApiResponse, Credential, ErrorDataResponse, ErrorResponse, UserInfo } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import { BaseQueryFn, createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { getSession, signOut } from 'next-auth/react';
@@ -67,14 +67,15 @@ export const apiSlice = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['Profile'],
   endpoints: (builder) => ({
-    getUserInfo: builder.query<UserInfo, void>({
-      query: () => '/user-info',
+    getProfile: builder.query<ApiResponse<UserInfo>, void>({
+      query: () => '/profile',
+      providesTags: ['Profile'],
     }),
   }),
 });
 
-export const { useGetUserInfoQuery } = apiSlice;
+export const { useGetProfileQuery } = apiSlice;
 export const { resetApiState, getRunningOperationPromises } = apiSlice.util;
-export const { getUserInfo } = apiSlice.endpoints;
+export const { getProfile } = apiSlice.endpoints;

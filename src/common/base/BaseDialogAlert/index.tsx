@@ -47,7 +47,7 @@ const BaseDialogAlert = ({
   };
 
   return (
-    <Dialog open={!!isOpen} onClose={onCancel} PaperProps={{ sx: { borderRadius: 5 } }}>
+    <Dialog open={!!isOpen} onClose={onCancel} PaperProps={{ sx: { borderRadius: 5, py: 4, px: 3 } }}>
       <DialogContainer>
         {type === 'warning' ? <Warning /> : type === 'error' ? <Delete /> : <CheckCircle />}
         <DialogTitle>{titleDialog}</DialogTitle>

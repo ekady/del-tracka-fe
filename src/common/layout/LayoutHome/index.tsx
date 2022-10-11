@@ -14,7 +14,7 @@ const LayoutHome = ({ children }: PropsChildren) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header isSignIn showMenu={false} />
+      <Header showMenu={false} />
       <Grid component="main" sx={{ minHeight: '100vh', marginTop: { xs: '50px', md: '90px' } }}>
         {children}
       </Grid>

@@ -1,18 +1,19 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { UserInfo } from '@/common/types';
+import { ApiResponse, StatusMessageResponse, UserInfo } from '@/common/types';
 
 export interface Profile {
   firstName?: string;
   lastName?: string;
+  email?: string;
 }
 
 export interface ProfilePassword {
-  resetPassword?: string;
-  confirmResetPassword?: string;
+  password?: string;
+  passwordConfirm?: string;
 }
 
 export interface ProfileRequest extends Profile, ProfilePassword {
-  image?: File | null;
+  picture?: File | null;
   imageUrl?: string | null;
 }
 
@@ -22,18 +23,25 @@ export const profileApiSlice = apiSlice.injectEndpoints({
     updateProfile: builder.mutation<UserInfo, ProfileRequest>({
       query: (body) => {
         const formData = new FormData();
-        formData.append('firstname', body?.firstName ?? '');
-        formData.append('lastname', body?.lastName ?? '');
-        !!body.resetPassword && formData.append('resetPassword', body.resetPassword);
-        !!body.confirmResetPassword && formData.append('confirmResetPassword', body.confirmResetPassword);
-        if (body.image && body.image instanceof File) formData.append('image', body.image);
+        formData.append('firstName', body?.firstName ?? '');
+        formData.append('lastName', body?.lastName ?? '');
+        formData.append('email', body?.email ?? '');
+        !!body.password && formData.append('password', body.password);
+        !!body.passwordConfirm && formData.append('passwordConfirm', body.passwordConfirm);
+        if (body.picture && body.picture instanceof File) formData.append('picture', body.picture);
 
         return { url: '/profile', method: 'PUT', body: formData };
       },
       invalidatesTags: ['Profile'],
     }),
+    deleteProfile: builder.mutation<ApiResponse<StatusMessageResponse>, void>({
+      query: () => ({
+        url: '/profile',
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useUpdateProfileMutation } = profileApiSlice;
+export const { useUpdateProfileMutation, useDeleteProfileMutation } = profileApiSlice;
 export const { resetApiState } = profileApiSlice.util;

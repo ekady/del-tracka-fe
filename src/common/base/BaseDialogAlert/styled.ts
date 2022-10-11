@@ -33,6 +33,7 @@ export const TextContainer = styled(Box)(() => ({
 export const DialogActions = styled(DialogActionsMUI)(() => ({
   mb: 3,
   px: 3,
+  mt: 5,
 }));
 
 export const Warning = styled(WarningMUI)(({ theme }) => ({

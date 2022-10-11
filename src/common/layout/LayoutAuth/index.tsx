@@ -1,5 +1,10 @@
-// Next Components
+// React
+import { useEffect } from 'react';
+
+// Next
 import Image from 'next/image';
+import { useRouter } from 'next/dist/client/router';
+import { useSession } from 'next-auth/react';
 
 // MUI Components
 import { Paper, Box, Grid, Container } from '@mui/material';
@@ -14,6 +19,14 @@ import { PropsChildren } from '@/common/types';
 
 const LayoutAuth = ({ children }: PropsChildren) => {
   const theme = useTheme();
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session.data?.user.userToken.accessToken) {
+      router.replace('/app/dashboard');
+    }
+  }, [session, router]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import ProfileUI from '@/features/profile/components/Profile';
+import Profile from '@/features/profile/components/Profile';
 
 import { ProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ const Settings = () => {
     };
   }, [isSuccess]);
 
-  return <ProfileUI isFirstTime={false} submit={submitHander} isEditable={true} />;
+  return <Profile isFirstTime={false} submit={submitHander} isEditable={true} />;
 };
 
 Settings.getLayout = (page: ReactElement) => {

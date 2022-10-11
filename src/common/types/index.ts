@@ -39,9 +39,8 @@ export interface UserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  imageURL: string | null;
+  picture: string | null;
   id: string | null;
-  isFirstLogin: boolean;
 }
 
 export interface Credential {

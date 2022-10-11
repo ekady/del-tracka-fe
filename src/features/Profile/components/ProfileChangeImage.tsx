@@ -8,11 +8,11 @@ import { ProfileChildProps } from './Profile';
 import { Controller, RegisterOptions } from 'react-hook-form';
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
-export type ProfileImage = {
-  image?: RegisterOptions;
-};
+export interface ProfileImage {
+  picture?: RegisterOptions;
+}
 
-export type ProfileChangeImageProps = ProfileChildProps<ProfileImage>;
+export interface ProfileChangeImageProps extends ProfileChildProps<ProfileImage> {}
 
 const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChangeImageProps) => {
   const {
@@ -36,10 +36,10 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
         </Typography>
       </Box>
       <Controller
-        name="image"
+        name="picture"
         control={control}
         defaultValue={null}
-        rules={formOptions.image}
+        rules={formOptions.picture}
         render={({ field }) => (
           <FileUploaderSingle
             hideTextFile
@@ -48,7 +48,7 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
             heightContainer={200}
             buttonUploadText="Change Image"
             disabled={disabled}
-            error={errors.image}
+            error={errors.picture}
             value={field.value}
             handleValue={(file: File | Thumbnail | null) => field.onChange(file)}
           />
