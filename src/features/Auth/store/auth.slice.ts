@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Credential, StateStore } from '@/common/types';
+import { ICredential, IStateStore } from '@/common/types';
 
 type AuthState = {
-  credential: Credential;
+  ICredential: ICredential;
 };
 
 const name = 'auth';
 
 // Initial State
 const initialData: AuthState = {
-  credential: {
+  ICredential: {
     accessToken: null,
   },
 };
 
-const initialState: StateStore<AuthState> = {
+const initialState: IStateStore<AuthState> = {
   data: initialData,
   state: null,
 };
@@ -25,10 +25,10 @@ const AuthSlice = createSlice({
   name,
   initialState,
   reducers: {
-    setCredential: (state: StateStore<AuthState>, action: PayloadAction<Credential>) => {
-      state.data.credential = action.payload;
+    setCredential: (state: IStateStore<AuthState>, action: PayloadAction<ICredential>) => {
+      state.data.ICredential = action.payload;
     },
-    resetState: (state: StateStore<AuthState>) => {
+    resetState: (state: IStateStore<AuthState>) => {
       state.data = initialData;
     },
   },

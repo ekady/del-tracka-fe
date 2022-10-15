@@ -23,8 +23,8 @@ const ProjectOtherSetting = () => {
 
   const openSuccess = () => {
     openDialogSuccess('Success', 'Project has been deleted successfully!', {
-      handleCancel: () => router.replace('/projects'),
-      handleOk: () => router.replace('/projects'),
+      handleCancel: () => router.replace('/app/projects'),
+      handleOk: () => router.replace('/app/projects'),
     });
   };
 

@@ -1,3 +1,5 @@
+import { ICredential } from '@/common/types';
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -14,7 +16,7 @@ export interface SignUpRequest extends LoginRequest {
 }
 
 export interface AuthResponse {
-  data: Credential;
+  data: ICredential;
 }
 
 export interface ForgotPasswordRequest {

@@ -1,8 +1,8 @@
-import { Credential, UserInfo } from '@/common/types';
+import { ICredential, IUserInfo } from '@/common/types';
 import { apiSlice } from './api.slice';
 import { RootState } from '.';
 
-const initialDataProfile: UserInfo = {
+const initialDataProfile: IUserInfo = {
   id: null,
   email: null,
   firstName: null,
@@ -10,7 +10,7 @@ const initialDataProfile: UserInfo = {
   imageURL: null,
   isFirstLogin: false,
 };
-const initialDataToken: Credential = {
+const initialDataToken: ICredential = {
   accessToken: null,
 };
 

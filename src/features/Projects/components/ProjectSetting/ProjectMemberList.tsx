@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 // Next
 import { useRouter } from 'next/router';
 
@@ -5,36 +7,45 @@ import { useRouter } from 'next/router';
 import { Box, Typography } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
+// Redux
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
+// Toastify
+import { toast } from 'react-toastify';
+
 // Local Components
 import { DataTable, TableHeader, TableMenuSelection } from '@/common/base';
 
+// Hooks
 import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '../../store/project.api.slice';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+import useProjectId from '../../hooks/useProjectId';
 
-export type ProjectMemberListProps = {
+export interface ProjectMemberListProps {
   hideSelectOption?: boolean;
-};
+}
 
 const roleExample = [
-  { text: 'Admin', value: 'ADMIN' },
-  { text: 'Maintainer', value: 'MAINTAINER' },
-  { text: 'Developer', value: 'DEVELOPER' },
-  { text: 'Submitter', value: 'SUBMITTER' },
+  { text: 'OWNER', value: 'OWNER' },
+  { text: 'MAINTAINER', value: 'MAINTAINER' },
+  { text: 'DEVELOPER', value: 'DEVELOPER' },
+  { text: 'SUBMITTER', value: 'SUBMITTER' },
 ];
 
 const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
   const projectId = useRouter().query?.project_id as string;
+  const project = useProjectId();
   const { isFetching, data } = useGetProjectMembersQuery(projectId || skipToken);
   const [updateRoleMember, { isLoading }] = useUpdateRoleMemberMutation();
 
-  const onChangeRole = (userId?: string) => async (role: string) => {
-    try {
-      if (userId)
-        await updateRoleMember({ id: projectId, body: { id: userId, role: role.toLowerCase().toUpperCase() } });
-    } catch {
-      //
-    }
-  };
+  const onChangeRole = useCallback(
+    (userId?: string) => async (roleName: string) => {
+      if (userId) {
+        const response = await updateRoleMember({ id: projectId, body: { userId, roleName } }).unwrap();
+        if (response.data.message) toast.success('Successfully change role member');
+      }
+    },
+    [projectId, updateRoleMember],
+  );
 
   const renderCellRole = (params: GridRenderCellParams<string>) => (
     <>
@@ -43,7 +54,7 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
         <TableMenuSelection
           list={roleExample}
           currentValue={params.value}
-          handleChange={onChangeRole(params.row?.id)}
+          handleChange={onChangeRole(params.row?._id)}
           IconProps={{ sx: { bgcolor: 'transparent' } }}
         />
       )}
@@ -51,22 +62,48 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
   );
 
   const tableHeaders: GridColDef[] = [
-    { headerName: 'Name', field: 'name', width: 120 },
-    { headerName: 'Date Added', field: 'dateAdded', width: 300 },
-    { headerName: 'Added By', field: 'addedBy', width: 200 },
-    { headerName: 'Role', field: 'role', width: 200, editable: true, renderCell: renderCellRole },
+    {
+      headerName: 'Name',
+      field: 'name',
+      valueGetter: (param) => `${param.row?.firstName} ${param.row?.lastName}`,
+      width: 180,
+    },
+    {
+      headerName: 'Date Added',
+      field: 'createdAt',
+      valueGetter: (param) => new Date(param.row.createdAt).toLocaleDateString(),
+      width: 150,
+    },
+    {
+      headerName: 'Added By',
+      field: 'createdBy',
+      width: 200,
+      valueGetter: (param) => `${param.row?.createdBy.firstName} ${param.row?.createdBy.lastName}`,
+    },
+    {
+      headerName: 'Role',
+      field: 'role',
+      valueGetter: (param) => param.row?.role?.name ?? '-',
+      width: 200,
+      editable: true,
+      renderCell: renderCellRole,
+    },
   ];
   return (
     <>
-      <TableHeader header={<Typography fontWeight="bold">Health Care Member</Typography>} />
+      <TableHeader header={<Typography fontWeight="bold">{project.data?.data.name}</Typography>} />
       <Box sx={{ height: 20 }} />
       <DataTable
         rows={data ?? []}
         rowCount={undefined}
-        paginationMode="client"
+        pagination={undefined}
+        paginationMode={undefined}
+        hideFooterPagination
         sortingMode="client"
         columns={tableHeaders}
         loading={isFetching || isLoading}
+        getRowId={(row) => row._id}
+        editMode={undefined}
       />
     </>
   );

@@ -30,7 +30,7 @@ const ProjecOverviewDetailPage = () => {
         <ProjectDetailTitle
           title={data?.name ?? ''}
           description={data?.description}
-          canAccessSettings={data?.asRole === ProjectRoles.ADMIN || data?.asRole === ProjectRoles.MAINTAINER}
+          canAccessSettings={data?.asRole === ProjectRoles.OWNER || data?.asRole === ProjectRoles.MAINTAINER}
         />
       </Grid>
       <Box sx={{ height: 40 }} />

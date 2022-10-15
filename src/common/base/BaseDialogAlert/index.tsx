@@ -8,11 +8,11 @@ import { grey, blueGrey } from '@mui/material/colors';
 import { CheckCircle, DialogContainer, DialogActions, DialogTitle, Delete, TextContainer, Warning } from './styled';
 import ButtonLoading from '../ButtonLoading';
 
-import { FunctionVoid, PropsChildren } from '@/common/types';
+import { FunctionVoid, IPropsChildren } from '@/common/types';
 
 export type DialogAlertType = 'warning' | 'error' | 'success';
 
-export interface BaseDialogAlertProps extends PropsChildren {
+export interface BaseDialogAlertProps extends IPropsChildren {
   type?: DialogAlertType;
   handleOk?: FunctionVoid;
   hideButtonOk?: boolean;

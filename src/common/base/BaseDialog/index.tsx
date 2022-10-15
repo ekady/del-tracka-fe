@@ -1,10 +1,10 @@
 // MUI Components
 import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { FunctionVoid, PropsChildren } from '@/common/types';
+import { FunctionVoid, IPropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
 
-export interface BaseDialogProps extends PropsChildren {
+export interface BaseDialogProps extends IPropsChildren {
   handleOk?: FunctionVoid;
   hideButtonOk?: boolean;
   textOk?: string;

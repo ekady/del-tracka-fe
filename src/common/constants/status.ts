@@ -1,9 +1,9 @@
-import { AutocompleteOptions, InformationWithColor } from '@/common/types';
+import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
 export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'CLOSE' | 'HOLD';
 
 export type StatusIndexable = {
-  [key in StatusType]: InformationWithColor;
+  [key in StatusType]: IInformationWithColor;
 };
 
 const STATUS: StatusIndexable = {
@@ -39,7 +39,7 @@ const STATUS: StatusIndexable = {
   },
 };
 
-export const statusList: readonly AutocompleteOptions[] = Object.keys(STATUS).map((status) => ({
+export const statusList: readonly IAutocompleteOptions[] = Object.keys(STATUS).map((status) => ({
   value: STATUS[status as StatusType].value as string,
   label: STATUS[status as StatusType].name as string,
 }));

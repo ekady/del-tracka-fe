@@ -2,14 +2,14 @@
 import { memo, useCallback, useState } from 'react';
 
 // MUI Components
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, IconButton, Menu, IMenuItem } from '@mui/material';
 
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
 
-import { FunctionVoid, PropsChildren } from '@/common/types';
+import { FunctionVoid, IPropsChildren } from '@/common/types';
 
-export interface TableActionProps extends PropsChildren {
+export interface TableActionProps extends IPropsChildren {
   hideView?: boolean;
   handleView?: FunctionVoid;
   hideDelete?: boolean;
@@ -64,9 +64,9 @@ const TableAction = ({
           horizontal: 'left',
         }}
       >
-        {!hideView && <MenuItem onClick={() => handleClose(handleView)}>View</MenuItem>}
-        {!hideEdit && <MenuItem onClick={() => handleClose(handleEdit)}>Edit</MenuItem>}
-        {!hideDelete && <MenuItem onClick={() => handleClose(handleDelete)}>Delete</MenuItem>}
+        {!hideView && <IMenuItem onClick={() => handleClose(handleView)}>View</IMenuItem>}
+        {!hideEdit && <IMenuItem onClick={() => handleClose(handleEdit)}>Edit</IMenuItem>}
+        {!hideDelete && <IMenuItem onClick={() => handleClose(handleDelete)}>Delete</IMenuItem>}
         <Box onClick={() => handleClose()}>{children}</Box>
       </Menu>
     </>

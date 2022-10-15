@@ -1,6 +1,6 @@
 import { convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
-import { PaginationParams, PaginationResponse } from '@/common/types';
+import { IPaginationParams, IPaginationResponse } from '@/common/types';
 
 export interface MyIssuesDataResponse {
   id: string;
@@ -15,7 +15,7 @@ export interface MyIssuesDataResponse {
 export const myIssuesApiSLice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getMyIssues: builder.query<PaginationResponse<MyIssuesDataResponse>, PaginationParams>({
+    getMyIssues: builder.query<IPaginationResponse<MyIssuesDataResponse>, IPaginationParams>({
       query: (arg) => {
         return { url: '/issues', params: convertParams(arg) };
       },

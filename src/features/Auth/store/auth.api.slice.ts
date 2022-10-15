@@ -1,39 +1,39 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { ApiResponse, StatusMessageResponse } from '@/common/types';
+import { IApiResponse, IStatusMessageResponse } from '@/common/types';
 import { ForgotPasswordRequest, ResetPasswordRequest, SignUpRequest } from '../interfaces';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    signup: builder.mutation<ApiResponse<StatusMessageResponse>, SignUpRequest>({
+    signup: builder.mutation<IApiResponse<IStatusMessageResponse>, SignUpRequest>({
       query: (body) => ({
         url: '/auth/sign-up',
         method: 'post',
         body,
       }),
     }),
-    forgotPassword: builder.mutation<ApiResponse<StatusMessageResponse>, ForgotPasswordRequest>({
+    forgotPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ForgotPasswordRequest>({
       query: (body) => ({
         url: '/auth/forgot-password',
         method: 'post',
         body,
       }),
     }),
-    resetPassword: builder.mutation<ApiResponse<StatusMessageResponse>, ResetPasswordRequest>({
+    resetPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ResetPasswordRequest>({
       query: ({ resetToken, ...passwords }) => ({
         url: `/auth/reset-password?reset-token=${resetToken}`,
         method: 'post',
         body: passwords,
       }),
     }),
-    verifyResetToken: builder.mutation<ApiResponse<StatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
+    verifyResetToken: builder.mutation<IApiResponse<IStatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
       query: ({ resetToken }) => ({
         url: `/auth/verify-reset-token`,
         method: 'post',
         body: { token: resetToken },
       }),
     }),
-    logout: builder.mutation<ApiResponse<StatusMessageResponse>, void>({
+    logout: builder.mutation<IApiResponse<IStatusMessageResponse>, void>({
       query: () => ({
         url: '/auth/sign-out',
         method: 'post',

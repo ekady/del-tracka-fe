@@ -10,13 +10,13 @@ import {
   FilterText,
 } from '@/common/base/BaseFilter/styled';
 
-import { FilterProps } from '@/common/types';
+import { IFilterProps } from '@/common/types';
 
 import { statusList } from '@/common/constants/status';
 import { levelList } from '@/common/constants/level';
 import { memo } from 'react';
 
-const MyIssuesFilter = ({ onChange }: FilterProps) => {
+const MyIssuesFilter = ({ onChange }: IFilterProps) => {
   return (
     <FilterContainer>
       <FilterText>Filter</FilterText>

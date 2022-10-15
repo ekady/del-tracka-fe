@@ -1,9 +1,9 @@
 import { GridColDef } from '@mui/x-data-grid';
 
 import { DataTable } from '@/common/base';
-import { TableAndSearchProps } from '@/common/types';
+import { ITableAndSearchProps } from '@/common/types';
 
-export type LogsProps = TableAndSearchProps & {
+export type LogsProps = ITableAndSearchProps & {
   notFullInfo?: boolean;
   isUsingDate?: boolean;
   isUsingProjectName?: boolean;

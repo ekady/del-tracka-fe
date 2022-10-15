@@ -9,15 +9,15 @@ import { CustomInput } from '@/common/base';
 import { FormEvent } from 'react';
 
 // Types
-import { ProjectRequest } from '../types';
+import { IProjectRequest } from '../types';
 import { FunctionVoidWithParams } from '@/common/types';
 
 export type ProjectNewFormValidation = {
-  [key in keyof ProjectRequest]: RegisterOptions;
+  [key in keyof IProjectRequest]: RegisterOptions;
 };
 
 export interface ProjectNewFormProps {
-  formMethods: UseFormReturn<ProjectRequest>;
+  formMethods: UseFormReturn<IProjectRequest>;
   formOptions: ProjectNewFormValidation;
   onSubmit?: FunctionVoidWithParams<FormEvent<HTMLFormElement>>;
   disabled?: boolean;

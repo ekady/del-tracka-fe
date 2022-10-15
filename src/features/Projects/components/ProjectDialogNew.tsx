@@ -9,19 +9,19 @@ import { useForm } from 'react-hook-form';
 import ProjectNewForm from './ProjectNewForm';
 
 // Types
-import { ProjectRequest } from '../types';
-import { useCreataProjectMutation } from '../store/project.api.slice';
+import { IProjectRequest } from '../types';
+import { useCreateProjectMutation } from '../store/project.api.slice';
 
-export type ProjectDialogNewProps = {
+export interface ProjectDialogNewProps {
   handleOk?: FunctionVoid;
   handleCancel?: FunctionVoid;
   isEdit?: boolean;
   isOpen?: boolean;
-};
+}
 
 const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) => {
-  const [createProject, { isLoading }] = useCreataProjectMutation();
-  const form = useForm<ProjectRequest>({ mode: 'all' });
+  const [createProject, { isLoading }] = useCreateProjectMutation();
+  const form = useForm<IProjectRequest>({ mode: 'all' });
   const {
     handleSubmit,
     formState: { errors },
@@ -30,12 +30,8 @@ const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDia
   } = form;
 
   const validation = {
-    name: {
-      required: true,
-    },
-    description: {
-      required: true,
-    },
+    name: { required: true },
+    description: { required: true },
   };
 
   const handleClickOk = handleSubmit(async (data) => {

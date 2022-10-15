@@ -10,14 +10,14 @@ import { DataTable, TableAction, TableCellLevel, TableCellStatus, TableHeader } 
 import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
 
 // Types
-import { TableAndSearchProps } from '@/common/types';
+import { ITableAndSearchProps } from '@/common/types';
 
 import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const ProjectIssueTable = ({ SearchProps, TableProps }: TableAndSearchProps) => {
+const ProjectIssueTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
   const router = useRouter();
   const renderCellStatus = (params: GridRenderCellParams<string>) => (
     <TableCellStatus

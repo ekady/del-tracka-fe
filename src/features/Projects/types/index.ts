@@ -1,20 +1,30 @@
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { StatusType } from '@/common/constants/status';
-import { AutocompleteOptions } from '@/common/types';
+import { IAutocompleteOptions, IRoleResponse, IUserInfo } from '@/common/types';
 import { ProjectRoles } from '../constant/role';
 
 export type ProjectRolesType = keyof typeof ProjectRoles;
 
-export type ProjectMember = {
-  id: string;
+export interface IProjectRequest {
   name: string;
-  dateAdded: string;
-  addedBy: string;
-  role: string;
-  roleName: string;
-};
+  description: string;
+}
 
-export type SprintType = {
+export interface IProjectResponse extends IProjectRequest {
+  shortId: string;
+  role: string;
+  stages: any[];
+}
+
+export interface IProjectMember extends IUserInfo {
+  role: IRoleResponse;
+  createdBy: IUserInfo;
+  updatedBy: IUserInfo;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SprintType {
   id: string;
   name: string;
   open?: number;
@@ -22,46 +32,46 @@ export type SprintType = {
   review?: number;
   close?: number;
   newestSprint?: number | null;
-};
+  shortId?: string;
+}
 
-export type ProjectRequest = {
-  name: string;
-  description: string;
-};
-
-export type ProjectResponse = ProjectRequest & {
-  id: string;
-  sprints: SprintType[];
-  asRole: ProjectRolesType;
-  totalOpen?: number;
-  totalInProgress?: number;
-  totalReview?: number;
-  totalClose?: number;
-  newestSprint?: number | null;
-};
-
-export type ProjectSprintIssueDetail = {
+export interface IProjectSprintIssueDetail {
   id: string;
   mainProblem: string;
   feature: string;
-  reporter: AutocompleteOptions | null;
-  assignee?: AutocompleteOptions | null;
+  reporter: IAutocompleteOptions | null;
+  assignee?: IAutocompleteOptions | null;
   detail?: string;
-  level: AutocompleteOptions | null;
+  level: IAutocompleteOptions | null;
   images?: (File | Thumbnail)[] | null;
   imageUrls?: Thumbnail[];
-};
+}
 
-export type ProjectSprintIssue = ProjectSprintIssueDetail & {
+export interface IProjectSprintIssue extends IProjectSprintIssueDetail {
   status: StatusType;
   bugNumber: string;
   dateUpdated: string;
   assigneeAvatar?: string | null;
-};
+}
 
-export type ProjectSprintInfo = {
+export interface ProjectSprintInfo {
   idProject: string;
   projectName: string;
   idSprint: string;
   sprint: string;
-};
+}
+
+export interface IProjectMemberAddRequest {
+  email: string;
+  roleName: string;
+}
+
+export interface IProjectMemberUpdateRequest {
+  userId: string;
+  roleName: string;
+}
+
+export interface IProjectSettingRequest<BodyType, IdType = string> {
+  id: IdType;
+  body: BodyType;
+}

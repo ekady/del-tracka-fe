@@ -2,10 +2,10 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { GridSortModel } from '@mui/x-data-grid';
 import { debounce } from '@mui/material';
 
-import { PaginationParams } from '@/common/types';
+import { IPaginationParams } from '@/common/types';
 import { table } from '../constants';
 
-const initialState: PaginationParams = {
+const initialState: IPaginationParams = {
   limit: table.initialLimit,
   page: table.initialPage,
   search: '',
@@ -13,7 +13,7 @@ const initialState: PaginationParams = {
 };
 
 export const useTableChange = () => {
-  const [tableOption, setTableOption] = useState<PaginationParams>(initialState);
+  const [tableOption, setTableOption] = useState<IPaginationParams>(initialState);
 
   const onSearch = debounce((event: ChangeEvent<HTMLInputElement>) => {
     const search = { search: event?.target?.value ?? '' };

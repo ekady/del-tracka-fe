@@ -6,20 +6,20 @@ import { CustomInput, FileUploaderMultiple } from '@/common/base';
 
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
-import { ProjectSprintIssueDetail } from '../../types';
+import { IProjectSprintIssueDetail } from '../../types';
 import { levelList } from '@/common/constants/level';
 
 export type ProjectIssueFormProps = {
-  data?: ProjectSprintIssueDetail;
+  data?: IProjectSprintIssueDetail;
   hideUploadFile?: boolean;
   disabled?: boolean;
 };
 
 type ProjectSprintIssueDetailForm = {
-  [key in keyof ProjectSprintIssueDetail]: RegisterOptions;
+  [key in keyof IProjectSprintIssueDetail]: RegisterOptions;
 };
 
-const defaultValue: ProjectSprintIssueDetail = {
+const defaultValue: IProjectSprintIssueDetail = {
   id: '',
   feature: '',
   level: null,

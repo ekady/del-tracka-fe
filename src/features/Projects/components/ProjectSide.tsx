@@ -14,14 +14,14 @@ import { grey } from '@mui/material/colors';
 import { ProjectDialogNew, ProjectList } from '.';
 import { BaseDialogAlert } from '@/common/base';
 
-import { ProjectResponse } from '../types';
+import { IProjectResponse } from '../types';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 
 const messageSuccess = 'Project created successfully';
 
-export type ProjectsProps = {
-  projectList?: ProjectResponse[];
-};
+export interface ProjectsProps {
+  projectList?: IProjectResponse[];
+}
 
 const ProjectSide = ({ projectList }: ProjectsProps) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -42,10 +42,16 @@ const ProjectSide = ({ projectList }: ProjectsProps) => {
 
   if (!projectList || !projectList.length) {
     return (
-      <Box sx={{ textAlign: 'center' }}>
+      <Box sx={{ textAlign: 'center', px: 2 }}>
         <Typography color={grey[600]}>No Project</Typography>
         <Box sx={{ height: 25 }} />
-        <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />} onClick={handleOpenDialog}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          startIcon={<AddCircleOutlined />}
+          onClick={handleOpenDialog}
+        >
           Add Project
         </Button>
         <ProjectDialogNew isOpen={openDialog} handleCancel={handleCloseDialog} handleOk={successDialog} />
@@ -53,16 +59,16 @@ const ProjectSide = ({ projectList }: ProjectsProps) => {
     );
   }
   return (
-    <>
-      <Box sx={{ mb: 2, px: 1, textAlign: 'center' }}>
-        <Button color="primary" variant="contained" onClick={handleOpenDialog}>
+    <Box sx={{ px: 2 }}>
+      <Box sx={{ mb: 2, textAlign: 'center' }}>
+        <Button fullWidth color="primary" variant="contained" onClick={handleOpenDialog}>
           <AddCircleOutlined sx={{ mr: 1 }} /> Add New Project
         </Button>
         <ProjectDialogNew isOpen={openDialog} handleCancel={handleCloseDialog} handleOk={successDialog} />
       </Box>
       <ProjectList projectList={projectList} />
       <BaseDialogAlert handleCancel={closeDialogAlert} handleOk={closeDialogAlert} {...dialogAlertOpt} />
-    </>
+    </Box>
   );
 };
 

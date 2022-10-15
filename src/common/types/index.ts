@@ -6,73 +6,73 @@ export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
 export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
 
-export interface InformationWithColor {
+export interface IInformationWithColor {
   value?: string | number;
   name?: string;
   color: string;
   textColor: string;
 }
 
-export interface AutocompleteOptions {
+export interface IAutocompleteOptions {
   label: string;
   value: string;
 }
 
-export interface MenuItem {
+export interface IMenuItem {
   name: string;
   path: string;
   icon: string;
 }
 
-export interface PropsChildren {
+export interface IPropsChildren {
   children?: ReactNode;
 }
 
-export interface StaticImageData {
+export interface IStaticImageData {
   src: string;
   height: number;
   width: number;
   placeholder?: string;
 }
 
-export interface UserInfo {
+export interface IUserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  picture: string | null;
-  id: string | null;
+  picture?: string | null;
+  _id: string | null;
 }
 
-export interface Credential {
+export interface ICredential {
   accessToken: string | null;
   refreshToken?: string | null;
 }
 
-export interface StateStore<DataType> {
+export interface IStateStore<DataType> {
   state?: unknown;
   data: DataType;
 }
 
-export interface PaginationParams {
+export interface IPaginationParams {
   limit?: number;
   page?: number;
   sort?: string;
   search?: string;
   filter?: Record<string, string | number>;
 }
-export type PaginationParamsText = keyof PaginationParams;
+export type PaginationParamsText = keyof IPaginationParams;
 
-export interface PaginationResponse<ContentType> {
+export interface IPaginationResponse<ContentType> {
   content: ContentType[];
   currentPage: number;
   totalPage: number;
   contentFrom: number;
   contentTo: number;
   totalContent: number;
-  options: PaginationParams;
+  options: IPaginationParams;
 }
 
-export interface TableAndSearchProps {
+export interface ITableAndSearchProps {
   TableProps?: Omit<DataGridProps, 'columns'>;
   SearchProps?: TextFieldProps;
 }
@@ -81,27 +81,32 @@ export type onChangeWithAdditionalParams<ParamsType, OptionType> = (
   params?: ParamsType,
 ) => (event: SyntheticEvent<Element, Event>, value: OptionType | null) => void;
 
-export interface FilterProps<ParamsType, OptionType> {
+export interface IFilterProps<ParamsType, OptionType> {
   onChange?: onChangeWithAdditionalParams<ParamsType, OptionType>;
 }
 
-export interface StatusMessageResponse {
+export interface IStatusMessageResponse {
   message: string;
 }
 
-export interface ErrorDataResponse {
+export interface IErrorDataResponse {
   errorType: string;
   message: string;
 }
 
-export interface ErrorResponse {
+export interface IErrorResponse {
   data: null;
-  errors: ErrorDataResponse[];
+  errors: IErrorDataResponse[];
   statusCode: number;
 }
 
-export interface ApiResponse<Response> {
+export interface IApiResponse<Response> {
   data: Response;
   errors: null;
   statusCode: number;
+}
+
+export interface IRoleResponse {
+  _id: string;
+  name: string;
 }

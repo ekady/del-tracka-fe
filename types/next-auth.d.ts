@@ -1,4 +1,4 @@
-import { Credential } from '@/common/types';
+import { ICredential } from '@/common/types';
 import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
@@ -7,7 +7,7 @@ declare module 'next-auth' {
    */
   interface Session {
     user: {
-      userToken: Credential;
+      userToken: ICredential;
     } & DefaultSession;
   }
 }

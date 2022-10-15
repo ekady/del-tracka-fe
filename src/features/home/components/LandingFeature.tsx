@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Components
 import { Box, Grid, Typography } from '@mui/material';
 
-import { StaticImageData } from '@/common/types';
+import { IStaticImageData } from '@/common/types';
 
 export type FeatureText = {
   title: string;
@@ -12,7 +12,7 @@ export type FeatureText = {
 };
 
 export type LandingFeatureProps = {
-  icon: StaticImageData;
+  icon: IStaticImageData;
   featureItems: FeatureText[];
   direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
 };

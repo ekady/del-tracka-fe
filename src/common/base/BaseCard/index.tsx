@@ -1,8 +1,8 @@
 import { LinearProgress, PaperProps } from '@mui/material';
-import { PropsChildren } from '@/common/types';
+import { IPropsChildren } from '@/common/types';
 import { CardBoxStyled, CardPaperStyled } from './styled';
 
-export interface BaseCardProps extends PropsChildren, PaperProps {
+export interface BaseCardProps extends IPropsChildren, PaperProps {
   loading?: boolean;
 }
 

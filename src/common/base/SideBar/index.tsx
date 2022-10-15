@@ -29,7 +29,7 @@ import { IconLogo } from '@/common/icons';
 import { Drawer, ListItem } from './styled';
 
 import { menu } from '@/common/constants';
-import { MenuItem, FunctionVoid } from '@/common/types';
+import { IMenuItem, FunctionVoid } from '@/common/types';
 
 export interface SideBarProps {
   isOpen: boolean;
@@ -53,7 +53,7 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const list: ReactNode = (
     <Box sx={{ py: 1 }} role="presentation" onClick={toggleDrawer(true)} onKeyDown={toggleDrawer(true)}>
       <List>
-        {menu.map(({ path, name, icon }: MenuItem) => (
+        {menu.map(({ path, name, icon }: IMenuItem) => (
           <Link href={path} passHref key={path}>
             <ListItem
               selected={mainPath.includes(path)}

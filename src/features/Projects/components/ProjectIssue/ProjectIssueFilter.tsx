@@ -8,12 +8,12 @@ import { Autocomplete, Typography } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import { FilterContainer, FilterListSelectContainer, FilterSelectContainer } from '@/common/base/BaseFilter/styled';
 
-import { FilterProps } from '@/common/types';
+import { IFilterProps } from '@/common/types';
 
 import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';
 
-const ProjectIssueFilter = ({ onChange }: FilterProps) => {
+const ProjectIssueFilter = ({ onChange }: IFilterProps) => {
   return (
     <FilterContainer>
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>

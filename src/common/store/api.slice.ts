@@ -1,13 +1,13 @@
 import nextRouter from 'next/router';
-import { ApiResponse, Credential, ErrorDataResponse, ErrorResponse, UserInfo } from '@/common/types';
+import { IApiResponse, ICredential, IErrorDataResponse, IErrorResponse, IUserInfo } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import { BaseQueryFn, createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { getSession, signOut } from 'next-auth/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import store, { RootState } from '.';
 
-const getTokens = async (state: RootState): Promise<Credential | undefined> => {
-  let accessToken = state.auth.data.credential.accessToken;
+const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
+  let accessToken = state.auth.data.ICredential.accessToken;
 
   if (!accessToken) {
     const session = await getSession();
@@ -23,11 +23,11 @@ const baseQuery: BaseQueryFn = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '//api.local/',
   prepareHeaders: async (headers, { getState, endpoint }) => {
     if (!['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(endpoint)) {
-      const credential = await getTokens(getState() as RootState);
-      if (!credential) {
+      const ICredential = await getTokens(getState() as RootState);
+      if (!ICredential) {
         await signOut({ redirect: false });
         nextRouter.replace('/auth/sign-in');
-      } else if (credential?.accessToken) headers.set('Authorization', `Bearer ${credential.accessToken}`);
+      } else if (ICredential?.accessToken) headers.set('Authorization', `Bearer ${ICredential.accessToken}`);
     }
     return headers;
   },
@@ -36,11 +36,13 @@ const baseQuery: BaseQueryFn = fetchBaseQuery({
 const baseQueryWithRefresh: BaseQueryFn = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
 
-  let fetchError: FetchBaseQueryError, errorResponse: ErrorResponse, hasAccessTokenError: ErrorDataResponse | undefined;
+  let fetchError: FetchBaseQueryError,
+    IErrorResponse: IErrorResponse,
+    hasAccessTokenError: IErrorDataResponse | undefined;
   if (result.error) {
     fetchError = result.error as FetchBaseQueryError;
-    errorResponse = fetchError.data as ErrorResponse;
-    hasAccessTokenError = errorResponse?.errors.find((err) => err.errorType === 'ACCESS_TOKEN_EXPIRED');
+    IErrorResponse = fetchError.data as IErrorResponse;
+    hasAccessTokenError = IErrorResponse?.errors.find((err) => err.errorType === 'ACCESS_TOKEN_EXPIRED');
   }
 
   if (hasAccessTokenError) {
@@ -69,7 +71,7 @@ export const apiSlice = createApi({
   },
   tagTypes: ['Profile'],
   endpoints: (builder) => ({
-    getProfile: builder.query<ApiResponse<UserInfo>, void>({
+    getProfile: builder.query<IApiResponse<IUserInfo>, void>({
       query: () => '/profile',
       providesTags: ['Profile'],
     }),

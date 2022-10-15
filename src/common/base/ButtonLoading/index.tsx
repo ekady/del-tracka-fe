@@ -1,7 +1,7 @@
 import { Button, ButtonProps, CircularProgress } from '@mui/material';
-import { PropsChildren } from '@/common/types';
+import { IPropsChildren } from '@/common/types';
 
-export interface ButtonLoadingProps extends ButtonProps, PropsChildren {
+export interface ButtonLoadingProps extends ButtonProps, IPropsChildren {
   loading?: boolean;
   loadingSize?: string | number;
 }

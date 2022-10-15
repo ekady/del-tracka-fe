@@ -10,9 +10,9 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Icons
 import { IconLogo } from '@/common/icons';
 
-import { PropsChildren } from '@/common/types';
+import { IPropsChildren } from '@/common/types';
 
-const LayoutPlain = ({ children }: PropsChildren) => {
+const LayoutPlain = ({ children }: IPropsChildren) => {
   const theme = useTheme();
 
   return (

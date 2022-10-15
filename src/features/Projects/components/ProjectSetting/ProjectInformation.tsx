@@ -12,7 +12,7 @@ import ProjectNewForm from '../ProjectNewForm';
 import { ButtonLoading } from '@/common/base';
 
 // Types
-import { ProjectRequest } from '@/features/projects/types';
+import { IProjectRequest } from '@/features/projects/types';
 
 // Toast
 import { toast } from 'react-toastify';
@@ -23,9 +23,9 @@ import useProjectId from '../../hooks/useProjectId';
 const ProjectInformation = () => {
   const { data, projectId, isFetching } = useProjectId();
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
-  const form = useForm<ProjectRequest>({
+  const form = useForm<IProjectRequest>({
     mode: 'all',
-    defaultValues: { description: data?.description ?? '', name: data?.name ?? '' },
+    defaultValues: { description: data?.data?.description ?? '', name: data?.data?.name ?? '' },
   });
   const {
     handleSubmit,
@@ -53,13 +53,13 @@ const ProjectInformation = () => {
 
   useEffect(() => {
     if (!isFetching) {
-      resetField('name', { defaultValue: data?.name ?? '' });
-      resetField('description', { defaultValue: data?.description ?? '' });
+      resetField('name', { defaultValue: data?.data?.name ?? '' });
+      resetField('description', { defaultValue: data?.data?.description ?? '' });
     } else {
       resetField('name', { defaultValue: '' });
       resetField('description', { defaultValue: '' });
     }
-  }, [data?.description, data?.name, isFetching, resetField]);
+  }, [data?.data?.description, data?.data?.name, isFetching, resetField]);
 
   return (
     <>

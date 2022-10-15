@@ -1,140 +1,163 @@
 import { convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
 import { LogsResponse } from '@/features/logs/store/logs.api.slice';
-import { PaginationParams, PaginationResponse } from '@/common/types';
+import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
 import {
-  ProjectMember,
-  ProjectRequest,
-  ProjectResponse,
+  IProjectResponse,
+  IProjectMember,
+  IProjectRequest,
   ProjectSprintInfo,
-  ProjectSprintIssue,
-  ProjectSprintIssueDetail,
+  IProjectSprintIssue,
+  IProjectSprintIssueDetail,
   SprintType,
+  IProjectSettingRequest,
+  IProjectMemberAddRequest,
+  IProjectMemberUpdateRequest,
 } from '../types';
-
-export type ProjectMemberRequest = Pick<ProjectMember, 'id' | 'role'>;
-
-type ProjectSettingRequest<BodyType, IdType = string> = {
-  id: IdType;
-  body: BodyType;
-};
 
 type ProjectIds = Pick<ProjectSprintInfo, 'idProject' | 'idSprint'> & { idIssue?: string };
 
-export const projectApiSlice = apiSlice.injectEndpoints({
-  overrideExisting: true,
-  endpoints: (builder) => ({
-    getProjects: builder.query<ProjectResponse[], void>({
-      query: () => '/projects',
-    }),
-    creataProject: builder.mutation<ProjectRequest, ProjectRequest>({
-      query: (body) => ({
-        url: '/project-new',
-        method: 'post',
-        body,
+export const projectApiSlice = apiSlice
+  .enhanceEndpoints({ addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member'] })
+  .injectEndpoints({
+    overrideExisting: true,
+    endpoints: (builder) => ({
+      // Projects
+      getProjects: builder.query<IApiResponse<IProjectResponse[]>, void>({
+        query: () => '/projects',
+        providesTags: ['Projects'],
       }),
-    }),
-    getProject: builder.query<ProjectResponse, string>({
-      query: (id) => `/project/${id}`,
-    }),
-    updateProject: builder.mutation<ProjectRequest, ProjectSettingRequest<ProjectRequest>>({
-      query: ({ id, body }) => ({
-        url: `/project/${id}`,
-        method: 'put',
-        body,
+      createProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectRequest>({
+        query: (body) => ({
+          url: '/projects',
+          method: 'post',
+          body,
+        }),
+        invalidatesTags: ['Projects'],
       }),
-    }),
-    deleteProject: builder.mutation<ProjectRequest, string>({
-      query: (id) => ({
-        url: `/project/${id}`,
-        method: 'delete',
+      getProject: builder.query<IApiResponse<IProjectResponse>, string>({
+        query: (id) => `/projects/${id}`,
+        providesTags: ['Project'],
       }),
-    }),
-    getProjectActivities: builder.query<LogsResponse[], string>({
-      query: (id) => `/project/${id}/activities`,
-    }),
-    getProjectMembers: builder.query<ProjectMember[], string>({
-      query: (id) => `/project/${id}/members`,
-    }),
-    addMember: builder.mutation<ProjectMember, ProjectSettingRequest<ProjectMemberRequest>>({
-      query: ({ id, body }) => ({
-        url: `/project/${id}/members`,
-        method: 'post',
-        body,
+      updateProject: builder.mutation<IApiResponse<IProjectRequest>, IProjectSettingRequest<IProjectRequest>>({
+        query: ({ id, body }) => ({
+          url: `/projects/${id}`,
+          method: 'put',
+          body,
+        }),
+        invalidatesTags: ['Project', 'Projects'],
       }),
-    }),
-    updateRoleMember: builder.mutation<ProjectMember, ProjectSettingRequest<ProjectMemberRequest>>({
-      query: ({ id, body }) => ({
-        url: `/project/${id}/members`,
-        method: 'put',
-        body,
+      deleteProject: builder.mutation<IApiResponse<IProjectRequest>, string>({
+        query: (id) => ({
+          url: `/projects/${id}`,
+          method: 'delete',
+        }),
+        invalidatesTags: ['Projects'],
       }),
-    }),
-    createNewSprint: builder.mutation<SprintType, ProjectSettingRequest<Pick<SprintType, 'newestSprint'>>>({
-      query: ({ id, body }) => ({
-        url: `/project/${id}/sprint-new`,
-        method: 'post',
-        body,
+      getProjectActivities: builder.query<IApiResponse<LogsResponse[]>, string>({
+        query: (id) => `/projects/${id}/activities`,
       }),
-    }),
-    getSprintInfo: builder.query<ProjectSprintInfo, ProjectIds>({
-      query: ({ idProject, idSprint }) => `/project/${idProject}/info/${idSprint}`,
-    }),
-    getSprintIssues: builder.query<
-      PaginationResponse<ProjectSprintIssue>,
-      ProjectSettingRequest<PaginationParams, ProjectIds>
-    >({
-      query: ({ id, body }) => ({ url: `/project/${id.idProject}/${id.idSprint}`, params: convertParams(body) }),
-    }),
-    getIssue: builder.query<ProjectSprintIssueDetail, ProjectIds>({
-      query: ({ idProject, idSprint, idIssue }) => `/project/${idProject}/${idSprint}/${idIssue}`,
-      transformResponse: (response) => {
-        const res = response as ProjectSprintIssueDetail;
-        res.images = res.imageUrls;
-        return res;
-      },
-    }),
-    createUpdateIssue: builder.mutation<
-      ProjectSprintIssueDetail,
-      ProjectSettingRequest<ProjectSprintIssueDetail, ProjectIds>
-    >({
-      query: ({ id, body }) => {
-        const formData = new FormData();
-        const { feature, level, mainProblem, reporter, assignee, detail, images } = body;
 
-        formData.append('feature', feature);
-        formData.append('mainProblem', mainProblem);
-        formData.append('level', level?.value ?? '');
-        formData.append('reporter', reporter?.value ?? '');
-        formData.append('assignee', assignee?.value ?? '');
-        formData.append('detail', detail ?? '');
-        if (images && images.length > 0) {
-          images.forEach((image) => {
-            if (image instanceof File) formData.append('image', image);
-            else formData.append('imageOld', image.name);
-          });
-        }
+      // Project Member
+      getProjectMembers: builder.query<IProjectMember[], string>({
+        query: (id) => `/projects/${id}/member`,
+        providesTags: ['Member'],
+        transformResponse: (response: IApiResponse<IProjectMember[]>) => response.data,
+      }),
+      addMember: builder.mutation<
+        IApiResponse<IStatusMessageResponse>,
+        IProjectSettingRequest<IProjectMemberAddRequest>
+      >({
+        query: ({ id, body }) => ({
+          url: `/projects/${id}/member`,
+          method: 'post',
+          body,
+        }),
+        invalidatesTags: ['Member'],
+      }),
+      updateRoleMember: builder.mutation<
+        IApiResponse<IStatusMessageResponse>,
+        IProjectSettingRequest<IProjectMemberUpdateRequest>
+      >({
+        query: ({ id, body }) => ({
+          url: `/projects/${id}/member`,
+          method: 'put',
+          body,
+        }),
+        invalidatesTags: ['Member', 'Project', 'Projects'],
+      }),
 
-        return {
-          url: `/project/${id.idProject}/${id.idSprint}/${id.idIssue ? id.idIssue : ''}`,
-          method: id.idIssue ? 'put' : 'post',
-          body: formData,
-        };
-      },
-    }),
-    deleteIssue: builder.mutation<ProjectSprintIssueDetail, ProjectIds>({
-      query: ({ idProject, idSprint, idIssue }) => ({
-        url: `/project/${idProject}/${idSprint}/${idIssue}`,
-        method: 'delete',
+      // Stages
+      createNewSprint: builder.mutation<SprintType, IProjectSettingRequest<Pick<SprintType, 'newestSprint'>>>({
+        query: ({ id, body }) => ({
+          url: `/projects/${id}/stages`,
+          method: 'post',
+          body,
+        }),
+      }),
+      getSprintInfo: builder.query<ProjectSprintInfo, ProjectIds>({
+        query: ({ idProject, idSprint }) => `/projects/${idProject}/stages/${idSprint}`,
+      }),
+      getSprintIssues: builder.query<
+        IPaginationResponse<IProjectSprintIssue>,
+        IProjectSettingRequest<IPaginationParams, ProjectIds>
+      >({
+        query: ({ id, body }) => ({
+          url: `/projects/${id.idProject}/stages/${id.idSprint}`,
+          params: convertParams(body),
+        }),
+      }),
+
+      // Tasks
+      getIssue: builder.query<IProjectSprintIssueDetail, ProjectIds>({
+        query: ({ idProject, idSprint, idIssue }) => `/projects/${idProject}/stages/${idSprint}/tasks/${idIssue}`,
+        transformResponse: (response) => {
+          const res = response as IProjectSprintIssueDetail;
+          res.images = res.imageUrls;
+          return res;
+        },
+      }),
+      createUpdateIssue: builder.mutation<
+        IProjectSprintIssueDetail,
+        IProjectSettingRequest<IProjectSprintIssueDetail, ProjectIds>
+      >({
+        query: ({ id, body }) => {
+          const formData = new FormData();
+          const { feature, level, mainProblem, reporter, assignee, detail, images } = body;
+
+          formData.append('feature', feature);
+          formData.append('mainProblem', mainProblem);
+          formData.append('level', level?.value ?? '');
+          formData.append('reporter', reporter?.value ?? '');
+          formData.append('assignee', assignee?.value ?? '');
+          formData.append('detail', detail ?? '');
+          if (images && images.length > 0) {
+            images.forEach((image) => {
+              if (image instanceof File) formData.append('image', image);
+              else formData.append('imageOld', image.name);
+            });
+          }
+
+          return {
+            url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idIssue ? id.idIssue : ''}`,
+            method: id.idIssue ? 'put' : 'post',
+            body: formData,
+          };
+        },
+      }),
+      deleteIssue: builder.mutation<IProjectSprintIssueDetail, ProjectIds>({
+        query: ({ idProject, idSprint, idIssue }) => ({
+          url: `/projects/${idProject}/stages/${idSprint}/tasks/${idIssue}`,
+          method: 'delete',
+        }),
       }),
     }),
-  }),
-});
+  });
 
 export const {
   useGetProjectsQuery,
   useLazyGetProjectsQuery,
-  useCreataProjectMutation,
+  useCreateProjectMutation,
   useGetProjectQuery,
   useLazyGetProjectQuery,
   useUpdateProjectMutation,

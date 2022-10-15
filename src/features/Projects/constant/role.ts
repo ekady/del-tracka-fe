@@ -1,13 +1,13 @@
-import { AutocompleteOptions } from '@/common/types';
+import { IAutocompleteOptions } from '@/common/types';
 
 export enum ProjectRoles {
-  ADMIN = 'ADMIN',
+  OWNER = 'OWNER',
   MAINTAINER = 'MAINTAINER',
-  DEVELEOPER = 'DEVELEOPER',
+  DEVELOPER = 'DEVELOPER',
   SUBMITTER = 'SUBMITTER',
 }
 
-export const ProjectRolesArray: AutocompleteOptions[] = Object.values(ProjectRoles).map((role) => ({
+export const ProjectRolesArray: IAutocompleteOptions[] = Object.values(ProjectRoles).map((role) => ({
   label: role.charAt(0) + role.slice(1).toLowerCase(),
   value: role as string,
 }));

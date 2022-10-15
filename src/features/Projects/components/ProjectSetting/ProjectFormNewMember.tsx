@@ -14,40 +14,37 @@ import { Autocomplete, Grid } from '@mui/material';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 import { ProjectRolesArray } from '../../constant/role';
-import { ProjectMemberRequest, useAddMemberMutation } from '../../store/project.api.slice';
+import { useAddMemberMutation } from '../../store/project.api.slice';
 
 import { toast } from 'react-toastify';
-import { AutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
+import { IAutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
+import { IProjectMemberAddRequest } from '../../types';
+
+const validation = {
+  email: { required: true },
+  roleName: { required: true },
+};
 
 const ProjectFormNewMember = () => {
   const projectId = useRouter().query.project_id as string;
   const [addMember, { isLoading, fulfilledTimeStamp, isUninitialized }] = useAddMemberMutation();
-  const [labelRole, setLabelRole] = useState<AutocompleteOptions | null>(null);
+  const [labelRole, setLabelRole] = useState<IAutocompleteOptions | null>(null);
   const {
     handleSubmit,
     formState: { errors },
     control,
     reset,
-  } = useForm<ProjectMemberRequest>({ mode: 'all', defaultValues: { role: '', id: '' } });
+  } = useForm<IProjectMemberAddRequest>({ mode: 'all', defaultValues: { roleName: '', email: '' } });
 
-  const validation = {
-    id: { required: true },
-    role: { required: true },
-  };
-
-  const onChangeAutoComplete = (onChangeForm: FunctionVoidWithParams<string>, item: AutocompleteOptions | null) => {
+  const onChangeAutoComplete = (onChangeForm: FunctionVoidWithParams<string>, item: IAutocompleteOptions | null) => {
     onChangeForm(item?.value ?? '');
     setLabelRole(item);
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      const response = await addMember({ id: projectId, body: { id: data.id, role: data.role } });
-      if ('data' in response) {
-        toast.success('Member added successfully: ' + data.id);
-      }
-    } catch {
-      //
+    const response = await addMember({ id: projectId, body: data });
+    if (response && 'data' in response && response.data.data) {
+      toast.success('Member added successfully: ' + data.email);
     }
   });
 
@@ -56,33 +53,37 @@ const ProjectFormNewMember = () => {
       reset();
       setLabelRole(null);
     }
-  }, [projectId, reset, fulfilledTimeStamp, isUninitialized]);
+  }, [reset, fulfilledTimeStamp, isUninitialized]);
+
+  useEffect(() => {
+    reset();
+    setLabelRole(null);
+  }, [projectId, reset]);
 
   return (
     <Grid container columns={12} columnSpacing={1} alignItems="start" justifyContent="space-between">
       <Grid item xs={12} md={5}>
         <Controller
-          name="id"
+          name="email"
           control={control}
           defaultValue=""
-          rules={validation.id}
+          rules={validation.email}
           render={({ field }) => (
             <CustomInput
-              fieldname="User"
-              error={errors.id}
-              TextFieldProps={{ placeholder: 'Enter user', ...field, disabled: isLoading }}
+              fieldname="User Email"
+              error={errors.email}
+              TextFieldProps={{ placeholder: 'Enter email', ...field, disabled: isLoading }}
             />
           )}
         />
       </Grid>
       <Grid item xs={12} md={5}>
         <Controller
-          name="role"
+          name="roleName"
           control={control}
-          rules={validation.role}
+          rules={validation.roleName}
           render={({ field: { onChange } }) => (
             <Autocomplete
-              id="tags-outlined"
               options={ProjectRolesArray}
               disableClearable={!!labelRole}
               value={labelRole}
@@ -90,7 +91,7 @@ const ProjectFormNewMember = () => {
               renderInput={(params) => (
                 <CustomInput
                   fieldname="Role"
-                  error={errors.role}
+                  error={errors.roleName}
                   TextFieldProps={{
                     ...params,
                     placeholder: 'Select role',

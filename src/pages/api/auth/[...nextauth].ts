@@ -1,4 +1,4 @@
-import { Credential } from '@/common/types';
+import { ICredential } from '@/common/types';
 import { ContinueWithProviderRequest, LoginRequest } from '@/features/auth/interfaces';
 import axios from 'axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
@@ -73,7 +73,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       if (account && user && user.statusCode === 200) token.userToken = user.data;
 
       if (token && token.userToken) {
-        const tokenData = token.userToken as Credential;
+        const tokenData = token.userToken as ICredential;
         const decodedAccessToken = jwtDecode<JwtPayload>(tokenData?.accessToken ?? '');
         const isAccessTokenExpire = Date.now() > (decodedAccessToken.exp ?? 0) * 1000;
 
@@ -89,7 +89,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.user.userToken = token.userToken as Credential;
+      session.user.userToken = token.userToken as ICredential;
       return session;
     },
   };

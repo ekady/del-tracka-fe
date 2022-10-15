@@ -23,8 +23,13 @@ const LayoutProject = ({ content, ...layoutProps }: LayoutProjectProps) => {
 
   return (
     <Box sx={{ position: 'relative', height: '100%' }}>
-      <LayoutDrawerAdditional menuList={<ProjectSide projectList={data ?? []} />} content={content} {...layoutProps} />
+      <LayoutDrawerAdditional
+        menuList={<ProjectSide projectList={data?.data ?? []} />}
+        content={content}
+        {...layoutProps}
+      />
     </Box>
   );
 };
+
 export default LayoutProject;

@@ -15,9 +15,9 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 // Icons
 import { IconLogo } from '@/common/icons';
 
-import { PropsChildren } from '@/common/types';
+import { IPropsChildren } from '@/common/types';
 
-const LayoutAuth = ({ children }: PropsChildren) => {
+const LayoutAuth = ({ children }: IPropsChildren) => {
   const theme = useTheme();
   const router = useRouter();
   const session = useSession();

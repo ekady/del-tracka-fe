@@ -2,9 +2,9 @@
 import { Grid, Typography } from '@mui/material';
 
 // Types
-import { InformationWithColor } from '@/common/types';
+import { IInformationWithColor } from '@/common/types';
 
-export type ProjectOverviewProps = InformationWithColor;
+export type ProjectOverviewProps = IInformationWithColor;
 
 const ProjectOverview = ({ name, value, color, textColor }: ProjectOverviewProps) => {
   const styleItem = {

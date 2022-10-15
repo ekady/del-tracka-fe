@@ -1,9 +1,9 @@
-import { AutocompleteOptions, InformationWithColor } from '@/common/types';
+import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
 export type LevelType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'NORMAL' | 'LOW';
 
 export type LevelIndexable = {
-  [key in LevelType]: InformationWithColor;
+  [key in LevelType]: IInformationWithColor;
 };
 
 const LEVEL: LevelIndexable = {
@@ -39,7 +39,7 @@ const LEVEL: LevelIndexable = {
   },
 };
 
-export const levelList: readonly AutocompleteOptions[] = Object.keys(LEVEL).map((level) => ({
+export const levelList: readonly IAutocompleteOptions[] = Object.keys(LEVEL).map((level) => ({
   value: LEVEL[level as LevelType].value as string,
   label: LEVEL[level as LevelType].name as string,
 }));

@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { ApiResponse, StatusMessageResponse, UserInfo } from '@/common/types';
+import { IApiResponse, IStatusMessageResponse, IUserInfo } from '@/common/types';
 
 export interface Profile {
   firstName?: string;
@@ -20,7 +20,7 @@ export interface ProfileRequest extends Profile, ProfilePassword {
 export const profileApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    updateProfile: builder.mutation<UserInfo, ProfileRequest>({
+    updateProfile: builder.mutation<IUserInfo, ProfileRequest>({
       query: (body) => {
         const formData = new FormData();
         formData.append('firstName', body?.firstName ?? '');
@@ -34,7 +34,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['Profile'],
     }),
-    deleteProfile: builder.mutation<ApiResponse<StatusMessageResponse>, void>({
+    deleteProfile: builder.mutation<IApiResponse<IStatusMessageResponse>, void>({
       query: () => ({
         url: '/profile',
         method: 'DELETE',
