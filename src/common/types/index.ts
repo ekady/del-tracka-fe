@@ -5,6 +5,7 @@ import { ReactNode, SyntheticEvent } from 'react';
 export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
 export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
+export type FunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
 
 export interface IInformationWithColor {
   value?: string | number;

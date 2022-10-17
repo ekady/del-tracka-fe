@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 
-// Next
-import { useRouter } from 'next/router';
-
 // MUI Components
-import { Box, Typography } from '@mui/material';
+import { Box, MenuItem, Typography } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Redux
@@ -14,11 +11,15 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { toast } from 'react-toastify';
 
 // Local Components
-import { DataTable, TableHeader, TableMenuSelection } from '@/common/base';
+import { BaseDialogAlert, DataTable, TableAction, TableHeader, TableMenuSelection } from '@/common/base';
 
 // Hooks
 import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '../../store/project.api.slice';
 import useProjectId from '../../hooks/useProjectId';
+import { FunctionReturnFunction } from '@/common/types';
+import { useRemoveMember } from '../../hooks/useRemoveMember';
+import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
+import { IProjectMember } from '../../types';
 
 export interface ProjectMemberListProps {
   hideSelectOption?: boolean;
@@ -31,11 +32,51 @@ const roleExample = [
   { text: 'SUBMITTER', value: 'SUBMITTER' },
 ];
 
+const renderCellRole = (
+  params: GridRenderCellParams<string>,
+  hideSelectOption: boolean,
+  handleChange: FunctionReturnFunction<string, string, void>,
+) => (
+  <>
+    <Typography>{params.row?.roleName ?? params.value}</Typography>
+    {!hideSelectOption && (
+      <TableMenuSelection
+        list={roleExample}
+        currentValue={params.value}
+        handleChange={handleChange(params.row?._id)}
+        IconProps={{ sx: { bgcolor: 'transparent' } }}
+      />
+    )}
+  </>
+);
+
+const headers: GridColDef[] = [
+  {
+    headerName: 'Name',
+    field: 'name',
+    valueGetter: (param) => `${param.row?.firstName} ${param.row?.lastName}`,
+    width: 180,
+  },
+  {
+    headerName: 'Date Added',
+    field: 'createdAt',
+    valueGetter: (param) => new Date(param.row.createdAt).toLocaleDateString(),
+    width: 150,
+  },
+  {
+    headerName: 'Added By',
+    field: 'createdBy',
+    width: 200,
+    valueGetter: (param) => `${param.row?.createdBy.firstName} ${param.row?.createdBy.lastName}`,
+  },
+];
+
 const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
-  const projectId = useRouter().query?.project_id as string;
-  const project = useProjectId();
+  const { data: projectData, projectId } = useProjectId();
   const { isFetching, data } = useGetProjectMembersQuery(projectId || skipToken);
   const [updateRoleMember, { isLoading }] = useUpdateRoleMemberMutation();
+  const { deleteLeaveMember, loading, profileData } = useRemoveMember(projectId);
+  const { openDialogWarning, closeDialogAlert, dialogAlertOpt } = useDialogAlert();
 
   const onChangeRole = useCallback(
     (userId?: string) => async (roleName: string) => {
@@ -47,51 +88,50 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
     [projectId, updateRoleMember],
   );
 
-  const renderCellRole = (params: GridRenderCellParams<string>) => (
-    <>
-      <Typography>{params.row?.roleName ?? params.value}</Typography>
-      {!hideSelectOption && (
-        <TableMenuSelection
-          list={roleExample}
-          currentValue={params.value}
-          handleChange={onChangeRole(params.row?._id)}
-          IconProps={{ sx: { bgcolor: 'transparent' } }}
-        />
-      )}
-    </>
+  const openDialogDeleteLeaveWarning = useCallback(
+    (row: IProjectMember) => {
+      const dialogMessage = `Are you sure you want to ${
+        profileData?.data._id === row._id ? 'leave project' : 'delete this member'
+      }?`;
+      openDialogWarning('Warning', dialogMessage, {
+        handleCancel: closeDialogAlert,
+        handleOk: () => deleteLeaveMember(row, closeDialogAlert),
+      });
+    },
+    [closeDialogAlert, deleteLeaveMember, openDialogWarning, profileData],
   );
 
   const tableHeaders: GridColDef[] = [
-    {
-      headerName: 'Name',
-      field: 'name',
-      valueGetter: (param) => `${param.row?.firstName} ${param.row?.lastName}`,
-      width: 180,
-    },
-    {
-      headerName: 'Date Added',
-      field: 'createdAt',
-      valueGetter: (param) => new Date(param.row.createdAt).toLocaleDateString(),
-      width: 150,
-    },
-    {
-      headerName: 'Added By',
-      field: 'createdBy',
-      width: 200,
-      valueGetter: (param) => `${param.row?.createdBy.firstName} ${param.row?.createdBy.lastName}`,
-    },
+    ...headers,
     {
       headerName: 'Role',
       field: 'role',
       valueGetter: (param) => param.row?.role?.name ?? '-',
       width: 200,
       editable: true,
-      renderCell: renderCellRole,
+      renderCell: (param) => renderCellRole(param, !!hideSelectOption, onChangeRole),
+    },
+    {
+      headerName: 'Action',
+      field: 'action',
+      sortable: false,
+      width: 70,
+      renderCell: ({ row }) => {
+        if (hideSelectOption && row._id !== profileData?.data?._id) return <span>-</span>;
+        return (
+          <TableAction hideEdit hideView hideDelete>
+            <MenuItem onClick={() => openDialogDeleteLeaveWarning(row)}>
+              {profileData?.data._id === row._id ? 'Leave Project' : 'Delete'}
+            </MenuItem>
+          </TableAction>
+        );
+      },
     },
   ];
+
   return (
     <>
-      <TableHeader header={<Typography fontWeight="bold">{project.data?.data.name}</Typography>} />
+      <TableHeader header={<Typography fontWeight="bold">{projectData?.data.name}</Typography>} />
       <Box sx={{ height: 20 }} />
       <DataTable
         rows={data ?? []}
@@ -101,10 +141,11 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
         hideFooterPagination
         sortingMode="client"
         columns={tableHeaders}
-        loading={isFetching || isLoading}
+        loading={isFetching || isLoading || loading}
         getRowId={(row) => row._id}
         editMode={undefined}
       />
+      <BaseDialogAlert {...dialogAlertOpt} />
     </>
   );
 };

@@ -86,6 +86,28 @@ export const projectApiSlice = apiSlice
         }),
         invalidatesTags: ['Member', 'Project', 'Projects'],
       }),
+      removeMember: builder.mutation<
+        IApiResponse<IStatusMessageResponse>,
+        IProjectSettingRequest<Pick<IProjectMemberUpdateRequest, 'userId'>>
+      >({
+        query: ({ id, body }) => {
+          return {
+            url: `/projects/${id}/member`,
+            method: 'delete',
+            body,
+          };
+        },
+        invalidatesTags: ['Member', 'Project', 'Projects'],
+      }),
+      leaveProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<void>>({
+        query: ({ id }) => {
+          return {
+            url: `/projects/${id}/leave`,
+            method: 'put',
+          };
+        },
+        invalidatesTags: ['Projects'],
+      }),
 
       // Stages
       createNewSprint: builder.mutation<SprintType, IProjectSettingRequest<Pick<SprintType, 'newestSprint'>>>({
@@ -164,9 +186,13 @@ export const {
   useDeleteProjectMutation,
   useGetProjectActivitiesQuery,
   useLazyGetProjectActivitiesQuery,
+
   useGetProjectMembersQuery,
   useAddMemberMutation,
   useUpdateRoleMemberMutation,
+  useRemoveMemberMutation,
+  useLeaveProjectMutation,
+
   useCreateNewSprintMutation,
   useGetSprintInfoQuery,
   useLazyGetSprintInfoQuery,

@@ -2,7 +2,7 @@
 import { memo, useCallback, useState } from 'react';
 
 // MUI Components
-import { Box, IconButton, Menu, IMenuItem } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 
 // MUI Icons
 import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
@@ -64,9 +64,9 @@ const TableAction = ({
           horizontal: 'left',
         }}
       >
-        {!hideView && <IMenuItem onClick={() => handleClose(handleView)}>View</IMenuItem>}
-        {!hideEdit && <IMenuItem onClick={() => handleClose(handleEdit)}>Edit</IMenuItem>}
-        {!hideDelete && <IMenuItem onClick={() => handleClose(handleDelete)}>Delete</IMenuItem>}
+        {!hideView && <MenuItem onClick={() => handleClose(handleView)}>View</MenuItem>}
+        {!hideEdit && <MenuItem onClick={() => handleClose(handleEdit)}>Edit</MenuItem>}
+        {!hideDelete && <MenuItem onClick={() => handleClose(handleDelete)}>Delete</MenuItem>}
         <Box onClick={() => handleClose()}>{children}</Box>
       </Menu>
     </>
