@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { useGetProfileQuery } from '@/common/store/api.slice';
-import { useLeaveProjectMutation, useRemoveMemberMutation } from '../store/project.api.slice';
+import { useLeaveProjectMutation, useRemoveMemberMutation } from '../store/member.api.slice';
 
 import { toast } from 'react-toastify';
 

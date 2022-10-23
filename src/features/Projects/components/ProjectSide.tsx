@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 //MUI Components
 import { Box, Button, Typography } from '@mui/material';
@@ -14,8 +14,9 @@ import { grey } from '@mui/material/colors';
 import { ProjectDialogNew, ProjectList } from '.';
 import { BaseDialogAlert } from '@/common/base';
 
-import { IProjectResponse } from '../types';
+import { IProjectRequest, IProjectResponse } from '../types';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
+import { useCreateProjectMutation } from '../store/project.api.slice';
 
 const messageSuccess = 'Project created successfully';
 
@@ -24,47 +25,49 @@ export interface ProjectsProps {
 }
 
 const ProjectSide = ({ projectList }: ProjectsProps) => {
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [createProject, { isLoading }] = useCreateProjectMutation();
   const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  const handleOpenDialog = () => {
+  const toggleDialog = useCallback(() => {
     setOpenDialog(!openDialog);
-  };
+  }, [openDialog]);
 
-  const handleCloseDialog = () => {
-    setOpenDialog(!openDialog);
-  };
-
-  const successDialog = () => {
-    openDialogSuccess('Success', messageSuccess);
-    handleCloseDialog();
-  };
+  const successDialog = useCallback(
+    async (data: IProjectRequest) => {
+      const response = await createProject(data);
+      if ('data' in response && response.data.data) {
+        openDialogSuccess('Success', messageSuccess);
+        toggleDialog();
+      }
+    },
+    [createProject, openDialogSuccess, toggleDialog],
+  );
 
   if (!projectList || !projectList.length) {
     return (
       <Box sx={{ textAlign: 'center', px: 2 }}>
         <Typography color={grey[600]}>No Project</Typography>
         <Box sx={{ height: 25 }} />
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          startIcon={<AddCircleOutlined />}
-          onClick={handleOpenDialog}
-        >
+        <Button fullWidth variant="contained" color="primary" startIcon={<AddCircleOutlined />} onClick={toggleDialog}>
           Add Project
         </Button>
-        <ProjectDialogNew isOpen={openDialog} handleCancel={handleCloseDialog} handleOk={successDialog} />
+        <ProjectDialogNew isOpen={openDialog} handleCancel={toggleDialog} handleOk={successDialog} />
       </Box>
     );
   }
   return (
     <Box sx={{ px: 2 }}>
       <Box sx={{ mb: 2, textAlign: 'center' }}>
-        <Button fullWidth color="primary" variant="contained" onClick={handleOpenDialog}>
+        <Button fullWidth color="primary" variant="contained" onClick={toggleDialog}>
           <AddCircleOutlined sx={{ mr: 1 }} /> Add New Project
         </Button>
-        <ProjectDialogNew isOpen={openDialog} handleCancel={handleCloseDialog} handleOk={successDialog} />
+        <ProjectDialogNew
+          isOpen={openDialog}
+          handleCancel={toggleDialog}
+          handleOk={successDialog}
+          loading={isLoading}
+        />
       </Box>
       <ProjectList projectList={projectList} />
       <BaseDialogAlert handleCancel={closeDialogAlert} handleOk={closeDialogAlert} {...dialogAlertOpt} />

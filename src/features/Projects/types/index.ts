@@ -5,7 +5,15 @@ import { ProjectRoles } from '../constant/role';
 
 export type ProjectRolesType = keyof typeof ProjectRoles;
 
+export interface ITasksCount {
+  OPEN?: number;
+  IN_PROGRESS?: number;
+  CLOSED?: number;
+  REVIEW?: number;
+}
+
 export interface IProjectRequest {
+  id?: string;
   name: string;
   description: string;
 }
@@ -13,7 +21,7 @@ export interface IProjectRequest {
 export interface IProjectResponse extends IProjectRequest {
   shortId: string;
   role: string;
-  stages: any[];
+  stages: ISprintResponse[];
 }
 
 export interface IProjectMember extends IUserInfo {
@@ -22,17 +30,6 @@ export interface IProjectMember extends IUserInfo {
   updatedBy: IUserInfo;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface SprintType {
-  id: string;
-  name: string;
-  open?: number;
-  inProgress?: number;
-  review?: number;
-  close?: number;
-  newestSprint?: number | null;
-  shortId?: string;
 }
 
 export interface IProjectSprintIssueDetail {
@@ -54,13 +51,6 @@ export interface IProjectSprintIssue extends IProjectSprintIssueDetail {
   assigneeAvatar?: string | null;
 }
 
-export interface ProjectSprintInfo {
-  idProject: string;
-  projectName: string;
-  idSprint: string;
-  sprint: string;
-}
-
 export interface IProjectMemberAddRequest {
   email: string;
   roleName: string;
@@ -74,4 +64,34 @@ export interface IProjectMemberUpdateRequest {
 export interface IProjectSettingRequest<BodyType, IdType = string> {
   id: IdType;
   body: BodyType;
+}
+
+export interface IProjectTaskResponse {
+  id: string;
+  name: string;
+  tasks: ITasksCount;
+}
+
+export interface ISprintTaskResponse {
+  id: string;
+  name: string;
+  tasks: ITasksCount;
+}
+
+export interface ISprintResponse {
+  _id: string;
+  name: string;
+  description: string;
+  shortId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ISprintsResponse extends ISprintResponse {
+  tasks: ITasksCount;
+}
+
+export interface IStatsResponse {
+  name: string;
+  count: number;
 }

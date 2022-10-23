@@ -17,13 +17,22 @@ export type ProjectNewFormValidation = {
 };
 
 export interface ProjectNewFormProps {
+  title?: string;
   formMethods: UseFormReturn<IProjectRequest>;
   formOptions: ProjectNewFormValidation;
   onSubmit?: FunctionVoidWithParams<FormEvent<HTMLFormElement>>;
   disabled?: boolean;
+  defaultValues?: IProjectRequest;
 }
 
-const ProjectNewForm = ({ formMethods, formOptions, onSubmit, disabled }: ProjectNewFormProps) => {
+const ProjectNewForm = ({
+  title,
+  formMethods,
+  formOptions,
+  onSubmit,
+  disabled,
+  defaultValues,
+}: ProjectNewFormProps) => {
   const {
     control,
     formState: { errors },
@@ -34,20 +43,20 @@ const ProjectNewForm = ({ formMethods, formOptions, onSubmit, disabled }: Projec
       <Controller
         name="name"
         control={control}
-        defaultValue=""
+        defaultValue={defaultValues?.name ?? ''}
         rules={formOptions.name}
         render={({ field }) => (
           <CustomInput
-            fieldname="Project Name"
+            fieldname={`${title ?? 'Project'} Name`}
             error={errors.name}
-            TextFieldProps={{ placeholder: 'Enter Project Name', disabled, ...field }}
+            TextFieldProps={{ placeholder: `Enter ${title ?? 'Project'} Name`, disabled, ...field }}
           />
         )}
       />
       <Controller
         name="description"
         control={control}
-        defaultValue=""
+        defaultValue={defaultValues?.description ?? ''}
         rules={formOptions.description}
         render={({ field }) => (
           <CustomInput

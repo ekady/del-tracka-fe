@@ -1,6 +1,6 @@
 import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
-export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'CLOSE' | 'HOLD';
+export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'CLOSED' | 'HOLD';
 
 export type StatusIndexable = {
   [key in StatusType]: IInformationWithColor;
@@ -20,14 +20,14 @@ const STATUS: StatusIndexable = {
     textColor: '#fff',
   },
   REVIEW: {
-    value: 'UNDER_REVIEW',
-    name: 'Under Review',
+    value: 'REVIEW',
+    name: 'Review',
     color: '#7abce2',
-    textColor: '#000',
+    textColor: '#fff',
   },
-  CLOSE: {
-    value: 'CLOSE',
-    name: 'Close',
+  CLOSED: {
+    value: 'CLOSED',
+    name: 'Closed',
     color: '#00b1d4',
     textColor: '#fff',
   },

@@ -18,9 +18,12 @@ import { ProjectRoles } from '@/features/projects/constant/role';
 import STATUS from '@/common/constants/status';
 
 import useProjectId from '@/features/projects/hooks/useProjectId';
+import { useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const ProjecOverviewDetailPage = () => {
-  const { data, isFetching, isLoading } = useProjectId();
+  const { data, projectId } = useProjectId();
+  const { data: projectStat } = useGetProjectStatsQuery(projectId ?? skipToken);
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -28,22 +31,22 @@ const ProjecOverviewDetailPage = () => {
     <>
       <Grid container gap={2} justifyContent={{ xs: 'start', sm: 'space-between' }}>
         <ProjectDetailTitle
-          title={data?.name ?? ''}
-          description={data?.description}
-          canAccessSettings={data?.asRole === ProjectRoles.OWNER || data?.asRole === ProjectRoles.MAINTAINER}
+          title={data?.data?.name ?? ''}
+          description={data?.data?.description}
+          canAccessSettings={data?.data?.role === ProjectRoles.OWNER}
         />
       </Grid>
       <Box sx={{ height: 40 }} />
       <Grid container gap={1} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
-        <ProjectOverview {...STATUS.OPEN} value={data?.totalOpen ?? 0} />
-        <ProjectOverview {...STATUS.IN_PROGRESS} value={data?.totalInProgress ?? 0} />
-        <ProjectOverview {...STATUS.REVIEW} value={data?.totalReview ?? 0} />
-        <ProjectOverview {...STATUS.CLOSE} value={data?.totalClose ?? 0} />
+        <ProjectOverview {...STATUS.OPEN} value={projectStat?.OPEN ?? 0} />
+        <ProjectOverview {...STATUS.IN_PROGRESS} value={projectStat?.IN_PROGRESS ?? 0} />
+        <ProjectOverview {...STATUS.REVIEW} value={projectStat?.REVIEW ?? 0} />
+        <ProjectOverview {...STATUS.CLOSED} value={projectStat?.CLOSED ?? 0} />
       </Grid>
       <Box sx={{ height: 50 }} />
       <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>
         <Grid item xs={12}>
-          <ProjectOverviewSprint sprints={data?.sprints ?? []} loading={isLoading || isFetching} />
+          <ProjectOverviewSprint />
         </Grid>
         <Grid item xs={12} sx={{ pt: lgAndUp ? 0 : 5 }}>
           <ProjectOverviewActivity />

@@ -1,92 +1,183 @@
+// React
+import { useCallback, useState } from 'react';
+
 // MUI Components
 import { Box, IconButton, Typography } from '@mui/material';
-import { GridColDef, GridRowParams } from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 
 // MUI Icons
 import { AddCircleOutlined } from '@mui/icons-material';
 
 // Local Component
-import { BaseDialogAlert, DataTable, TableHeader } from '@/common/base';
+import { BaseDialogAlert, DataTable, TableAction, TableHeader } from '@/common/base';
+import ProjectDialogNew from '../ProjectDialogNew';
 
 // Types
-import { SprintType } from '../../types';
-
-import { toast } from 'react-toastify';
+import { IProjectRequest, ISprintsResponse } from '../../types';
 
 // Hooks
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import useProjectId from '../../hooks/useProjectId';
-import { useCreateNewSprintMutation } from '../../store/project.api.slice';
+import {
+  useCreateUpdateSprintMutation,
+  useDeleteSprintMutation,
+  useGetSprintInfoQuery,
+  useLazyGetSprintQuery,
+} from '../../store/sprint.api.slice';
+
+// Constants
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { ProjectRoles } from '../../constant/role';
 
 const tableHeaders: GridColDef[] = [
   { headerName: 'Sprint', field: 'name', width: 150 },
-  { headerName: 'Open', field: 'open', width: 150 },
-  { headerName: 'In Progress', field: 'inProgress', width: 150 },
-  { headerName: 'Review', field: 'review', width: 150 },
-  { headerName: 'Close', field: 'close', width: 150 },
+  {
+    headerName: 'Open',
+    field: 'open',
+    valueGetter: (param) => param.row?.tasks?.OPEN ?? 0,
+    width: 150,
+  },
+  {
+    headerName: 'In Progress',
+    field: 'inProgress',
+    valueGetter: (param) => param.row?.tasks?.IN_PROGRESS ?? 0,
+    width: 150,
+  },
+  {
+    headerName: 'Review',
+    field: 'review',
+    valueGetter: (param) => param.row?.tasks?.REVIEW ?? 0,
+    width: 150,
+  },
+  {
+    headerName: 'Close',
+    field: 'close',
+    valueGetter: (param) => param.row?.tasks?.CLOSED ?? 0,
+    width: 150,
+  },
 ];
 
-export type ProjectOverviewSprintProps = {
-  sprints: SprintType[];
-  loading?: boolean;
-};
+const ProjectOverviewSprint = () => {
+  const { projectId, router, refetch, data: projectData } = useProjectId();
+  const { data, isLoading } = useGetSprintInfoQuery(projectId ? { idProject: projectId, idSprint: '' } : skipToken);
+  const [getSprint] = useLazyGetSprintQuery();
+  const [createUpdateSprint, { isLoading: loadingCreateUpdate }] = useCreateUpdateSprintMutation();
+  const [deleteSprint] = useDeleteSprintMutation();
 
-const ProjectOverviewSprint = ({ sprints, loading }: ProjectOverviewSprintProps) => {
-  const { projectId, router, data, refetch } = useProjectId();
-  const [addNewSprint, { isLoading }] = useCreateNewSprintMutation();
-  const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
+  const { dialogAlertOpt, closeDialogAlert, openDialogSuccess, openDialogWarning } = useDialogAlert();
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [defaultValues, setDefaultValues] = useState<IProjectRequest>({
+    id: undefined,
+    description: '',
+    name: '',
+  });
 
-  const handleAddNewSprint = async () => {
-    try {
-      const response = await addNewSprint({
-        id: projectId,
-        body: { newestSprint: data?.newestSprint ? data.newestSprint + 1 : 1 },
-      });
-      if ('error' in response) toast.error('An error has occured');
-      else {
-        openDialogSuccess('Success', 'New sprint has been created', { handleOk: closeDialogAlert });
-        refetch();
-      }
-    } catch {
-      //
-    }
-  };
-
-  const dialogWarning = () => {
-    openDialogWarning('Add New Sprint', 'Are you sure you want to add new sprint?', {
-      subDescription: `Next sprint will be Sprint ${data && data?.newestSprint ? data.newestSprint + 1 : 1}`,
-      handleOk: handleAddNewSprint,
-    });
-  };
-
-  const sprintButton = (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Typography fontSize={16}>Sprint</Typography>
-      <IconButton color="primary" onClick={dialogWarning}>
-        <AddCircleOutlined />
-      </IconButton>
-    </Box>
+  const toggleDialog = useCallback(
+    async (id?: string) => {
+      if (id) {
+        const { data: responseData } = await getSprint({ idProject: projectId, idSprint: id });
+        setDefaultValues({
+          id: responseData?.data.shortId,
+          name: responseData?.data.name ?? '',
+          description: responseData?.data.description ?? '',
+        });
+      } else setDefaultValues({ id: undefined, description: '', name: '' });
+      setOpenDialog(!openDialog);
+    },
+    [getSprint, openDialog, projectId],
   );
 
-  const redirectSprintPage = (params: GridRowParams) => {
-    const id = params.id ?? '';
-    router.push(`${router.asPath}/${id}`);
-  };
+  const successDialog = useCallback(
+    async (data: IProjectRequest, defaultValues?: IProjectRequest) => {
+      const payload = {
+        id: projectId,
+        body: { ...data, id: defaultValues?.id ?? undefined },
+      };
+      const response = await createUpdateSprint(payload);
+      if ('data' in response && response.data.data) {
+        openDialogSuccess('Success', `Sprint has successfully ${payload.body.id ? 'updated' : 'created'}`);
+        refetch();
+        toggleDialog();
+      }
+    },
+    [createUpdateSprint, openDialogSuccess, projectId, refetch, toggleDialog],
+  );
+
+  const redirectSprintPage = useCallback(
+    (id: string) => {
+      router.push(`${router.asPath}/${id ?? ''}`);
+    },
+    [router],
+  );
+
+  const deleteSprintConfirmation = useCallback(
+    (sprint: ISprintsResponse) => {
+      openDialogWarning('Confirmation', 'Are you sure you want to delete this sprint?', {
+        handleCancel: closeDialogAlert,
+        handleOk: async () => {
+          const data = await deleteSprint({ idProject: projectId, idSprint: sprint.shortId });
+          if ('data' in data && data.data?.data) {
+            openDialogSuccess('Success', 'Sprint has sucessfully deleted');
+          }
+        },
+      });
+    },
+    [closeDialogAlert, deleteSprint, openDialogSuccess, openDialogWarning, projectId],
+  );
+
+  const headers: GridColDef[] = [
+    ...tableHeaders,
+    {
+      headerName: 'Action',
+      field: 'action',
+      sortable: false,
+      width: 70,
+      renderCell: ({ row }) => {
+        if (![ProjectRoles.OWNER, ProjectRoles.MAINTAINER].includes(projectData?.data.role as ProjectRoles))
+          return <span>-</span>;
+        return (
+          <TableAction
+            handleDelete={() => deleteSprintConfirmation(row)}
+            handleEdit={() => toggleDialog(row?.shortId)}
+            handleView={() => redirectSprintPage(row?.shortId)}
+          />
+        );
+      },
+    },
+  ];
 
   return (
     <>
-      <TableHeader header={sprintButton} />
+      <TableHeader
+        header={
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography fontSize={16}>Sprint</Typography>
+            <IconButton color="primary" onClick={() => toggleDialog()}>
+              <AddCircleOutlined />
+            </IconButton>
+          </Box>
+        }
+      />
       <Box sx={{ height: 20 }} />
       <DataTable
-        rows={sprints}
-        columns={tableHeaders}
-        onRowClick={redirectSprintPage}
-        paginationMode="client"
+        rows={data?.data ?? []}
+        columns={headers}
         sortingMode="client"
+        loading={isLoading}
+        getRowId={(row) => row.shortId}
         rowCount={undefined}
-        loading={loading}
+        pagination={undefined}
+        paginationMode={undefined}
+        hideFooterPagination
       />
-      <BaseDialogAlert handleCancel={closeDialogAlert} {...dialogAlertOpt} loading={isLoading} />
+      <BaseDialogAlert handleCancel={closeDialogAlert} {...dialogAlertOpt} loading={loadingCreateUpdate} />
+      <ProjectDialogNew
+        defaultValues={defaultValues}
+        isOpen={openDialog}
+        title="Sprint"
+        handleCancel={toggleDialog}
+        handleOk={successDialog}
+      />
     </>
   );
 };

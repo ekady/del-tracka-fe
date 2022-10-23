@@ -1,21 +1,16 @@
-import { convertParams } from '@/common/helper/convert';
 import { apiSlice } from '@/common/store/api.slice';
 import { LogsResponse } from '@/features/logs/store/logs.api.slice';
-import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
+import { IApiResponse, IStatusMessageResponse } from '@/common/types';
 import {
   IProjectResponse,
-  IProjectMember,
   IProjectRequest,
-  ProjectSprintInfo,
-  IProjectSprintIssue,
   IProjectSprintIssueDetail,
-  SprintType,
   IProjectSettingRequest,
-  IProjectMemberAddRequest,
-  IProjectMemberUpdateRequest,
+  IStatsResponse,
+  ITasksCount,
 } from '../types';
 
-type ProjectIds = Pick<ProjectSprintInfo, 'idProject' | 'idSprint'> & { idIssue?: string };
+export type ProjectIds = { idIssue?: string; idProject: string; idSprint: string };
 
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({ addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member'] })
@@ -39,7 +34,7 @@ export const projectApiSlice = apiSlice
         query: (id) => `/projects/${id}`,
         providesTags: ['Project'],
       }),
-      updateProject: builder.mutation<IApiResponse<IProjectRequest>, IProjectSettingRequest<IProjectRequest>>({
+      updateProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectRequest>>({
         query: ({ id, body }) => ({
           url: `/projects/${id}`,
           method: 'put',
@@ -47,7 +42,7 @@ export const projectApiSlice = apiSlice
         }),
         invalidatesTags: ['Project', 'Projects'],
       }),
-      deleteProject: builder.mutation<IApiResponse<IProjectRequest>, string>({
+      deleteProject: builder.mutation<IApiResponse<IStatusMessageResponse>, string>({
         query: (id) => ({
           url: `/projects/${id}`,
           method: 'delete',
@@ -57,77 +52,15 @@ export const projectApiSlice = apiSlice
       getProjectActivities: builder.query<IApiResponse<LogsResponse[]>, string>({
         query: (id) => `/projects/${id}/activities`,
       }),
-
-      // Project Member
-      getProjectMembers: builder.query<IProjectMember[], string>({
-        query: (id) => `/projects/${id}/member`,
-        providesTags: ['Member'],
-        transformResponse: (response: IApiResponse<IProjectMember[]>) => response.data,
-      }),
-      addMember: builder.mutation<
-        IApiResponse<IStatusMessageResponse>,
-        IProjectSettingRequest<IProjectMemberAddRequest>
-      >({
-        query: ({ id, body }) => ({
-          url: `/projects/${id}/member`,
-          method: 'post',
-          body,
-        }),
-        invalidatesTags: ['Member'],
-      }),
-      updateRoleMember: builder.mutation<
-        IApiResponse<IStatusMessageResponse>,
-        IProjectSettingRequest<IProjectMemberUpdateRequest>
-      >({
-        query: ({ id, body }) => ({
-          url: `/projects/${id}/member`,
-          method: 'put',
-          body,
-        }),
-        invalidatesTags: ['Member', 'Project', 'Projects'],
-      }),
-      removeMember: builder.mutation<
-        IApiResponse<IStatusMessageResponse>,
-        IProjectSettingRequest<Pick<IProjectMemberUpdateRequest, 'userId'>>
-      >({
-        query: ({ id, body }) => {
-          return {
-            url: `/projects/${id}/member`,
-            method: 'delete',
-            body,
-          };
+      getProjectStats: builder.query<Record<keyof ITasksCount, number>, string>({
+        query: (id) => `tasks-statistic/project/${id}`,
+        transformResponse: (response) => {
+          const res = response as IApiResponse<IStatsResponse[]>;
+          return res.data?.reduce((acc, curr) => {
+            acc[curr.name] = curr.count;
+            return acc;
+          }, {} as Record<string, number>);
         },
-        invalidatesTags: ['Member', 'Project', 'Projects'],
-      }),
-      leaveProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<void>>({
-        query: ({ id }) => {
-          return {
-            url: `/projects/${id}/leave`,
-            method: 'put',
-          };
-        },
-        invalidatesTags: ['Projects'],
-      }),
-
-      // Stages
-      createNewSprint: builder.mutation<SprintType, IProjectSettingRequest<Pick<SprintType, 'newestSprint'>>>({
-        query: ({ id, body }) => ({
-          url: `/projects/${id}/stages`,
-          method: 'post',
-          body,
-        }),
-      }),
-      getSprintInfo: builder.query<ProjectSprintInfo, ProjectIds>({
-        query: ({ idProject, idSprint }) => `/projects/${idProject}/stages/${idSprint}`,
-      }),
-      getSprintIssues: builder.query<
-        IPaginationResponse<IProjectSprintIssue>,
-        IProjectSettingRequest<IPaginationParams, ProjectIds>
-      >({
-        query: ({ id, body }) => ({
-          url: `/projects/${id.idProject}/stages/${id.idSprint}`,
-          params: convertParams(body),
-        }),
       }),
 
       // Tasks
@@ -186,17 +119,6 @@ export const {
   useDeleteProjectMutation,
   useGetProjectActivitiesQuery,
   useLazyGetProjectActivitiesQuery,
-
-  useGetProjectMembersQuery,
-  useAddMemberMutation,
-  useUpdateRoleMemberMutation,
-  useRemoveMemberMutation,
-  useLeaveProjectMutation,
-
-  useCreateNewSprintMutation,
-  useGetSprintInfoQuery,
-  useLazyGetSprintInfoQuery,
-  useGetSprintIssuesQuery,
-  useLazyGetSprintIssuesQuery,
+  useGetProjectStatsQuery,
 } = projectApiSlice;
 export const { resetApiState } = projectApiSlice.util;

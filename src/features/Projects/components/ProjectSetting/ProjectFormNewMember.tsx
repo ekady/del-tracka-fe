@@ -14,7 +14,7 @@ import { Autocomplete, Grid } from '@mui/material';
 import { ButtonLoading, CustomInput } from '@/common/base';
 
 import { ProjectRolesArray } from '../../constant/role';
-import { useAddMemberMutation } from '../../store/project.api.slice';
+import { useAddMemberMutation } from '../../store/member.api.slice';
 
 import { toast } from 'react-toastify';
 import { IAutocompleteOptions, FunctionVoidWithParams } from '@/common/types';

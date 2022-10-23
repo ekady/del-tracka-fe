@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from 'react';
+
 // Local Components
 import { BaseDialog } from '@/common/base';
 import { FunctionVoid } from '@/common/types';
@@ -10,68 +12,97 @@ import ProjectNewForm from './ProjectNewForm';
 
 // Types
 import { IProjectRequest } from '../types';
-import { useCreateProjectMutation } from '../store/project.api.slice';
 
 export interface ProjectDialogNewProps {
-  handleOk?: FunctionVoid;
+  title?: string;
+  handleOk?: (data: IProjectRequest, defaultValues?: IProjectRequest) => Promise<void> | void;
   handleCancel?: FunctionVoid;
   isEdit?: boolean;
   isOpen?: boolean;
+  loading?: boolean;
+  defaultValues?: IProjectRequest;
 }
 
-const ProjectDialogNew = ({ isEdit, isOpen, handleOk, handleCancel }: ProjectDialogNewProps) => {
-  const [createProject, { isLoading }] = useCreateProjectMutation();
+const validation = {
+  name: { required: true },
+  description: { required: true },
+};
+
+const ProjectDialogNew = ({
+  title,
+  isEdit,
+  isOpen,
+  handleOk,
+  handleCancel,
+  loading,
+  defaultValues,
+}: ProjectDialogNewProps) => {
   const form = useForm<IProjectRequest>({ mode: 'all' });
   const {
     handleSubmit,
     formState: { errors },
     reset,
     trigger,
+    setValue,
   } = form;
 
-  const validation = {
-    name: { required: true },
-    description: { required: true },
-  };
+  useEffect(() => {
+    if (defaultValues?.name) {
+      setValue('description', defaultValues?.description);
+      setValue('name', defaultValues.name);
+    }
+
+    return () => {
+      setValue('description', '');
+      setValue('name', '');
+    };
+  }, [defaultValues, setValue]);
+
+  const resetForm = useCallback(() => {
+    reset({
+      name: '',
+      description: '',
+    });
+  }, [reset]);
 
   const handleClickOk = handleSubmit(async (data) => {
     await trigger();
     if (errors.name?.type) return;
 
     try {
-      await createProject(data);
-      handleOk && handleOk();
+      if (handleOk) {
+        await handleOk(data, defaultValues);
+      }
       resetForm();
     } catch (error) {
-      console.error(error);
+      //
     }
   });
 
-  const handleClickCancel = () => {
-    if (!isLoading) {
+  const handleClickCancel = useCallback(() => {
+    if (!loading) {
       handleCancel && handleCancel();
       resetForm();
     }
-  };
-
-  const resetForm = () => {
-    reset({
-      name: '',
-      description: '',
-    });
-  };
+  }, [handleCancel, loading, resetForm]);
 
   const propsBaseDialog = {
-    titleDialog: isEdit ? 'Edit Project Name' : 'Add Project',
+    titleDialog: `${isEdit || defaultValues?.id ? 'Edit' : 'Create'} ${title || 'Project'}`,
     isOpen: !!isOpen,
     handleCancel: () => handleClickCancel(),
     handleOk: handleClickOk,
-    textOk: isEdit ? 'Edit' : 'Add',
+    textOk: isEdit || defaultValues?.id ? 'Edit' : 'Add',
   };
 
   return (
-    <BaseDialog {...propsBaseDialog} loading={isLoading}>
-      <ProjectNewForm formOptions={validation} formMethods={form} onSubmit={handleClickOk} />
+    <BaseDialog {...propsBaseDialog} loading={loading}>
+      <ProjectNewForm
+        title={title}
+        defaultValues={defaultValues}
+        formOptions={validation}
+        formMethods={form}
+        onSubmit={handleClickOk}
+      />
     </BaseDialog>
   );
 };

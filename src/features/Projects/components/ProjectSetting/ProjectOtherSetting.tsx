@@ -18,6 +18,7 @@ const ProjectOtherSetting = () => {
   const openWarning = () => {
     openDialogWarning('Warning', 'Are you sure you want to delete this project?', {
       subDescription: 'This action cannot be undone.',
+      handleOk: handleDeleteProject,
     });
   };
 
@@ -33,7 +34,7 @@ const ProjectOtherSetting = () => {
       await deleteProject(router.query.project_id as string);
       openSuccess();
     } catch (error) {
-      console.log(error);
+      //
     }
   };
 
@@ -42,12 +43,7 @@ const ProjectOtherSetting = () => {
       <Button variant="outlined" color="warning" onClick={openWarning}>
         <Warning sx={{ mr: 1 }} /> <Typography>Delete This Project</Typography>
       </Button>
-      <BaseDialogAlert
-        handleCancel={closeDialogAlert}
-        handleOk={handleDeleteProject}
-        loading={isLoading}
-        {...dialogAlertOpt}
-      />
+      <BaseDialogAlert loading={isLoading} {...dialogAlertOpt} handleCancel={closeDialogAlert} />
     </>
   );
 };

@@ -23,7 +23,7 @@ import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
 
 const baseCardStyle: BaseCardProps = { sx: { height: 250 } };
 
-const LABELS: StatusType[] = ['OPEN', 'IN_PROGRESS', 'CLOSE'];
+const LABELS: StatusType[] = ['OPEN', 'IN_PROGRESS', 'CLOSED'];
 const labels = LABELS.map((label) => STATUS[label as StatusType].name);
 const labelsColor = LABELS.map((label) => STATUS[label as StatusType].color);
 const labelGrey = ['#dddbdbd6'];

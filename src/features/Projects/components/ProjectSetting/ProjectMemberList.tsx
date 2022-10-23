@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { BaseDialogAlert, DataTable, TableAction, TableHeader, TableMenuSelection } from '@/common/base';
 
 // Hooks
-import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '../../store/project.api.slice';
+import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '../../store/member.api.slice';
 import useProjectId from '../../hooks/useProjectId';
 import { FunctionReturnFunction } from '@/common/types';
 import { useRemoveMember } from '../../hooks/useRemoveMember';

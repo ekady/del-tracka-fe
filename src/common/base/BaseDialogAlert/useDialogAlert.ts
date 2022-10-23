@@ -29,11 +29,13 @@ const useDialogAlert = () => {
         description: description || 'You have successfully completed the action',
         subDescription: '',
         hideCancel: true,
+        handleOk: closeDialogAlert,
+        handleCancel: closeDialogAlert,
         ...options,
       }));
       callback && callback();
     },
-    [],
+    [closeDialogAlert],
   );
   const openDialogError = useCallback(
     (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
@@ -45,11 +47,13 @@ const useDialogAlert = () => {
         description: description || 'An error has occurred',
         subDescription: '',
         hideCancel: true,
+        handleOk: closeDialogAlert,
+        handleCancel: closeDialogAlert,
         ...options,
       }));
       callback && callback();
     },
-    [],
+    [closeDialogAlert],
   );
   const openDialogWarning = useCallback(
     (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
@@ -61,11 +65,13 @@ const useDialogAlert = () => {
         description: description || 'Before you continue, please make sure you have read the information',
         subDescription: '',
         hideCancel: false,
+        handleOk: closeDialogAlert,
+        handleCancel: closeDialogAlert,
         ...options,
       }));
       callback && callback();
     },
-    [],
+    [closeDialogAlert],
   );
   return { dialogAlertOpt, closeDialogAlert, openDialogSuccess, openDialogError, openDialogWarning };
 };

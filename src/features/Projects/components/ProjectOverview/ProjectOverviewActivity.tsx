@@ -13,7 +13,10 @@ const ProjectOverviewActivity = () => {
       <Typography sx={{ mb: 2, marginTop: '5px' }} fontSize={16}>
         Activities
       </Typography>
-      <Logs notFullInfo TableProps={{ rows: data ?? [], loading: isLoading || isFetching }} />
+      <Logs
+        notFullInfo
+        TableProps={{ rows: data?.data ?? [], loading: isLoading || isFetching, getRowId: (row) => row.createdAt }}
+      />
     </Box>
   );
 };
