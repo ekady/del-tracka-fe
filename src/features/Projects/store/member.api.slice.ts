@@ -4,7 +4,7 @@ import {
   IProjectMemberAddRequest,
   IProjectMemberUpdateRequest,
   IProjectSettingRequest,
-} from '../types';
+} from '../interfaces';
 import { projectApiSlice } from './project.api.slice';
 
 export const memberApiSlice = projectApiSlice.injectEndpoints({

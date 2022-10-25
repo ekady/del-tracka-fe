@@ -19,7 +19,7 @@ import useProjectId from '../../hooks/useProjectId';
 import { FunctionReturnFunction } from '@/common/types';
 import { useRemoveMember } from '../../hooks/useRemoveMember';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { IProjectMember } from '../../types';
+import { IProjectMember } from '../../interfaces';
 
 export interface ProjectMemberListProps {
   hideSelectOption?: boolean;
@@ -50,7 +50,7 @@ const renderCellRole = (
   </>
 );
 
-const headers: GridColDef[] = [
+const headers: GridColDef<IProjectMember>[] = [
   {
     headerName: 'Name',
     field: 'name',
@@ -101,7 +101,7 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
     [closeDialogAlert, deleteLeaveMember, openDialogWarning, profileData],
   );
 
-  const tableHeaders: GridColDef[] = [
+  const tableHeaders: GridColDef<IProjectMember>[] = [
     ...headers,
     {
       headerName: 'Role',

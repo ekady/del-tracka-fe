@@ -18,7 +18,7 @@ import { useAddMemberMutation } from '../../store/member.api.slice';
 
 import { toast } from 'react-toastify';
 import { IAutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
-import { IProjectMemberAddRequest } from '../../types';
+import { IProjectMemberAddRequest } from '../../interfaces';
 
 const validation = {
   email: { required: true },

@@ -14,7 +14,6 @@ const ProjectOverviewActivity = () => {
         Activities
       </Typography>
       <Logs
-        notFullInfo
         TableProps={{ rows: data?.data ?? [], loading: isLoading || isFetching, getRowId: (row) => row.createdAt }}
       />
     </Box>

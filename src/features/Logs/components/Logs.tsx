@@ -1,38 +1,49 @@
+import moment from 'moment';
+
 import { GridColDef } from '@mui/x-data-grid';
 
 import { DataTable } from '@/common/base';
+
 import { ITableAndSearchProps } from '@/common/types';
+import { ILogsResponse } from '../store/logs.api.slice';
+import { ActivityMessage } from '../constants/activityType.constant';
 
-export type LogsProps = ITableAndSearchProps & {
-  notFullInfo?: boolean;
-  isUsingDate?: boolean;
-  isUsingProjectName?: boolean;
-  isUsingCardNumber?: boolean;
-  isUsingFeature?: boolean;
-};
+const tableHeaders: GridColDef<ILogsResponse>[] = [
+  {
+    headerName: 'Date',
+    field: 'date',
+    valueGetter: ({ row }) => moment(row?.createdAt).format('MMM-DD-YYYY HH:mm'),
+    width: 150,
+    sortable: false,
+  },
+  {
+    headerName: 'Project Name',
+    field: 'projectName',
+    valueGetter: ({ row }) => row?.project.name,
+    width: 200,
+    sortable: false,
+  },
+  {
+    headerName: 'Activity',
+    field: 'activity',
+    valueGetter: ({ row }) => ActivityMessage[row.type](row),
+    sortable: false,
+    width: 400,
+  },
+];
 
-const date: GridColDef = { headerName: 'Date', field: 'date', width: 100, sortable: false };
-const projectName: GridColDef = { headerName: 'Project Name', field: 'projectName', width: 200, sortable: false };
-const cardNumber: GridColDef = { headerName: 'Card Number', field: 'cardNumber', width: 150, sortable: false };
-const feature: GridColDef = { headerName: 'Feature', field: 'feature', width: 200, sortable: false };
-const activity: GridColDef = { headerName: 'Activity', field: 'activity', width: 200, sortable: false };
-
-const LogsUI = ({
-  notFullInfo,
-  isUsingProjectName,
-  isUsingDate,
-  isUsingCardNumber,
-  isUsingFeature,
-  TableProps,
-}: LogsProps) => {
-  const tableHeaders: GridColDef[] = [activity];
-  if (notFullInfo) {
-    if (isUsingFeature) tableHeaders.unshift(feature);
-    if (isUsingCardNumber) tableHeaders.unshift(cardNumber);
-    if (isUsingProjectName) tableHeaders.unshift(projectName);
-    if (isUsingDate) tableHeaders.unshift(date);
-  } else tableHeaders.unshift(...[date, projectName, cardNumber, feature]);
-  return <DataTable rows={[]} columns={tableHeaders} {...TableProps} />;
+const LogsUI = ({ TableProps }: ITableAndSearchProps) => {
+  return (
+    <DataTable
+      rows={[]}
+      columns={tableHeaders}
+      {...TableProps}
+      rowCount={undefined}
+      pagination={undefined}
+      paginationMode={undefined}
+      hideFooterPagination
+    />
+  );
 };
 
 export default LogsUI;

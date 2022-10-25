@@ -14,7 +14,7 @@ import { grey } from '@mui/material/colors';
 import { ProjectDialogNew, ProjectList } from '.';
 import { BaseDialogAlert } from '@/common/base';
 
-import { IProjectRequest, IProjectResponse } from '../types';
+import { IProjectRequest, IProjectResponse } from '../interfaces';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useCreateProjectMutation } from '../store/project.api.slice';
 

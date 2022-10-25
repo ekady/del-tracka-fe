@@ -6,7 +6,7 @@ import { CustomInput, FileUploaderMultiple } from '@/common/base';
 
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
-import { IProjectSprintIssueDetail } from '../../types';
+import { IProjectSprintIssueDetail } from '../../interfaces';
 import { levelList } from '@/common/constants/level';
 
 export type ProjectIssueFormProps = {

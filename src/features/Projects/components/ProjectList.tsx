@@ -16,7 +16,7 @@ import { TableAction } from '@/common/base';
 import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List/styled';
 
 // Types
-import { IProjectResponse, SprintType } from '../types';
+import { IProjectResponse, ISprintResponse } from '../interfaces';
 import { ProjectRoles } from '../constant/role';
 
 export interface ProjectListProps {
@@ -81,7 +81,7 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
             {stages && stages.length > 0 && (
               <Collapse in={open[index]} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  {stages.map((sprint: SprintType) => (
+                  {stages.map((sprint: ISprintResponse) => (
                     <ListButton
                       key={sprint.shortId}
                       disableTouchRipple

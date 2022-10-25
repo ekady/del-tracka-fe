@@ -9,7 +9,7 @@ import { CustomInput } from '@/common/base';
 import { FormEvent } from 'react';
 
 // Types
-import { IProjectRequest } from '../types';
+import { IProjectRequest } from '../interfaces';
 import { FunctionVoidWithParams } from '@/common/types';
 
 export type ProjectNewFormValidation = {

@@ -1,5 +1,5 @@
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
-import { IProjectRequest, IProjectSettingRequest, ISprintResponse, ISprintsResponse } from '../types';
+import { IProjectRequest, IProjectSettingRequest, ISprintResponse, ISprintsResponse } from '../interfaces';
 import { projectApiSlice, ProjectIds } from './project.api.slice';
 
 export const sprintApiSlice = projectApiSlice.injectEndpoints({
@@ -14,7 +14,7 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
             body,
           };
         },
-        invalidatesTags: ['Project', 'Projects', 'Sprints'],
+        invalidatesTags: ['Project', 'Projects', 'Sprints', 'ProjectActivities'],
       },
     ),
     getSprintInfo: builder.query<IApiResponse<ISprintsResponse[]>, ProjectIds>({
@@ -30,7 +30,7 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
         url: `projects/${idProject}/stages/${idSprint}`,
         method: 'delete',
       }),
-      invalidatesTags: ['Projects', 'Project', 'Sprints'],
+      invalidatesTags: ['Projects', 'Project', 'Sprints', 'ProjectActivities'],
     }),
   }),
 });

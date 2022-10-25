@@ -13,7 +13,7 @@ import { BaseDialogAlert, DataTable, TableAction, TableHeader } from '@/common/b
 import ProjectDialogNew from '../ProjectDialogNew';
 
 // Types
-import { IProjectRequest, ISprintsResponse } from '../../types';
+import { IProjectRequest, ISprintsResponse } from '../../interfaces';
 
 // Hooks
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
@@ -29,7 +29,7 @@ import {
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { ProjectRoles } from '../../constant/role';
 
-const tableHeaders: GridColDef[] = [
+const tableHeaders: GridColDef<ISprintsResponse>[] = [
   { headerName: 'Sprint', field: 'name', width: 150 },
   {
     headerName: 'Open',
@@ -125,7 +125,7 @@ const ProjectOverviewSprint = () => {
     [closeDialogAlert, deleteSprint, openDialogSuccess, openDialogWarning, projectId],
   );
 
-  const headers: GridColDef[] = [
+  const headers: GridColDef<ISprintsResponse>[] = [
     ...tableHeaders,
     {
       headerName: 'Action',
@@ -133,10 +133,10 @@ const ProjectOverviewSprint = () => {
       sortable: false,
       width: 70,
       renderCell: ({ row }) => {
-        if (![ProjectRoles.OWNER, ProjectRoles.MAINTAINER].includes(projectData?.data.role as ProjectRoles))
-          return <span>-</span>;
         return (
           <TableAction
+            hideDelete={projectData?.data.role !== ProjectRoles.OWNER}
+            hideEdit={![ProjectRoles.OWNER, ProjectRoles.MAINTAINER].includes(projectData?.data.role as ProjectRoles)}
             handleDelete={() => deleteSprintConfirmation(row)}
             handleEdit={() => toggleDialog(row?.shortId)}
             handleView={() => redirectSprintPage(row?.shortId)}
@@ -152,9 +152,11 @@ const ProjectOverviewSprint = () => {
         header={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography fontSize={16}>Sprint</Typography>
-            <IconButton color="primary" onClick={() => toggleDialog()}>
-              <AddCircleOutlined />
-            </IconButton>
+            {projectData?.data.role === ProjectRoles.OWNER && (
+              <IconButton color="primary" onClick={() => toggleDialog()}>
+                <AddCircleOutlined />
+              </IconButton>
+            )}
           </Box>
         }
       />

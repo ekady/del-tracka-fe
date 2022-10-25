@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import ProjectNewForm from './ProjectNewForm';
 
 // Types
-import { IProjectRequest } from '../types';
+import { IProjectRequest } from '../interfaces';
 
 export interface ProjectDialogNewProps {
   title?: string;

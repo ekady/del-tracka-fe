@@ -6,7 +6,7 @@ import { useLeaveProjectMutation, useRemoveMemberMutation } from '../store/membe
 
 import { toast } from 'react-toastify';
 
-import { IProjectMember } from '../types';
+import { IProjectMember } from '../interfaces';
 import { FunctionVoid, IApiResponse, IStatusMessageResponse } from '@/common/types';
 
 export const useRemoveMember = (projectId: string) => {

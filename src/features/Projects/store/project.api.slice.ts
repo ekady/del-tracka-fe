@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { LogsResponse } from '@/features/logs/store/logs.api.slice';
+import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
 import {
   IProjectResponse,
@@ -8,12 +8,12 @@ import {
   IProjectSettingRequest,
   IStatsResponse,
   ITasksCount,
-} from '../types';
+} from '../interfaces';
 
 export type ProjectIds = { idIssue?: string; idProject: string; idSprint: string };
 
 export const projectApiSlice = apiSlice
-  .enhanceEndpoints({ addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member'] })
+  .enhanceEndpoints({ addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities'] })
   .injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -49,8 +49,9 @@ export const projectApiSlice = apiSlice
         }),
         invalidatesTags: ['Projects'],
       }),
-      getProjectActivities: builder.query<IApiResponse<LogsResponse[]>, string>({
+      getProjectActivities: builder.query<IApiResponse<ILogsResponse[]>, string>({
         query: (id) => `/projects/${id}/activities`,
+        providesTags: ['ProjectActivities'],
       }),
       getProjectStats: builder.query<Record<keyof ITasksCount, number>, string>({
         query: (id) => `tasks-statistic/project/${id}`,

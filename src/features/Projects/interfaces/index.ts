@@ -1,9 +1,6 @@
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { StatusType } from '@/common/constants/status';
 import { IAutocompleteOptions, IRoleResponse, IUserInfo } from '@/common/types';
-import { ProjectRoles } from '../constant/role';
-
-export type ProjectRolesType = keyof typeof ProjectRoles;
 
 export interface ITasksCount {
   OPEN?: number;
