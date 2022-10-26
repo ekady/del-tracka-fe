@@ -1,9 +1,14 @@
 import nextRouter from 'next/router';
-import { IApiResponse, ICredential, IErrorDataResponse, IErrorResponse, IUserInfo } from '@/common/types';
-import { setCredential } from '@/features/auth/store/auth.slice';
-import { BaseQueryFn, createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { getSession, signOut } from 'next-auth/react';
+
 import { HYDRATE } from 'next-redux-wrapper';
+import { getSession, signOut } from 'next-auth/react';
+
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+
+import { Mutex } from 'async-mutex';
+
+import { IApiResponse, ICredential, IUserInfo } from '@/common/types';
+import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
 
 const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
@@ -19,7 +24,7 @@ const getTokens = async (state: RootState): Promise<ICredential | undefined> => 
   return { accessToken };
 };
 
-const baseQuery: BaseQueryFn = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '//api.local/',
   prepareHeaders: async (headers, { getState, endpoint }) => {
     if (!['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(endpoint)) {
@@ -33,28 +38,34 @@ const baseQuery: BaseQueryFn = fetchBaseQuery({
   },
 });
 
-const baseQueryWithRefresh: BaseQueryFn = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions);
+const mutex = new Mutex();
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
+  await mutex.waitForUnlock();
+  let result = await baseQuery(args, api, extraOptions);
+  if (result.error && result.error.status === 401) {
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire();
+      try {
+        const session = await getSession();
+        const accessToken = session?.user.userToken.accessToken ?? null;
 
-  let fetchError: FetchBaseQueryError,
-    IErrorResponse: IErrorResponse,
-    hasAccessTokenError: IErrorDataResponse | undefined;
-  if (result.error) {
-    fetchError = result.error as FetchBaseQueryError;
-    IErrorResponse = fetchError.data as IErrorResponse;
-    hasAccessTokenError = IErrorResponse?.errors.find((err) => err.errorType === 'ACCESS_TOKEN_EXPIRED');
-  }
-
-  if (hasAccessTokenError) {
-    const session = await getSession();
-    const accessToken = session?.user.userToken.accessToken ?? null;
-
-    if (!accessToken || session?.error === 'RefreshAccessTokenError') {
-      await signOut({ redirect: false });
-      nextRouter.replace('/auth/sign-in');
+        if (!accessToken || session?.error === 'RefreshAccessTokenError') {
+          await signOut({ redirect: false });
+          nextRouter.replace('/auth/sign-in');
+        } else {
+          api.dispatch(setCredential({ accessToken }));
+          result = await baseQuery(args, api, extraOptions);
+        }
+      } finally {
+        release();
+      }
     } else {
-      api.dispatch(setCredential({ accessToken }));
-      await baseQuery(args, api, extraOptions);
+      await mutex.waitForUnlock();
+      result = await baseQuery(args, api, extraOptions);
     }
   }
 
@@ -63,7 +74,7 @@ const baseQueryWithRefresh: BaseQueryFn = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: baseQueryWithRefresh,
+  baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
