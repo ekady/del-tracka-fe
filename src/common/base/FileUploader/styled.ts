@@ -1,18 +1,20 @@
+import { ElementType } from 'react';
+
 // MUI Components
 import { Box, IconButton, styled } from '@mui/material';
 
-export const InputFile = styled('input')(() => ({
+export const InputFile: ElementType = styled('input')(() => ({
   display: 'none',
 }));
 
-export const FilesUploadContainer = styled(Box)(() => ({
+export const FilesUploadContainer: ElementType = styled(Box)(() => ({
   component: 'div',
   border: '2px dashed',
   overflow: 'hidden',
   boxSizing: 'border-box',
 }));
 
-export const FilesContainer = styled(Box)(() => ({
+export const FilesContainer: ElementType = styled(Box)(() => ({
   height: '80%',
   width: '100%',
   overflow: 'auto',
@@ -22,7 +24,7 @@ export const FilesContainer = styled(Box)(() => ({
   justifyContent: 'start',
 }));
 
-export const ImageContainer = styled(Box)(() => ({
+export const ImageContainer: ElementType = styled(Box)(() => ({
   position: 'relative',
   background: 'lightgray',
 
@@ -34,13 +36,13 @@ export const ImageContainer = styled(Box)(() => ({
   },
 }));
 
-export const FileTextContainer = styled(Box)(() => ({
+export const FileTextContainer: ElementType = styled(Box)(() => ({
   marginTop: 5,
   overflowWrap: 'break-word',
   hyphens: 'auto',
 }));
 
-export const ButtonContainer = styled(Box)(() => ({
+export const ButtonContainer: ElementType = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -48,7 +50,7 @@ export const ButtonContainer = styled(Box)(() => ({
   height: '100%',
 }));
 
-export const RemoveIconButton = styled(IconButton)(() => ({
+export const RemoveIconButton: ElementType = styled(IconButton)(() => ({
   position: 'absolute',
   top: 2,
   right: 2,

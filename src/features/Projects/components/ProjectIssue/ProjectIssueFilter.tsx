@@ -8,12 +8,12 @@ import { Autocomplete, Typography } from '@mui/material';
 import { CustomInput } from '@/common/base';
 import { FilterContainer, FilterListSelectContainer, FilterSelectContainer } from '@/common/base/BaseFilter/styled';
 
-import { IFilterProps } from '@/common/types';
+import { IAutocompleteOptions, IFilterProps } from '@/common/types';
 
 import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';
 
-const ProjectIssueFilter = ({ onChange }: IFilterProps) => {
+const ProjectIssueFilter = ({ onChange }: IFilterProps<Record<string, string | null>, IAutocompleteOptions>) => {
   return (
     <FilterContainer>
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>
@@ -22,7 +22,7 @@ const ProjectIssueFilter = ({ onChange }: IFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={levelList}
-            onChange={(_, value) => onChange && onChange('level', value)}
+            onChange={(_, value) => onChange && onChange({ level: value?.value || null })}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -32,7 +32,7 @@ const ProjectIssueFilter = ({ onChange }: IFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={statusList}
-            onChange={(_, value) => onChange && onChange('status', value)}
+            onChange={(_, value) => onChange && onChange({ status: value?.value || null })}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}

@@ -1,5 +1,5 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { IPaginationParams, IPaginationResponse } from '@/common/types';
+import { IPaginationResponse } from '@/common/types';
 import { ActivityType } from '../constants/activityType.constant';
 
 export interface ILogsResponse {
@@ -14,9 +14,9 @@ export interface ILogsResponse {
 
 export const logsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getLogActivities: builder.query<IPaginationResponse<ILogsResponse>, IPaginationParams>({
-      query: (arg) => {
-        return { url: '/activities', params: arg };
+    getLogActivities: builder.query<IPaginationResponse<ILogsResponse>, void>({
+      query: () => {
+        return { url: '/activities' };
       },
     }),
   }),

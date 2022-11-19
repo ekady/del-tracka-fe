@@ -1,9 +1,11 @@
+import { ElementType } from 'react';
+
 import { AppBar as MuiAppBar, Box, styled, Typography } from '@mui/material';
 import { SIDEBAR_WIDTH } from '../SideBar/constants';
 
 import { AppBarProps } from '.';
 
-export const AppBar = styled(MuiAppBar, {
+export const AppBar: ElementType = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'sidebar',
 })<AppBarProps>(({ theme, open }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
@@ -25,7 +27,7 @@ export const AppBar = styled(MuiAppBar, {
   },
 }));
 
-export const TitleContainer = styled(Box)(({ theme }) => ({
+export const TitleContainer: ElementType = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: 20,
   justifyContent: 'space-between',
@@ -37,13 +39,13 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const LogoContainer = styled(Box)(() => ({
+export const LogoContainer: ElementType = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   pl: 2,
 }));
 
-export const Text = styled(Typography)(() => ({
+export const Text: ElementType = styled(Typography)(() => ({
   fontSize: '14',
   textTransform: 'capitalize',
 }));

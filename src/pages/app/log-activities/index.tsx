@@ -13,9 +13,9 @@ import { useAppDispatch } from '@/common/store';
 import { useTableChange } from '@/common/hooks/useTableChange';
 
 const LogsPage = () => {
-  const { onLimitPage, tableOption } = useTableChange();
+  const { onLimitPage } = useTableChange();
   const dispatch = useAppDispatch();
-  const { isLoading, isFetching, data } = useGetLogActivitiesQuery(tableOption);
+  const { isLoading, isFetching, data } = useGetLogActivitiesQuery();
 
   useEffect(() => {
     return () => {

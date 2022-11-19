@@ -8,8 +8,8 @@ export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) =>
 export type FunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
 
 export interface IInformationWithColor {
-  value?: string | number;
-  name?: string;
+  value: string | number;
+  name: string;
   color: string;
   textColor: string;
 }

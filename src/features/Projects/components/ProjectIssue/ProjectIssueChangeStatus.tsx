@@ -15,7 +15,10 @@ export type ProjectIssueChangeStatusProps = {
 const ProjectIssueChangeStatus = ({ currentStatus, handleChange }: ProjectIssueChangeStatusProps) => {
   return (
     <TableMenuSelection
-      list={Object.keys(STATUS).map((key) => STATUS[key as StatusType] as Record<string, string>)}
+      list={Object.keys(STATUS).map(
+        (key) =>
+          ({ name: STATUS[key as StatusType].name, value: STATUS[key as StatusType].value } as Record<string, string>),
+      )}
       itemText="name"
       currentValue={currentStatus}
       handleChange={handleChange}

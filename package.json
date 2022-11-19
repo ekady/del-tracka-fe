@@ -12,10 +12,12 @@
     "test": "jest -c test/jest.config.js"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.7",
+    "@mui/utils": "^5.10.14",
     "@mui/x-data-grid": "^5.17.5",
     "@next/bundle-analyzer": "^12.2.5",
     "@reduxjs/toolkit": "^1.8.5",

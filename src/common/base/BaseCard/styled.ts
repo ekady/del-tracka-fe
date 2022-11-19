@@ -1,6 +1,8 @@
+import { ElementType } from 'react';
+
 import { Box, Paper, styled } from '@mui/material';
 
-export const CardPaperStyled = styled(Paper)(() => ({
+export const CardPaperStyled: ElementType = styled(Paper)(() => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -10,7 +12,7 @@ export const CardPaperStyled = styled(Paper)(() => ({
   padding: 15,
 }));
 
-export const CardBoxStyled = styled(Box)(() => ({
+export const CardBoxStyled: ElementType = styled(Box)(() => ({
   overflow: 'auto',
   border: '1px solid #ddd',
   borderRadius: '20px',

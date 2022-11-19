@@ -1,3 +1,5 @@
+import { ElementType } from 'react';
+
 import { Drawer as MuiDrawer, ListItemButton as ListItemMUI, CSSObject, Theme, styled } from '@mui/material';
 
 // Constant
@@ -24,7 +26,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   width: 0,
 });
 
-export const Drawer = styled(MuiDrawer, {
+export const Drawer: ElementType = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   width: 250,
@@ -41,7 +43,7 @@ export const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export const ListItem = styled(ListItemMUI, {
+export const ListItem: ElementType = styled(ListItemMUI, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })(({ selected }) => ({
   border: '1px solid trasparent',

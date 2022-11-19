@@ -122,4 +122,4 @@ export const {
   useLazyGetProjectActivitiesQuery,
   useGetProjectStatsQuery,
 } = projectApiSlice;
-export const { resetApiState } = projectApiSlice.util;
+export const { resetApiState, invalidateTags } = projectApiSlice.util;

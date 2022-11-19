@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { GridSortModel } from '@mui/x-data-grid';
-import { debounce } from '@mui/material';
+import debounce, { Cancelable } from '@mui/utils/debounce';
 
 import { IPaginationParams } from '@/common/types';
 import { table } from '../constants';
@@ -12,10 +12,12 @@ const initialState: IPaginationParams = {
   sort: '',
 };
 
+export type TSearchDebounce = (event: ChangeEvent<HTMLInputElement>) => void;
+
 export const useTableChange = () => {
   const [tableOption, setTableOption] = useState<IPaginationParams>(initialState);
 
-  const onSearch = debounce((event: ChangeEvent<HTMLInputElement>) => {
+  const onSearch: Cancelable & TSearchDebounce = debounce<TSearchDebounce>((event) => {
     const search = { search: event?.target?.value ?? '' };
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...search }));
   }, 300);
@@ -25,8 +27,8 @@ export const useTableChange = () => {
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...sort }));
   }, []);
 
-  const onFilter = useCallback((fieldname: string, value: Record<string, string | number>) => {
-    setTableOption((prevTableOption) => ({ ...prevTableOption, [fieldname]: value?.value ?? '' }));
+  const onFilter = useCallback((value: Record<string, string | number | null>) => {
+    setTableOption((prevTableOption) => ({ ...prevTableOption, ...value }));
   }, []);
 
   const onLimitPage = useCallback((type: 'limit' | 'page', number: number) => {

@@ -2,7 +2,7 @@
 import { Logs } from '@/features/logs/components';
 
 const ProjectIssueActivity = () => {
-  return <Logs notFullInfo isUsingDate />;
+  return <Logs />;
 };
 
 export default ProjectIssueActivity;

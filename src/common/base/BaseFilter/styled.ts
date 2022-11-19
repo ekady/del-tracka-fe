@@ -1,7 +1,9 @@
+import { ElementType } from 'react';
+
 // MUI
 import { Box, Grid, styled, Typography } from '@mui/material';
 
-export const FilterContainer = styled(Box)(({ theme }) => ({
+export const FilterContainer: ElementType = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -20,11 +22,11 @@ export const FilterContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const FilterText = styled(Typography)(() => ({
+export const FilterText: ElementType = styled(Typography)(() => ({
   flexGrow: 1,
 }));
 
-export const FilterListSelectContainer = styled(Grid)(({ theme }) => ({
+export const FilterListSelectContainer: ElementType = styled(Grid)(({ theme }) => ({
   width: '100%',
 
   [theme.breakpoints.up('md')]: {
@@ -32,7 +34,7 @@ export const FilterListSelectContainer = styled(Grid)(({ theme }) => ({
   },
 }));
 
-export const FilterSelectContainer = styled(Grid)(({ theme }) => ({
+export const FilterSelectContainer: ElementType = styled(Grid)(({ theme }) => ({
   minWidth: '100%',
 
   [theme.breakpoints.up('md')]: {

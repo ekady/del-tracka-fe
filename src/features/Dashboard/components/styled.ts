@@ -1,6 +1,8 @@
+import { ElementType } from 'react';
+
 import { Paper, styled, Typography } from '@mui/material';
 
-export const PaperActivities = styled(Paper)(() => ({
+export const PaperActivities: ElementType = styled(Paper)(() => ({
   width: '100%',
   height: 400,
   padding: 15,
@@ -13,7 +15,7 @@ export const PaperActivities = styled(Paper)(() => ({
   borderRadius: '20px',
 }));
 
-export const TypographyActivities = styled(Typography)(() => ({
+export const TypographyActivities: ElementType = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: 14,
   letterSpacing: 0.5,
@@ -21,7 +23,7 @@ export const TypographyActivities = styled(Typography)(() => ({
   marginBottom: 10,
 }));
 
-export const TypographyIssues = styled(Typography)(() => ({
+export const TypographyIssues: ElementType = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: 14,
   letterSpacing: 0.5,

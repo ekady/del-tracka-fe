@@ -59,9 +59,13 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
           <ListContainer key={shortId}>
             <ListItemContainer>
               <ListButton disableTouchRipple className="cursor-default" selected={currProject === shortId}>
-                <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
-                  {stages && stages.length > 0 ? open[index] ? <ExpandLess /> : <ExpandMore /> : null}
-                </Icon>
+                {stages && stages.length > 0 ? (
+                  <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
+                    {open[index] ? <ExpandLess /> : <ExpandMore />}
+                  </Icon>
+                ) : (
+                  <Icon className="cursor-pointer" sx={{ mr: 1 }} />
+                )}
                 <Link href={`/app/projects/${shortId}`} passHref>
                   <ListItemText className="cursor-pointer" primary={name} />
                 </Link>

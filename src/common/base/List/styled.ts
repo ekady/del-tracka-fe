@@ -1,6 +1,8 @@
+import { ElementType } from 'react';
+
 import { Box, Container, ListItemButton, styled } from '@mui/material';
 
-export const ListButton = styled(ListItemButton, {
+export const ListButton: ElementType = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })(({ selected }) => ({
   borderRadius: 8,
@@ -12,15 +14,15 @@ export const ListButton = styled(ListItemButton, {
   },
 }));
 
-export const ListContainer = styled(Box)(() => ({
+export const ListContainer: ElementType = styled(Box)(() => ({
   marginBottom: 8,
 }));
 
-export const ListItemContainer = styled(Box)(() => ({
+export const ListItemContainer: ElementType = styled(Box)(() => ({
   marginBottom: 4,
 }));
 
-export const ListContentContainer = styled(Container)(() => ({
+export const ListContentContainer: ElementType = styled(Container)(() => ({
   backgroundColor: 'white',
   paddingTop: 12,
   paddingBottom: 12,

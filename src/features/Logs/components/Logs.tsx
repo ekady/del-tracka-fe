@@ -18,8 +18,8 @@ const tableHeaders: GridColDef<ILogsResponse>[] = [
   },
   {
     headerName: 'Project Name',
-    field: 'projectName',
-    valueGetter: ({ row }) => row?.project.name,
+    field: 'project',
+    valueGetter: ({ row }) => row?.project,
     width: 200,
     sortable: false,
   },

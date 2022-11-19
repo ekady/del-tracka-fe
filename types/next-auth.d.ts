@@ -9,5 +9,12 @@ declare module 'next-auth' {
     user: {
       userToken: ICredential;
     } & DefaultSession;
+    error?: string;
+    accessToken: string;
+  }
+
+  interface User {
+    statusCode: number;
+    data: ICredential;
   }
 }

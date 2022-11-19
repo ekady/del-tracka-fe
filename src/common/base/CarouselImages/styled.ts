@@ -1,10 +1,12 @@
+import { ElementType } from 'react';
+
 // MUI Components
 import { Box, IconButton, styled } from '@mui/material';
 
 // Constant
 import { CarouselSize } from './constants';
 
-export const BoxArrow = styled(Box)(() => ({
+export const BoxArrow: ElementType = styled(Box)(() => ({
   position: 'absolute',
   top: '0',
   height: '100%',
@@ -12,7 +14,7 @@ export const BoxArrow = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-export const ButtonArrow = styled(IconButton)(() => ({
+export const ButtonArrow: ElementType = styled(IconButton)(() => ({
   background: 'white',
   border: '1px solid',
   '&:hover': {
@@ -20,7 +22,7 @@ export const ButtonArrow = styled(IconButton)(() => ({
   },
 }));
 
-export const CircleIndicator = styled(Box)(() => ({
+export const CircleIndicator: ElementType = styled(Box)(() => ({
   display: 'inline-flex',
   borderRadius: '50%',
   borderWidth: 1,

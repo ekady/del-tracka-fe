@@ -88,7 +88,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
+      session.accessToken = token.accessToken as string;
       session.user.userToken = token.userToken as ICredential;
       return session;
     },

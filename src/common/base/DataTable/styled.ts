@@ -1,7 +1,9 @@
+import { ElementType } from 'react';
+
 import { styled } from '@mui/material';
 import { DataGrid as DataGridMUI } from '@mui/x-data-grid';
 
-export const DataGridStyled = styled(DataGridMUI)(() => ({
+export const DataGridStyled: ElementType = styled(DataGridMUI)(() => ({
   border: 'none',
 
   '& .MuiDataGrid-main > div:first-of-type': {

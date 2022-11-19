@@ -6,7 +6,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 
 // MUI Icons
-import { AddCircleOutlined } from '@mui/icons-material';
+import { AddCircleOutlined, Sync } from '@mui/icons-material';
 
 // Local Component
 import { BaseDialogAlert, DataTable, TableAction, TableHeader } from '@/common/base';
@@ -24,10 +24,12 @@ import {
   useGetSprintInfoQuery,
   useLazyGetSprintQuery,
 } from '../../store/sprint.api.slice';
+import { useAppDispatch } from '@/common/store';
 
 // Constants
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { ProjectRoles } from '../../constant/role';
+import { invalidateTags } from '../../store/project.api.slice';
 
 const tableHeaders: GridColDef<ISprintsResponse>[] = [
   { headerName: 'Sprint', field: 'name', width: 150 },
@@ -58,8 +60,11 @@ const tableHeaders: GridColDef<ISprintsResponse>[] = [
 ];
 
 const ProjectOverviewSprint = () => {
+  const dispatch = useAppDispatch();
   const { projectId, router, refetch, data: projectData } = useProjectId();
-  const { data, isLoading } = useGetSprintInfoQuery(projectId ? { idProject: projectId, idSprint: '' } : skipToken);
+  const { data, isLoading, isFetching } = useGetSprintInfoQuery(
+    projectId ? { idProject: projectId, idSprint: '' } : skipToken,
+  );
   const [getSprint] = useLazyGetSprintQuery();
   const [createUpdateSprint, { isLoading: loadingCreateUpdate }] = useCreateUpdateSprintMutation();
   const [deleteSprint] = useDeleteSprintMutation();
@@ -71,6 +76,10 @@ const ProjectOverviewSprint = () => {
     description: '',
     name: '',
   });
+
+  const validateTags = () => {
+    dispatch(invalidateTags(['Projects', 'ProjectActivities', 'Sprints']));
+  };
 
   const toggleDialog = useCallback(
     async (id?: string) => {
@@ -151,12 +160,17 @@ const ProjectOverviewSprint = () => {
       <TableHeader
         header={
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography fontSize={16}>Sprint</Typography>
+            <Typography fontSize={16} marginRight={2}>
+              Sprint
+            </Typography>
             {projectData?.data.role === ProjectRoles.OWNER && (
               <IconButton color="primary" onClick={() => toggleDialog()}>
                 <AddCircleOutlined />
               </IconButton>
             )}
+            <IconButton color="primary" onClick={() => validateTags()}>
+              <Sync />
+            </IconButton>
           </Box>
         }
       />
@@ -165,7 +179,7 @@ const ProjectOverviewSprint = () => {
         rows={data?.data ?? []}
         columns={headers}
         sortingMode="client"
-        loading={isLoading}
+        loading={isLoading || isFetching}
         getRowId={(row) => row.shortId}
         rowCount={undefined}
         pagination={undefined}
