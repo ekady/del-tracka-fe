@@ -1,14 +1,7 @@
 import { apiSlice } from '@/common/store/api.slice';
 import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
-import {
-  IProjectResponse,
-  IProjectRequest,
-  IProjectSprintIssueDetail,
-  IProjectSettingRequest,
-  IStatsResponse,
-  ITasksCount,
-} from '../interfaces';
+import { IProjectResponse, IProjectRequest, IProjectSettingRequest, IStatsResponse, ITasksCount } from '../interfaces';
 
 export type ProjectIds = { idIssue?: string; idProject: string; idSprint: string };
 
@@ -62,50 +55,6 @@ export const projectApiSlice = apiSlice
             return acc;
           }, {} as Record<string, number>);
         },
-      }),
-
-      // Tasks
-      getIssue: builder.query<IProjectSprintIssueDetail, ProjectIds>({
-        query: ({ idProject, idSprint, idIssue }) => `/projects/${idProject}/stages/${idSprint}/tasks/${idIssue}`,
-        transformResponse: (response) => {
-          const res = response as IProjectSprintIssueDetail;
-          res.images = res.imageUrls;
-          return res;
-        },
-      }),
-      createUpdateIssue: builder.mutation<
-        IProjectSprintIssueDetail,
-        IProjectSettingRequest<IProjectSprintIssueDetail, ProjectIds>
-      >({
-        query: ({ id, body }) => {
-          const formData = new FormData();
-          const { feature, level, mainProblem, reporter, assignee, detail, images } = body;
-
-          formData.append('feature', feature);
-          formData.append('mainProblem', mainProblem);
-          formData.append('level', level?.value ?? '');
-          formData.append('reporter', reporter?.value ?? '');
-          formData.append('assignee', assignee?.value ?? '');
-          formData.append('detail', detail ?? '');
-          if (images && images.length > 0) {
-            images.forEach((image) => {
-              if (image instanceof File) formData.append('image', image);
-              else formData.append('imageOld', image.name);
-            });
-          }
-
-          return {
-            url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idIssue ? id.idIssue : ''}`,
-            method: id.idIssue ? 'put' : 'post',
-            body: formData,
-          };
-        },
-      }),
-      deleteIssue: builder.mutation<IProjectSprintIssueDetail, ProjectIds>({
-        query: ({ idProject, idSprint, idIssue }) => ({
-          url: `/projects/${idProject}/stages/${idSprint}/tasks/${idIssue}`,
-          method: 'delete',
-        }),
       }),
     }),
   });

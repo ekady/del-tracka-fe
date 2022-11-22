@@ -54,13 +54,13 @@ export interface IStateStore<DataType> {
   data: DataType;
 }
 
-export interface IPaginationParams {
-  limit?: number;
-  page?: number;
-  sort?: string;
-  search?: string;
-  filter?: Record<string, string | number>;
-}
+export type IPaginationParams = {
+  limit?: number | null;
+  page?: number | null;
+  sortBy?: string | null;
+  search?: string | null;
+};
+
 export type PaginationParamsText = keyof IPaginationParams;
 
 export interface IPaginationResponse<ContentType> {

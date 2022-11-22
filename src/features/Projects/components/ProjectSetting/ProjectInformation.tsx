@@ -46,8 +46,8 @@ const ProjectInformation = () => {
     try {
       await updateProject({ id: projectId, body: data });
       toast.success('Project updated successfully');
-    } catch (error) {
-      console.error(error);
+    } catch (_) {
+      //
     }
   });
 

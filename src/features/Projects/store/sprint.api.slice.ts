@@ -38,6 +38,7 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
 export const {
   useCreateUpdateSprintMutation,
   useGetSprintInfoQuery,
+  useGetSprintQuery,
   useLazyGetSprintInfoQuery,
   useDeleteSprintMutation,
   useLazyGetSprintQuery,

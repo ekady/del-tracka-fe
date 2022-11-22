@@ -1,4 +1,5 @@
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
+import { LevelType } from '@/common/constants/level';
 import { StatusType } from '@/common/constants/status';
 import { IAutocompleteOptions, IRoleResponse, IUserInfo } from '@/common/types';
 
@@ -7,6 +8,13 @@ export interface ITasksCount {
   IN_PROGRESS?: number;
   CLOSED?: number;
   REVIEW?: number;
+}
+
+export interface IProject {
+  _id: number;
+  name: string;
+  description: string;
+  shortId: string;
 }
 
 export interface IProjectRequest {
@@ -29,25 +37,6 @@ export interface IProjectMember extends IUserInfo {
   updatedAt: Date;
 }
 
-export interface IProjectSprintIssueDetail {
-  id: string;
-  mainProblem: string;
-  feature: string;
-  reporter: IAutocompleteOptions | null;
-  assignee?: IAutocompleteOptions | null;
-  detail?: string;
-  level: IAutocompleteOptions | null;
-  images?: (File | Thumbnail)[] | null;
-  imageUrls?: Thumbnail[];
-}
-
-export interface IProjectSprintIssue extends IProjectSprintIssueDetail {
-  status: StatusType;
-  bugNumber: string;
-  dateUpdated: string;
-  assigneeAvatar?: string | null;
-}
-
 export interface IProjectMemberAddRequest {
   email: string;
   roleName: string;
@@ -63,16 +52,11 @@ export interface IProjectSettingRequest<BodyType, IdType = string> {
   body: BodyType;
 }
 
-export interface IProjectTaskResponse {
-  id: string;
+export interface ISprint {
+  _id: number;
   name: string;
-  tasks: ITasksCount;
-}
-
-export interface ISprintTaskResponse {
-  id: string;
-  name: string;
-  tasks: ITasksCount;
+  description: string;
+  shortId: string;
 }
 
 export interface ISprintResponse {
@@ -91,4 +75,46 @@ export interface ISprintsResponse extends ISprintResponse {
 export interface IStatsResponse {
   name: string;
   count: number;
+}
+
+export interface IProjectTaskResponse {
+  id: string;
+  name: string;
+  tasks: ITasksCount;
+}
+
+export interface ITaskResponse {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  title: string;
+  detail: string;
+  feature: string;
+  assignee: IUserInfo;
+  reporter: IUserInfo;
+  images: string[];
+  status: StatusType;
+  priority: LevelType;
+  shortId: string;
+  project: IProject;
+  stage: ISprint;
+}
+
+export interface IProjectSprintIssueDetail {
+  id: string;
+  mainProblem: string;
+  feature: string;
+  reporter: IAutocompleteOptions | null;
+  assignee?: IAutocompleteOptions | null;
+  detail?: string;
+  level: IAutocompleteOptions | null;
+  images?: (File | Thumbnail)[] | null;
+  imageUrls?: Thumbnail[];
+}
+
+export interface IProjectSprintIssue extends IProjectSprintIssueDetail {
+  status: StatusType;
+  bugNumber: string;
+  dateUpdated: string;
+  assigneeAvatar?: string | null;
 }

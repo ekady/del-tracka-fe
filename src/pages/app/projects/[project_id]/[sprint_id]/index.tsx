@@ -10,8 +10,9 @@ import LayoutProject from '@/features/projects/layout/LayoutProject';
 import { ProjectIssueFilter, ProjectIssueTable } from '@/features/projects/components';
 
 import { useRouter } from 'next/router';
-import { useGetSprintInfoQuery, useLazyGetSprintIssuesQuery } from '@/features/projects/store/project.api.slice';
+import { useGetSprintQuery } from '@/features/projects/store/sprint.api.slice';
 import { useTableChange } from '@/common/hooks/useTableChange';
+import { useLazyGetTasksQuery } from '@/features/projects/store/task.api.slice';
 
 const ProjectSprintPage = () => {
   const router = useRouter();
@@ -19,23 +20,23 @@ const ProjectSprintPage = () => {
   const idSprint = router.query?.sprint_id as string;
 
   const { onFilter, onLimitPage, onSearch, onSort, tableOption } = useTableChange();
-  const { data: sprintInfo, isFetching: isSprintInfoFetching } = useGetSprintInfoQuery({ idProject, idSprint });
-  const [getIssues, { data: issuesData, isFetching: isIssuesFetching }] = useLazyGetSprintIssuesQuery();
+  const { data: sprintInfo, isFetching: isSprintInfoFetching } = useGetSprintQuery({ idProject, idSprint });
+  const [getTasks, { data: issuesData, isFetching: isIssuesFetching }] = useLazyGetTasksQuery();
 
   useEffect(() => {
-    const response = getIssues({ id: { idSprint, idProject }, body: tableOption });
+    const response = getTasks({ ids: { idProject, idSprint }, params: tableOption });
     return () => {
       response.abort();
     };
-  }, [getIssues, idProject, idSprint, tableOption]);
+  }, [getTasks, idProject, idSprint, tableOption]);
 
   return (
     <>
       <Box>
         <Typography variant="h6" gutterBottom>
-          {isSprintInfoFetching ? '-' : sprintInfo?.projectName}
+          {isSprintInfoFetching ? '-' : sprintInfo?.data.name}
         </Typography>
-        <Typography>{isSprintInfoFetching ? `Sprint ${sprintInfo?.sprint}` : '-'}</Typography>
+        <Typography>{isSprintInfoFetching ? `Sprint ${sprintInfo?.data.name}` : '-'}</Typography>
       </Box>
       <Box height={25} />
       <Box>
@@ -44,8 +45,10 @@ const ProjectSprintPage = () => {
         <ProjectIssueTable
           SearchProps={{ onChange: onSearch }}
           TableProps={{
-            rows: issuesData?.content ?? [],
-            rowCount: issuesData?.totalContent ?? 0,
+            getRowId: (row) => row._id,
+            rows: issuesData?.data ?? [],
+            paginationMode: 'client',
+            rowCount: undefined,
             loading: isIssuesFetching,
             onSortModelChange: onSort,
             onPageSizeChange: (limit) => onLimitPage('limit', limit),

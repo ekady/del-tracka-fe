@@ -16,6 +16,7 @@ import { StatusType } from '@/common/constants/status';
 import { LevelType } from '@/common/constants/level';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ITaskResponse } from '../../interfaces';
 
 const ProjectIssueTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
   const router = useRouter();
@@ -30,14 +31,27 @@ const ProjectIssueTable = ({ SearchProps, TableProps }: ITableAndSearchProps) =>
   );
   const renderCellAction = () => <TableAction />;
 
-  const tableHeaders: GridColDef[] = [
-    { headerName: 'Bug Number', field: 'bugNumber', width: 120, align: 'center' },
-    { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
+  const tableHeaders: GridColDef<ITaskResponse, string>[] = [
+    { headerName: 'Main Problem', field: 'title', width: 300 },
     { headerName: 'Feature', field: 'feature', width: 200 },
-    { headerName: 'Level', field: 'level', width: 200, renderCell: renderCellLevel },
-    { headerName: 'Date Updated', field: 'dateUpdated', width: 200 },
-    { headerName: 'Reporter', field: 'reporter', width: 200 },
-    { headerName: 'Assignee', field: 'assigneeAvatar' },
+    { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
+    {
+      headerName: 'Date Updated',
+      field: 'updatedAt',
+      width: 200,
+      valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
+    },
+    {
+      headerName: 'Reporter',
+      field: 'reporter',
+      valueGetter: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
+      width: 200,
+    },
+    {
+      headerName: 'Assignee',
+      field: 'assignee',
+      valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
+    },
     { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
     { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
   ];
