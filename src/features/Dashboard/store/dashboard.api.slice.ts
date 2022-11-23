@@ -2,8 +2,8 @@ import { apiSlice } from '@/common/store/api.slice';
 
 export interface DashboardResponse {
   totalProjects: number;
-  totalIssues: number;
-  allIssues: [number, number, number];
+  totalTasks: number;
+  allTasks: [number, number, number];
   allAssignTo: [number, number, number];
   activities: number[];
   activitiesLabel: string[];

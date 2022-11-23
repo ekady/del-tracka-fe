@@ -18,7 +18,7 @@ export const useTableChange = () => {
   const onSearch: Cancelable & TSearchDebounce = debounce<TSearchDebounce>((event) => {
     const search = event?.target?.value ? { search: event?.target?.value } : { search: '' };
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...search }));
-  }, 300);
+  }, 500);
 
   const onSort = useCallback((model: GridSortModel) => {
     const sort = model.reduce(

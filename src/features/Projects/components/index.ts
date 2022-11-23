@@ -6,14 +6,14 @@ export { default as ProjectSide } from './ProjectSide';
 
 export { ProjectOverview, ProjectOverviewSprint, ProjectOverviewActivity } from './ProjectOverview';
 export {
-  ProjectIssueFilter,
-  ProjectIssueTable,
-  ProjectIssueChangeStatus,
-  ProjectIssueForm,
-  ProjectIssueComment,
-  ProjectIssueComments,
-  ProjectIssueActivity,
-} from './ProjectIssue';
+  ProjectTaskFilter,
+  ProjectTaskTable,
+  ProjectTaskChangeStatus,
+  ProjectTaskForm,
+  ProjectTaskComment,
+  ProjectTaskComments,
+  ProjectTaskActivity,
+} from './ProjectTask';
 export {
   ProjectInformation,
   ProjectFormNewMember,

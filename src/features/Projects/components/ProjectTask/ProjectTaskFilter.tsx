@@ -13,11 +13,11 @@ import { FunctionVoidWithParams } from '@/common/types';
 import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';
 
-export interface ProjectIssueFilterProps {
+export interface ProjectTaskFilterProps {
   onChange: FunctionVoidWithParams<Record<string, string | null>>;
 }
 
-const ProjectIssueFilter = ({ onChange }: ProjectIssueFilterProps) => {
+const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
   return (
     <FilterContainer>
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>
@@ -47,4 +47,4 @@ const ProjectIssueFilter = ({ onChange }: ProjectIssueFilterProps) => {
   );
 };
 
-export default memo(ProjectIssueFilter);
+export default memo(ProjectTaskFilter);

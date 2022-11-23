@@ -6,20 +6,20 @@ import { CustomInput, FileUploaderMultiple } from '@/common/base';
 
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
-import { IProjectSprintIssueDetail } from '../../interfaces';
+import { IProjectSprintTaskDetail } from '../../interfaces';
 import { levelList } from '@/common/constants/level';
 
-export type ProjectIssueFormProps = {
-  data?: IProjectSprintIssueDetail;
+export type ProjectTaskFormProps = {
+  data?: IProjectSprintTaskDetail;
   hideUploadFile?: boolean;
   disabled?: boolean;
 };
 
-type ProjectSprintIssueDetailForm = {
-  [key in keyof IProjectSprintIssueDetail]: RegisterOptions;
+type ProjectSprintTaskDetailForm = {
+  [key in keyof IProjectSprintTaskDetail]: RegisterOptions;
 };
 
-const defaultValue: IProjectSprintIssueDetail = {
+const defaultValue: IProjectSprintTaskDetail = {
   id: '',
   feature: '',
   level: null,
@@ -30,14 +30,14 @@ const defaultValue: IProjectSprintIssueDetail = {
   images: [],
 };
 
-export default function ProjectIssueForm({ hideUploadFile, disabled, data }: ProjectIssueFormProps) {
+export default function ProjectTaskForm({ hideUploadFile, disabled, data }: ProjectTaskFormProps) {
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({ mode: 'all', defaultValues: data ?? defaultValue });
 
-  const validations: ProjectSprintIssueDetailForm = {
+  const validations: ProjectSprintTaskDetailForm = {
     id: { required: false },
     feature: { required: true },
     level: { required: true },

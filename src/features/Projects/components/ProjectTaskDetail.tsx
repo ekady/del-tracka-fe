@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Box, Button, ButtonGroup, Typography } from '@mui/material';
 
 // Local Components
-import { ProjectIssueActivity, ProjectIssueComments, ProjectIssueForm } from './';
+import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskForm } from '.';
 import { CarouselImages } from '@/common/base';
 
 const images = [
@@ -21,11 +21,11 @@ const images = [
 // View: Disabled form, contain form without upload image, media, comments, logs
 // Edit: Form contain upload image, comments, logs
 
-export type ProjectIssueDetailProps = {
+export type ProjectTaskDetailProps = {
   category: 'create' | 'edit' | 'detail';
 };
 
-const ProjectIssueDetail = ({ category }: ProjectIssueDetailProps) => {
+const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
@@ -66,16 +66,16 @@ const ProjectIssueDetail = ({ category }: ProjectIssueDetailProps) => {
       {isCreate && (
         <Box>
           <Typography variant="h6" component="h2">
-            New Issues
+            New Tasks
           </Typography>
         </Box>
       )}
 
       <Box height={40} />
 
-      {tab === 'form' && <ProjectIssueForm hideUploadFile={isDetail} disabled={isDetail} />}
-      {tab === 'comments' && <ProjectIssueComments />}
-      {tab === 'activities' && <ProjectIssueActivity />}
+      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} />}
+      {tab === 'comments' && <ProjectTaskComments />}
+      {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
           <CarouselImages images={images} />
@@ -85,4 +85,4 @@ const ProjectIssueDetail = ({ category }: ProjectIssueDetailProps) => {
   );
 };
 
-export default ProjectIssueDetail;
+export default ProjectTaskDetail;

@@ -1,2 +1,2 @@
-export { default as MyIssuesFilter } from './MyIssuesFilter';
-export { default as MyIssuesTable } from './MyIssuesTable';
+export { default as MyTasksFilter } from './MyTasksFilter';
+export { default as MyTasksTable } from './MyTasksTable';

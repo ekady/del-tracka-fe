@@ -16,7 +16,7 @@ import { statusList } from '@/common/constants/status';
 import { levelList } from '@/common/constants/level';
 import { memo } from 'react';
 
-const MyIssuesFilter = ({ onChange }: IFilterProps) => {
+const MyTasksFilter = ({ onChange }: IFilterProps) => {
   return (
     <FilterContainer>
       <FilterText>Filter</FilterText>
@@ -63,4 +63,4 @@ const MyIssuesFilter = ({ onChange }: IFilterProps) => {
   );
 };
 
-export default memo(MyIssuesFilter);
+export default memo(MyTasksFilter);

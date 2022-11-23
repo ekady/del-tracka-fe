@@ -3,10 +3,12 @@ import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
 import { IProjectResponse, IProjectRequest, IProjectSettingRequest, IStatsResponse, ITasksCount } from '../interfaces';
 
-export type ProjectIds = { idIssue?: string; idProject: string; idSprint: string };
+export type ProjectIds = { idTask?: string; idProject: string; idSprint: string };
 
 export const projectApiSlice = apiSlice
-  .enhanceEndpoints({ addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities'] })
+  .enhanceEndpoints({
+    addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities', 'Tasks'],
+  })
   .injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({

@@ -23,7 +23,7 @@ export const TypographyActivities: ElementType = styled(Typography)(() => ({
   marginBottom: 10,
 }));
 
-export const TypographyIssues: ElementType = styled(Typography)(() => ({
+export const TypographyTasks: ElementType = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: 14,
   letterSpacing: 0.5,

@@ -1,8 +1,8 @@
 // Local Component
 import { Logs } from '@/features/logs/components';
 
-const ProjectIssueActivity = () => {
+const ProjectTaskActivity = () => {
   return <Logs />;
 };
 
-export default ProjectIssueActivity;
+export default ProjectTaskActivity;

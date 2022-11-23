@@ -1,6 +1,6 @@
 import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
-export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'CLOSED' | 'HOLD';
+export type StatusType = 'OPEN' | 'IN_PROGRESS' | 'REVIEW' | 'READY_FOR_TEST' | 'CLOSED' | 'FAILED' | 'HOLD';
 
 export type StatusIndexable = {
   [key in StatusType]: IInformationWithColor;
@@ -31,6 +31,18 @@ const STATUS: StatusIndexable = {
     color: '#00b1d4',
     textColor: '#fff',
   },
+  READY_FOR_TEST: {
+    value: 'READY_FOR_TEST',
+    name: 'Ready for Test',
+    color: '#008000',
+    textColor: '#fff',
+  },
+  FAILED: {
+    value: 'FAILED',
+    name: 'Failed',
+    color: '#890B0B',
+    textColor: '#fff',
+  },
   HOLD: {
     value: 'HOLD',
     name: 'Hold',
@@ -41,7 +53,7 @@ const STATUS: StatusIndexable = {
 
 export const statusList: readonly IAutocompleteOptions[] = Object.keys(STATUS).map((status) => ({
   value: STATUS[status as StatusType].value as string,
-  label: STATUS[status as StatusType].name as string,
+  label: STATUS[status as StatusType].name,
 }));
 
 export default STATUS;

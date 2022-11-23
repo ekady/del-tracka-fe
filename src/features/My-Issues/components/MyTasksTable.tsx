@@ -15,7 +15,7 @@ const renderCellStatus = (params: GridRenderCellParams<string>) => (
 const renderCellLevel = (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />;
 const renderCellAction = () => <TableAction />;
 
-const MyIssuesTable = ({ TableProps, SearchProps }: ITableAndSearchProps) => {
+const MyTasksTable = ({ TableProps, SearchProps }: ITableAndSearchProps) => {
   const tableHeaders: GridColDef[] = [
     { headerName: 'Main Problem', field: 'mainProblem', width: 300 },
     { headerName: 'Project Name', field: 'projectName', width: 200 },
@@ -35,4 +35,4 @@ const MyIssuesTable = ({ TableProps, SearchProps }: ITableAndSearchProps) => {
   );
 };
 
-export default MyIssuesTable;
+export default MyTasksTable;

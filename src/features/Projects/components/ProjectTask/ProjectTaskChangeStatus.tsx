@@ -7,12 +7,12 @@ import STATUS, { StatusType } from '@/common/constants/status';
 // Types
 import { FunctionVoidWithParams } from '@/common/types';
 
-export type ProjectIssueChangeStatusProps = {
+export type ProjectTaskChangeStatusProps = {
   currentStatus: string;
   handleChange?: FunctionVoidWithParams<string>;
 };
 
-const ProjectIssueChangeStatus = ({ currentStatus, handleChange }: ProjectIssueChangeStatusProps) => {
+const ProjectTaskChangeStatus = ({ currentStatus, handleChange }: ProjectTaskChangeStatusProps) => {
   return (
     <TableMenuSelection
       list={Object.keys(STATUS).map(
@@ -27,4 +27,4 @@ const ProjectIssueChangeStatus = ({ currentStatus, handleChange }: ProjectIssueC
   );
 };
 
-export default ProjectIssueChangeStatus;
+export default ProjectTaskChangeStatus;

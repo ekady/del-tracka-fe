@@ -1,13 +1,13 @@
 import { Avatar, Box, Typography } from '@mui/material';
 
-export type ProjectIssueCommentProps = {
+export type ProjectTaskCommentProps = {
   name: string;
   date: string;
   comment: string;
   image?: string;
 };
 
-const ProjectIssueComment = ({ name, date, comment, image }: ProjectIssueCommentProps) => {
+const ProjectTaskComment = ({ name, date, comment, image }: ProjectTaskCommentProps) => {
   return (
     <Box display="flex" alignItems="star">
       <Box marginRight={2}>{!image && <Avatar />}</Box>
@@ -24,4 +24,4 @@ const ProjectIssueComment = ({ name, date, comment, image }: ProjectIssueComment
   );
 };
 
-export default ProjectIssueComment;
+export default ProjectTaskComment;

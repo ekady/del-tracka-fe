@@ -100,7 +100,11 @@ export interface ITaskResponse {
   stage: ISprint;
 }
 
-export interface IProjectSprintIssueDetail {
+export interface ITaskStatusUpdateRequest {
+  status: string;
+}
+
+export interface IProjectSprintTaskDetail {
   id: string;
   mainProblem: string;
   feature: string;
@@ -112,7 +116,7 @@ export interface IProjectSprintIssueDetail {
   imageUrls?: Thumbnail[];
 }
 
-export interface IProjectSprintIssue extends IProjectSprintIssueDetail {
+export interface IProjectSprintTask extends IProjectSprintTaskDetail {
   status: StatusType;
   bugNumber: string;
   dateUpdated: string;

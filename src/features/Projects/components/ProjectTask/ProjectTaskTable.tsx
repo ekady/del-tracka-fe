@@ -1,3 +1,7 @@
+// Next
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 // MUI Components
 import { Box, Button } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -5,24 +9,49 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 // MUI Icons
 import { AddCircleOutlined } from '@mui/icons-material';
 
+// Toast
+import { toast } from 'react-toastify';
+
 // Local Component
 import { DataTable, TableAction, TableCellLevel, TableCellStatus, TableHeader } from '@/common/base';
-import ProjectIssueChangeStatus from './ProjectIssueChangeStatus';
+import ProjectTaskChangeStatus from './ProjectTaskChangeStatus';
 
 // Types
 import { ITableAndSearchProps } from '@/common/types';
-
-import { StatusType } from '@/common/constants/status';
+import { ITaskResponse } from '@/features/projects/interfaces';
 import { LevelType } from '@/common/constants/level';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { ITaskResponse } from '../../interfaces';
+import { StatusType } from '@/common/constants/status';
+import { ProjectIds } from '@/features/projects/store/project.api.slice';
 
-const ProjectIssueTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
+// Hooks
+import { useUpdateStatusTaskMutation } from '@/features/projects/store/task.api.slice';
+
+const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
   const router = useRouter();
-  const renderCellStatus = (params: GridRenderCellParams<string>) => (
+  const [updateTaskStatus] = useUpdateStatusTaskMutation();
+
+  const handleChangeStatus =
+    (item: ITaskResponse) =>
+    async (status: string): Promise<void> => {
+      try {
+        const ids: ProjectIds = {
+          idProject: router.query.project_id as string,
+          idSprint: router.query.sprint_id as string,
+          idTask: item.shortId,
+        };
+        const payload = { status };
+        const data = await updateTaskStatus({ ids, payload });
+        if ('data' in data) toast.success('Task Status updated successfully');
+      } catch (_) {
+        //
+      }
+    };
+
+  const renderCellStatus = (params: GridRenderCellParams<string, ITaskResponse, string>) => (
     <TableCellStatus
-      SelectOption={<ProjectIssueChangeStatus currentStatus={params.value ?? ''} />}
+      SelectOption={
+        <ProjectTaskChangeStatus currentStatus={params.value ?? ''} handleChange={handleChangeStatus(params.row)} />
+      }
       status={params.value as StatusType}
     />
   );
@@ -56,21 +85,21 @@ const ProjectIssueTable = ({ SearchProps, TableProps }: ITableAndSearchProps) =>
     { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
   ];
 
-  const buttonAddIssue = (
+  const buttonAddTask = (
     <Link href={`${router.asPath}/new-issue`} passHref>
       <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
-        Add New Issue
+        Add New Task
       </Button>
     </Link>
   );
 
   return (
     <>
-      <TableHeader header={buttonAddIssue} isUsingSearch TextFieldProps={SearchProps} />
+      <TableHeader header={buttonAddTask} isUsingSearch TextFieldProps={SearchProps} />
       <Box sx={{ height: 20 }} />
       <DataTable rows={[]} columns={tableHeaders} {...TableProps} />
     </>
   );
 };
 
-export default ProjectIssueTable;
+export default ProjectTaskTable;

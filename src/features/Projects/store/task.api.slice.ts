@@ -1,5 +1,10 @@
-import { IApiResponse, IPaginationParams } from '@/common/types';
-import { IProjectSettingRequest, IProjectSprintIssueDetail, ITaskResponse } from '../interfaces';
+import { IApiResponse, IPaginationParams, IStatusMessageResponse } from '@/common/types';
+import {
+  IProjectSettingRequest,
+  IProjectSprintTaskDetail,
+  ITaskResponse,
+  ITaskStatusUpdateRequest,
+} from '../interfaces';
 import { ProjectIds } from './project.api.slice';
 import { sprintApiSlice } from './sprint.api.slice';
 
@@ -14,10 +19,22 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks`,
         params,
       }),
+      providesTags: ['Tasks'],
+    }),
+    updateStatusTask: builder.mutation<
+      IApiResponse<IStatusMessageResponse>,
+      { ids: ProjectIds; payload: ITaskStatusUpdateRequest }
+    >({
+      query: ({ ids, payload }) => ({
+        url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks/${ids.idTask}/update-status`,
+        body: payload,
+        method: 'put',
+      }),
+      invalidatesTags: ['Tasks'],
     }),
     createUpdateTask: builder.mutation<
-      IProjectSprintIssueDetail,
-      IProjectSettingRequest<IProjectSprintIssueDetail, ProjectIds>
+      IProjectSprintTaskDetail,
+      IProjectSettingRequest<IProjectSprintTaskDetail, ProjectIds>
     >({
       query: ({ id, body }) => {
         const formData = new FormData();
@@ -37,19 +54,19 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         }
 
         return {
-          url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idIssue ? id.idIssue : ''}`,
-          method: id.idIssue ? 'put' : 'post',
+          url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask ? id.idTask : ''}`,
+          method: id.idTask ? 'put' : 'post',
           body: formData,
         };
       },
     }),
-    deleteTask: builder.mutation<IProjectSprintIssueDetail, ProjectIds>({
-      query: ({ idProject, idSprint, idIssue }) => ({
-        url: `/projects/${idProject}/stages/${idSprint}/tasks/${idIssue}`,
+    deleteTask: builder.mutation<IProjectSprintTaskDetail, ProjectIds>({
+      query: ({ idProject, idSprint, idTask }) => ({
+        url: `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}`,
         method: 'delete',
       }),
     }),
   }),
 });
 
-export const { useGetTasksQuery, useLazyGetTasksQuery } = taskApiSlice;
+export const { useGetTasksQuery, useLazyGetTasksQuery, useUpdateStatusTaskMutation } = taskApiSlice;

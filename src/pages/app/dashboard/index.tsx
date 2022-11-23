@@ -5,7 +5,7 @@ import { ReactElement, useEffect } from 'react';
 import { Box } from '@mui/material';
 
 import { LayoutDefault } from '@/common/layout';
-import { DashboardActivities, DashboardIssues, DashboardTotal } from '@/features/dashboard/components';
+import { DashboardActivities, DashboardTasks, DashboardTotal } from '@/features/dashboard/components';
 
 import { useLazyGetDashboardDatasQuery } from '@/features/dashboard/store/dashboard.api.slice';
 
@@ -20,7 +20,7 @@ const DashboardPage = () => {
     <>
       <DashboardTotal />
       <Box sx={{ height: 30 }} />
-      <DashboardIssues />
+      <DashboardTasks />
       <Box sx={{ height: 30 }} />
       <DashboardActivities />
     </>

@@ -3,14 +3,14 @@ import type { ReactElement } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import ProjectIssueDetail from '@/features/projects/components/ProjectIssueDetail';
+import ProjectTaskDetail from '@/features/projects/components/ProjectTaskDetail';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
 
-const ProjectSprintIssuePage = () => {
-  return <ProjectIssueDetail category="edit" />;
+const ProjectSprintTaskPage = () => {
+  return <ProjectTaskDetail category="edit" />;
 };
 
-ProjectSprintIssuePage.getLayout = (page: ReactElement) => {
+ProjectSprintTaskPage.getLayout = (page: ReactElement) => {
   return (
     <LayoutDefault>
       <LayoutProject hideMenu content={page} />
@@ -18,4 +18,4 @@ ProjectSprintIssuePage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default ProjectSprintIssuePage;
+export default ProjectSprintTaskPage;
