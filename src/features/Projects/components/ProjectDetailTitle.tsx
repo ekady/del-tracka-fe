@@ -31,11 +31,11 @@ const ProjectDetailTitle = ({ title, description, canAccessSettings }: ProjectDe
   return (
     <>
       <Grid item xs={12} md={7}>
-        <Typography variant="h6" gutterBottom>
-          {title}
-        </Typography>
-        <Box display={{ xs: 'flex', md: 'none' }} my={2}>
-          {settings}
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          {canAccessSettings && settings}
         </Box>
         <Typography variant="subtitle2">{description}</Typography>
       </Grid>

@@ -23,8 +23,8 @@ export const useTableChange = () => {
   const onSort = useCallback((model: GridSortModel) => {
     const sort = model.reduce(
       (_, sort) => {
-        const sortOrder = sort.sort === 'asc' ? 1 : 0;
-        return sort.field ? { sortBy: `${sort.field}-${sortOrder}` } : {};
+        const sortOrder = sort.sort === 'asc' ? 1 : -1;
+        return sort.field ? { sortBy: `${sort.field}|${sortOrder}` } : {};
       },
       { sortBy: '' } as { sortBy?: string | null },
     );

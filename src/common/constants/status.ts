@@ -33,7 +33,7 @@ const STATUS: StatusIndexable = {
   },
   READY_FOR_TEST: {
     value: 'READY_FOR_TEST',
-    name: 'Ready for Test',
+    name: 'Ready',
     color: '#008000',
     textColor: '#fff',
   },

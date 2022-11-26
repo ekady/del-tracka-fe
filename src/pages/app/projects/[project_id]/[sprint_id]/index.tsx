@@ -28,10 +28,7 @@ const ProjectSprintPage = () => {
   const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
 
   useEffect(() => {
-    const response = getTasks({ ids: { idProject, idSprint }, params: tableOption });
-    return () => {
-      response.abort();
-    };
+    getTasks({ ids: { idProject, idSprint }, params: tableOption });
   }, [getTasks, idProject, idSprint, tableOption]);
 
   return (
@@ -50,13 +47,13 @@ const ProjectSprintPage = () => {
           SearchProps={{ onChange: onSearch }}
           TableProps={{
             getRowId: (row: ITaskResponse) => row._id,
-            rows: issuesData?.data ?? [],
-            paginationMode: 'client',
-            rowCount: undefined,
+            rows: issuesData?.data.data ?? [],
+            paginationMode: 'server',
+            rowCount: issuesData?.data.pagination.total || 0,
             loading: isTasksFetching,
             onSortModelChange: onSort,
             onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
-            onPageChange: (page: number) => onLimitPage('page', page),
+            onPageChange: (page: number) => onLimitPage('page', page + 1),
           }}
         />
       </Box>

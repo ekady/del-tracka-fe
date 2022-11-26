@@ -32,7 +32,7 @@ export const ActivityMessage: Record<ActivityType, (data: ILogsResponse) => stri
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
       .replace('{task}', data.stageAfter.name),
   UPDATE_TASK_STATUS: (data) =>
-    '{name} has updated status taks {task} to {status}'
+    '{name} has updated status task {task} to {status}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
       .replace('{task}', data.stageAfter.name)
       .replace('{status}', data.stageAfter.name),

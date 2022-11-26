@@ -1,4 +1,4 @@
-import { IApiResponse, IPaginationParams, IStatusMessageResponse } from '@/common/types';
+import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
 import {
   IProjectSettingRequest,
   IProjectSprintTaskDetail,
@@ -12,7 +12,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getTasks: builder.query<
-      IApiResponse<Omit<ITaskResponse[], 'project' | 'stage'>>,
+      IApiResponse<IPaginationResponse<Omit<ITaskResponse, 'project' | 'stage'>[]>>,
       { ids: ProjectIds; params: IPaginationParams }
     >({
       query: ({ ids, params }) => ({

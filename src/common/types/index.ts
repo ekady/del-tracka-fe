@@ -64,13 +64,13 @@ export type IPaginationParams = {
 export type PaginationParamsText = keyof IPaginationParams;
 
 export interface IPaginationResponse<ContentType> {
-  content: ContentType[];
-  currentPage: number;
-  totalPage: number;
-  contentFrom: number;
-  contentTo: number;
-  totalContent: number;
-  options: IPaginationParams;
+  data: ContentType[];
+  pagination: {
+    limit: number;
+    page: number;
+    total: number;
+    totalPages: number;
+  };
 }
 
 export interface ITableAndSearchProps {

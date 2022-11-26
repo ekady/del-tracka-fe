@@ -32,30 +32,40 @@ import { ProjectRoles } from '../../constant/role';
 import { invalidateTags } from '../../store/project.api.slice';
 
 const tableHeaders: GridColDef<ISprintsResponse>[] = [
-  { headerName: 'Sprint', field: 'name', width: 150 },
+  {
+    headerName: 'Total',
+    field: 'total',
+    valueGetter: (param) => Object.values(param.row.tasks).reduce((sum, curr) => sum + curr, 0),
+  },
   {
     headerName: 'Open',
     field: 'open',
     valueGetter: (param) => param.row?.tasks?.OPEN ?? 0,
-    width: 150,
   },
   {
     headerName: 'In Progress',
     field: 'inProgress',
     valueGetter: (param) => param.row?.tasks?.IN_PROGRESS ?? 0,
-    width: 150,
+  },
+  {
+    headerName: 'Ready',
+    field: 'ready',
+    valueGetter: (param) => param.row?.tasks?.READY_FOR_TEST ?? 0,
   },
   {
     headerName: 'Review',
     field: 'review',
     valueGetter: (param) => param.row?.tasks?.REVIEW ?? 0,
-    width: 150,
+  },
+  {
+    headerName: 'Failed',
+    field: 'failed',
+    valueGetter: (param) => param.row?.tasks?.FAILED ?? 0,
   },
   {
     headerName: 'Close',
     field: 'close',
     valueGetter: (param) => param.row?.tasks?.CLOSED ?? 0,
-    width: 150,
   },
 ];
 
@@ -135,7 +145,7 @@ const ProjectOverviewSprint = () => {
   );
 
   const headers: GridColDef<ISprintsResponse>[] = [
-    ...tableHeaders,
+    { headerName: 'Sprint', field: 'name', width: 150 },
     {
       headerName: 'Action',
       field: 'action',
@@ -153,6 +163,7 @@ const ProjectOverviewSprint = () => {
         );
       },
     },
+    ...tableHeaders,
   ];
 
   return (

@@ -8,6 +8,9 @@ export interface ITasksCount {
   IN_PROGRESS?: number;
   CLOSED?: number;
   REVIEW?: number;
+  READY_FOR_TEST?: number;
+  HOLD?: number;
+  FAILED?: number;
 }
 
 export interface IProject {

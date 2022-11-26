@@ -41,6 +41,8 @@ const ProjecOverviewDetailPage = () => {
         <ProjectOverview {...STATUS.OPEN} value={projectStat?.OPEN ?? 0} />
         <ProjectOverview {...STATUS.IN_PROGRESS} value={projectStat?.IN_PROGRESS ?? 0} />
         <ProjectOverview {...STATUS.REVIEW} value={projectStat?.REVIEW ?? 0} />
+        <ProjectOverview {...STATUS.READY_FOR_TEST} value={projectStat?.READY_FOR_TEST ?? 0} />
+        <ProjectOverview {...STATUS.FAILED} value={projectStat?.FAILED ?? 0} />
         <ProjectOverview {...STATUS.CLOSED} value={projectStat?.CLOSED ?? 0} />
       </Grid>
       <Box sx={{ height: 50 }} />
