@@ -14,7 +14,6 @@ import {
   ProjectOverviewSprint,
 } from '@/features/projects/components';
 
-import { ProjectRoles } from '@/features/projects/constant/role';
 import STATUS from '@/common/constants/status';
 
 import useProjectId from '@/features/projects/hooks/useProjectId';
@@ -33,7 +32,7 @@ const ProjecOverviewDetailPage = () => {
         <ProjectDetailTitle
           title={data?.data?.name ?? ''}
           description={data?.data?.description}
-          canAccessSettings={data?.data?.role === ProjectRoles.OWNER}
+          canAccessSettings={data?.data?.rolePermissions.PROJECT.update}
         />
       </Grid>
       <Box sx={{ height: 40 }} />

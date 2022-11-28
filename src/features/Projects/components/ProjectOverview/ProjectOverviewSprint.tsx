@@ -13,23 +13,22 @@ import { BaseDialogAlert, DataTable, TableAction, TableHeader } from '@/common/b
 import ProjectDialogNew from '../ProjectDialogNew';
 
 // Types
-import { IProjectRequest, ISprintsResponse } from '../../interfaces';
+import { IProjectRequest, ISprintsResponse } from '@/features/projects/interfaces';
 
 // Hooks
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import useProjectId from '../../hooks/useProjectId';
+import useProjectId from '@/features/projects/hooks/useProjectId';
 import {
   useCreateUpdateSprintMutation,
   useDeleteSprintMutation,
   useGetSprintInfoQuery,
   useLazyGetSprintQuery,
-} from '../../store/sprint.api.slice';
+} from '@/features/projects/store/sprint.api.slice';
 import { useAppDispatch } from '@/common/store';
 
 // Constants
 import { skipToken } from '@reduxjs/toolkit/dist/query';
-import { ProjectRoles } from '../../constant/role';
-import { invalidateTags } from '../../store/project.api.slice';
+import { invalidateTags } from '@/features/projects/store/project.api.slice';
 
 const tableHeaders: GridColDef<ISprintsResponse>[] = [
   {
@@ -154,8 +153,8 @@ const ProjectOverviewSprint = () => {
       renderCell: ({ row }) => {
         return (
           <TableAction
-            hideDelete={projectData?.data.role !== ProjectRoles.OWNER}
-            hideEdit={![ProjectRoles.OWNER, ProjectRoles.MAINTAINER].includes(projectData?.data.role as ProjectRoles)}
+            hideDelete={!projectData?.data.rolePermissions.STAGE.delete}
+            hideEdit={!projectData?.data.rolePermissions.STAGE.update}
             handleDelete={() => deleteSprintConfirmation(row)}
             handleEdit={() => toggleDialog(row?.shortId)}
             handleView={() => redirectSprintPage(row?.shortId)}
@@ -174,7 +173,7 @@ const ProjectOverviewSprint = () => {
             <Typography fontSize={16} marginRight={2}>
               Sprint
             </Typography>
-            {projectData?.data.role === ProjectRoles.OWNER && (
+            {projectData?.data.rolePermissions.STAGE.create && (
               <IconButton color="primary" onClick={() => toggleDialog()}>
                 <AddCircleOutlined />
               </IconButton>

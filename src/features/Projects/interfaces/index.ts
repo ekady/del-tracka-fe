@@ -2,6 +2,7 @@ import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { LevelType } from '@/common/constants/level';
 import { StatusType } from '@/common/constants/status';
 import { IAutocompleteOptions, IRoleResponse, IUserInfo } from '@/common/types';
+import { ProjectMenu } from '../constant/projectMenu';
 
 export interface ITasksCount {
   OPEN?: number;
@@ -22,14 +23,31 @@ export interface IProject {
 
 export interface IProjectRequest {
   id?: string;
+  _id?: string;
   name: string;
   description: string;
+}
+
+export interface IProjectPermission {
+  menu: ProjectMenu;
+  create: boolean;
+  read: boolean;
+  update: boolean;
+  delete: boolean;
 }
 
 export interface IProjectResponse extends IProjectRequest {
   shortId: string;
   role: string;
   stages: ISprintResponse[];
+  rolePermissions: IProjectPermission[];
+}
+
+export interface IProjectWithPermissions extends IProjectRequest {
+  shortId: string;
+  role: string;
+  stages: ISprintResponse[];
+  rolePermissions: Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>;
 }
 
 export interface IProjectMember extends IUserInfo {

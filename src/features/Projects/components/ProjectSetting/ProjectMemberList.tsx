@@ -14,12 +14,12 @@ import { toast } from 'react-toastify';
 import { BaseDialogAlert, DataTable, TableAction, TableHeader, TableMenuSelection } from '@/common/base';
 
 // Hooks
-import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '../../store/member.api.slice';
-import useProjectId from '../../hooks/useProjectId';
+import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '@/features/projects/store/member.api.slice';
+import useProjectId from '@/features/projects/hooks/useProjectId';
 import { FunctionReturnFunction } from '@/common/types';
-import { useRemoveMember } from '../../hooks/useRemoveMember';
+import { useRemoveMember } from '@/features/projects/hooks/useRemoveMember';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { IProjectMember } from '../../interfaces';
+import { IProjectMember } from '@/features/projects/interfaces';
 
 export interface ProjectMemberListProps {
   hideSelectOption?: boolean;

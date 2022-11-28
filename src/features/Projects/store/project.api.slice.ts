@@ -1,7 +1,16 @@
 import { apiSlice } from '@/common/store/api.slice';
 import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
-import { IProjectResponse, IProjectRequest, IProjectSettingRequest, IStatsResponse, ITasksCount } from '../interfaces';
+import {
+  IProjectResponse,
+  IProjectRequest,
+  IProjectSettingRequest,
+  IStatsResponse,
+  ITasksCount,
+  IProjectWithPermissions,
+  IProjectPermission,
+} from '../interfaces';
+import { ProjectMenu } from '../constant/projectMenu';
 
 export type ProjectIds = { idTask?: string; idProject: string; idSprint: string };
 
@@ -13,8 +22,29 @@ export const projectApiSlice = apiSlice
     overrideExisting: true,
     endpoints: (builder) => ({
       // Projects
-      getProjects: builder.query<IApiResponse<IProjectResponse[]>, void>({
+      getProjects: builder.query<IApiResponse<IProjectWithPermissions[]>, void>({
         query: () => '/projects',
+        transformResponse: (response: IApiResponse<IProjectResponse[]>) => {
+          return {
+            data: response.data.map((data) => ({
+              id: data._id,
+              name: data.name,
+              description: data.description,
+              shortId: data.shortId,
+              role: data.role,
+              stages: data.stages,
+              rolePermissions: data.rolePermissions.reduce(
+                (acc, role) => ({
+                  ...acc,
+                  [role.menu]: { create: role.create, read: role.read, update: role.update, delete: role.delete },
+                }),
+                {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
+              ),
+            })),
+            errors: response.errors,
+            statusCode: response.statusCode,
+          };
+        },
         providesTags: ['Projects'],
       }),
       createProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectRequest>({
@@ -25,9 +55,30 @@ export const projectApiSlice = apiSlice
         }),
         invalidatesTags: ['Projects'],
       }),
-      getProject: builder.query<IApiResponse<IProjectResponse>, string>({
+      getProject: builder.query<IApiResponse<IProjectWithPermissions>, string>({
         query: (id) => `/projects/${id}`,
         providesTags: ['Project'],
+        transformResponse: (response: IApiResponse<IProjectResponse>) => {
+          return {
+            data: {
+              id: response.data._id,
+              name: response.data.name,
+              description: response.data.description,
+              shortId: response.data.shortId,
+              role: response.data.role,
+              stages: response.data.stages,
+              rolePermissions: response.data.rolePermissions.reduce(
+                (acc, role) => ({
+                  ...acc,
+                  [role.menu]: { create: role.create, read: role.read, update: role.update, delete: role.delete },
+                }),
+                {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
+              ),
+            },
+            errors: response.errors,
+            statusCode: response.statusCode,
+          };
+        },
       }),
       updateProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectRequest>>({
         query: ({ id, body }) => ({

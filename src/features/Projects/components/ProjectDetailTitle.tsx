@@ -35,7 +35,7 @@ const ProjectDetailTitle = ({ title, description, canAccessSettings }: ProjectDe
           <Typography variant="h6" gutterBottom>
             {title}
           </Typography>
-          {canAccessSettings && settings}
+          <Box display={{ xs: 'block', md: 'none' }}>{canAccessSettings && settings}</Box>
         </Box>
         <Typography variant="subtitle2">{description}</Typography>
       </Grid>

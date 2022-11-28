@@ -25,9 +25,11 @@ import { ProjectIds } from '@/features/projects/store/project.api.slice';
 
 // Hooks
 import { useUpdateStatusTaskMutation } from '@/features/projects/store/task.api.slice';
+import useProjectId from '@/features/projects/hooks/useProjectId';
 
 const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
   const router = useRouter();
+  const { data: projectData } = useProjectId();
   const [updateTaskStatus] = useUpdateStatusTaskMutation();
 
   const handleChangeStatus =
@@ -58,7 +60,13 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
   const renderCellLevel = (params: GridRenderCellParams<string>) => (
     <TableCellLevel level={params.value as LevelType} />
   );
-  const renderCellAction = () => <TableAction />;
+  const renderCellAction = () => (
+    <TableAction
+      hideDelete={!projectData?.data.rolePermissions.TASK.delete}
+      hideEdit={!projectData?.data.rolePermissions.TASK.update}
+      hideView={!projectData?.data.rolePermissions.TASK.read}
+    />
+  );
 
   const tableHeaders: GridColDef<ITaskResponse, string>[] = [
     { headerName: 'Main Problem', field: 'title', width: 300 },
@@ -95,7 +103,11 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
 
   return (
     <>
-      <TableHeader header={buttonAddTask} isUsingSearch TextFieldProps={SearchProps} />
+      <TableHeader
+        header={projectData?.data.rolePermissions.TASK.create ? buttonAddTask : null}
+        isUsingSearch
+        TextFieldProps={SearchProps}
+      />
       <Box sx={{ height: 20 }} />
       <DataTable rows={[]} columns={tableHeaders} {...TableProps} />
     </>

@@ -16,11 +16,10 @@ import { TableAction } from '@/common/base';
 import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List/styled';
 
 // Types
-import { IProjectResponse, ISprintResponse } from '../interfaces';
-import { ProjectRoles } from '../constant/role';
+import { IProjectWithPermissions, ISprintResponse } from '../interfaces';
 
 export interface ProjectListProps {
-  projectList?: IProjectResponse[];
+  projectList?: IProjectWithPermissions[];
 }
 
 const ProjectList = ({ projectList }: ProjectListProps) => {
@@ -55,7 +54,7 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
   return (
     <List>
       {projectList &&
-        projectList.map(({ shortId, name, stages, role }, index) => (
+        projectList.map(({ shortId, name, stages, rolePermissions }, index) => (
           <ListContainer key={shortId}>
             <ListItemContainer>
               <ListButton disableTouchRipple className="cursor-default" selected={currProject === shortId}>
@@ -70,7 +69,7 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
                   <ListItemText className="cursor-pointer" primary={name} />
                 </Link>
                 <TableAction hideView hideDelete hideEdit>
-                  {role === ProjectRoles.OWNER ? (
+                  {rolePermissions.PROJECT.update ? (
                     <Link href={`/app/projects/${shortId}/setting`} passHref>
                       <MenuItem>Settings</MenuItem>
                     </Link>

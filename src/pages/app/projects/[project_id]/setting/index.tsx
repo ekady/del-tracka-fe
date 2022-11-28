@@ -13,7 +13,6 @@ import { LayoutDefault } from '@/common/layout';
 import { ProjectInformation, ProjectMembers, ProjectOtherSetting } from '@/features/projects/components/ProjectSetting';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
 import { ListButton, ListContainer, ListContentContainer, ListItemContainer } from '@/common/base/List/styled';
-import { ProjectRoles } from '@/features/projects/constant/role';
 
 // Hooks
 import useProjectId from '@/features/projects/hooks/useProjectId';
@@ -40,10 +39,11 @@ const ProjectSettingPage = () => {
   }, [router]);
 
   useEffect(() => {
-    if (data?.data.role && data?.data.role !== ProjectRoles.OWNER) router.push(`/app/projects/${projectId}/member`);
+    if (projectId && data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)
+      router.push(`/app/projects/${projectId}/member`);
   }, [data, projectId, router]);
 
-  if (data?.data.role !== ProjectRoles.OWNER)
+  if (!data?.data.rolePermissions.PROJECT.update)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height="100%" marginTop={5}>
         <CircularProgress />
