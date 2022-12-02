@@ -126,13 +126,13 @@ export interface ITaskStatusUpdateRequest {
 }
 
 export interface IProjectSprintTaskDetail {
-  id: string;
-  mainProblem: string;
+  _id: string;
+  title: string;
   feature: string;
-  reporter: IAutocompleteOptions | null;
-  assignee?: IAutocompleteOptions | null;
+  reporter: IProjectMember | null;
+  assignee?: IProjectMember | null;
   detail?: string;
-  level: IAutocompleteOptions | null;
+  priority: IAutocompleteOptions | null;
   images?: (File | Thumbnail)[] | null;
   imageUrls?: Thumbnail[];
 }

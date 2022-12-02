@@ -16,7 +16,7 @@ export type ProjectIds = { idTask?: string; idProject: string; idSprint: string 
 
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({
-    addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities', 'Tasks'],
+    addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities', 'Tasks', 'Task'],
   })
   .injectEndpoints({
     overrideExisting: true,

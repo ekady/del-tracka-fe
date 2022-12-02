@@ -1,5 +1,7 @@
+import { levelList } from '@/common/constants/level';
 import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
 import {
+  IProjectMember,
   IProjectSettingRequest,
   IProjectSprintTaskDetail,
   ITaskResponse,
@@ -21,6 +23,24 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       }),
       providesTags: ['Tasks'],
     }),
+    getTask: builder.query<IProjectSprintTaskDetail, { ids: ProjectIds }>({
+      query: ({ ids }) => ({
+        url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks/${ids.idTask}`,
+      }),
+      transformResponse: (response: IApiResponse<ITaskResponse>) => {
+        return {
+          _id: response.data._id,
+          title: response.data.title,
+          feature: response.data.feature,
+          reporter: response.data.reporter as IProjectMember,
+          assignee: response.data.reporter as IProjectMember,
+          detail: response.data.detail,
+          priority: levelList.find((level) => level.value === response.data.priority) || null,
+          images: [],
+        };
+      },
+      providesTags: ['Task'],
+    }),
     updateStatusTask: builder.mutation<
       IApiResponse<IStatusMessageResponse>,
       { ids: ProjectIds; payload: ITaskStatusUpdateRequest }
@@ -33,22 +53,22 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       invalidatesTags: ['Tasks'],
     }),
     createUpdateTask: builder.mutation<
-      IProjectSprintTaskDetail,
+      IApiResponse<IProjectSprintTaskDetail>,
       IProjectSettingRequest<IProjectSprintTaskDetail, ProjectIds>
     >({
       query: ({ id, body }) => {
         const formData = new FormData();
-        const { feature, level, mainProblem, reporter, assignee, detail, images } = body;
+        const { feature, priority, title, reporter, assignee, detail, images } = body;
 
         formData.append('feature', feature);
-        formData.append('mainProblem', mainProblem);
-        formData.append('level', level?.value ?? '');
-        formData.append('reporter', reporter?.value ?? '');
-        formData.append('assignee', assignee?.value ?? '');
+        formData.append('title', title);
+        formData.append('priority', priority?.value ?? '');
+        formData.append('reporter', reporter?._id ?? '');
+        formData.append('assignee', assignee?._id ?? '');
         formData.append('detail', detail ?? '');
         if (images && images.length > 0) {
           images.forEach((image) => {
-            if (image instanceof File) formData.append('image', image);
+            if (image instanceof File) formData.append('images', image);
             else formData.append('imageOld', image.name);
           });
         }
@@ -59,14 +79,23 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           body: formData,
         };
       },
+      invalidatesTags: ['Tasks'],
     }),
     deleteTask: builder.mutation<IProjectSprintTaskDetail, ProjectIds>({
       query: ({ idProject, idSprint, idTask }) => ({
         url: `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}`,
         method: 'delete',
       }),
+      invalidatesTags: ['Tasks'],
     }),
   }),
 });
 
-export const { useGetTasksQuery, useLazyGetTasksQuery, useUpdateStatusTaskMutation } = taskApiSlice;
+export const {
+  useGetTasksQuery,
+  useGetTaskQuery,
+  useLazyGetTasksQuery,
+  useUpdateStatusTaskMutation,
+  useCreateUpdateTaskMutation,
+  useDeleteTaskMutation,
+} = taskApiSlice;

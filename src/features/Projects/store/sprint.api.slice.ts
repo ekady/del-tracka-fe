@@ -3,6 +3,7 @@ import { IProjectRequest, IProjectSettingRequest, ISprintResponse, ISprintsRespo
 import { projectApiSlice, ProjectIds } from './project.api.slice';
 
 export const sprintApiSlice = projectApiSlice.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     createUpdateSprint: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectRequest>>(
       {

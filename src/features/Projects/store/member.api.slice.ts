@@ -8,6 +8,7 @@ import {
 import { projectApiSlice } from './project.api.slice';
 
 export const memberApiSlice = projectApiSlice.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getProjectMembers: builder.query<IProjectMember[], string>({
       query: (id) => `/projects/${id}/member`,

@@ -16,9 +16,10 @@ import { BoxArrow, ButtonArrow, CircleIndicator } from './styled';
 
 // Constants
 import { CarouselSize } from './constants';
+import { Thumbnail } from '../FileUploader/interfaces';
 
 export interface CarouselImagesProps {
-  images: string[];
+  images: Thumbnail[];
   thumbsHeight?: number | string;
   thumbsWidth?: number | string;
   imageHeight?: number | string;
@@ -40,8 +41,8 @@ const CarouselImages = ({
       swipeScrollTolerance={5}
       renderThumbs={() =>
         images.map((image) => (
-          <Box key={image} position="relative" height={thumbsHeight} width={thumbsWidth}>
-            <Image src={image} layout="fill" objectFit="contain" alt="logo" />
+          <Box key={image.src} position="relative" height={thumbsHeight} width={thumbsWidth}>
+            <Image src={image.src} layout="fill" objectFit="contain" alt="logo" />
           </Box>
         ))
       }
@@ -68,8 +69,8 @@ const CarouselImages = ({
       )}
     >
       {images.map((image) => (
-        <Box key={image} position="relative" height={imageHeight} width={imageWidth}>
-          <Image alt="image" src={image} layout="fill" objectFit="contain" loading="lazy" />
+        <Box key={image.src} position="relative" height={imageHeight} width={imageWidth}>
+          <Image alt="image" src={image.src} layout="fill" objectFit="contain" loading="lazy" />
         </Box>
       ))}
     </CarouselResponsive>

@@ -4,18 +4,18 @@ import { useState } from 'react';
 // MUI Components
 import { Box, Button, ButtonGroup, Typography } from '@mui/material';
 
+// Redux
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
 // Local Components
 import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskForm } from '.';
 import { CarouselImages } from '@/common/base';
 
-const images = [
-  'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-  'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
-  'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-  'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=800&h=250&q=60',
-  'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&h=250&q=80',
-  'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=800&h=250&q=60',
-];
+// Hooks
+import { useGetTaskQuery } from '../store/task.api.slice';
+import useProjectId from '../hooks/useProjectId';
+
+import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
 // Create : Only Form that contain upload image
 // View: Disabled form, contain form without upload image, media, comments, logs
@@ -29,6 +29,15 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
+  const {
+    projectId,
+    router: { query },
+  } = useProjectId();
+  const { data } = useGetTaskQuery(
+    projectId && query.sprint_id && query.task_id
+      ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: query.task_id as string } }
+      : skipToken,
+  );
   const [tab, setTab] = useState<string>('form');
 
   const setVariantButton = (type: string) => {
@@ -73,12 +82,12 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
 
       <Box height={40} />
 
-      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} />}
+      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={data} />}
       {tab === 'comments' && <ProjectTaskComments />}
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
-          <CarouselImages images={images} />
+          <CarouselImages images={(data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) || []} />
         </Box>
       )}
     </>

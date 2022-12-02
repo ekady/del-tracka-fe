@@ -94,7 +94,7 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
   ];
 
   const buttonAddTask = (
-    <Link href={`${router.asPath}/new-issue`} passHref>
+    <Link href={`${router.asPath}/new`} passHref>
       <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
         Add New Task
       </Button>

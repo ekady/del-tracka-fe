@@ -1,13 +1,23 @@
 // MUI Components
-import { Autocomplete, Button, Grid } from '@mui/material';
+import { Autocomplete, Grid } from '@mui/material';
 
-// Local Components
-import { CustomInput, FileUploaderMultiple } from '@/common/base';
+// Redux
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
+// React Hook Form
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
-import { IProjectSprintTaskDetail } from '../../interfaces';
+// Local Components
+import { BaseDialogAlert, ButtonLoading, CustomInput, FileUploaderMultiple } from '@/common/base';
 import { levelList } from '@/common/constants/level';
+
+// Hooks
+import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
+import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
+import useProjectId from '@/features/projects/hooks/useProjectId';
+import { useGetProjectMembersQuery } from '@/features/projects/store/member.api.slice';
+import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.slice';
+import { ProjectIds } from '@/features/projects/store/project.api.slice';
 
 export type ProjectTaskFormProps = {
   data?: IProjectSprintTaskDetail;
@@ -20,10 +30,10 @@ type ProjectSprintTaskDetailForm = {
 };
 
 const defaultValue: IProjectSprintTaskDetail = {
-  id: '',
+  _id: '',
   feature: '',
-  level: null,
-  mainProblem: '',
+  priority: null,
+  title: '',
   reporter: null,
   assignee: null,
   detail: '',
@@ -31,39 +41,60 @@ const defaultValue: IProjectSprintTaskDetail = {
 };
 
 export default function ProjectTaskForm({ hideUploadFile, disabled, data }: ProjectTaskFormProps) {
+  const { projectId, router } = useProjectId();
+  const { data: dataMember } = useGetProjectMembersQuery(projectId || skipToken);
+  const [saveTask, { isLoading }] = useCreateUpdateTaskMutation();
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({ mode: 'all', defaultValues: data ?? defaultValue });
 
+  const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
+
   const validations: ProjectSprintTaskDetailForm = {
-    id: { required: false },
+    _id: { required: false },
     feature: { required: true },
-    level: { required: true },
-    mainProblem: { required: true },
+    priority: { required: true },
+    title: { required: true },
     reporter: { required: false },
     assignee: { required: false },
-    detail: { required: true },
+    detail: { required: false },
     images: { required: true },
   };
 
   const onSubmit = handleSubmit(async (form) => {
-    console.log(form);
+    try {
+      const id: ProjectIds = {
+        idProject: projectId,
+        idSprint: router.query.sprint_id as string,
+        idTask: router.query.task_id as string,
+      };
+      const response = await saveTask({ id, body: form });
+      if ('data' in response && response.data) {
+        openDialogSuccess('Success', 'Task has been successfully saved', {
+          handleOk: () => router.push({ pathname: '/app/projects/[project_id]/[sprint_id]', query: router.query }),
+          handleCancel: closeDialogAlert,
+        });
+      }
+    } catch (_) {
+      //
+    }
   });
 
   return (
     <>
+      <BaseDialogAlert {...dialogAlertOpt} />
       <Grid container columnSpacing={3} component="main">
         <Grid item xs={12} md={6}>
           <Controller
-            name="mainProblem"
+            name="title"
             control={control}
-            rules={validations.mainProblem}
+            rules={validations.title}
             render={({ field }) => (
               <CustomInput
                 fieldname="Main Problem"
-                error={errors.mainProblem}
+                error={errors.title}
                 TextFieldProps={{ placeholder: 'Enter main problem', disabled, ...field }}
               />
             )}
@@ -86,12 +117,13 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
             rules={validations.reporter}
             render={({ field: { onChange, value } }) => (
               <Autocomplete
-                options={[]}
+                options={dataMember || []}
                 disabled={disabled}
                 disableClearable={!!value}
+                getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
                 value={value ? value : null}
                 onChange={(_, item) => onChange(item)}
-                isOptionEqualToValue={(option, val) => option.value === val.value}
+                isOptionEqualToValue={(option, val) => option._id === val._id}
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Reporter"
@@ -108,12 +140,13 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
             rules={validations.assignee}
             render={({ field: { onChange, value } }) => (
               <Autocomplete
-                options={[]}
+                options={dataMember || []}
                 disabled={disabled}
                 disableClearable={!!value}
+                getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
                 value={value ? value : null}
                 onChange={(_, item) => onChange(item)}
-                isOptionEqualToValue={(option, val) => option.value === val.value}
+                isOptionEqualToValue={(option, val) => option._id === val._id}
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Assign To"
@@ -127,9 +160,9 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
         </Grid>
         <Grid item xs={12} md={6}>
           <Controller
-            name="level"
+            name="priority"
             control={control}
-            rules={validations.level}
+            rules={validations.priority}
             render={({ field: { onChange, value } }) => (
               <Autocomplete
                 options={levelList}
@@ -141,8 +174,8 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
                 renderInput={(params) => (
                   <CustomInput
                     fieldname="Priority"
-                    error={errors.level as FieldError}
-                    TextFieldProps={{ placeholder: 'Enter level', ...params, size: 'small' }}
+                    error={errors.priority as FieldError}
+                    TextFieldProps={{ placeholder: 'Enter priority', ...params, size: 'small' }}
                   />
                 )}
               />
@@ -179,9 +212,9 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
           </Grid>
         )}
         <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end' }}>
-          <Button variant="contained" onClick={onSubmit}>
+          <ButtonLoading loading={isLoading} variant="contained" onClick={onSubmit}>
             Save
-          </Button>
+          </ButtonLoading>
         </Grid>
       </Grid>
     </>
