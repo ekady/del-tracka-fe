@@ -1,6 +1,9 @@
 // React
 import { ReactElement, useEffect } from 'react';
 
+// Redux
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
 // MUI
 import { Box, Typography } from '@mui/material';
 
@@ -13,10 +16,18 @@ import { useRouter } from 'next/router';
 import { useGetSprintQuery } from '@/features/projects/store/sprint.api.slice';
 import { useTableChange } from '@/common/hooks/useTableChange';
 import { useLazyGetTasksQuery } from '@/features/projects/store/task.api.slice';
+import { useAppDispatch } from '@/common/store';
+import { invalidateTags } from '@/features/projects/store/project.api.slice';
+
 import { ITaskResponse } from '@/features/projects/interfaces';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const ProjectSprintPage = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(invalidateTags(['Sprint', 'Tasks']));
+  }, [dispatch]);
+
   const router = useRouter();
   const idProject = router.query?.project_id as string;
   const idSprint = router.query?.sprint_id as string;

@@ -33,7 +33,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           title: response.data.title,
           feature: response.data.feature,
           reporter: response.data.reporter as IProjectMember,
-          assignee: response.data.reporter as IProjectMember,
+          assignee: response.data.assignee as IProjectMember,
           detail: response.data.detail,
           priority: levelList.find((level) => level.value === response.data.priority) || null,
           images: [],
@@ -50,7 +50,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         body: payload,
         method: 'put',
       }),
-      invalidatesTags: ['Tasks'],
+      invalidatesTags: ['Tasks', 'Task'],
     }),
     createUpdateTask: builder.mutation<
       IApiResponse<IProjectSprintTaskDetail>,
@@ -86,7 +86,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         url: `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}`,
         method: 'delete',
       }),
-      invalidatesTags: ['Tasks'],
+      invalidatesTags: ['Tasks', 'Task'],
     }),
   }),
 });

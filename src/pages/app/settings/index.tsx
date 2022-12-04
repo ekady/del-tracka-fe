@@ -1,5 +1,5 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect } from 'react';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
@@ -11,9 +11,12 @@ import { toast } from 'react-toastify';
 const Settings = () => {
   const [updateProfile, { isSuccess }] = useUpdateProfileMutation();
 
-  const submitHander = async (v: ProfileRequest) => {
-    await updateProfile(v);
-  };
+  const submitHander = useCallback(
+    async (v: ProfileRequest) => {
+      await updateProfile(v);
+    },
+    [updateProfile],
+  );
 
   useEffect(() => {
     if (isSuccess) toast.success('Profile Updated!');

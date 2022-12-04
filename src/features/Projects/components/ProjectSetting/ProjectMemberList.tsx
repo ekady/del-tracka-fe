@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 // MUI Components
 import { Box, MenuItem, Typography } from '@mui/material';
@@ -13,13 +13,17 @@ import { toast } from 'react-toastify';
 // Local Components
 import { BaseDialogAlert, DataTable, TableAction, TableHeader, TableMenuSelection } from '@/common/base';
 
+// Types | Interfaces
+import { FunctionReturnFunction } from '@/common/types';
+import { IProjectMember } from '@/features/projects/interfaces';
+
 // Hooks
 import { useGetProjectMembersQuery, useUpdateRoleMemberMutation } from '@/features/projects/store/member.api.slice';
 import useProjectId from '@/features/projects/hooks/useProjectId';
-import { FunctionReturnFunction } from '@/common/types';
 import { useRemoveMember } from '@/features/projects/hooks/useRemoveMember';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { IProjectMember } from '@/features/projects/interfaces';
+import { useAppDispatch } from '@/common/store';
+import { invalidateTags } from '../../store/project.api.slice';
 
 export interface ProjectMemberListProps {
   hideSelectOption?: boolean;
@@ -72,6 +76,12 @@ const headers: GridColDef<IProjectMember>[] = [
 ];
 
 const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(invalidateTags(['Member']));
+  }, [dispatch]);
+
   const { data: projectData, projectId } = useProjectId();
   const { isFetching, data } = useGetProjectMembersQuery(projectId || skipToken);
   const [updateRoleMember, { isLoading }] = useUpdateRoleMemberMutation();

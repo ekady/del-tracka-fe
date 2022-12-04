@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 // MUI Components
 import { Button, Typography } from '@mui/material';
@@ -8,35 +9,35 @@ import { Warning } from '@mui/icons-material';
 import { BaseDialogAlert } from '@/common/base';
 
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { useDeleteProjectMutation } from '../../store/project.api.slice';
+import { useDeleteProjectMutation } from '@/features/projects/store/project.api.slice';
 
 const ProjectOtherSetting = () => {
   const router = useRouter();
   const [deleteProject, { isLoading }] = useDeleteProjectMutation();
   const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
 
-  const openWarning = () => {
-    openDialogWarning('Warning', 'Are you sure you want to delete this project?', {
-      subDescription: 'This action cannot be undone.',
-      handleOk: handleDeleteProject,
-    });
-  };
-
-  const openSuccess = () => {
+  const openSuccess = useCallback(() => {
     openDialogSuccess('Success', 'Project has been deleted successfully!', {
       handleCancel: () => router.replace('/app/projects'),
       handleOk: () => router.replace('/app/projects'),
     });
-  };
+  }, [openDialogSuccess, router]);
 
-  const handleDeleteProject = async () => {
+  const handleDeleteProject = useCallback(async () => {
     try {
       await deleteProject(router.query.project_id as string);
       openSuccess();
     } catch (error) {
       //
     }
-  };
+  }, [deleteProject, openSuccess, router.query.project_id]);
+
+  const openWarning = useCallback(() => {
+    openDialogWarning('Warning', 'Are you sure you want to delete this project?', {
+      subDescription: 'This action cannot be undone.',
+      handleOk: handleDeleteProject,
+    });
+  }, [handleDeleteProject, openDialogWarning]);
 
   return (
     <>

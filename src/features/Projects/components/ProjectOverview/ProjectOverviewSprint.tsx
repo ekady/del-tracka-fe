@@ -1,5 +1,5 @@
 // React
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // MUI Components
 import { Box, IconButton, Typography } from '@mui/material';
@@ -16,6 +16,7 @@ import ProjectDialogNew from '../ProjectDialogNew';
 import { IProjectRequest, ISprintsResponse } from '@/features/projects/interfaces';
 
 // Hooks
+import { useAppDispatch } from '@/common/store';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import {
@@ -24,7 +25,6 @@ import {
   useGetSprintInfoQuery,
   useLazyGetSprintQuery,
 } from '@/features/projects/store/sprint.api.slice';
-import { useAppDispatch } from '@/common/store';
 
 // Constants
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -70,6 +70,11 @@ const tableHeaders: GridColDef<ISprintsResponse>[] = [
 
 const ProjectOverviewSprint = () => {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(invalidateTags(['Sprints']));
+  }, [dispatch]);
+
   const { projectId, router, refetch, data: projectData } = useProjectId();
   const { data, isLoading, isFetching } = useGetSprintInfoQuery(
     projectId ? { idProject: projectId, idSprint: '' } : skipToken,
@@ -86,9 +91,9 @@ const ProjectOverviewSprint = () => {
     name: '',
   });
 
-  const validateTags = () => {
+  const validateTags = useCallback(() => {
     dispatch(invalidateTags(['Projects', 'ProjectActivities', 'Sprints']));
-  };
+  }, [dispatch]);
 
   const toggleDialog = useCallback(
     async (id?: string) => {

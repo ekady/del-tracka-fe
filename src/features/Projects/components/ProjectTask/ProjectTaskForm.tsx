@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from 'react';
+
 // MUI Components
 import { Autocomplete, Grid } from '@mui/material';
 
@@ -12,12 +14,14 @@ import { BaseDialogAlert, ButtonLoading, CustomInput, FileUploaderMultiple } fro
 import { levelList } from '@/common/constants/level';
 
 // Hooks
+import { useAppDispatch } from '@/common/store';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useGetProjectMembersQuery } from '@/features/projects/store/member.api.slice';
 import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.slice';
-import { ProjectIds } from '@/features/projects/store/project.api.slice';
+
+import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
+import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
 
 export type ProjectTaskFormProps = {
   data?: IProjectSprintTaskDetail;
@@ -41,6 +45,12 @@ const defaultValue: IProjectSprintTaskDetail = {
 };
 
 export default function ProjectTaskForm({ hideUploadFile, disabled, data }: ProjectTaskFormProps) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(invalidateTags(['Task']));
+  }, [dispatch]);
+
   const { projectId, router } = useProjectId();
   const { data: dataMember } = useGetProjectMembersQuery(projectId || skipToken);
   const [saveTask, { isLoading }] = useCreateUpdateTaskMutation();
@@ -48,7 +58,12 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm({ mode: 'all', defaultValues: data ?? defaultValue });
+    reset,
+  } = useForm({ mode: 'all', defaultValues: defaultValue });
+
+  useEffect(() => {
+    reset(data);
+  }, [reset, data]);
 
   const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
 
@@ -60,8 +75,15 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
     reporter: { required: false },
     assignee: { required: false },
     detail: { required: false },
-    images: { required: true },
+    images: { required: false },
   };
+
+  const onRedirectTaskList = useCallback(() => {
+    router.push({
+      pathname: '/app/projects/[project_id]/[sprint_id]',
+      query: { project_id: router.query.project_id as string, sprint_id: router.query.sprint_id as string },
+    });
+  }, [router]);
 
   const onSubmit = handleSubmit(async (form) => {
     try {
@@ -73,7 +95,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
       const response = await saveTask({ id, body: form });
       if ('data' in response && response.data) {
         openDialogSuccess('Success', 'Task has been successfully saved', {
-          handleOk: () => router.push({ pathname: '/app/projects/[project_id]/[sprint_id]', query: router.query }),
+          handleOk: onRedirectTaskList,
           handleCancel: closeDialogAlert,
         });
       }
@@ -211,10 +233,15 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
             />
           </Grid>
         )}
-        <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end' }}>
-          <ButtonLoading loading={isLoading} variant="contained" onClick={onSubmit}>
-            Save
+        <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
+          <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList}>
+            {router.query.task_id && !router.asPath.includes('edit') ? 'Back' : 'Cancel'}
           </ButtonLoading>
+          {(router.asPath.includes('new') || router.asPath.includes('edit')) && (
+            <ButtonLoading loading={isLoading} variant="contained" onClick={onSubmit}>
+              Save
+            </ButtonLoading>
+          )}
         </Grid>
       </Grid>
     </>

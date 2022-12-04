@@ -17,8 +17,13 @@ import { IProjectRequest } from '@/features/projects/interfaces';
 // Toast
 import { toast } from 'react-toastify';
 
-import { useUpdateProjectMutation } from '../../store/project.api.slice';
-import useProjectId from '../../hooks/useProjectId';
+import { useUpdateProjectMutation } from '@/features/projects/store/project.api.slice';
+import useProjectId from '@/features/projects/hooks/useProjectId';
+
+const validation = {
+  name: { required: true },
+  description: { required: false },
+};
 
 const ProjectInformation = () => {
   const { data, projectId, isFetching } = useProjectId();
@@ -33,11 +38,6 @@ const ProjectInformation = () => {
     trigger,
     resetField,
   } = form;
-
-  const validation = {
-    name: { required: true },
-    description: { required: false },
-  };
 
   const onSubmit = handleSubmit(async (data) => {
     await trigger();

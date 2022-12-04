@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // MUI Components
 import { Box, Button, ButtonGroup, Typography } from '@mui/material';
@@ -14,6 +14,9 @@ import { CarouselImages } from '@/common/base';
 // Hooks
 import { useGetTaskQuery } from '../store/task.api.slice';
 import useProjectId from '../hooks/useProjectId';
+import { useAppDispatch } from '@/common/store';
+
+import { invalidateTags } from '../store/project.api.slice';
 
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
@@ -29,25 +32,37 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
+  const dispatch = useAppDispatch();
   const {
     projectId,
     router: { query },
   } = useProjectId();
-  const { data } = useGetTaskQuery(
+  const task = useGetTaskQuery(
     projectId && query.sprint_id && query.task_id
       ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: query.task_id as string } }
       : skipToken,
   );
   const [tab, setTab] = useState<string>('form');
 
-  const setVariantButton = (type: string) => {
-    return tab === type ? 'contained' : 'outlined';
-  };
+  useEffect(() => {
+    dispatch(invalidateTags(['Task']));
+  }, [dispatch]);
 
-  const onClickButton = (type: string) => {
-    if (tab === type) return;
-    setTab(type);
-  };
+  const setVariantButton = useCallback(
+    (type: string) => {
+      return tab === type ? 'contained' : 'outlined';
+    },
+    [tab],
+  );
+
+  const onClickButton = useCallback(
+    (type: string) => {
+      if (tab === type) return;
+      setTab(type);
+    },
+    [tab],
+  );
+
   return (
     <>
       <Box display={isCreate ? 'none' : 'flex'} alignItems="center" justifyContent="center">
@@ -82,12 +97,12 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
 
       <Box height={40} />
 
-      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={data} />}
+      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={task.data} />}
       {tab === 'comments' && <ProjectTaskComments />}
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
-          <CarouselImages images={(data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) || []} />
+          <CarouselImages images={(task.data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) || []} />
         </Box>
       )}
     </>

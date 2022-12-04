@@ -1,6 +1,9 @@
 // React
 import { ReactElement } from 'react';
 
+// Redux
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
 // MUI
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 
@@ -18,7 +21,6 @@ import STATUS from '@/common/constants/status';
 
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const ProjecOverviewDetailPage = () => {
   const { data, projectId } = useProjectId();

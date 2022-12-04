@@ -1,5 +1,5 @@
 // React
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -28,11 +28,11 @@ const ProjectSettingPage = () => {
   const { data, projectId } = useProjectId();
   const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
 
-  const handleClick = (index: number) => {
+  const handleClick = useCallback((index: number) => {
     return () => {
       setOpen((prevOpen) => ({ ...prevOpen, [index]: !prevOpen[index] }));
     };
-  };
+  }, []);
 
   useEffect(() => {
     setOpen({ 0: false, 1: false, 2: false });

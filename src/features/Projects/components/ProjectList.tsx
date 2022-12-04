@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -27,9 +27,9 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
   const [currProject, setCurrProject] = useState<string>('');
   const [currSprint, setCurrSprint] = useState<string>('');
 
-  const handleClick = (index: number) => {
+  const handleClick = useCallback((index: number) => {
     setOpen((prevOpen) => ({ ...prevOpen, [index]: !prevOpen[index] }));
-  };
+  }, []);
 
   const router = useRouter();
   const aspath = useMemo(() => router.asPath?.replace('/app/projects', '').split('/') ?? [], [router]);

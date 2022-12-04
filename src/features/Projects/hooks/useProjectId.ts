@@ -1,8 +1,17 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useGetProjectQuery } from '../store/project.api.slice';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
+import { useAppDispatch } from '@/common/store';
+import { invalidateTags, useGetProjectQuery } from '../store/project.api.slice';
 
 const useProjectId = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(invalidateTags(['Project']));
+  }, [dispatch]);
+
   const router = useRouter();
   const projectId = router.query.project_id as string;
   const query = useGetProjectQuery(projectId ?? skipToken);

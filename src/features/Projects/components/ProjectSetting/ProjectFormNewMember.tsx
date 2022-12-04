@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -36,10 +36,13 @@ const ProjectFormNewMember = () => {
     reset,
   } = useForm<IProjectMemberAddRequest>({ mode: 'all', defaultValues: { roleName: '', email: '' } });
 
-  const onChangeAutoComplete = (onChangeForm: FunctionVoidWithParams<string>, item: IAutocompleteOptions | null) => {
-    onChangeForm(item?.value ?? '');
-    setLabelRole(item);
-  };
+  const onChangeAutoComplete = useCallback(
+    (onChangeForm: FunctionVoidWithParams<string>, item: IAutocompleteOptions | null) => {
+      onChangeForm(item?.value ?? '');
+      setLabelRole(item);
+    },
+    [],
+  );
 
   const onSubmit = handleSubmit(async (data) => {
     const response = await addMember({ id: projectId, body: data });

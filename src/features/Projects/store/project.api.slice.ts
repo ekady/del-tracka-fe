@@ -14,9 +14,22 @@ import { ProjectMenu } from '../constant/projectMenu';
 
 export type ProjectIds = { idTask?: string; idProject: string; idSprint: string };
 
+const projectTags = [
+  'Project',
+  'Projects',
+  'Sprint',
+  'Sprints',
+  'Member',
+  'ProjectActivities',
+  'Tasks',
+  'Task',
+] as const;
+
+export type ProjectTags = typeof projectTags[number];
+
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({
-    addTagTypes: ['Project', 'Projects', 'Sprint', 'Sprints', 'Member', 'ProjectActivities', 'Tasks', 'Task'],
+    addTagTypes: projectTags,
   })
   .injectEndpoints({
     overrideExisting: true,

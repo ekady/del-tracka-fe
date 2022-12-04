@@ -43,9 +43,9 @@ const ProjectSide = () => {
     setOpenDialog(!openDialog);
   }, [openDialog]);
 
-  const validateTags = () => {
+  const validateTags = useCallback(() => {
     dispatch(invalidateTags(['Projects', 'ProjectActivities', 'Sprints']));
-  };
+  }, [dispatch]);
 
   const successDialog = useCallback(
     async (data: IProjectRequest) => {
