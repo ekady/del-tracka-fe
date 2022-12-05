@@ -143,3 +143,15 @@ export interface IProjectSprintTask extends IProjectSprintTaskDetail {
   dateUpdated: string;
   assigneeAvatar?: string | null;
 }
+
+export interface IProjectComment {
+  _id: string;
+  createdAt: string;
+  comment: string;
+  task: Omit<ITaskResponse, 'assignee' | 'reporter' | 'images' | 'createdAt' | 'updatedAt' | 'project' | 'stage'>;
+  user: IUserInfo;
+}
+
+export interface IProjectCommentRequest {
+  comment: string;
+}

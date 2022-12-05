@@ -1,6 +1,9 @@
 import { levelList } from '@/common/constants/level';
 import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
+import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
 import {
+  IProjectComment,
+  IProjectCommentRequest,
   IProjectMember,
   IProjectSettingRequest,
   IProjectSprintTaskDetail,
@@ -50,7 +53,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         body: payload,
         method: 'put',
       }),
-      invalidatesTags: ['Tasks', 'Task'],
+      invalidatesTags: ['Tasks', 'Task', 'TaskActivities'],
     }),
     createUpdateTask: builder.mutation<
       IApiResponse<IProjectSprintTaskDetail>,
@@ -79,14 +82,35 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ['Tasks'],
+      invalidatesTags: ['Tasks', 'TaskActivities'],
     }),
     deleteTask: builder.mutation<IProjectSprintTaskDetail, ProjectIds>({
       query: ({ idProject, idSprint, idTask }) => ({
         url: `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}`,
         method: 'delete',
       }),
-      invalidatesTags: ['Tasks', 'Task'],
+      invalidatesTags: ['Tasks', 'Task', 'TaskActivities'],
+    }),
+    getComments: builder.query<IApiResponse<IProjectComment[]>, ProjectIds>({
+      query: ({ idProject, idSprint, idTask }) => `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}/comments`,
+      providesTags: ['Comments'],
+    }),
+    createComment: builder.mutation<
+      IApiResponse<IStatusMessageResponse>,
+      IProjectSettingRequest<IProjectCommentRequest, ProjectIds>
+    >({
+      query: ({ id, body }) => {
+        return {
+          url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask}/comments`,
+          method: 'post',
+          body,
+        };
+      },
+      invalidatesTags: ['Comments', 'TaskActivities'],
+    }),
+    getTaskActivities: builder.query<IApiResponse<ILogsResponse[]>, ProjectIds>({
+      query: (id) => `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask}`,
+      providesTags: ['TaskActivities'],
     }),
   }),
 });
@@ -98,4 +122,7 @@ export const {
   useUpdateStatusTaskMutation,
   useCreateUpdateTaskMutation,
   useDeleteTaskMutation,
+  useGetCommentsQuery,
+  useCreateCommentMutation,
+  useGetTaskActivitiesQuery,
 } = taskApiSlice;

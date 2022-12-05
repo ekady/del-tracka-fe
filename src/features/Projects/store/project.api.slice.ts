@@ -23,6 +23,8 @@ const projectTags = [
   'ProjectActivities',
   'Tasks',
   'Task',
+  'TaskActivities',
+  'Comments',
 ] as const;
 
 export type ProjectTags = typeof projectTags[number];
