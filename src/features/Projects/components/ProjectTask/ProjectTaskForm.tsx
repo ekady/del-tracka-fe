@@ -23,11 +23,12 @@ import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
 import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
 
-export type ProjectTaskFormProps = {
+export interface ProjectTaskFormProps {
   data?: IProjectSprintTaskDetail;
   hideUploadFile?: boolean;
   disabled?: boolean;
-};
+  hideActions?: boolean;
+}
 
 type ProjectSprintTaskDetailForm = {
   [key in keyof IProjectSprintTaskDetail]: RegisterOptions;
@@ -44,7 +45,7 @@ const defaultValue: IProjectSprintTaskDetail = {
   images: [],
 };
 
-export default function ProjectTaskForm({ hideUploadFile, disabled, data }: ProjectTaskFormProps) {
+export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideActions }: ProjectTaskFormProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -233,16 +234,18 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data }: Proj
             />
           </Grid>
         )}
-        <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
-          <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList}>
-            {router.query.task_id && !router.asPath.includes('edit') ? 'Back' : 'Cancel'}
-          </ButtonLoading>
-          {(router.asPath.includes('new') || router.asPath.includes('edit')) && (
-            <ButtonLoading loading={isLoading} variant="contained" onClick={onSubmit}>
-              Save
+        {!hideActions && (
+          <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
+            <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList}>
+              {router.query.task_id && !router.asPath.includes('edit') ? 'Back' : 'Cancel'}
             </ButtonLoading>
-          )}
-        </Grid>
+            {(router.asPath.includes('new') || router.asPath.includes('edit')) && (
+              <ButtonLoading loading={isLoading} variant="contained" onClick={onSubmit}>
+                Save
+              </ButtonLoading>
+            )}
+          </Grid>
+        )}
       </Grid>
     </>
   );

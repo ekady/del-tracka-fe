@@ -66,6 +66,11 @@ const tableHeaders: GridColDef<ISprintsResponse>[] = [
     field: 'close',
     valueGetter: (param) => param.row?.tasks?.CLOSED ?? 0,
   },
+  {
+    headerName: 'Hold',
+    field: 'hold',
+    valueGetter: (param) => param.row?.tasks?.HOLD ?? 0,
+  },
 ];
 
 const ProjectOverviewSprint = () => {

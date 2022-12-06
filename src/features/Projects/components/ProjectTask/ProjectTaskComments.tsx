@@ -21,12 +21,12 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 import ProjectTaskComment from './ProjectTaskComment';
 
 // Hooks
-import { useCreateCommentMutation, useGetCommentsQuery } from '../../store/task.api.slice';
+import { useCreateCommentMutation, useGetCommentsQuery } from '@/features/projects/store/task.api.slice';
 
 // Interfaces
-import { IProjectCommentRequest } from '../../interfaces';
+import { IProjectCommentRequest } from '@/features/projects/interfaces';
 import { useAppDispatch } from '@/common/store';
-import { invalidateTags } from '../../store/project.api.slice';
+import { invalidateTags } from '@/features/projects/store/project.api.slice';
 
 const ProjectTaskComments = () => {
   const dispatch = useAppDispatch();
@@ -70,18 +70,20 @@ const ProjectTaskComments = () => {
 
   return (
     <>
-      <CustomInput
-        fieldname="Comment"
-        error={errors.comment}
-        TextFieldProps={{
-          placeholder: 'Enter Comment',
-          disabled: isLoading,
-          ...register('comment', { ...validation.comment }),
-        }}
-      />
-      <ButtonLoading variant="contained" color="primary" onClick={onSubmit} loading={isLoading}>
-        Add
-      </ButtonLoading>
+      <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+        <CustomInput
+          fieldname="Comment"
+          error={errors.comment}
+          TextFieldProps={{
+            placeholder: 'Enter Comment',
+            disabled: isLoading,
+            ...register('comment', { ...validation.comment }),
+          }}
+        />
+        <ButtonLoading variant="contained" color="primary" type="submit" loading={isLoading}>
+          Add
+        </ButtonLoading>
+      </Box>
       <Divider sx={{ mt: 3, mb: 2 }} />
       {data?.data.map((comment) => (
         <Box key={comment._id}>

@@ -23,7 +23,7 @@ import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useRemoveMember } from '@/features/projects/hooks/useRemoveMember';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useAppDispatch } from '@/common/store';
-import { invalidateTags } from '../../store/project.api.slice';
+import { invalidateTags } from '@/features/projects/store/project.api.slice';
 
 export interface ProjectMemberListProps {
   hideSelectOption?: boolean;

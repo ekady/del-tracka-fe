@@ -35,7 +35,7 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const dispatch = useAppDispatch();
   const {
     projectId,
-    router: { query },
+    router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
     projectId && query.sprint_id && query.task_id
@@ -55,7 +55,7 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     [tab],
   );
 
-  const onClickButton = useCallback(
+  const handleTabChange = useCallback(
     (type: string) => {
       if (tab === type) return;
       setTab(type);
@@ -63,24 +63,28 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     [tab],
   );
 
+  const handleBackToTaskList = useCallback(() => {
+    push(`/app/projects/${projectId}/${query.sprint_id as string}`);
+  }, [projectId, push, query.sprint_id]);
+
   return (
     <>
       <Box display={isCreate ? 'none' : 'flex'} alignItems="center" justifyContent="center">
         <ButtonGroup disableElevation variant="outlined" aria-label="outlined primary button group">
-          <Button variant={setVariantButton('form')} onClick={() => onClickButton('form')}>
+          <Button variant={setVariantButton('form')} onClick={() => handleTabChange('form')}>
             Form
           </Button>
           {!isCreate && (
             <>
               {isDetail && (
-                <Button variant={setVariantButton('media')} onClick={() => onClickButton('media')}>
+                <Button variant={setVariantButton('media')} onClick={() => handleTabChange('media')}>
                   Media
                 </Button>
               )}
-              <Button variant={setVariantButton('comments')} onClick={() => onClickButton('comments')}>
+              <Button variant={setVariantButton('comments')} onClick={() => handleTabChange('comments')}>
                 Comments
               </Button>
-              <Button variant={setVariantButton('activities')} onClick={() => onClickButton('activities')}>
+              <Button variant={setVariantButton('activities')} onClick={() => handleTabChange('activities')}>
                 Activities
               </Button>
             </>
@@ -97,12 +101,23 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
 
       <Box height={40} />
 
-      {tab === 'form' && <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={task.data} />}
+      {tab === 'form' && (
+        <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={task.data} hideActions={isDetail} />
+      )}
       {tab === 'comments' && <ProjectTaskComments />}
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
           <CarouselImages images={(task.data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) || []} />
+        </Box>
+      )}
+
+      <Box height={100} />
+      {isDetail && (
+        <Box sx={{ textAlign: 'right' }}>
+          <Button className="text-right" variant="contained" color="primary" onClick={() => handleBackToTaskList()}>
+            Back
+          </Button>
         </Box>
       )}
     </>

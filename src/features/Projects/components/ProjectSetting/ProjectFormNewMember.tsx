@@ -13,12 +13,12 @@ import { Autocomplete, Grid } from '@mui/material';
 // Local Components
 import { ButtonLoading, CustomInput } from '@/common/base';
 
-import { ProjectRolesArray } from '../../constant/role';
-import { useAddMemberMutation } from '../../store/member.api.slice';
+import { ProjectRolesArray } from '@/features/projects/constant/role';
+import { useAddMemberMutation } from '@/features/projects/store/member.api.slice';
 
 import { toast } from 'react-toastify';
 import { IAutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
-import { IProjectMemberAddRequest } from '../../interfaces';
+import { IProjectMemberAddRequest } from '@/features/projects/interfaces';
 
 const validation = {
   email: { required: true },

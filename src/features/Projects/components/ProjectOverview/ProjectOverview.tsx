@@ -17,7 +17,7 @@ const ProjectOverview = ({ name, value, color, textColor }: ProjectOverviewProps
   };
 
   return (
-    <Grid item xs={6} sm={4} xl={2} sx={styleItem}>
+    <Grid item xs={6} sm={3} xl={2} sx={styleItem}>
       <Typography sx={{ fontSize: 32, fontWeight: 'bold' }}>{value}</Typography>
       <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>{name}</Typography>
     </Grid>

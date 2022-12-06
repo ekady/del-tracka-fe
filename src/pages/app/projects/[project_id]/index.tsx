@@ -38,13 +38,14 @@ const ProjecOverviewDetailPage = () => {
         />
       </Grid>
       <Box sx={{ height: 40 }} />
-      <Grid container gap={1} columns={13} justifyContent={{ xs: 'center', sm: 'space-between' }}>
+      <Grid container gap={1} columns={15} justifyContent={{ xs: 'center', sm: 'space-between' }}>
         <ProjectOverview {...STATUS.OPEN} value={projectStat?.OPEN ?? 0} />
         <ProjectOverview {...STATUS.IN_PROGRESS} value={projectStat?.IN_PROGRESS ?? 0} />
         <ProjectOverview {...STATUS.REVIEW} value={projectStat?.REVIEW ?? 0} />
         <ProjectOverview {...STATUS.READY_FOR_TEST} value={projectStat?.READY_FOR_TEST ?? 0} />
         <ProjectOverview {...STATUS.FAILED} value={projectStat?.FAILED ?? 0} />
         <ProjectOverview {...STATUS.CLOSED} value={projectStat?.CLOSED ?? 0} />
+        <ProjectOverview {...STATUS.HOLD} value={projectStat?.HOLD ?? 0} />
       </Grid>
       <Box sx={{ height: 50 }} />
       <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>

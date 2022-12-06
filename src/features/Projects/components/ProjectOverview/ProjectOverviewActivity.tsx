@@ -7,7 +7,7 @@ import { Logs } from '@/features/logs/components';
 
 import useProjectIdActivities from '@/features/projects/hooks/useProjectIdActivities';
 import { useAppDispatch } from '@/common/store';
-import { invalidateTags } from '../../store/project.api.slice';
+import { invalidateTags } from '@/features/projects/store/project.api.slice';
 
 const ProjectOverviewActivity = () => {
   const dispatch = useAppDispatch();

@@ -17,6 +17,7 @@ export type ProjectIds = { idTask?: string; idProject: string; idSprint: string 
 const projectTags = [
   'Project',
   'Projects',
+  'ProjectStats',
   'Sprint',
   'Sprints',
   'Member',
@@ -123,6 +124,7 @@ export const projectApiSlice = apiSlice
             return acc;
           }, {} as Record<string, number>);
         },
+        providesTags: ['ProjectStats'],
       }),
     }),
   });
