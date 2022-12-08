@@ -9,6 +9,8 @@ export interface ILogsResponse {
   project: { _id: string; name: string; description: string; shortId: string };
   stageBefore: { _id: string; name: string; description: string; shortId: string };
   stageAfter: { _id: string; name: string; description: string; shortId: string };
+  taskAfter: { _id: string; title: string; feature: string; priority: string; status: string };
+  taskBefore: { _id: string; title: string; feature: string; priority: string; status: string };
   type: ActivityType;
 }
 

@@ -26,22 +26,23 @@ export const ActivityMessage: Record<ActivityType, (data: ILogsResponse) => stri
   CREATE_TASK: (data) =>
     '{name} has created a new task {task}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
-      .replace('{task}', data.stageAfter.name),
+      .replace('{task}', data.taskAfter.title),
   UPDATE_TASK: (data) =>
     '{name} has updated task {task}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
-      .replace('{task}', data.stageAfter.name),
+      .replace('{task}', data.taskAfter.title),
   UPDATE_TASK_STATUS: (data) =>
-    '{name} has updated status task {task} to {status}'
+    '{name} has updated status task {task} from {status1} to {status2}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
-      .replace('{task}', data.stageAfter.name)
-      .replace('{status}', data.stageAfter.name),
+      .replace('{task}', data.taskAfter.title)
+      .replace('{status1}', data.taskBefore.status)
+      .replace('{status2}', data.taskAfter.status),
   DELETE_TASK: (data) =>
     '{name} has deleted task {task}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
-      .replace('{task}', data.stageAfter.name),
+      .replace('{task}', data.taskAfter.title),
   CREATE_COMMENT: (data) =>
     '{name} has commented on task {task}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
-      .replace('{task}', data.stageAfter.name),
+      .replace('{task}', data.taskAfter.title),
 };

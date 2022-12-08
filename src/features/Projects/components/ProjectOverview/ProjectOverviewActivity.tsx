@@ -23,7 +23,11 @@ const ProjectOverviewActivity = () => {
         Activities
       </Typography>
       <Logs
-        TableProps={{ rows: data?.data ?? [], loading: isLoading || isFetching, getRowId: (row) => row.createdAt }}
+        TableProps={{
+          rows: data?.data?.data ?? [],
+          loading: isLoading || isFetching,
+          getRowId: (row) => row.createdAt,
+        }}
       />
     </Box>
   );

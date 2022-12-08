@@ -108,7 +108,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       },
       invalidatesTags: ['Comments', 'TaskActivities'],
     }),
-    getTaskActivities: builder.query<IApiResponse<ILogsResponse[]>, ProjectIds>({
+    getTaskActivities: builder.query<IApiResponse<IPaginationResponse<ILogsResponse[]>>, ProjectIds>({
       query: (id) => `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask}/activities`,
       providesTags: ['TaskActivities'],
     }),

@@ -26,7 +26,9 @@ const ProjectTaskActivity = () => {
   );
 
   return (
-    <Logs TableProps={{ rows: data?.data ?? [], loading: isLoading || isFetching, getRowId: (row) => row.createdAt }} />
+    <Logs
+      TableProps={{ rows: data?.data?.data ?? [], loading: isLoading || isFetching, getRowId: (row) => row.createdAt }}
+    />
   );
 };
 
