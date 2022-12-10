@@ -59,6 +59,7 @@ export type IPaginationParams = {
   page?: number | null;
   sortBy?: string | null;
   search?: string | null;
+  [x: string]: string | number | null | undefined;
 };
 
 export type PaginationParamsText = keyof IPaginationParams;

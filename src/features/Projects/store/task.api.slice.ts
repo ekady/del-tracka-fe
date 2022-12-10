@@ -1,6 +1,6 @@
 import { levelList } from '@/common/constants/level';
 import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
-import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
+import { ILogsResponse } from '@/features/logs/interfaces';
 import {
   IProjectComment,
   IProjectCommentRequest,

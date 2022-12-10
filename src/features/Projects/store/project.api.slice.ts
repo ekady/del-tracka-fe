@@ -1,6 +1,6 @@
 import { apiSlice } from '@/common/store/api.slice';
-import { ILogsResponse } from '@/features/logs/store/logs.api.slice';
-import { IApiResponse, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
+import { ILogsResponse } from '@/features/logs/interfaces';
+import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
 import {
   IProjectResponse,
   IProjectRequest,
@@ -111,8 +111,14 @@ export const projectApiSlice = apiSlice
         }),
         invalidatesTags: ['Projects'],
       }),
-      getProjectActivities: builder.query<IApiResponse<IPaginationResponse<ILogsResponse[]>>, string>({
-        query: (id) => `/projects/${id}/activities`,
+      getProjectActivities: builder.query<
+        IApiResponse<IPaginationResponse<ILogsResponse[]>>,
+        { id: string; params: IPaginationParams }
+      >({
+        query: ({ id, params }) => ({
+          url: `/projects/${id}/activities`,
+          params,
+        }),
         providesTags: ['ProjectActivities'],
       }),
       getProjectStats: builder.query<Record<keyof ITasksCount, number>, string>({

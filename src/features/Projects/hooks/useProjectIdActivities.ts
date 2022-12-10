@@ -5,7 +5,7 @@ import { useGetProjectActivitiesQuery } from '../store/project.api.slice';
 const useProjectIdActivities = () => {
   const router = useRouter();
   const projectId = router.query.project_id as string;
-  const query = useGetProjectActivitiesQuery(projectId ?? skipToken);
+  const query = useGetProjectActivitiesQuery(projectId ? { id: projectId, params: {} } : skipToken);
 
   return { router, projectId, ...query };
 };

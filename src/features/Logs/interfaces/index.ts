@@ -1,5 +1,3 @@
-import { apiSlice } from '@/common/store/api.slice';
-import { IPaginationResponse } from '@/common/types';
 import { ActivityType } from '../constants/activityType.constant';
 
 export interface ILogsResponse {
@@ -13,16 +11,3 @@ export interface ILogsResponse {
   taskBefore: { _id: string; title: string; feature: string; priority: string; status: string };
   type: ActivityType;
 }
-
-export const logsApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getLogActivities: builder.query<IPaginationResponse<ILogsResponse>, void>({
-      query: () => {
-        return { url: '/activities' };
-      },
-    }),
-  }),
-});
-
-export const { useGetLogActivitiesQuery } = logsApiSlice;
-export const { resetApiState } = logsApiSlice.util;

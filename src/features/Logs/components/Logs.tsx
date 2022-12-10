@@ -5,7 +5,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { DataTable } from '@/common/base';
 
 import { ITableAndSearchProps } from '@/common/types';
-import { ILogsResponse } from '../store/logs.api.slice';
+import { ILogsResponse } from '../interfaces';
 import { ActivityMessage } from '../constants/activityType.constant';
 
 const dateColumn: GridColDef<ILogsResponse> = {
@@ -47,7 +47,6 @@ const LogsUI = ({ TableProps }: ITableAndSearchProps) => {
     <DataTable
       rows={[]}
       columns={tableHeaders}
-      {...TableProps}
       rowCount={undefined}
       pagination={undefined}
       paginationMode={undefined}
@@ -55,6 +54,7 @@ const LogsUI = ({ TableProps }: ITableAndSearchProps) => {
       getRowHeight={() => 'auto'}
       getEstimatedRowHeight={() => 100}
       density="comfortable"
+      {...TableProps}
     />
   );
 };

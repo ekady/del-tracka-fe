@@ -1,4 +1,4 @@
-import { ILogsResponse } from '../store/logs.api.slice';
+import { ILogsResponse } from '../interfaces';
 
 export type ActivityType =
   | 'CREATE_STAGE'

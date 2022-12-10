@@ -6,24 +6,34 @@ import { Autocomplete, Box, Button } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
+import { CustomInput } from '@/common/base';
 import { Logs } from '@/features/logs/components';
 
-import { useGetLogActivitiesQuery, resetApiState } from '@/features/logs/store/logs.api.slice';
 import { useAppDispatch } from '@/common/store';
 import { useTableChange } from '@/common/hooks/useTableChange';
-import { CustomInput } from '@/common/base';
+import {
+  invalidateTags,
+  useGetProjectsQuery,
+  useGetProjectActivitiesQuery,
+} from '@/features/projects/store/project.api.slice';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 const LogsPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, isFetching, data } = useGetLogActivitiesQuery();
-
-  const { onFilter, onLimitPage, onSearch, onSort, tableOption } = useTableChange();
 
   useEffect(() => {
-    return () => {
-      dispatch(resetApiState());
-    };
+    dispatch(invalidateTags(['ProjectActivities', 'Projects']));
   }, [dispatch]);
+
+  const { onFilter, onLimitPage, tableOption } = useTableChange();
+  const { data: projectList } = useGetProjectsQuery();
+  const { data, isLoading, isFetching } = useGetProjectActivitiesQuery(
+    tableOption.projectId ? { id: tableOption.projectId as string, params: tableOption } : skipToken,
+  );
+
+  useEffect(() => {
+    invalidateTags(['ProjectActivities']);
+  }, [tableOption]);
 
   return (
     <>
@@ -36,11 +46,13 @@ const LogsPage = () => {
           flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
-        <Box>
+        <Box sx={{ width: '30%' }}>
           <Autocomplete
             id="tags-outlined"
-            options={[]}
-            onChange={(_, value) => onFilter({ priority: value?.value || '' })}
+            options={projectList?.data || []}
+            disableClearable
+            getOptionLabel={(val) => val.name}
+            onChange={(_, value) => onFilter({ projectId: value?.shortId || '' })}
             renderInput={(params) => (
               <CustomInput
                 fieldname="Project"
@@ -63,11 +75,15 @@ const LogsPage = () => {
       </Box>
       <Logs
         TableProps={{
-          rows: data?.content ?? [],
-          rowCount: data?.totalContent ?? 0,
-          loading: isFetching || isLoading,
-          onPageSizeChange: (limit) => onLimitPage('limit', limit),
-          onPageChange: (page) => onLimitPage('page', page),
+          getRowId: (row) => row.createdAt,
+          rows: data?.data.data ?? [],
+          paginationMode: 'server',
+          pagination: true,
+          rowCount: data?.data.pagination.total || 0,
+          loading: isLoading || isFetching,
+          onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
+          onPageChange: (page: number) => onLimitPage('page', page + 1),
+          hideFooterPagination: false,
         }}
       />
     </>
