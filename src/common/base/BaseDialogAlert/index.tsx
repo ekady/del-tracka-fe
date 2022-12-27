@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 // MUI Components
 import { Button, Dialog, DialogContent, Typography } from '@mui/material';
 
@@ -42,9 +44,9 @@ const BaseDialogAlert = ({
   loading,
   children,
 }: BaseDialogAlertProps) => {
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     if (!loading) handleCancel && handleCancel();
-  };
+  }, [handleCancel, loading]);
 
   return (
     <Dialog open={!!isOpen} onClose={onCancel} PaperProps={{ sx: { borderRadius: 5, py: 4, px: 3 } }}>

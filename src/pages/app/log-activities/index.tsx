@@ -1,5 +1,8 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useCallback, useEffect } from 'react';
+
+// Next Auth
+import { useSession } from 'next-auth/react';
 
 // MUI Component
 import { Autocomplete, Box, Button } from '@mui/material';
@@ -9,6 +12,7 @@ import { LayoutDefault } from '@/common/layout';
 import { CustomInput } from '@/common/base';
 import { Logs } from '@/features/logs/components';
 
+// Hooks
 import { useAppDispatch } from '@/common/store';
 import { useTableChange } from '@/common/hooks/useTableChange';
 import {
@@ -16,9 +20,13 @@ import {
   useGetProjectsQuery,
   useGetProjectActivitiesQuery,
 } from '@/features/projects/store/project.api.slice';
+
+// Helpers
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { forceFileDownload } from '@/common/helper/file';
 
 const LogsPage = () => {
+  const session = useSession();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -34,6 +42,18 @@ const LogsPage = () => {
   useEffect(() => {
     invalidateTags(['ProjectActivities']);
   }, [tableOption]);
+
+  const handleGetFile = useCallback(
+    async (type: 'pdf' | 'xlsx' = 'pdf') => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/${tableOption.projectId}/activities/${type}`,
+        { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` } },
+      );
+      const blob = await response.blob();
+      if (blob) forceFileDownload(blob, { fileFormat: type, filename: 'Project Activities' });
+    },
+    [session.data?.user.userToken.accessToken, tableOption.projectId],
+  );
 
   return (
     <>
@@ -62,12 +82,19 @@ const LogsPage = () => {
           />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
-          <Button variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleGetFile('xlsx')}
+            disabled={!tableOption.projectId}
+          >
             Export to Excel
           </Button>
           <Button
             variant="contained"
             sx={{ background: '#27A03B', color: '#fff', ml: { xs: 0, sm: 1 }, mt: { xs: 1, sm: 0 } }}
+            disabled={!tableOption.projectId}
+            onClick={() => handleGetFile('pdf')}
           >
             Export to PDF
           </Button>
