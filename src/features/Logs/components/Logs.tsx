@@ -52,7 +52,7 @@ const LogsUI = ({ TableProps }: ITableAndSearchProps) => {
       paginationMode={undefined}
       hideFooterPagination
       getRowHeight={() => 'auto'}
-      getEstimatedRowHeight={() => 100}
+      getEstimatedRowHeight={() => 150}
       density="comfortable"
       {...TableProps}
     />

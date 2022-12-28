@@ -17,6 +17,8 @@ export const DataGridStyled: ElementType = styled(DataGridMUI)(() => ({
     backgroundColor: 'white',
   },
   '& .MuiDataGrid-cell': {
-    borderBottom: 'none',
+    borderColor: 'transparent',
+    py: '16px',
+    minHeight: '70px !important',
   },
 }));
