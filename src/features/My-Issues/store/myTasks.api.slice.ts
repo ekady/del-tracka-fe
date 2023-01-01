@@ -1,24 +1,13 @@
-import { convertParams } from '@/common/helper/convert';
-import { apiSlice } from '@/common/store/api.slice';
-import { IPaginationParams, IPaginationResponse } from '@/common/types';
+import { IApiResponse, IPaginationParams, IPaginationResponse } from '@/common/types';
+import { ITaskResponse } from '@/features/projects/interfaces';
+import { projectApiSlice } from '@/features/projects/store/project.api.slice';
 
-export interface MyTasksDataResponse {
-  id: string;
-  mainProblem: string;
-  projectName: string;
-  dateUpdated: string;
-  reporter: string;
-  level: string;
-  status: string;
-}
-
-export const myTasksApiSLice = apiSlice.injectEndpoints({
+export const myTasksApiSLice = projectApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getMyTasks: builder.query<IPaginationResponse<MyTasksDataResponse>, IPaginationParams>({
-      query: (arg) => {
-        return { url: '/issues', params: convertParams(arg) };
-      },
+    getMyTasks: builder.query<IApiResponse<IPaginationResponse<ITaskResponse>>, IPaginationParams>({
+      query: (params) => ({ url: '/my-tasks', params }),
+      providesTags: ['Tasks'],
     }),
   }),
 });

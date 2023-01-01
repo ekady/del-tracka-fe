@@ -6,36 +6,38 @@ import { Box } from '@mui/material';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { MyTasksFilter, MyTasksTable } from '@/features/my-issues/components';
+import { MyTasksFilter } from '@/features/my-issues/components';
 
 import { useTableChange } from '@/common/hooks/useTableChange';
 import { useLazyGetMyTasksQuery } from '@/features/my-issues/store/myTasks.api.slice';
+
+import { ITaskResponse } from '@/features/projects/interfaces';
+import { ProjectTaskTable } from '@/features/projects/components';
 
 const MyTasksPage = () => {
   const [getTasks, { data, isFetching, isLoading }] = useLazyGetMyTasksQuery();
   const { onFilter, onSearch, onSort, tableOption, onLimitPage } = useTableChange();
 
   useEffect(() => {
-    const response = getTasks(tableOption);
-    return () => {
-      response.abort();
-    };
+    getTasks(tableOption);
   }, [getTasks, tableOption]);
 
   return (
     <>
       <MyTasksFilter onChange={onFilter} />
       <Box sx={{ height: 40 }} />
-      <MyTasksTable
+      <ProjectTaskTable
+        SearchProps={{ onChange: onSearch }}
         TableProps={{
-          rows: data?.content ?? [],
-          rowCount: data?.totalContent ?? 0,
+          getRowId: (row: ITaskResponse) => row._id,
+          rows: data?.data?.data ?? [],
+          paginationMode: 'server',
+          rowCount: data?.data?.pagination?.total || 0,
           loading: isFetching || isLoading,
           onSortModelChange: onSort,
-          onPageSizeChange: (limit) => onLimitPage('limit', limit),
-          onPageChange: (page) => onLimitPage('page', page),
+          onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
+          onPageChange: (page: number) => onLimitPage('page', page + 1),
         }}
-        SearchProps={{ onChange: onSearch }}
       />
     </>
   );

@@ -40,15 +40,15 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
   const { data: projectData, router } = useProjectId();
   const [updateTaskStatus] = useUpdateStatusTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
-  const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
+  const { dialogAlertOpt, openDialogWarning, closeDialogAlert } = useDialogAlert();
 
   const handleChangeStatus = useCallback(
     (item: ITaskResponse) =>
       async (status: string): Promise<void> => {
         try {
           const ids: ProjectIds = {
-            idProject: router.query.project_id as string,
-            idSprint: router.query.sprint_id as string,
+            idProject: item.project.shortId,
+            idSprint: item.stage.shortId,
             idTask: item.shortId,
           };
           const payload = { status };
@@ -58,15 +58,15 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
           //
         }
       },
-    [router.query.project_id, router.query.sprint_id, updateTaskStatus],
+    [updateTaskStatus],
   );
 
   const handleDeleteTask = useCallback(
     async (item: ITaskResponse) => {
       try {
         const data = await deleteTask({
-          idProject: router.query.project_id as string,
-          idSprint: router.query.sprint_id as string,
+          idProject: item.project.shortId,
+          idSprint: item.stage.shortId,
           idTask: item.shortId,
         });
         if ('data' in data && data.data) {
@@ -77,18 +77,18 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
         //
       }
     },
-    [closeDialogAlert, deleteTask, router.query.project_id, router.query.sprint_id],
+    [closeDialogAlert, deleteTask],
   );
 
   const openDialogDeleteWarning = useCallback(
     (item: ITaskResponse) => {
-      openDialogSuccess('Confirmation', 'Are you sure you want to delete this task?', {
+      openDialogWarning('Confirmation', 'Are you sure you want to delete this task?', {
         type: 'warning',
         handleOk: () => handleDeleteTask(item),
         handleCancel: closeDialogAlert,
       });
     },
-    [closeDialogAlert, handleDeleteTask, openDialogSuccess],
+    [closeDialogAlert, handleDeleteTask, openDialogWarning],
   );
 
   const renderCellStatus = useCallback(
@@ -109,14 +109,24 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
   );
 
   const renderCellAction = useCallback(
-    (params: GridRenderCellParams<string, ITaskResponse, string>) => (
+    ({ row }: GridRenderCellParams<string, ITaskResponse, string>) => (
       <TableAction
-        hideDelete={!projectData?.data.rolePermissions.TASK.delete}
-        hideEdit={!projectData?.data.rolePermissions.TASK.update}
-        hideView={!projectData?.data.rolePermissions.TASK.read}
-        handleView={() => router.push(`${router.asPath}/${params.row.shortId}`)}
-        handleEdit={() => router.push(`${router.asPath}/${params.row.shortId}/edit`)}
-        handleDelete={() => openDialogDeleteWarning(params.row)}
+        hideDelete={
+          projectData?.data.rolePermissions.TASK.delete === false ||
+          (row?.permissions && row?.permissions.delete === false)
+        }
+        hideEdit={
+          projectData?.data.rolePermissions.TASK.update === false ||
+          (row?.permissions && row?.permissions.update === false)
+        }
+        hideView={
+          projectData?.data.rolePermissions.TASK.read === false || (row?.permissions && row?.permissions.read === false)
+        }
+        handleView={() => router.push(`/app/projects/${row.project?.shortId}/${row.stage?.shortId}/${row.shortId}`)}
+        handleEdit={() =>
+          router.push(`/app/projects/${row.project?.shortId}/${row.stage?.shortId}/${row.shortId}/edit`)
+        }
+        handleDelete={() => openDialogDeleteWarning(row)}
       />
     ),
     [

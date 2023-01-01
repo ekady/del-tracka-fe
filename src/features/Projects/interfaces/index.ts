@@ -119,6 +119,7 @@ export interface ITaskResponse {
   shortId: string;
   project: IProject;
   stage: ISprint;
+  permissions?: IProjectPermission;
 }
 
 export interface ITaskStatusUpdateRequest {

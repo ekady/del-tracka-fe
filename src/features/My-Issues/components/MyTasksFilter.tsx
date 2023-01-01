@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 // MUI Component
 import { Autocomplete } from '@mui/material';
 
@@ -10,13 +12,15 @@ import {
   FilterText,
 } from '@/common/base/BaseFilter/styled';
 
-import { IFilterProps } from '@/common/types';
-
 import { statusList } from '@/common/constants/status';
 import { levelList } from '@/common/constants/level';
-import { memo } from 'react';
 
-const MyTasksFilter = ({ onChange }: IFilterProps) => {
+import { ProjectTaskFilterProps } from '@/features/projects/components/ProjectTask/ProjectTaskFilter';
+import { useGetProjectsQuery } from '@/features/projects/store/project.api.slice';
+
+const MyTasksFilter = ({ onChange }: ProjectTaskFilterProps) => {
+  const { data: projectList, isFetching, isLoading } = useGetProjectsQuery();
+
   return (
     <FilterContainer>
       <FilterText>Filter</FilterText>
@@ -24,8 +28,10 @@ const MyTasksFilter = ({ onChange }: IFilterProps) => {
         <FilterSelectContainer item xs={12} md={4}>
           <Autocomplete
             id="tags-outlined"
-            options={[]}
-            onChange={(_, value) => onChange && onChange('projectName', value)}
+            options={projectList?.data || []}
+            getOptionLabel={(val) => val.name}
+            onChange={(_, value) => onChange && onChange({ project: value?.shortId || '' })}
+            loading={isLoading || isFetching}
             renderInput={(params) => (
               <CustomInput
                 fieldname="Project Name"
@@ -42,7 +48,7 @@ const MyTasksFilter = ({ onChange }: IFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={levelList}
-            onChange={(_, value) => onChange && onChange('level', value)}
+            onChange={(_, value) => onChange && onChange({ priority: value?.value || '' })}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -52,7 +58,7 @@ const MyTasksFilter = ({ onChange }: IFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={statusList}
-            onChange={(_, value) => onChange && onChange('status', value)}
+            onChange={(_, value) => onChange && onChange({ status: value?.value || '' })}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}
