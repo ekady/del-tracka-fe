@@ -12,28 +12,22 @@ import { TypographyActivities } from './styled';
 import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useAppSelector } from '@/common/store';
-import { selectActivities, selectActivitiesLabel } from '../store/dashboard.selector';
-import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
+import { useGetUserActivitiesQuery } from '../store/dashboard.api.slice';
 
 const baseCardStyle: BaseCardProps = { sx: { height: 400 } };
 
 const DashboardActivities = () => {
-  const { isLoading, isFetching } = useGetDashboardDatasQuery();
-  const activities = useAppSelector(selectActivities);
-  const activitiesLabel = useAppSelector(selectActivitiesLabel);
-
+  const { data, isLoading, isFetching } = useGetUserActivitiesQuery();
   const theme = useTheme();
-  const { primary, secondary } = theme.palette;
 
-  const data = {
-    labels: activitiesLabel,
+  const chartData = {
+    labels: data?.data.map((val) => val.date),
     datasets: [
       {
         label: 'Activities',
-        data: activities,
+        data: data?.data.map((val) => val.count),
         fill: false,
-        borderColor: secondary.main,
+        borderColor: theme.palette.secondary.main,
         tension: 0.1,
       },
     ],
@@ -43,7 +37,7 @@ const DashboardActivities = () => {
     maintainAspectRatio: false,
     datasets: {
       line: {
-        backgroundColor: primary.main,
+        backgroundColor: theme.palette.primary.main,
       },
     },
     plugins: {
@@ -61,7 +55,7 @@ const DashboardActivities = () => {
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <TypographyActivities>Your Activities</TypographyActivities>
           <Box sx={{ height: 330, width: '97%' }}>
-            <Line data={data} options={optionsChart} />
+            <Line data={chartData} options={optionsChart} />
           </Box>
         </BaseCard>
       </Grid>

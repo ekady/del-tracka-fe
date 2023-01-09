@@ -8,17 +8,12 @@ import { useTheme } from '@mui/material/styles';
 import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useAppSelector } from '@/common/store';
-import { selectTotalTasks, selectTotalProjects } from '../store/dashboard.selector';
-import { useGetDashboardDatasQuery } from '../store/dashboard.api.slice';
+import { useGetTaskProjectTotalQuery } from '../store/dashboard.api.slice';
 
 const baseCardStyle: BaseCardProps = { sx: { alignItems: 'center' } };
 
 const DashboardTotal = () => {
-  const { isFetching, isLoading } = useGetDashboardDatasQuery();
-  const totalTasks = useAppSelector(selectTotalTasks);
-  const totalProjects = useAppSelector(selectTotalProjects);
-
+  const { data, isFetching, isLoading } = useGetTaskProjectTotalQuery();
   const theme = useTheme();
 
   return (
@@ -26,7 +21,7 @@ const DashboardTotal = () => {
       <Grid item xs={12} sm={3} lg={2}>
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.error.main, fontWeight: 'bold' }}>
-            {totalProjects}
+            {data?.data.totalProject}
           </Typography>
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>
             Total Projects
@@ -36,7 +31,7 @@ const DashboardTotal = () => {
       <Grid item xs={12} sm={3} lg={2}>
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
-            {totalTasks}
+            {data?.data.totalTask}
           </Typography>
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>
             Total Tasks
