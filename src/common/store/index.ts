@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 // Slice Reducer
 import authSlice from '@/features/auth/store/auth.slice';
 import { apiSlice } from './api.slice';
+import generalSlice from './general.slice';
 
 const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (typeof window !== undefined) {
@@ -22,6 +23,7 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
 
 const combinedReducer = combineReducers({
   auth: persistReducer({ key: 'tracka-persist-auth', version: 1, storage, blacklist: ['data'] }, authSlice),
+  general: generalSlice,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

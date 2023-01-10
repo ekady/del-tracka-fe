@@ -11,11 +11,15 @@ import { Box, CircularProgress } from '@mui/material';
 import { LayoutDefault } from '@/common/layout';
 import { ProjectMemberList } from '@/features/projects/components';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
+
 import useProjectId from '@/features/projects/hooks/useProjectId';
+import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 const ProjectMemberPage = () => {
   const { data, projectId } = useProjectId();
   const router = useRouter();
+
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
 
   useEffect(() => {
     if (data?.data.rolePermissions.PROJECT.update) router.push(`/app/projects/${projectId}/setting`);

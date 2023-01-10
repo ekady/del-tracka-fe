@@ -21,12 +21,15 @@ import STATUS from '@/common/constants/status';
 
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
+import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 const ProjecOverviewDetailPage = () => {
   const { data, projectId } = useProjectId();
   const { data: projectStat } = useGetProjectStatsQuery(projectId ?? skipToken);
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
+
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
 
   return (
     <>

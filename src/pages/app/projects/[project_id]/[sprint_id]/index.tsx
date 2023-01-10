@@ -18,6 +18,7 @@ import { useTableChange } from '@/common/hooks/useTableChange';
 import { useLazyGetTasksQuery } from '@/features/projects/store/task.api.slice';
 import { useAppDispatch } from '@/common/store';
 import { invalidateTags } from '@/features/projects/store/project.api.slice';
+import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 import { ITaskResponse } from '@/features/projects/interfaces';
 
@@ -37,6 +38,11 @@ const ProjectSprintPage = () => {
     idProject && idSprint ? { idProject, idSprint } : skipToken,
   );
   const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
+
+  useProjectBreadcrumb({
+    '[project_id]': sprintInfo?.data.project?.name || '',
+    '[sprint_id]': sprintInfo?.data.name || '',
+  });
 
   useEffect(() => {
     getTasks({ ids: { idProject, idSprint }, params: tableOption });

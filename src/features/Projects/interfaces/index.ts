@@ -87,6 +87,7 @@ export interface ISprintResponse {
   shortId: string;
   createdAt: Date;
   updatedAt: Date;
+  project?: IProject;
 }
 
 export interface ISprintsResponse extends ISprintResponse {
@@ -136,6 +137,8 @@ export interface IProjectSprintTaskDetail {
   priority: IAutocompleteOptions | null;
   images?: (File | Thumbnail)[] | null;
   imageUrls?: Thumbnail[];
+  project: IProject;
+  stage: ISprint;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {

@@ -16,6 +16,7 @@ import { ListButton, ListContainer, ListContentContainer, ListItemContainer } fr
 
 // Hooks
 import useProjectId from '@/features/projects/hooks/useProjectId';
+import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 const menus = [
   { menu: 'Project Information', component: <ProjectInformation />, isLazyLoad: false },
@@ -27,6 +28,8 @@ const ProjectSettingPage = () => {
   const router = useRouter();
   const { data, projectId } = useProjectId();
   const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
+
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
 
   const handleClick = useCallback((index: number) => {
     return () => {
@@ -53,7 +56,7 @@ const ProjectSettingPage = () => {
   return (
     <>
       {menus.map(({ menu, component, isLazyLoad }, index) => (
-        <ListContainer key={`${menu}-${index}`}>
+        <ListContainer key={menu}>
           <ListItemContainer>
             <ListButton disableTouchRipple onClick={handleClick(index)}>
               <ListItemText className="cursor-pointer" primary={menu} />

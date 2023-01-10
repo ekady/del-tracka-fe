@@ -40,6 +40,8 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           detail: response.data.detail,
           priority: levelList.find((level) => level.value === response.data.priority) || null,
           images: [],
+          project: response.data.project,
+          stage: response.data.stage,
         };
       },
       providesTags: ['Task'],

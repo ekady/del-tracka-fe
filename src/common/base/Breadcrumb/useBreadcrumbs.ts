@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
+import { useAppSelector } from '@/common/store';
+import { selectCustomBreadcrumb } from '@/common/store/selector';
 
-export type BreadcrumbType = {
+export type TBreadcrumb = {
   breadcrumb: string;
   href: string;
 };
@@ -15,20 +17,28 @@ const convertBreadcrumb = (string: string) => {
 
 const useBreadcrumbs = () => {
   const router = useRouter();
-  const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbType[]>([]);
+  const [breadcrumbs, setBreadcrumbs] = useState<TBreadcrumb[]>([]);
+  const customBreadcrumb = useAppSelector(selectCustomBreadcrumb);
 
   useEffect(() => {
     if (router) {
       const linkPath = router.asPath.split('/');
+      const names = router.pathname.split('/');
       linkPath.shift();
+      names.shift();
 
-      const pathArray = linkPath.map((path, i) => {
-        return { breadcrumb: convertBreadcrumb(path), href: '/' + linkPath.slice(0, i + 1).join('/') };
+      const pathArray = linkPath.map((_, i) => {
+        const transformBreadcrumb = convertBreadcrumb(names[i]);
+        return {
+          breadcrumb: customBreadcrumb?.[transformBreadcrumb] || transformBreadcrumb,
+          href: '/' + linkPath.slice(0, i + 1).join('/'),
+        };
       });
 
+      pathArray.shift();
       setBreadcrumbs(pathArray);
     }
-  }, [router]);
+  }, [customBreadcrumb, router]);
 
   return { breadcrumbs };
 };

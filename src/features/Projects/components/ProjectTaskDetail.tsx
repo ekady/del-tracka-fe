@@ -15,6 +15,7 @@ import { CarouselImages } from '@/common/base';
 import { useGetTaskQuery } from '../store/task.api.slice';
 import useProjectId from '../hooks/useProjectId';
 import { useAppDispatch } from '@/common/store';
+import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
 
 import { invalidateTags } from '../store/project.api.slice';
 
@@ -43,6 +44,12 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
       : skipToken,
   );
   const [tab, setTab] = useState<string>('form');
+
+  useProjectBreadcrumb({
+    '[project_id]': task.data?.project?.name || '',
+    '[sprint_id]': task.data?.stage?.name || '',
+    '[task_id]': task.data?.title || '',
+  });
 
   useEffect(() => {
     dispatch(invalidateTags(['Task']));
