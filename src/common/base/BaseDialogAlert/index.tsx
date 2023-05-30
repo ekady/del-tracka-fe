@@ -45,7 +45,7 @@ const BaseDialogAlert = ({
   children,
 }: BaseDialogAlertProps) => {
   const onCancel = useCallback(() => {
-    if (!loading) handleCancel && handleCancel();
+    if (!loading && handleCancel) handleCancel();
   }, [handleCancel, loading]);
 
   return (

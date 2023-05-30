@@ -1,5 +1,5 @@
 // React
-import { ReactElement } from 'react';
+import { BaseSyntheticEvent, ReactElement } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -44,7 +44,7 @@ const SignIn = () => {
     const response = await forgotPassword(data).unwrap();
     if (response?.data.message !== 'Success') toast.error('Invalid email or password');
     else reset();
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>

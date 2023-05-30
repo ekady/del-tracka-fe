@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
+import { BaseSyntheticEvent, ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 
 // Next Components
 import Link from 'next/link';
@@ -84,7 +84,7 @@ const SignUp = () => {
     } catch {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>

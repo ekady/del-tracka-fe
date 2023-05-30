@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
+import { BaseSyntheticEvent, ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -18,12 +18,8 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 // Store
 import { wrapper } from '@/common/store';
 import { ResetPasswordForm, ResetPasswordRequest } from '@/features/auth/interfaces';
-import {
-  getRunningOperationPromise,
-  useResetPasswordMutation,
-  verifyResetToken,
-} from '@/features/auth/store/auth.api.slice';
-import { FunctionVoidWithParams } from '@/common/types';
+import { useResetPasswordMutation, verifyResetToken } from '@/features/auth/store/auth.api.slice';
+import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import AuthResetInvalid from '@/features/auth/components/AuthResetInvalid';
 
 const validationRule = (getValues: UseFormGetValues<ResetPasswordForm>) => ({
@@ -52,11 +48,11 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
 
   const validateTargetForm = useCallback(
     (formTarget?: keyof ResetPasswordForm) => {
-      return async () => {
+      return (async () => {
         if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
           await trigger(formTarget);
         }
-      };
+      }) as FunctionVoid;
     },
     [getFieldState, trigger],
   );
@@ -83,7 +79,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
     } catch {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>
@@ -118,7 +114,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
                   disabled: isLoading,
                   ...field,
                   onChange: (e) => onChangeInput(e, field.onChange, 'password'),
-                  onBlur: async () => validateTargetForm('password'),
+                  onBlur: () => validateTargetForm('password'),
                 }}
               />
             )}
@@ -138,7 +134,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
                   ...field,
                   disabled: isLoading,
                   onChange: (e) => onChangeInput(e, field.onChange, 'passwordConfirm'),
-                  onBlur: async () => validateTargetForm('passwordConfirm'),
+                  onBlur: () => validateTargetForm('passwordConfirm'),
                 }}
               />
             )}
@@ -160,7 +156,7 @@ export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => a
   const resetToken = context.query?.token as string;
   const dispatched = dispatch(verifyResetToken.initiate({ resetToken }));
 
-  const data = await getRunningOperationPromise('verifyResetToken', dispatched.requestId);
+  const data = await dispatched.unwrap();
 
   return {
     props: {

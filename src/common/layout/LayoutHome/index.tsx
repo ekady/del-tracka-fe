@@ -2,16 +2,16 @@
 import { Grid } from '@mui/material';
 
 // Utils
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 // Local Components
 import { Copyright, Header } from '@/common/base';
 
 import { IPropsChildren } from '@/common/types';
 
-const LayoutHome = ({ children }: IPropsChildren) => {
-  const theme = useTheme();
+import theme from '@/theme';
 
+const LayoutHome = ({ children }: IPropsChildren) => {
   return (
     <ThemeProvider theme={theme}>
       <Header showMenu={false} />

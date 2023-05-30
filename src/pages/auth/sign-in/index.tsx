@@ -1,5 +1,5 @@
 // React
-import { ReactElement, useState } from 'react';
+import { BaseSyntheticEvent, ReactElement, useState } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -54,7 +54,7 @@ const SignIn = () => {
       router.replace(redirect);
     } else toast.error('Invalid email or password');
     setLoading(false);
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>

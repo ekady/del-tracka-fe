@@ -44,6 +44,5 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
 export const { useSignupMutation, useLogoutMutation, useForgotPasswordMutation, useResetPasswordMutation } =
   authApiSlice;
-export const { forgotPassword, logout, resetPassword, signup, verifyResetToken } = authApiSlice.endpoints;
 
-export const { getRunningOperationPromise, getRunningOperationPromises } = authApiSlice.util;
+export const { forgotPassword, logout, resetPassword, signup, verifyResetToken } = authApiSlice.endpoints;

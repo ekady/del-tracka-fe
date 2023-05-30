@@ -31,7 +31,7 @@ const TableAction = ({
 
   const handleClose = useCallback((fn?: FunctionVoid): void => {
     setAnchorEl(null);
-    fn && fn();
+    fn?.();
   }, []);
 
   const handleClick = useCallback((event: React.MouseEvent<HTMLElement>): void => {
@@ -42,9 +42,9 @@ const TableAction = ({
     <>
       <IconButton
         id="demo-positioned-button"
-        aria-controls={Boolean(anchorEl) ? 'demo-positioned-menu' : undefined}
+        aria-controls={anchorEl ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+        aria-expanded={anchorEl ? 'true' : undefined}
         onClick={handleClick}
       >
         <MoreVertIcon />

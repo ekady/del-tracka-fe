@@ -29,13 +29,13 @@ const BaseDialog = ({
   children,
 }: BaseDialogProps) => {
   return (
-    <Dialog open={!!isOpen} onClose={() => handleCancel && handleCancel()} PaperProps={{ sx: { borderRadius: 5 } }}>
+    <Dialog open={!!isOpen} onClose={() => handleCancel?.()} PaperProps={{ sx: { borderRadius: 5 } }}>
       <DialogTitle>{titleDialog}</DialogTitle>
       <Divider />
       <DialogContent sx={{ mb: 5, minHeight: 100, minWidth: 300 }}>{children}</DialogContent>
       <DialogActions sx={{ mb: 1, px: 3 }}>
         {!hideCancel && (
-          <Button onClick={() => handleCancel && handleCancel()} variant="outlined" fullWidth disabled={loading}>
+          <Button onClick={() => handleCancel?.()} variant="outlined" fullWidth disabled={loading}>
             {textCancel ? textCancel : 'Cancel'}
           </Button>
         )}

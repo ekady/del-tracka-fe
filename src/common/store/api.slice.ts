@@ -1,4 +1,4 @@
-import nextRouter from 'next/router';
+import { redirect } from 'next/navigation';
 
 import { HYDRATE } from 'next-redux-wrapper';
 import { getSession, signOut } from 'next-auth/react';
@@ -10,6 +10,7 @@ import { Mutex } from 'async-mutex';
 import { IApiResponse, ICredential, IUserInfo } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
+import { RedirectType } from 'next/dist/client/components/redirect';
 
 const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
   let accessToken = state.auth.data.ICredential.accessToken;
@@ -31,7 +32,7 @@ const baseQuery = fetchBaseQuery({
       const ICredential = await getTokens(getState() as RootState);
       if (!ICredential) {
         await signOut({ redirect: false });
-        nextRouter.replace('/auth/sign-in');
+        redirect('/auth/sign-in', RedirectType.replace);
       } else if (ICredential?.accessToken) headers.set('Authorization', `Bearer ${ICredential.accessToken}`);
     }
     return headers;
@@ -55,7 +56,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
         if (!accessToken || session?.error === 'RefreshAccessTokenError') {
           await signOut({ redirect: false });
-          nextRouter.replace('/auth/sign-in');
+          redirect('/auth/sign-in', RedirectType.replace);
         } else {
           api.dispatch(setCredential({ accessToken }));
           result = await baseQuery(args, api, extraOptions);
@@ -90,5 +91,5 @@ export const apiSlice = createApi({
 });
 
 export const { useGetProfileQuery } = apiSlice;
-export const { resetApiState, getRunningOperationPromises } = apiSlice.util;
+export const { resetApiState } = apiSlice.util;
 export const { getProfile } = apiSlice.endpoints;

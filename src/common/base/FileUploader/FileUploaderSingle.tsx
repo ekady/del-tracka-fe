@@ -1,5 +1,5 @@
 // React
-import { ReactNode, useCallback } from 'react';
+import { DragEvent, ReactNode, useCallback } from 'react';
 
 // MUI Components
 import { Box, Typography, useTheme } from '@mui/material';
@@ -45,13 +45,13 @@ const FileUploaderSingle = ({
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
-      handleValue && handleValue(file);
+      handleValue?.(file);
     },
     [handleValue],
   );
 
   const removeImage: FunctionVoid = useCallback(() => {
-    handleValue && handleValue(null);
+    handleValue?.(null);
   }, [handleValue]);
 
   const textHelper: ReactNode = (
@@ -68,7 +68,7 @@ const FileUploaderSingle = ({
         onDragOver={onHandleDragEnter}
         onDragLeave={onHandleDragExit}
         onDragEnter={onHandleDragEnter}
-        onDrop={(e) => onHandleFileDrop(e, addNewImages)}
+        onDrop={(e: DragEvent<HTMLDivElement>) => onHandleFileDrop(e, addNewImages)}
         width={widthContainer}
         height={heightContainer}
         sx={{ padding: 1 }}

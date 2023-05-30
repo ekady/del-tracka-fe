@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BaseSyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/dist/client/router';
@@ -65,10 +65,10 @@ const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }
   const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
 
   const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
-  const onSubmit = handleSubmit((data) => submit(data));
+  const onSubmit = handleSubmit((data) => submit(data)) as (e?: BaseSyntheticEvent) => void;
   const openDialogDeleteConfirm = useCallback(() => {
     openDialogWarning('Warning', 'Are your sure want to delete your account?', {
-      handleOk: deleteAccount,
+      handleOk: deleteAccount as FunctionVoid,
       handleCancel: closeDialogAlert,
     });
   }, [closeDialogAlert, deleteAccount, openDialogWarning]);
@@ -76,7 +76,7 @@ const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }
   useEffect(() => {
     if (isSuccess) {
       openDialogSuccess(undefined, undefined, {
-        handleOk: logout,
+        handleOk: logout as FunctionVoid,
         hideCancel: true,
       });
     }

@@ -1,5 +1,5 @@
 // React
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, DragEvent } from 'react';
 
 // MUI Components
 import { Box, Typography, useTheme } from '@mui/material';
@@ -46,7 +46,7 @@ const FileUploaderMultiple = ({
     (newFiles: FileList) => {
       const val = value ?? [];
       const files = [...val, ...Array.from(newFiles)];
-      handleValue && handleValue(files);
+      handleValue?.(files);
     },
     [handleValue, value],
   );
@@ -54,7 +54,7 @@ const FileUploaderMultiple = ({
   const removeImage: FunctionVoidWithParams<string> = useCallback(
     (fileName: string) => {
       const files = value?.filter((file) => file.name !== fileName) ?? [];
-      handleValue && handleValue(files);
+      handleValue?.(files);
     },
     [handleValue, value],
   );
@@ -84,17 +84,17 @@ const FileUploaderMultiple = ({
         onDragOver={onHandleDragEnter}
         onDragLeave={onHandleDragExit}
         onDragEnter={onHandleDragEnter}
-        onDrop={(e) => onHandleFileDrop(e, addNewImages)}
+        onDrop={(e: DragEvent<HTMLDivElement>) => onHandleFileDrop(e, addNewImages)}
         width={widthContainer}
         height={heightContainer}
         sx={{ padding: 4 }}
       >
-        {value && value.length ? (
+        {value?.length ? (
           <>
             {!disabled && <Box marginBottom={3}>{buttonUpload}</Box>}
             <FilesContainer sx={{ overflow: 'auto', height: disabled ? '100%' : '80%' }}>
-              {value.map((file, index) => (
-                <Box key={`${file.name}-${index}`} margin={1} height={disabled ? '100%' : '80%'} position="relative">
+              {value.map((file) => (
+                <Box key={file.name} margin={1} height={disabled ? '100%' : '80%'} position="relative">
                   <ImageView
                     disabled={disabled}
                     value={file}

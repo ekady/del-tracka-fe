@@ -3,30 +3,31 @@ import { useEffect } from 'react';
 
 // Next
 import Image from 'next/image';
-import { useRouter } from 'next/dist/client/router';
+import { redirect } from 'next/navigation';
+import { RedirectType } from 'next/dist/client/components/redirect';
 import { useSession } from 'next-auth/react';
 
 // MUI Components
 import { Paper, Box, Grid, Container } from '@mui/material';
 
 // Utils
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 // Icons
 import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
 
+import theme from '@/theme';
+
 const LayoutAuth = ({ children }: IPropsChildren) => {
-  const theme = useTheme();
-  const router = useRouter();
   const session = useSession();
 
   useEffect(() => {
     if (session.data?.user.userToken.accessToken) {
-      router.replace('/app/dashboard');
+      redirect('/app/dashboard', RedirectType.replace);
     }
-  }, [session, router]);
+  }, [session]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -2,16 +2,16 @@
 import { Grid, Container, Box, CssBaseline } from '@mui/material';
 
 // Utils
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 // Local Components
 import { Header } from '@/common/base';
 
 import { IPropsChildren } from '@/common/types';
 
-const LayoutDefault = ({ children }: IPropsChildren) => {
-  const theme = useTheme();
+import theme from '@/theme';
 
+const LayoutDefault = ({ children }: IPropsChildren) => {
   return (
     <ThemeProvider theme={theme}>
       <Grid component="main" sx={{ flexGrow: 1, pt: 6 }}>

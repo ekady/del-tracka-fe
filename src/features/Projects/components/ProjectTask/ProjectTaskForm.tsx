@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { BaseSyntheticEvent, useCallback, useEffect } from 'react';
 
 // MUI Components
 import { Autocomplete, Grid } from '@mui/material';
@@ -22,6 +22,7 @@ import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.
 
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
 import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
+import { FunctionVoid } from '@/common/types';
 
 export interface ProjectTaskFormProps {
   data?: IProjectSprintTaskDetail;
@@ -43,6 +44,19 @@ const defaultValue: IProjectSprintTaskDetail = {
   assignee: null,
   detail: '',
   images: [],
+};
+
+const validations: ProjectSprintTaskDetailForm = {
+  _id: { required: false },
+  feature: { required: true },
+  priority: { required: true },
+  title: { required: true },
+  reporter: { required: false },
+  assignee: { required: false },
+  detail: { required: false },
+  images: { required: false },
+  project: { required: false },
+  stage: { required: false },
 };
 
 export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideActions }: ProjectTaskFormProps) {
@@ -68,19 +82,8 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
 
   const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
 
-  const validations: ProjectSprintTaskDetailForm = {
-    _id: { required: false },
-    feature: { required: true },
-    priority: { required: true },
-    title: { required: true },
-    reporter: { required: false },
-    assignee: { required: false },
-    detail: { required: false },
-    images: { required: false },
-  };
-
-  const onRedirectTaskList = useCallback(() => {
-    router.push({
+  const onRedirectTaskList = useCallback(async () => {
+    await router.push({
       pathname: '/app/projects/[project_id]/[sprint_id]',
       query: { project_id: router.query.project_id as string, sprint_id: router.query.sprint_id as string },
     });
@@ -96,14 +99,14 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
       const response = await saveTask({ id, body: form });
       if ('data' in response && response.data) {
         openDialogSuccess('Success', 'Task has been successfully saved', {
-          handleOk: onRedirectTaskList,
+          handleOk: onRedirectTaskList as FunctionVoid,
           handleCancel: closeDialogAlert,
         });
       }
     } catch (_) {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>
@@ -140,7 +143,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
             rules={validations.reporter}
             render={({ field: { onChange, value } }) => (
               <Autocomplete
-                options={dataMember || []}
+                options={dataMember ?? []}
                 disabled={disabled}
                 disableClearable={!!value}
                 getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
@@ -163,7 +166,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
             rules={validations.assignee}
             render={({ field: { onChange, value } }) => (
               <Autocomplete
-                options={dataMember || []}
+                options={dataMember ?? []}
                 disabled={disabled}
                 disableClearable={!!value}
                 getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
@@ -236,7 +239,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
         )}
         {!hideActions && (
           <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
-            <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList}>
+            <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList as FunctionVoid}>
               {router.query.task_id && !router.asPath.includes('edit') ? 'Back' : 'Cancel'}
             </ButtonLoading>
             {(router.asPath.includes('new') || router.asPath.includes('edit')) && (

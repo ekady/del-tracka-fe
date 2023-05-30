@@ -137,8 +137,8 @@ export interface IProjectSprintTaskDetail {
   priority: IAutocompleteOptions | null;
   images?: (File | Thumbnail)[] | null;
   imageUrls?: Thumbnail[];
-  project: IProject;
-  stage: ISprint;
+  project?: IProject;
+  stage?: ISprint;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {

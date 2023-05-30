@@ -1,5 +1,5 @@
 // React
-import { useEffect } from 'react';
+import { BaseSyntheticEvent, useEffect } from 'react';
 
 // React Hook Form
 import { useForm } from 'react-hook-form';
@@ -49,7 +49,7 @@ const ProjectInformation = () => {
     } catch (_) {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   useEffect(() => {
     if (!isFetching) {

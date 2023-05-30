@@ -1,5 +1,5 @@
 // React
-import { useEffect } from 'react';
+import { BaseSyntheticEvent, useEffect } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -66,7 +66,7 @@ const ProjectTaskComments = () => {
     } catch (_) {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   return (
     <>
