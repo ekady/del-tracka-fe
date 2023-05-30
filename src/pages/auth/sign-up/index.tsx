@@ -17,7 +17,7 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 // Helper
 import { emailValidation } from '@/common/helper';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import { useSignupMutation } from '@/features/auth/store/auth.api.slice';
 import { toast } from 'react-toastify';
 import { LayoutAuth } from '@/common/layout';
@@ -53,11 +53,11 @@ const SignUp = () => {
 
   const validateTargetForm = useCallback(
     (formTarget?: AuthSignUpForm) => {
-      return async () => {
+      return (async () => {
         if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
           await trigger(formTarget);
         }
-      };
+      }) as FunctionVoid;
     },
     [getFieldState, trigger],
   );
@@ -154,7 +154,7 @@ const SignUp = () => {
                 type: 'password',
                 ...field,
                 onChange: (e) => onChangeInput(e, field.onChange, 'password'),
-                onBlur: async () => validateTargetForm('password'),
+                onBlur: () => validateTargetForm('password'),
               }}
             />
           )}
@@ -173,7 +173,7 @@ const SignUp = () => {
                 type: 'password',
                 ...field,
                 onChange: (e) => onChangeInput(e, field.onChange, 'passwordConfirm'),
-                onBlur: async () => validateTargetForm('passwordConfirm'),
+                onBlur: () => validateTargetForm('passwordConfirm'),
               }}
             />
           )}

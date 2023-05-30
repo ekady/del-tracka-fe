@@ -51,7 +51,9 @@ const SignIn = () => {
     const session = await getSession();
     if (response?.ok && session) {
       dispatch(setCredential(session.user.userToken));
-      router.replace(redirect);
+      router.replace(redirect).catch(() => {
+        //
+      });
     } else toast.error('Invalid email or password');
     setLoading(false);
   }) as (e?: BaseSyntheticEvent) => void;
