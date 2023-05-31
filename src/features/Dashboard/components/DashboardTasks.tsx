@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 // MUI Components
 import { Box, Grid } from '@mui/material';
@@ -26,16 +26,25 @@ const baseCardStyle: BaseCardProps = { sx: { height: 250 } };
 const labelGrey = ['#dddbdbd6'];
 
 const DashboardTasks = () => {
-  const { data: dataTotal, isFetching, isLoading } = useGetTaskStatusAllQuery();
-  const { data: dataUser } = useGetTaskStatusUserQuery();
+  const { data: dataTotal, isFetching, isLoading, refetch: referchTotal } = useGetTaskStatusAllQuery();
+  const { data: dataUser, refetch: refetchUser } = useGetTaskStatusUserQuery();
+
+  useEffect(() => {
+    referchTotal().catch(() => {
+      //
+    });
+    refetchUser().catch(() => {
+      //
+    });
+  }, [referchTotal, refetchUser]);
 
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
 
   const optionsChart = useCallback(
     (data?: ITaskStatusStatsResponse): ChartOptions<'doughnut'> => {
-      const isAllZero = Object.values<number>(data || {}).every((issue: number) => issue === 0.01);
-      const labelColors = Object.keys(data || {}).map((key: string) => STATUS[key as StatusType].color);
+      const isAllZero = Object.values<number>(data ?? {}).every((issue: number) => issue <= 0.01);
+      const labelColors = Object.keys(data ?? {}).map((key: string) => STATUS[key as StatusType].color);
       return {
         maintainAspectRatio: false,
         datasets: {
@@ -46,7 +55,7 @@ const DashboardTasks = () => {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const label = context.label || '';
+                const label = context.label ?? '';
                 const value = Number(context.parsed.toFixed(0));
                 return `${label}: ${value}`;
               },
@@ -61,13 +70,19 @@ const DashboardTasks = () => {
   return (
     <Grid container spacing={3} columns={12}>
       <Grid item xs={12} sm={6} md={5} lg={4}>
-        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
+        <BaseCard {...baseCardStyle} loading={isLoading ?? isFetching}>
           <TypographyTasks>All Tasks</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
               data={{
-                labels: Object.keys(dataTotal?.data || {}).map((key) => STATUS[key as StatusType].name),
-                datasets: [{ label: 'All Tasks', data: Object.values(dataTotal?.data || {}) }],
+                labels: Object.keys(dataTotal?.data ?? {}).map((key) => STATUS[key as StatusType].name),
+                datasets: [
+                  {
+                    label: 'All Tasks',
+                    data: Object.values(dataTotal?.data ?? {}),
+                    backgroundColor: optionsChart(dataTotal?.data).datasets?.doughnut?.backgroundColor ?? [],
+                  },
+                ],
               }}
               options={optionsChart(dataTotal?.data)}
             />
@@ -75,13 +90,19 @@ const DashboardTasks = () => {
         </BaseCard>
       </Grid>
       <Grid item xs={12} sm={6} md={5} lg={4}>
-        <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
+        <BaseCard {...baseCardStyle} loading={isLoading ?? isFetching}>
           <TypographyTasks>Tasks Assign to You</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
               data={{
-                labels: Object.keys(dataUser?.data || {}).map((key) => STATUS[key as StatusType].name),
-                datasets: [{ label: 'Tasks', data: Object.values(dataUser?.data || {}) }],
+                labels: Object.keys(dataUser?.data ?? {}).map((key) => STATUS[key as StatusType].name),
+                datasets: [
+                  {
+                    label: 'Tasks',
+                    data: Object.values(dataUser?.data ?? {}),
+                    backgroundColor: optionsChart(dataUser?.data).datasets?.doughnut?.backgroundColor ?? [],
+                  },
+                ],
               }}
               options={optionsChart(dataUser?.data)}
             />
