@@ -9,3 +9,4 @@ export const selectUserLastName = (state: RootState) => selectUser(state)?.lastN
 export const selectUserImage = (state: RootState) => selectUser(state)?.picture ?? null;
 
 export const selectCustomBreadcrumb = (state: RootState) => state.general.customBreadcrumb ?? {};
+export const selectSidebarOpen = (state: RootState) => state.general.sidebarOpen ?? false;

@@ -10,15 +10,28 @@ import { Header } from '@/common/base';
 import { IPropsChildren } from '@/common/types';
 
 import theme from '@/theme';
+import { useAppSelector } from '@/common/store';
+import { selectSidebarOpen } from '@/common/store/selector';
 
 const LayoutDefault = ({ children }: IPropsChildren) => {
+  const sidebarOpen = useAppSelector(selectSidebarOpen);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid component="main" sx={{ flexGrow: 1, pt: 6 }}>
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header showMenu usingSidebar />
-          <Container maxWidth={false} sx={{ px: 0, pt: 1 }}>
+          <Container
+            maxWidth={false}
+            sx={{
+              px: 0,
+              pt: 1,
+              width: {
+                lg: sidebarOpen ? `calc(100% - 254px)` : '100%',
+              },
+            }}
+          >
             <Container
               maxWidth={false}
               sx={{

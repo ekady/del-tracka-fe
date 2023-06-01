@@ -55,7 +55,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const logout = useLogout();
 
-  const { anchorEl, handleClose, handleMenu, handleSidebar, openSidebar } = useHeaderMenu();
+  const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
 
   const onLogout = useCallback(() => {
     handleClose();
@@ -110,7 +110,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
 
   return (
     <>
-      <AppBar color="inherit" open={openSidebar} sidebar={usingSidebar}>
+      <AppBar color="inherit" open={sidebarOpen} sidebar={usingSidebar}>
         <Toolbar disableGutters>
           {usingSidebar && (
             <TitleContainer>
@@ -168,7 +168,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
           </Container>
         </Toolbar>
       </AppBar>
-      {showMenu && <SideBar isOpen={openSidebar} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
+      {showMenu && <SideBar isOpen={sidebarOpen} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>
   );
 };

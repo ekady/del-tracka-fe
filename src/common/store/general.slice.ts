@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type TGeneralState = {
   customBreadcrumb: { [x: string]: string };
+  sidebarOpen: boolean;
 };
 
 const name = 'general';
@@ -9,6 +10,7 @@ const name = 'general';
 // Initial State
 const initialState: TGeneralState = {
   customBreadcrumb: {},
+  sidebarOpen: true,
 };
 
 // Register slice
@@ -22,10 +24,13 @@ const generalSlice = createSlice({
     resetState: (state: TGeneralState) => {
       state.customBreadcrumb = {};
     },
+    setSideBarOpen: (state: TGeneralState, action: PayloadAction<TGeneralState['sidebarOpen']>) => {
+      state.sidebarOpen = action.payload;
+    },
   },
 });
 
 // Actions
-export const { resetState, setCustomBreadcrumb } = generalSlice.actions;
+export const { resetState, setCustomBreadcrumb, setSideBarOpen } = generalSlice.actions;
 
 export default generalSlice.reducer;
