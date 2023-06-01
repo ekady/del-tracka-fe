@@ -22,7 +22,7 @@ export interface FileUploaderProps<FileType> {
   heightContainer?: number | string;
   width?: number | string;
   height?: number | string;
-  error?: FieldError;
+  error?: Pick<FieldError, 'type'>;
   disabled?: boolean;
   InputProps?: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 }

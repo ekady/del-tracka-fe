@@ -1,6 +1,7 @@
 import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
+import { Thumbnail } from '../base/FileUploader/interfaces';
 
 export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
@@ -37,6 +38,14 @@ export interface IStaticImageData {
 }
 
 export interface IUserInfo {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  picture?: Thumbnail | null;
+  _id: string | null;
+}
+
+export interface IUserInfoResponse {
   firstName: string | null;
   lastName: string | null;
   email: string | null;

@@ -72,7 +72,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
       startIcon={
         data?.data.picture ? (
           <Image
-            src={convertFilePathToUrl(data.data.picture)}
+            src={convertFilePathToUrl(data.data.picture.src)}
             alt="profile"
             height={24}
             width={24}

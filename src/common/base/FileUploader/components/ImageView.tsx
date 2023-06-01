@@ -25,7 +25,7 @@ const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile
           objectFit="cover"
         />
       </ImageContainer>
-      {(!disabled || !hideRemoveIcon) && (
+      {!disabled && !hideRemoveIcon && (
         <RemoveIconButton onClick={() => onClickRemove && onClickRemove(value.name)}>
           <Cancel />
         </RemoveIconButton>

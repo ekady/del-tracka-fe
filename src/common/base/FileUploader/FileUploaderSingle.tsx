@@ -35,6 +35,7 @@ const FileUploaderSingle = ({
   disabled,
   error,
   InputProps,
+  hideRemoveIcon,
 }: FileUploaderSingleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
@@ -84,7 +85,7 @@ const FileUploaderSingle = ({
                   height={height}
                   onClickRemove={removeImage}
                   hideTextFile={hideTextFile}
-                  hideRemoveIcon
+                  hideRemoveIcon={hideRemoveIcon}
                 />
               </Box>
             </FilesContainer>

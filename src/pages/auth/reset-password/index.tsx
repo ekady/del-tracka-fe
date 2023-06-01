@@ -91,7 +91,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
         <Alert severity="success">
           Your password successfully reseted! Back to{' '}
           <Link href="/auth/sign-in">
-            <a className="text-underline">Sign In</a>
+            <span className="text-underline">Sign In</span>
           </Link>
         </Alert>
       )}

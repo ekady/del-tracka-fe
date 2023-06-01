@@ -20,6 +20,7 @@ export const useProfileForm = () => {
       form.setValue('firstName', data?.data.firstName ?? '');
       form.setValue('lastName', data?.data.lastName ?? '');
       form.setValue('email', data?.data.email ?? '');
+      form.setValue('picture', data?.data.picture ?? null);
     }
   }, [data, form]);
 

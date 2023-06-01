@@ -7,10 +7,11 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError 
 
 import { Mutex } from 'async-mutex';
 
-import { IApiResponse, ICredential, IUserInfo } from '@/common/types';
+import { IApiResponse, ICredential, IUserInfo, IUserInfoResponse } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
 import { RedirectType } from 'next/dist/client/components/redirect';
+import { Thumbnail } from '../base/FileUploader/interfaces';
 
 const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
   let accessToken = state.auth.data.ICredential.accessToken;
@@ -86,6 +87,17 @@ export const apiSlice = createApi({
     getProfile: builder.query<IApiResponse<IUserInfo>, void>({
       query: () => '/profile',
       providesTags: ['Profile'],
+      transformResponse: (response: IApiResponse<IUserInfoResponse>) => ({
+        ...response,
+        data: {
+          ...response.data,
+          picture: {
+            name: 'profile_picture',
+            size: 0,
+            src: response?.data?.picture ?? null,
+          } as Thumbnail,
+        },
+      }),
     }),
   }),
 });

@@ -96,7 +96,7 @@ const SignUp = () => {
         <Alert severity="success">
           Sign Up Success! Back to{' '}
           <Link href="/auth/sign-in" passHref>
-            <a className="text-underline">Sign In</a>
+            <span className="text-underline">Sign In</span>
           </Link>
         </Alert>
       )}
