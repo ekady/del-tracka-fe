@@ -121,6 +121,7 @@ export interface ITaskResponse {
   project: IProject;
   stage: ISprint;
   permissions?: IProjectPermission;
+  name?: string;
 }
 
 export interface ITaskStatusUpdateRequest {
@@ -139,6 +140,7 @@ export interface IProjectSprintTaskDetail {
   imageUrls?: Thumbnail[];
   project?: IProject;
   stage?: ISprint;
+  name?: string;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {

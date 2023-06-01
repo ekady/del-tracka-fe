@@ -40,12 +40,14 @@ const ProjectSprintPage = () => {
   const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
 
   useProjectBreadcrumb({
-    '[project_id]': sprintInfo?.data.project?.name || '',
-    '[sprint_id]': sprintInfo?.data.name || '',
+    '[project_id]': sprintInfo?.data.project?.name ?? '',
+    '[sprint_id]': sprintInfo?.data.name ?? '',
   });
 
   useEffect(() => {
-    getTasks({ ids: { idProject, idSprint }, params: tableOption });
+    getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
+      //
+    });
   }, [getTasks, idProject, idSprint, tableOption]);
 
   return (

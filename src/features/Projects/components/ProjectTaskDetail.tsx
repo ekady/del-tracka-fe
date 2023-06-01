@@ -20,6 +20,7 @@ import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
 import { invalidateTags } from '../store/project.api.slice';
 
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
+import { FunctionVoid } from '@/common/types';
 
 // Create : Only Form that contain upload image
 // View: Disabled form, contain form without upload image, media, comments, logs
@@ -39,16 +40,16 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
-    projectId && query.sprint_id && query.task_id
+    projectId && query.sprint_id
       ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: query.task_id as string } }
       : skipToken,
   );
   const [tab, setTab] = useState<string>('form');
 
   useProjectBreadcrumb({
-    '[project_id]': task.data?.project?.name || '',
-    '[sprint_id]': task.data?.stage?.name || '',
-    '[task_id]': task.data?.title || '',
+    '[project_id]': task.data?.project?.name ?? '',
+    '[sprint_id]': task.data?.stage?.name ?? task?.data?.name ?? '',
+    '[task_id]': task.data?.title ?? '',
   });
 
   useEffect(() => {
@@ -70,8 +71,8 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     [tab],
   );
 
-  const handleBackToTaskList = useCallback(() => {
-    push(`/app/projects/${projectId}/${query.sprint_id as string}`);
+  const handleBackToTaskList = useCallback(async () => {
+    await push(`/app/projects/${projectId}/${query.sprint_id as string}`);
   }, [projectId, push, query.sprint_id]);
 
   return (
@@ -115,14 +116,19 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
-          <CarouselImages images={(task.data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) || []} />
+          <CarouselImages images={(task.data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) ?? []} />
         </Box>
       )}
 
       <Box height={100} />
       {isDetail && (
         <Box sx={{ textAlign: 'right' }}>
-          <Button className="text-right" variant="contained" color="primary" onClick={() => handleBackToTaskList()}>
+          <Button
+            className="text-right"
+            variant="contained"
+            color="primary"
+            onClick={handleBackToTaskList as FunctionVoid}
+          >
             Back
           </Button>
         </Box>

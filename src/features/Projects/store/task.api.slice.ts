@@ -27,9 +27,12 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       providesTags: ['Tasks'],
     }),
     getTask: builder.query<IProjectSprintTaskDetail, { ids: ProjectIds }>({
-      query: ({ ids }) => ({
-        url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks/${ids.idTask}`,
-      }),
+      query: ({ ids }) => {
+        const taskParam = ids.idTask ? `/tasks/${ids.idTask}` : '';
+        return {
+          url: `/projects/${ids.idProject}/stages/${ids.idSprint}${taskParam}`,
+        };
+      },
       transformResponse: (response: IApiResponse<ITaskResponse>) => {
         return {
           _id: response.data._id,
@@ -42,6 +45,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           images: [],
           project: response.data.project,
           stage: response.data.stage,
+          name: response.data?.name,
         };
       },
       providesTags: ['Task'],
