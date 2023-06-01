@@ -1,18 +1,25 @@
 // React
 import { ReactElement, useCallback, useEffect } from 'react';
 
+// Toast
+import { toast } from 'react-toastify';
+
 // Components
 import { LayoutDefault } from '@/common/layout';
 import Profile from '@/features/profile/components/Profile';
 
 import { ProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
-import { toast } from 'react-toastify';
+import { compressImage } from '@/common/helper/compressImage';
+import { FunctionVoidWithParams } from '@/common/types';
 
 const Settings = () => {
   const [updateProfile, { isSuccess }] = useUpdateProfileMutation();
 
   const submitHander = useCallback(
     async (v: ProfileRequest) => {
+      if (v.picture && v.picture instanceof File) {
+        v.picture = await compressImage(v.picture);
+      }
       await updateProfile(v);
     },
     [updateProfile],
@@ -25,7 +32,9 @@ const Settings = () => {
     };
   }, [isSuccess]);
 
-  return <Profile isFirstTime={false} submit={submitHander} isEditable={true} />;
+  return (
+    <Profile isFirstTime={false} submit={submitHander as FunctionVoidWithParams<ProfileRequest>} isEditable={true} />
+  );
 };
 
 Settings.getLayout = (page: ReactElement) => {
