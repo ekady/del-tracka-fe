@@ -53,54 +53,52 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
 
   return (
     <List>
-      {projectList &&
-        projectList.map(({ shortId, name, stages, rolePermissions }, index) => (
-          <ListContainer key={shortId}>
-            <ListItemContainer>
-              <ListButton disableTouchRipple className="cursor-default" selected={currProject === shortId}>
-                {stages && stages.length > 0 ? (
-                  <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
-                    {open[index] ? <ExpandLess /> : <ExpandMore />}
-                  </Icon>
+      {projectList?.map(({ shortId, name, stages, rolePermissions }, index) => (
+        <ListContainer key={shortId}>
+          <ListItemContainer>
+            <ListButton disableTouchRipple className="cursor-default" selected={currProject === shortId}>
+              {stages?.length > 0 ? (
+                <Icon className="cursor-pointer" sx={{ mr: 1 }} onClick={() => handleClick(index)}>
+                  {open[index] ? <ExpandLess /> : <ExpandMore />}
+                </Icon>
+              ) : (
+                <Icon className="cursor-pointer" sx={{ mr: 1 }} />
+              )}
+              <Link href={`/app/projects/${shortId}`} passHref style={{ flexGrow: 1 }}>
+                <ListItemText className="cursor-pointer" primary={name} />
+              </Link>
+              <TableAction hideView hideDelete hideEdit>
+                {rolePermissions.PROJECT.update ? (
+                  <Link href={`/app/projects/${shortId}/setting`} passHref>
+                    <MenuItem>Settings</MenuItem>
+                  </Link>
                 ) : (
-                  <Icon className="cursor-pointer" sx={{ mr: 1 }} />
+                  <Link href={`/app/projects/${shortId}/member`} passHref>
+                    <MenuItem>Member</MenuItem>
+                  </Link>
                 )}
-                <Link href={`/app/projects/${shortId}`} passHref>
-                  <ListItemText className="cursor-pointer" primary={name} />
-                </Link>
-                <TableAction hideView hideDelete hideEdit>
-                  {rolePermissions.PROJECT.update ? (
-                    <Link href={`/app/projects/${shortId}/setting`} passHref>
-                      <MenuItem>Settings</MenuItem>
-                    </Link>
-                  ) : (
-                    <Link href={`/app/projects/${shortId}/member`} passHref>
-                      <MenuItem>Member</MenuItem>
-                    </Link>
-                  )}
-                </TableAction>
-              </ListButton>
-            </ListItemContainer>
-            {stages && stages.length > 0 && (
-              <Collapse in={open[index]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {stages.map((sprint: ISprintResponse) => (
+              </TableAction>
+            </ListButton>
+          </ListItemContainer>
+          {stages?.length > 0 && (
+            <Collapse in={open[index]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {stages.map((sprint: ISprintResponse) => (
+                  <Link href={`/app/projects/${shortId}/${sprint.shortId}`} key={sprint.shortId} passHref>
                     <ListButton
-                      key={sprint.shortId}
                       disableTouchRipple
                       selected={currProject === shortId && currSprint === sprint.shortId}
                       sx={{ pl: 4, marginBottom: '4px' }}
                     >
-                      <Link href={`/app/projects/${shortId}/${sprint.shortId}`} passHref>
-                        <ListItemText primary={sprint.name} />
-                      </Link>
+                      <ListItemText primary={sprint.name} />
                     </ListButton>
-                  ))}
-                </List>
-              </Collapse>
-            )}
-          </ListContainer>
-        ))}
+                  </Link>
+                ))}
+              </List>
+            </Collapse>
+          )}
+        </ListContainer>
+      ))}
     </List>
   );
 };
