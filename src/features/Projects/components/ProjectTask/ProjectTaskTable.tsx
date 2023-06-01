@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -138,30 +138,33 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
     ],
   );
 
-  const tableHeaders: GridColDef<ITaskResponse, string>[] = [
-    { headerName: 'Main Problem', field: 'title', width: 300 },
-    { headerName: 'Feature', field: 'feature', width: 200 },
-    { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
-    {
-      headerName: 'Date Updated',
-      field: 'updatedAt',
-      width: 200,
-      valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
-    },
-    {
-      headerName: 'Reporter',
-      field: 'reporter',
-      valueGetter: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
-      width: 200,
-    },
-    {
-      headerName: 'Assignee',
-      field: 'assignee',
-      valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
-    },
-    { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-    { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
-  ];
+  const tableHeaders: GridColDef<ITaskResponse, string>[] = useMemo<GridColDef<ITaskResponse, string>[]>(
+    () => [
+      { headerName: 'Main Problem', field: 'title', width: 300 },
+      { headerName: 'Feature', field: 'feature', width: 200 },
+      { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
+      {
+        headerName: 'Date Updated',
+        field: 'updatedAt',
+        width: 200,
+        valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
+      },
+      {
+        headerName: 'Reporter',
+        field: 'reporter',
+        valueGetter: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
+        width: 200,
+      },
+      {
+        headerName: 'Assignee',
+        field: 'assignee',
+        valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
+      },
+      { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
+      { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
+    ],
+    [renderCellAction, renderCellLevel, renderCellStatus],
+  );
 
   const buttonAddTask = (
     <Link href={`${router.asPath}/new`} passHref>

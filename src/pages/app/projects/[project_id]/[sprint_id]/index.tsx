@@ -45,9 +45,11 @@ const ProjectSprintPage = () => {
   });
 
   useEffect(() => {
-    getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
-      //
-    });
+    if (idProject && idSprint) {
+      getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
+        //
+      });
+    }
   }, [getTasks, idProject, idSprint, tableOption]);
 
   return (
