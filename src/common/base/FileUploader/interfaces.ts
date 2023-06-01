@@ -25,4 +25,5 @@ export interface FileUploaderProps<FileType> {
   error?: Pick<FieldError, 'type'>;
   disabled?: boolean;
   InputProps?: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+  maxSizeKb?: number;
 }

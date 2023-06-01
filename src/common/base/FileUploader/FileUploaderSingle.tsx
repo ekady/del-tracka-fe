@@ -8,6 +8,9 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import { FileUploaderProps, Thumbnail } from './interfaces';
 
+// Toastify
+import { toast } from 'react-toastify';
+
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
 import { ButtonUpload, ErrorMessage, ImageView } from './components';
@@ -36,6 +39,7 @@ const FileUploaderSingle = ({
   error,
   InputProps,
   hideRemoveIcon,
+  maxSizeKb,
 }: FileUploaderSingleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
@@ -46,9 +50,16 @@ const FileUploaderSingle = ({
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
+      console.log(file);
+
+      if (maxSizeKb && file.size / 1024 > maxSizeKb) {
+        toast.warning(`Max size of image is ${maxSizeKb} Kb`);
+        return;
+      }
+
       handleValue?.(file);
     },
-    [handleValue],
+    [handleValue, maxSizeKb],
   );
 
   const removeImage: FunctionVoid = useCallback(() => {

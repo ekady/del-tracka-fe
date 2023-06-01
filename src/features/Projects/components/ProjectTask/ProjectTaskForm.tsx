@@ -245,6 +245,8 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
                   error={errors.images as FieldError}
                   value={value}
                   handleValue={(imgs) => onChange(imgs)}
+                  maxImages={3}
+                  maxSizeKb={500}
                 />
               )}
             />

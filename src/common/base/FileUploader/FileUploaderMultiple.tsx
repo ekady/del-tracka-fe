@@ -18,8 +18,11 @@ import { FileUploaderEnum } from './constants';
 // Hooks
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
+import { toast } from 'react-toastify';
 
-export interface FileUploaderMultipleProps extends FileUploaderProps<(File | Thumbnail)[]> {}
+export interface FileUploaderMultipleProps extends FileUploaderProps<(File | Thumbnail)[]> {
+  maxImages?: number;
+}
 
 const FileUploaderMultiple = ({
   value,
@@ -35,6 +38,8 @@ const FileUploaderMultiple = ({
   disabled,
   error,
   InputProps,
+  maxImages,
+  maxSizeKb,
 }: FileUploaderMultipleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
@@ -44,11 +49,22 @@ const FileUploaderMultiple = ({
 
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
+      if (maxImages && newFiles.length > maxImages) {
+        toast.warning(`Max images ${maxImages}`);
+        return;
+      }
+      const arrayFiles = Array.from(newFiles);
+      const invalidSize = maxSizeKb && arrayFiles.some((file) => file.size / 1024 > maxSizeKb);
+      if (invalidSize) {
+        toast.warning(`Max size each images are ${maxSizeKb} Kb`);
+        return;
+      }
+
       const val = value ?? [];
-      const files = [...val, ...Array.from(newFiles)];
+      const files = [...val, ...arrayFiles];
       handleValue?.(files);
     },
-    [handleValue, value],
+    [handleValue, maxImages, maxSizeKb, value],
   );
 
   const removeImage: FunctionVoidWithParams<string> = useCallback(
@@ -91,8 +107,12 @@ const FileUploaderMultiple = ({
       >
         {value?.length ? (
           <>
-            {!disabled && <Box marginBottom={3}>{buttonUpload}</Box>}
-            <FilesContainer sx={{ overflow: 'auto', height: disabled ? '100%' : '80%' }}>
+            {!disabled && (!maxImages || (!!maxImages && value.length < maxImages)) && (
+              <Box marginBottom={3}>{buttonUpload}</Box>
+            )}
+            <FilesContainer
+              sx={{ overflow: 'auto', height: disabled || (!!maxImages && value.length >= maxImages) ? '100%' : '80%' }}
+            >
               {value.map((file) => (
                 <Box key={file.name} margin={1} height={disabled ? '100%' : '80%'} position="relative">
                   <ImageView

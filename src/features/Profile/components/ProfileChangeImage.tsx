@@ -55,6 +55,7 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
             value={field.value}
             handleValue={(file: File | Thumbnail | null) => field.onChange(file)}
             hideRemoveIcon
+            maxSizeKb={500}
           />
         )}
       />

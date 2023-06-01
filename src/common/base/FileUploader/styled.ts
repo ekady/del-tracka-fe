@@ -21,7 +21,7 @@ export const FilesContainer: ElementType = styled(Box)(() => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'start',
-  justifyContent: 'start',
+  justifyContent: 'space-around',
 }));
 
 export const ImageContainer: ElementType = styled(Box)(() => ({
