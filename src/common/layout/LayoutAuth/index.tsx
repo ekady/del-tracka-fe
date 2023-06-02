@@ -20,14 +20,18 @@ import { IPropsChildren } from '@/common/types';
 
 import theme from '@/theme';
 
-const LayoutAuth = ({ children }: IPropsChildren) => {
+export interface LayoutAuthProps extends IPropsChildren {
+  noRedirect?: boolean;
+}
+
+const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
   const session = useSession();
 
   useEffect(() => {
-    if (session.data?.user.userToken.accessToken) {
+    if (!noRedirect && session.data?.user.userToken.accessToken) {
       redirect('/app/dashboard', RedirectType.replace);
     }
-  }, [session]);
+  }, [session, noRedirect]);
 
   return (
     <ThemeProvider theme={theme}>

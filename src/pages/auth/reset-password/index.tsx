@@ -149,14 +149,12 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
 };
 
 ResetPassword.getLayout = (page: ReactElement) => {
-  return <LayoutAuth>{page}</LayoutAuth>;
+  return <LayoutAuth noRedirect>{page}</LayoutAuth>;
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async (context) => {
   const resetToken = context.query?.token as string;
-  const dispatched = dispatch(verifyResetToken.initiate({ resetToken }));
-
-  const data = await dispatched.unwrap();
+  const data = await dispatch(verifyResetToken.initiate({ resetToken }));
 
   return {
     props: {

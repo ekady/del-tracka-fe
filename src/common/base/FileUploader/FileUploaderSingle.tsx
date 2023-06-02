@@ -50,7 +50,6 @@ const FileUploaderSingle = ({
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
-      console.log(file);
 
       if (maxSizeKb && file.size / 1024 > maxSizeKb) {
         toast.warning(`Max size of image is ${maxSizeKb} Kb`);

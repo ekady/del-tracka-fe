@@ -48,7 +48,8 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 ) => {
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  const isAuthApi = ['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(api.endpoint);
+  if (result.error && result.error.status === 401 && !isAuthApi) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {

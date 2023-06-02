@@ -93,7 +93,7 @@ const SignIn = () => {
 };
 
 SignIn.getLayout = (page: ReactElement) => {
-  return <LayoutAuth>{page}</LayoutAuth>;
+  return <LayoutAuth noRedirect>{page}</LayoutAuth>;
 };
 
 export default SignIn;

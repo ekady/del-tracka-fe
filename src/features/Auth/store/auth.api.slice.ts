@@ -26,11 +26,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: passwords,
       }),
     }),
-    verifyResetToken: builder.mutation<IApiResponse<IStatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
+    verifyResetToken: builder.query<IApiResponse<IStatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
       query: ({ resetToken }) => ({
         url: `/auth/verify-reset-token`,
-        method: 'post',
-        body: { token: resetToken },
+        params: { token: resetToken },
       }),
     }),
     logout: builder.mutation<IApiResponse<IStatusMessageResponse>, void>({
