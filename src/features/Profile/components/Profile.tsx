@@ -16,7 +16,7 @@ import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.'
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import { ProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
 import { useProfileForm } from '../hooks/useProfileForm';
-import { BaseDialogAlert } from '@/common/base';
+import { BaseDialogAlert, ButtonLoading } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useLogout } from '@/common/hooks/useLogout';
 
@@ -30,6 +30,7 @@ export interface ProfileProps {
   isFirstTime: boolean;
   isEditable: boolean;
   disabled?: boolean;
+  isLoading?: boolean;
   submit: FunctionVoidWithParams<ProfileRequest>;
   handleEditButton?: FunctionVoid;
 }
@@ -52,7 +53,7 @@ const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) =
   },
 });
 
-const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }: ProfileProps) => {
+const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleEditButton }: ProfileProps) => {
   const router = useRouter();
   const form = useProfileForm();
   const { handleSubmit, getValues, resetField } = form;
@@ -133,13 +134,20 @@ const Profile = ({ isFirstTime, isEditable, disabled, submit, handleEditButton }
         </Box>
         <Box>
           {isEditable ? (
-            <Button fullWidth variant="contained" sx={{ mt: 4 }} onClick={onSubmit} disabled={disabled}>
+            <ButtonLoading
+              fullWidth
+              loading={isLoading}
+              variant="contained"
+              sx={{ mt: 4 }}
+              onClick={onSubmit}
+              disabled={disabled}
+            >
               Save
-            </Button>
+            </ButtonLoading>
           ) : (
-            <Button fullWidth variant="outlined" sx={{ mt: 4 }} onClick={handleEditButton}>
+            <ButtonLoading fullWidth loading={isLoading} variant="outlined" sx={{ mt: 4 }} onClick={handleEditButton}>
               Edit
-            </Button>
+            </ButtonLoading>
           )}
           <Button fullWidth variant="outlined" color="error" sx={{ mt: 4 }} onClick={openDialogDeleteConfirm}>
             Delete Account

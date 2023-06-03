@@ -16,9 +16,13 @@ const EntryPoint = () => {
 
   useEffect(() => {
     if (session.status === 'authenticated' && session.data.user.userToken) {
-      router.replace('/app/dashboard');
+      router.replace('/app/dashboard').catch(() => {
+        //
+      });
     } else if (session.status === 'unauthenticated') {
-      router.replace('/home');
+      router.replace('/home').catch(() => {
+        //
+      });
     }
   }, [session, router]);
 

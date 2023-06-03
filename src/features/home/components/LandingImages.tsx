@@ -18,7 +18,7 @@ const LandingImages = () => {
               alt={item.title}
               width={400}
               height={400}
-              style={{ objectFit: 'cover', width: '100%' }}
+              style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
             />
           </ImageListItem>
         ))}

@@ -13,7 +13,7 @@ import { compressImage } from '@/common/helper/compressImage';
 import { FunctionVoidWithParams } from '@/common/types';
 
 const Settings = () => {
-  const [updateProfile, { isSuccess }] = useUpdateProfileMutation();
+  const [updateProfile, { isSuccess, isLoading }] = useUpdateProfileMutation();
 
   const submitHander = useCallback(
     async (v: ProfileRequest) => {
@@ -33,7 +33,12 @@ const Settings = () => {
   }, [isSuccess]);
 
   return (
-    <Profile isFirstTime={false} submit={submitHander as FunctionVoidWithParams<ProfileRequest>} isEditable={true} />
+    <Profile
+      isFirstTime={false}
+      submit={submitHander as FunctionVoidWithParams<ProfileRequest>}
+      isEditable={true}
+      isLoading={isLoading}
+    />
   );
 };
 

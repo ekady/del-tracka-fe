@@ -26,7 +26,7 @@ const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={levelList}
-            onChange={(_, value) => onChange && onChange({ priority: value?.value || '' })}
+            onChange={(_, value) => onChange?.({ priority: value?.value ?? '' })}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -36,7 +36,7 @@ const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
           <Autocomplete
             id="tags-outlined"
             options={statusList}
-            onChange={(_, value) => onChange && onChange({ status: value?.value || '' })}
+            onChange={(_, value) => onChange?.({ status: value?.value ?? '' })}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}

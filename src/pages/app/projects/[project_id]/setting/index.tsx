@@ -29,7 +29,7 @@ const ProjectSettingPage = () => {
   const { data, projectId } = useProjectId();
   const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
 
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
 
   const handleClick = useCallback((index: number) => {
     return () => {
@@ -43,7 +43,9 @@ const ProjectSettingPage = () => {
 
   useEffect(() => {
     if (projectId && data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)
-      router.push(`/app/projects/${projectId}/member`);
+      router.push(`/app/projects/${projectId}/member`).catch(() => {
+        //
+      });
   }, [data, projectId, router]);
 
   if (!data?.data.rolePermissions.PROJECT.update)

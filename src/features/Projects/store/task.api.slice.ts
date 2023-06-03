@@ -41,7 +41,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           reporter: response.data.reporter as IProjectMember,
           assignee: response.data.assignee as IProjectMember,
           detail: response.data.detail,
-          priority: levelList.find((level) => level.value === response.data.priority) || null,
+          priority: levelList.find((level) => level.value === response.data.priority) ?? null,
           images: [],
           project: response.data.project,
           stage: response.data.stage,
@@ -100,6 +100,11 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     getComments: builder.query<IApiResponse<IProjectComment[]>, ProjectIds>({
       query: ({ idProject, idSprint, idTask }) => `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}/comments`,
       providesTags: ['Comments'],
+      transformResponse: (response: IApiResponse<IProjectComment[]>) => {
+        const dataCopy = [...response.data];
+        dataCopy.reverse();
+        return { ...response, data: dataCopy };
+      },
     }),
     createComment: builder.mutation<
       IApiResponse<IStatusMessageResponse>,

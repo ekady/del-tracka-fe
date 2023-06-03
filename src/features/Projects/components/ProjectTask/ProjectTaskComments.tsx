@@ -90,6 +90,7 @@ const ProjectTaskComments = () => {
           <ProjectTaskComment
             comment={comment.comment}
             name={`${comment.user.firstName} ${comment.user.lastName}`}
+            image={comment.user.picture ?? null}
             date={new Date(comment.createdAt).toLocaleString()}
           />
           <Box height={35} />

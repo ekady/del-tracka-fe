@@ -53,7 +53,7 @@ const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) 
             alt="illustration"
             width={400}
             height={400}
-            style={{ objectFit: 'contain', width: '100%' }}
+            style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
           />
         </Grid>
       </Grid>

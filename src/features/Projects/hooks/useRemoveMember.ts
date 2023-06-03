@@ -28,8 +28,8 @@ export const useRemoveMember = (projectId: string) => {
 
       if ('data' in res && 'data' in res.data && res.data.data) {
         toast.success(`You have successfully ${message}`);
-        callbackSuccess && callbackSuccess();
-        if (message.includes('left')) router.replace('/app/projects');
+        callbackSuccess?.();
+        if (message.includes('left')) await router.replace('/app/projects');
       }
     },
     [deleteMember, leave, profileData?.data?._id, projectId, router],

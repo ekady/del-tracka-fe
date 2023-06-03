@@ -14,6 +14,7 @@ import ProjectDialogNew from '../ProjectDialogNew';
 
 // Types
 import { IProjectRequest, ISprintsResponse } from '@/features/projects/interfaces';
+import { FunctionVoid } from '@/common/types';
 
 // Hooks
 import { useAppDispatch } from '@/common/store';
@@ -113,7 +114,7 @@ const ProjectOverviewSprint = () => {
       setOpenDialog(!openDialog);
     },
     [getSprint, openDialog, projectId],
-  );
+  ) as (id?: string) => void;
 
   const successDialog = useCallback(
     async (data: IProjectRequest, defaultValues?: IProjectRequest) => {
@@ -124,7 +125,7 @@ const ProjectOverviewSprint = () => {
       const response = await createUpdateSprint(payload);
       if ('data' in response && response.data.data) {
         openDialogSuccess('Success', `Sprint has successfully ${payload.body.id ? 'updated' : 'created'}`);
-        refetch();
+        await refetch();
         toggleDialog();
       }
     },
@@ -133,7 +134,9 @@ const ProjectOverviewSprint = () => {
 
   const redirectSprintPage = useCallback(
     (id: string) => {
-      router.push(`${router.asPath}/${id ?? ''}`);
+      router.push(`${router.asPath}/${id ?? ''}`).catch(() => {
+        //
+      });
     },
     [router],
   );
@@ -142,12 +145,12 @@ const ProjectOverviewSprint = () => {
     (sprint: ISprintsResponse) => {
       openDialogWarning('Confirmation', 'Are you sure you want to delete this sprint?', {
         handleCancel: closeDialogAlert,
-        handleOk: async () => {
+        handleOk: (async () => {
           const data = await deleteSprint({ idProject: projectId, idSprint: sprint.shortId });
           if ('data' in data && data.data?.data) {
             openDialogSuccess('Success', 'Sprint has sucessfully deleted');
           }
-        },
+        }) as FunctionVoid,
       });
     },
     [closeDialogAlert, deleteSprint, openDialogSuccess, openDialogWarning, projectId],

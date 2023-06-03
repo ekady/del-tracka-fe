@@ -25,15 +25,15 @@ const useDialogAlert = () => {
         ...option,
         isOpen: true,
         type: 'success',
-        titleDialog: title || 'Success',
-        description: description || 'You have successfully completed the action',
+        titleDialog: title ?? 'Success',
+        description: description ?? 'You have successfully completed the action',
         subDescription: '',
         hideCancel: true,
         handleOk: closeDialogAlert,
         handleCancel: closeDialogAlert,
         ...options,
       }));
-      callback && callback();
+      callback?.();
     },
     [closeDialogAlert],
   );
@@ -43,15 +43,15 @@ const useDialogAlert = () => {
         ...option,
         isOpen: true,
         type: 'error',
-        titleDialog: title || 'Error',
-        description: description || 'An error has occurred',
+        titleDialog: title ?? 'Error',
+        description: description ?? 'An error has occurred',
         subDescription: '',
         hideCancel: true,
         handleOk: closeDialogAlert,
         handleCancel: closeDialogAlert,
         ...options,
       }));
-      callback && callback();
+      callback?.();
     },
     [closeDialogAlert],
   );
@@ -61,15 +61,15 @@ const useDialogAlert = () => {
         ...option,
         isOpen: true,
         type: 'warning',
-        titleDialog: title || 'Warning',
-        description: description || 'Before you continue, please make sure you have read the information',
+        titleDialog: title ?? 'Warning',
+        description: description ?? 'Before you continue, please make sure you have read the information',
         subDescription: '',
         hideCancel: false,
         handleOk: closeDialogAlert,
         handleCancel: closeDialogAlert,
         ...options,
       }));
-      callback && callback();
+      callback?.();
     },
     [closeDialogAlert],
   );

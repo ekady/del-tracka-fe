@@ -8,6 +8,12 @@ export type FunctionVoid = () => void;
 export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
 export type FunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
 
+export interface IResponseError {
+  data?: null;
+  errors: { errorType: string; message: string }[];
+  statusCode: number;
+}
+
 export interface IInformationWithColor {
   value: string | number;
   name: string;
@@ -42,7 +48,7 @@ export interface IUserInfo {
   lastName: string | null;
   email: string | null;
   picture?: Thumbnail | null;
-  _id: string | null;
+  _id: string;
 }
 
 export interface IUserInfoResponse {
@@ -50,7 +56,7 @@ export interface IUserInfoResponse {
   lastName: string | null;
   email: string | null;
   picture?: string | null;
-  _id: string | null;
+  _id: string;
 }
 
 export interface ICredential {

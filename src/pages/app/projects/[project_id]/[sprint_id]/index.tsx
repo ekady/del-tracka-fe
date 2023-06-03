@@ -70,11 +70,13 @@ const ProjectSprintPage = () => {
             getRowId: (row: ITaskResponse) => row._id,
             rows: issuesData?.data.data ?? [],
             paginationMode: 'server',
-            rowCount: issuesData?.data.pagination.total || 0,
+            rowCount: issuesData?.data.pagination.total ?? 0,
             loading: isTasksFetching,
             onSortModelChange: onSort,
-            onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
-            onPageChange: (page: number) => onLimitPage('page', page + 1),
+            onPaginationModelChange: (model) => {
+              onLimitPage('limit', model.pageSize);
+              onLimitPage('page', model.page + 1);
+            },
           }}
         />
       </Box>

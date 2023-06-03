@@ -19,7 +19,9 @@ const MyTasksPage = () => {
   const { onFilter, onSearch, onSort, tableOption, onLimitPage } = useTableChange();
 
   useEffect(() => {
-    getTasks(tableOption);
+    getTasks(tableOption).catch(() => {
+      //
+    });
   }, [getTasks, tableOption]);
 
   return (
@@ -32,11 +34,13 @@ const MyTasksPage = () => {
           getRowId: (row: ITaskResponse) => row._id,
           rows: data?.data?.data ?? [],
           paginationMode: 'server',
-          rowCount: data?.data?.pagination?.total || 0,
+          rowCount: data?.data?.pagination?.total ?? 0,
           loading: isFetching || isLoading,
           onSortModelChange: onSort,
-          onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
-          onPageChange: (page: number) => onLimitPage('page', page + 1),
+          onPaginationModelChange: (model) => {
+            onLimitPage('limit', model.pageSize);
+            onLimitPage('page', model.page + 1);
+          },
         }}
       />
     </>

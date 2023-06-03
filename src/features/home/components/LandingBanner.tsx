@@ -34,7 +34,8 @@ const LandingBanner = () => {
           alt="icon-scrum-board"
           width={400}
           height={400}
-          style={{ objectFit: 'contain', width: '100%' }}
+          priority
+          style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
         />
       </Grid>
     </Grid>

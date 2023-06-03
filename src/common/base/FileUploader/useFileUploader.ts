@@ -17,7 +17,7 @@ const useFileUploader = (acceptFiles?: string[]) => {
   const validateExtension = useCallback(
     (filename: string): boolean => {
       const extension = getFileExtension(filename);
-      const accept = acceptFiles && acceptFiles.length ? acceptFiles : IMAGE_EXTENSION;
+      const accept = acceptFiles?.length ? acceptFiles : IMAGE_EXTENSION;
       return accept.includes(`.${extension}`);
     },
     [acceptFiles],

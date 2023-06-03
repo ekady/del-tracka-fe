@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Container maxWidth={false}>
+      <Container>
         <LandingBanner />
         <LandingFeature
           direction={smAndUp ? 'row-reverse' : 'column-reverse'}

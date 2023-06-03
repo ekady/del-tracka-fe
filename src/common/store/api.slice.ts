@@ -7,7 +7,7 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError 
 
 import { Mutex } from 'async-mutex';
 
-import { IApiResponse, ICredential, IUserInfo, IUserInfoResponse } from '@/common/types';
+import { IApiResponse, ICredential, IResponseError, IUserInfo, IUserInfoResponse } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
 import { RedirectType } from 'next/dist/client/components/redirect';
@@ -55,8 +55,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       try {
         const session = await getSession();
         const accessToken = session?.user.userToken.accessToken ?? null;
+        const isUnauthorized = (result.error.data as IResponseError)?.errors?.[0]?.errorType === 'UNAUTHORIZED';
 
-        if (!accessToken || session?.error === 'RefreshAccessTokenError') {
+        if (!accessToken || session?.error === 'RefreshAccessTokenError' || isUnauthorized) {
           await signOut({ redirect: false });
           redirect('/auth/sign-in', RedirectType.replace);
         } else {

@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 
 // Next
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
-import { RedirectType } from 'next/dist/client/components/redirect';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 // MUI Components
@@ -26,12 +25,15 @@ export interface LayoutAuthProps extends IPropsChildren {
 
 const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
   const session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (!noRedirect && session.data?.user.userToken.accessToken) {
-      redirect('/app/dashboard', RedirectType.replace);
+      router.replace('/app/dashboard').catch(() => {
+        //
+      });
     }
-  }, [session, noRedirect]);
+  }, [session, noRedirect, router]);
 
   return (
     <ThemeProvider theme={theme}>
