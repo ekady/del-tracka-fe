@@ -4,8 +4,11 @@ import { Box, Typography } from '@mui/material';
 // Local Components
 import { FileUploaderSingle } from '@/common/base';
 
+// Reack Hook Form
+import { Controller, FieldError, RegisterOptions } from 'react-hook-form';
+
+// Interfaces
 import { ProfileChildProps } from './Profile';
-import { Controller, RegisterOptions } from 'react-hook-form';
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
 export interface ProfileImage {
@@ -48,9 +51,11 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
             heightContainer={200}
             buttonUploadText="Change Image"
             disabled={disabled}
-            error={errors.picture}
+            error={errors.picture as Pick<FieldError, 'type'>}
             value={field.value}
             handleValue={(file: File | Thumbnail | null) => field.onChange(file)}
+            hideRemoveIcon
+            maxSizeKb={500}
           />
         )}
       />

@@ -1,4 +1,6 @@
 // Next
+import { useCallback } from 'react';
+
 import Image from 'next/image';
 
 import { signIn } from 'next-auth/react';
@@ -7,7 +9,7 @@ import { toast } from 'react-toastify';
 
 import { Button } from '@mui/material';
 import { IconGoogle } from '@/common/icons';
-import { useCallback } from 'react';
+import { FunctionVoid } from '@/common/types';
 
 export interface AuthWithGoogleProps {
   disabled?: boolean;
@@ -24,7 +26,7 @@ const AuthWithGoogle = ({ disabled }: AuthWithGoogleProps) => {
 
   return (
     <Button
-      onClick={onGoogleLogin}
+      onClick={onGoogleLogin as FunctionVoid}
       disabled={disabled}
       fullWidth
       variant="outlined"

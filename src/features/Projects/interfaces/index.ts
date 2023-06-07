@@ -1,7 +1,7 @@
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { LevelType } from '@/common/constants/level';
 import { StatusType } from '@/common/constants/status';
-import { IAutocompleteOptions, IRoleResponse, IUserInfo } from '@/common/types';
+import { IAutocompleteOptions, IRoleResponse, IUserInfoResponse } from '@/common/types';
 import { ProjectMenu } from '../constant/projectMenu';
 
 export interface ITasksCount {
@@ -50,10 +50,10 @@ export interface IProjectWithPermissions extends IProjectRequest {
   rolePermissions: Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>;
 }
 
-export interface IProjectMember extends IUserInfo {
+export interface IProjectMember extends IUserInfoResponse {
   role: IRoleResponse;
-  createdBy: IUserInfo;
-  updatedBy: IUserInfo;
+  createdBy: IUserInfoResponse;
+  updatedBy: IUserInfoResponse;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -112,8 +112,8 @@ export interface ITaskResponse {
   title: string;
   detail: string;
   feature: string;
-  assignee: IUserInfo;
-  reporter: IUserInfo;
+  assignee: IUserInfoResponse;
+  reporter: IUserInfoResponse;
   images: string[];
   status: StatusType;
   priority: LevelType;
@@ -121,6 +121,7 @@ export interface ITaskResponse {
   project: IProject;
   stage: ISprint;
   permissions?: IProjectPermission;
+  name?: string;
 }
 
 export interface ITaskStatusUpdateRequest {
@@ -137,8 +138,9 @@ export interface IProjectSprintTaskDetail {
   priority: IAutocompleteOptions | null;
   images?: (File | Thumbnail)[] | null;
   imageUrls?: Thumbnail[];
-  project: IProject;
-  stage: ISprint;
+  project?: IProject;
+  stage?: ISprint;
+  name?: string;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {
@@ -153,7 +155,7 @@ export interface IProjectComment {
   createdAt: string;
   comment: string;
   task: Omit<ITaskResponse, 'assignee' | 'reporter' | 'images' | 'createdAt' | 'updatedAt' | 'project' | 'stage'>;
-  user: IUserInfo;
+  user: IUserInfoResponse;
 }
 
 export interface IProjectCommentRequest {

@@ -72,7 +72,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     async jwt({ token, user, account }) {
       if (account && user && user.statusCode === 200) token.userToken = user.data;
 
-      if (token && token.userToken) {
+      if (token?.userToken) {
         const tokenData = token.userToken as ICredential;
         const decodedAccessToken = jwtDecode<JwtPayload>(tokenData?.accessToken ?? '');
         const isAccessTokenExpire = Date.now() > (decodedAccessToken.exp ?? 0) * 1000;

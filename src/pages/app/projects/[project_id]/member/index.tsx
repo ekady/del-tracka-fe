@@ -19,10 +19,14 @@ const ProjectMemberPage = () => {
   const { data, projectId } = useProjectId();
   const router = useRouter();
 
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
 
   useEffect(() => {
-    if (data?.data.rolePermissions.PROJECT.update) router.push(`/app/projects/${projectId}/setting`);
+    if (data?.data.rolePermissions.PROJECT.update) {
+      router.push(`/app/projects/${projectId}/setting`).catch(() => {
+        //
+      });
+    }
   }, [data, projectId, router]);
 
   if (data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)

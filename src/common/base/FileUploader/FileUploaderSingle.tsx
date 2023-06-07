@@ -1,5 +1,5 @@
 // React
-import { ReactNode, useCallback } from 'react';
+import { DragEvent, ReactNode, useCallback } from 'react';
 
 // MUI Components
 import { Box, Typography, useTheme } from '@mui/material';
@@ -7,6 +7,9 @@ import { Box, Typography, useTheme } from '@mui/material';
 // Local types
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import { FileUploaderProps, Thumbnail } from './interfaces';
+
+// Toastify
+import { toast } from 'react-toastify';
 
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
@@ -35,6 +38,8 @@ const FileUploaderSingle = ({
   disabled,
   error,
   InputProps,
+  hideRemoveIcon,
+  maxSizeKb,
 }: FileUploaderSingleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
@@ -45,13 +50,19 @@ const FileUploaderSingle = ({
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
-      handleValue && handleValue(file);
+
+      if (maxSizeKb && file.size / 1024 > maxSizeKb) {
+        toast.warning(`Max size of image is ${maxSizeKb} Kb`);
+        return;
+      }
+
+      handleValue?.(file);
     },
-    [handleValue],
+    [handleValue, maxSizeKb],
   );
 
   const removeImage: FunctionVoid = useCallback(() => {
-    handleValue && handleValue(null);
+    handleValue?.(null);
   }, [handleValue]);
 
   const textHelper: ReactNode = (
@@ -68,7 +79,7 @@ const FileUploaderSingle = ({
         onDragOver={onHandleDragEnter}
         onDragLeave={onHandleDragExit}
         onDragEnter={onHandleDragEnter}
-        onDrop={(e) => onHandleFileDrop(e, addNewImages)}
+        onDrop={(e: DragEvent<HTMLDivElement>) => onHandleFileDrop(e, addNewImages)}
         width={widthContainer}
         height={heightContainer}
         sx={{ padding: 1 }}
@@ -84,7 +95,7 @@ const FileUploaderSingle = ({
                   height={height}
                   onClickRemove={removeImage}
                   hideTextFile={hideTextFile}
-                  hideRemoveIcon
+                  hideRemoveIcon={hideRemoveIcon}
                 />
               </Box>
             </FilesContainer>

@@ -16,10 +16,9 @@ const LandingImages = () => {
             <Image
               src={`${item.img}?w=248&fit=crop&auto=format`}
               alt={item.title}
-              width="100%"
-              height="100%"
-              layout="responsive"
-              objectFit="contain"
+              width={400}
+              height={400}
+              style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
             />
           </ImageListItem>
         ))}

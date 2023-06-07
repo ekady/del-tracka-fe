@@ -8,7 +8,7 @@ export const useLogout = (disabledLogoutMutation?: boolean) => {
 
   const onLogout = useCallback(async () => {
     if (!disabledLogoutMutation) await logout().unwrap();
-    signOut();
+    await signOut();
   }, [logout, disabledLogoutMutation]);
 
   return onLogout;

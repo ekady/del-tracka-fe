@@ -21,12 +21,13 @@ const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile
         <Image
           src={extractSrcThumbnailFile(value)}
           alt={getFileExtension(value.name)}
-          layout="fill"
-          objectFit="cover"
+          width={200}
+          height={200}
+          style={{ objectFit: 'cover', width: width, height: height }}
         />
       </ImageContainer>
-      {(!disabled || !hideRemoveIcon) && (
-        <RemoveIconButton onClick={() => onClickRemove && onClickRemove(value.name)}>
+      {!disabled && !hideRemoveIcon && (
+        <RemoveIconButton onClick={() => onClickRemove?.(value.name)}>
           <Cancel />
         </RemoveIconButton>
       )}

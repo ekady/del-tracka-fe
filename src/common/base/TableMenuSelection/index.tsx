@@ -41,7 +41,7 @@ const TableMenuSelection = ({
 
   const handleOpenClose = useCallback(
     (event?: MouseEvent<HTMLElement>): void => {
-      if (event && !Boolean(anchorEl)) {
+      if (event && !anchorEl) {
         setAnchorEl(event.currentTarget);
       } else setAnchorEl(null);
     },
@@ -52,7 +52,7 @@ const TableMenuSelection = ({
     (value: string): FunctionVoid => {
       return () => {
         handleOpenClose();
-        handleChange && handleChange(value);
+        handleChange?.(value);
       };
     },
     [handleChange, handleOpenClose],
@@ -62,13 +62,13 @@ const TableMenuSelection = ({
     <>
       <IconButton
         id="fade-button"
-        aria-controls={Boolean(anchorEl) ? 'fade-menu' : undefined}
+        aria-controls={anchorEl ? 'fade-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+        aria-expanded={anchorEl ? 'true' : undefined}
         onClick={handleOpenClose}
         {...IconProps}
       >
-        {Boolean(anchorEl) ? <ExpandLess /> : <ExpandMore />}
+        {anchorEl ? <ExpandLess /> : <ExpandMore />}
       </IconButton>
       <Menu
         id="fade-menu"
@@ -86,10 +86,10 @@ const TableMenuSelection = ({
           {title ? title : 'Change to'}
         </ListSubheader>
         <Divider />
-        {list.map((item, index) => (
+        {list.map((item) => (
           <MenuItem
             onClick={handleClick(item[itemValue] ?? '')}
-            key={`${item[itemValue]}&${index}`}
+            key={item[itemValue]}
             disabled={item[itemValue] === currentValue}
             {...MenuItemProps}
           >

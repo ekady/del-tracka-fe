@@ -34,6 +34,6 @@ export const convertParams = (params?: IPaginationParams): IPaginationParams => 
 export const convertFilePathToUrl = (path: string): string => {
   if (!path) return '';
 
-  if (path.includes('gravatars')) return path;
+  if (path.includes('http')) return path;
   return `${process.env.NEXT_PUBLIC_API_URL}/${path}`;
 };

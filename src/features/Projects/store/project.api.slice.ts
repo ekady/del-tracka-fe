@@ -28,7 +28,7 @@ const projectTags = [
   'Comments',
 ] as const;
 
-export type ProjectTags = typeof projectTags[number];
+export type ProjectTags = (typeof projectTags)[number];
 
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({

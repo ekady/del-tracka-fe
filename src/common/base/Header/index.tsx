@@ -3,7 +3,7 @@ import { ReactNode, useCallback } from 'react';
 // Next
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 // MUI
 import {
@@ -49,21 +49,19 @@ export interface HeaderProps {
 }
 
 const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
-  const router = useRouter();
+  const pathname = usePathname() || '';
   const theme = useTheme();
-  const { data } = useGetProfileQuery(undefined, { skip: !router.pathname.includes('app') });
+  const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const logout = useLogout();
 
-  const { anchorEl, handleClose, handleMenu, handleSidebar, openSidebar } = useHeaderMenu();
+  const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
 
-  const onLogout = useCallback(async (): Promise<void> => {
-    try {
-      handleClose();
-      logout();
-    } catch {
+  const onLogout = useCallback(() => {
+    handleClose();
+    logout().catch(() => {
       //
-    }
+    });
   }, [handleClose, logout]);
 
   const logInInfo: ReactNode = lgAndUp ? (
@@ -74,7 +72,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
       startIcon={
         data?.data.picture ? (
           <Image
-            src={convertFilePathToUrl(data.data.picture)}
+            src={convertFilePathToUrl(data.data.picture.src)}
             alt="profile"
             height={24}
             width={24}
@@ -112,7 +110,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
 
   return (
     <>
-      <AppBar color="inherit" open={openSidebar} sidebar={usingSidebar}>
+      <AppBar color="inherit" open={sidebarOpen} sidebar={usingSidebar}>
         <Toolbar disableGutters>
           {usingSidebar && (
             <TitleContainer>
@@ -131,7 +129,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
           )}
           <Container maxWidth={false} sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>{menuInfo}</Box>
-            {!!data?.data.email ? (
+            {data?.data.email ? (
               <>
                 {logInInfo}
                 <Menu
@@ -152,7 +150,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                     </MenuItem>
                   </Link>
                   <Divider />
-                  <MenuItem onClick={onLogout}>
+                  <MenuItem onClick={() => onLogout()}>
                     <ListItemIcon>
                       <LogoutIcon fontSize="small" />
                     </ListItemIcon>
@@ -170,7 +168,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
           </Container>
         </Toolbar>
       </AppBar>
-      {showMenu && <SideBar isOpen={openSidebar} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
+      {showMenu && <SideBar isOpen={sidebarOpen} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>
   );
 };

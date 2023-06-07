@@ -16,7 +16,7 @@ const LandingBanner = () => {
           <Typography component="p" gutterBottom sx={{ fontSize: { lg: 44, md: 36, xs: 28 }, mt: { xs: 4, sm: 0 } }}>
             Invite your team and start working together.
           </Typography>
-          <Typography component="p" variant="subtitle2" gutterBottom>
+          <Typography component="p" variant="subtitle2" fontSize={18} gutterBottom>
             Manage and monitor your application issue together with your team member.
           </Typography>
           <Box sx={{ mt: 3 }}>
@@ -29,9 +29,14 @@ const LandingBanner = () => {
         </Box>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Box>
-          <Image src={IconScrumBoard} alt="icon-scrum-board" />
-        </Box>
+        <Image
+          src={IconScrumBoard}
+          alt="icon-scrum-board"
+          width={400}
+          height={400}
+          priority
+          style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+        />
       </Grid>
     </Grid>
   );

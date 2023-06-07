@@ -58,7 +58,7 @@ const ProjectSide = () => {
     [createProject, openDialogSuccess, toggleDialog],
   );
 
-  if (!data?.data || !data?.data.length) {
+  if (!data?.data.length) {
     return (
       <Box sx={{ textAlign: 'center', px: 2 }}>
         <Typography color={grey[600]}>No Project</Typography>

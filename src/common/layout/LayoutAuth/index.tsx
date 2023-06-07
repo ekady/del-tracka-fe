@@ -3,30 +3,37 @@ import { useEffect } from 'react';
 
 // Next
 import Image from 'next/image';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 // MUI Components
 import { Paper, Box, Grid, Container } from '@mui/material';
 
 // Utils
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 // Icons
 import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
 
-const LayoutAuth = ({ children }: IPropsChildren) => {
-  const theme = useTheme();
-  const router = useRouter();
+import theme from '@/theme';
+
+export interface LayoutAuthProps extends IPropsChildren {
+  noRedirect?: boolean;
+}
+
+const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
   const session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    if (session.data?.user.userToken.accessToken) {
-      router.replace('/app/dashboard');
+    if (!noRedirect && session.data?.user.userToken.accessToken) {
+      router.replace('/app/dashboard').catch(() => {
+        //
+      });
     }
-  }, [session, router]);
+  }, [session, noRedirect, router]);
 
   return (
     <ThemeProvider theme={theme}>

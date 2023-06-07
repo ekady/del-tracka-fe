@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
 
 // Next
 import { useRouter } from 'next/router';
@@ -49,7 +49,7 @@ const ProjectFormNewMember = () => {
     if (response && 'data' in response && response.data.data) {
       toast.success('Member added successfully: ' + data.email);
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   useEffect(() => {
     if (fulfilledTimeStamp || isUninitialized) {

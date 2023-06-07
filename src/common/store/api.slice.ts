@@ -1,4 +1,4 @@
-import nextRouter from 'next/router';
+import { redirect } from 'next/navigation';
 
 import { HYDRATE } from 'next-redux-wrapper';
 import { getSession, signOut } from 'next-auth/react';
@@ -7,9 +7,11 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError 
 
 import { Mutex } from 'async-mutex';
 
-import { IApiResponse, ICredential, IUserInfo } from '@/common/types';
+import { IApiResponse, ICredential, IResponseError, IUserInfo, IUserInfoResponse } from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
+import { RedirectType } from 'next/dist/client/components/redirect';
+import { Thumbnail } from '../base/FileUploader/interfaces';
 
 const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
   let accessToken = state.auth.data.ICredential.accessToken;
@@ -31,7 +33,7 @@ const baseQuery = fetchBaseQuery({
       const ICredential = await getTokens(getState() as RootState);
       if (!ICredential) {
         await signOut({ redirect: false });
-        nextRouter.replace('/auth/sign-in');
+        redirect('/auth/sign-in', RedirectType.replace);
       } else if (ICredential?.accessToken) headers.set('Authorization', `Bearer ${ICredential.accessToken}`);
     }
     return headers;
@@ -46,16 +48,18 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 ) => {
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
-  if (result.error && result.error.status === 401) {
+  const isAuthApi = ['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(api.endpoint);
+  if (result.error && result.error.status === 401 && !isAuthApi) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
         const session = await getSession();
         const accessToken = session?.user.userToken.accessToken ?? null;
+        const isUnauthorized = (result.error.data as IResponseError)?.errors?.[0]?.errorType === 'UNAUTHORIZED';
 
-        if (!accessToken || session?.error === 'RefreshAccessTokenError') {
+        if (!accessToken || session?.error === 'RefreshAccessTokenError' || isUnauthorized) {
           await signOut({ redirect: false });
-          nextRouter.replace('/auth/sign-in');
+          redirect('/auth/sign-in', RedirectType.replace);
         } else {
           api.dispatch(setCredential({ accessToken }));
           result = await baseQuery(args, api, extraOptions);
@@ -85,10 +89,21 @@ export const apiSlice = createApi({
     getProfile: builder.query<IApiResponse<IUserInfo>, void>({
       query: () => '/profile',
       providesTags: ['Profile'],
+      transformResponse: (response: IApiResponse<IUserInfoResponse>) => ({
+        ...response,
+        data: {
+          ...response.data,
+          picture: {
+            name: 'profile_picture',
+            size: 0,
+            src: response?.data?.picture ?? null,
+          } as Thumbnail,
+        },
+      }),
     }),
   }),
 });
 
 export const { useGetProfileQuery } = apiSlice;
-export const { resetApiState, getRunningOperationPromises } = apiSlice.util;
+export const { resetApiState } = apiSlice.util;
 export const { getProfile } = apiSlice.endpoints;

@@ -1,5 +1,5 @@
 // React
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 
 // React Hook Form
 import { RegisterOptions, Controller } from 'react-hook-form';
@@ -27,20 +27,26 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
     trigger,
   } = formMethods;
 
-  const validateTargetForm = async (formTarget?: ProfileChangePasswordKey) => {
-    if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
-      await trigger(formTarget);
-    }
-  };
+  const validateTargetForm = useCallback(
+    async (formTarget: ProfileChangePasswordKey) => {
+      if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
+        await trigger(formTarget);
+      }
+    },
+    [getFieldState, trigger],
+  ) as FunctionVoidWithParams<ProfileChangePasswordKey>;
 
-  const onChangeInput = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    onChange: FunctionVoidWithParams<string>,
-    formTarget?: ProfileChangePasswordKey,
-  ) => {
-    onChange(event.target.value);
-    validateTargetForm(formTarget);
-  };
+  const onChangeInput = useCallback(
+    (
+      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      onChange: FunctionVoidWithParams<string>,
+      formTarget: ProfileChangePasswordKey,
+    ) => {
+      onChange(event.target.value);
+      validateTargetForm(formTarget);
+    },
+    [validateTargetForm],
+  );
 
   return (
     <>
@@ -58,7 +64,7 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
               placeholder: !disabled ? 'Enter password' : '',
               type: 'password',
               onChange: (e) => onChangeInput(e, field.onChange, 'password'),
-              onBlur: async () => validateTargetForm('password'),
+              onBlur: () => validateTargetForm('password'),
               disabled,
             }}
           />
@@ -78,7 +84,7 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
               placeholder: !disabled ? 'Enter confirm password' : '',
               type: 'password',
               onChange: (e) => onChangeInput(e, field.onChange, 'passwordConfirm'),
-              onBlur: async () => validateTargetForm('passwordConfirm'),
+              onBlur: () => validateTargetForm('passwordConfirm'),
               disabled,
             }}
           />

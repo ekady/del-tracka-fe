@@ -40,12 +40,16 @@ const ProjectSprintPage = () => {
   const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
 
   useProjectBreadcrumb({
-    '[project_id]': sprintInfo?.data.project?.name || '',
-    '[sprint_id]': sprintInfo?.data.name || '',
+    '[project_id]': sprintInfo?.data.project?.name ?? '',
+    '[sprint_id]': sprintInfo?.data.name ?? '',
   });
 
   useEffect(() => {
-    getTasks({ ids: { idProject, idSprint }, params: tableOption });
+    if (idProject && idSprint) {
+      getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
+        //
+      });
+    }
   }, [getTasks, idProject, idSprint, tableOption]);
 
   return (
@@ -66,11 +70,13 @@ const ProjectSprintPage = () => {
             getRowId: (row: ITaskResponse) => row._id,
             rows: issuesData?.data.data ?? [],
             paginationMode: 'server',
-            rowCount: issuesData?.data.pagination.total || 0,
+            rowCount: issuesData?.data.pagination.total ?? 0,
             loading: isTasksFetching,
             onSortModelChange: onSort,
-            onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
-            onPageChange: (page: number) => onLimitPage('page', page + 1),
+            onPaginationModelChange: (model) => {
+              onLimitPage('limit', model.pageSize);
+              onLimitPage('page', model.page + 1);
+            },
           }}
         />
       </Box>

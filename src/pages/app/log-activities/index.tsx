@@ -25,6 +25,9 @@ import {
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { forceFileDownload } from '@/common/helper/file';
 
+import { FunctionVoid } from '@/common/types';
+import { toast } from 'react-toastify';
+
 const LogsPage = () => {
   const session = useSession();
   const dispatch = useAppDispatch();
@@ -45,12 +48,20 @@ const LogsPage = () => {
 
   const handleGetFile = useCallback(
     async (type: 'pdf' | 'xlsx' = 'pdf') => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/projects/${tableOption.projectId}/activities/${type}`,
-        { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` } },
-      );
-      const blob = await response.blob();
-      if (blob) forceFileDownload(blob, { fileFormat: type, filename: 'Project Activities' });
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/projects/${tableOption.projectId}/activities/${type}`,
+          { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` }, method: 'POST' },
+        );
+        if (!response.ok) {
+          toast.error('Something went wrong. Try again later');
+          return;
+        }
+        const blob = await response.blob();
+        if (blob) forceFileDownload(blob, { fileFormat: type, filename: 'Project Activities' });
+      } catch {
+        //
+      }
     },
     [session.data?.user.userToken.accessToken, tableOption.projectId],
   );
@@ -69,7 +80,7 @@ const LogsPage = () => {
         <Box sx={{ width: '30%' }}>
           <Autocomplete
             id="tags-outlined"
-            options={projectList?.data || []}
+            options={projectList?.data ?? []}
             disableClearable
             getOptionLabel={(val) => val.name}
             onChange={(_, value) => onFilter({ projectId: value?.shortId || '' })}
@@ -85,7 +96,7 @@ const LogsPage = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => handleGetFile('xlsx')}
+            onClick={(() => handleGetFile('xlsx')) as FunctionVoid}
             disabled={!tableOption.projectId}
           >
             Export to Excel
@@ -94,7 +105,7 @@ const LogsPage = () => {
             variant="contained"
             sx={{ background: '#27A03B', color: '#fff', ml: { xs: 0, sm: 1 }, mt: { xs: 1, sm: 0 } }}
             disabled={!tableOption.projectId}
-            onClick={() => handleGetFile('pdf')}
+            onClick={(() => handleGetFile('pdf')) as FunctionVoid}
           >
             Export to PDF
           </Button>
@@ -106,10 +117,12 @@ const LogsPage = () => {
           rows: data?.data.data ?? [],
           paginationMode: 'server',
           pagination: true,
-          rowCount: data?.data.pagination.total || 0,
+          rowCount: data?.data.pagination.total ?? 0,
           loading: isLoading || isFetching,
-          onPageSizeChange: (limit: number) => onLimitPage('limit', limit),
-          onPageChange: (page: number) => onLimitPage('page', page + 1),
+          onPaginationModelChange: (model) => {
+            onLimitPage('limit', model.pageSize);
+            onLimitPage('page', model.page + 1);
+          },
           hideFooterPagination: false,
         }}
       />

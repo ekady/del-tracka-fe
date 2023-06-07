@@ -25,7 +25,7 @@ const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) 
     <Grid
       container
       spacing={2}
-      direction={direction ? direction : 'row'}
+      direction={direction ?? 'row'}
       alignItems="center"
       justifyContent="space-between"
       sx={{ my: 16 }}
@@ -35,10 +35,10 @@ const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) 
         <Grid item xs={10}>
           {featureItems.map((item) => (
             <Box key={item.title} sx={{ mb: 3 }}>
-              <Typography component="h6" variant="h6" align="left">
+              <Typography component="h4" variant="h4" align="left">
                 {item.title}
               </Typography>
-              <Typography component="p" variant="subtitle2" align="left" gutterBottom>
+              <Typography component="p" variant="subtitle2" fontSize={16} align="left" gutterBottom>
                 {item.subtitle}
               </Typography>
             </Box>
@@ -48,7 +48,13 @@ const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) 
       </Grid>
       <Grid item container xs={12} sm={6} direction="row" justifyContent={isRowReverse ? 'flex-start' : 'flex-end'}>
         <Grid item xs={12}>
-          <Image src={icon} alt="illustration" />
+          <Image
+            src={icon}
+            alt="illustration"
+            width={400}
+            height={400}
+            style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+          />
         </Grid>
       </Grid>
     </Grid>

@@ -8,7 +8,7 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
     createUpdateSprint: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectRequest>>(
       {
         query: ({ id, body }) => {
-          const stageId = body.id || '';
+          const stageId = body.id ?? '';
           return {
             url: `/projects/${id}/stages/${stageId}`,
             method: stageId ? 'put' : 'post',

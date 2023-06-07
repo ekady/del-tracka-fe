@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -18,7 +18,7 @@ import { BaseDialogAlert, DataTable, TableAction, TableCellLevel, TableCellStatu
 import ProjectTaskChangeStatus from './ProjectTaskChangeStatus';
 
 // Types
-import { ITableAndSearchProps } from '@/common/types';
+import { FunctionVoid, FunctionVoidWithParams, ITableAndSearchProps } from '@/common/types';
 import { ITaskResponse } from '@/features/projects/interfaces';
 import { LevelType } from '@/common/constants/level';
 import { StatusType } from '@/common/constants/status';
@@ -84,18 +84,30 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
     (item: ITaskResponse) => {
       openDialogWarning('Confirmation', 'Are you sure you want to delete this task?', {
         type: 'warning',
-        handleOk: () => handleDeleteTask(item),
+        handleOk: (() => handleDeleteTask(item)) as FunctionVoid,
         handleCancel: closeDialogAlert,
       });
     },
     [closeDialogAlert, handleDeleteTask, openDialogWarning],
   );
 
+  const redirectTaskEditDetail = useCallback(
+    async (task: ITaskResponse, isEdit = false) => {
+      await router.push(
+        `/app/projects/${task.project?.shortId}/${task.stage?.shortId}/${task.shortId}${isEdit ? '/edit' : ''}`,
+      );
+    },
+    [router],
+  ) as (task: ITaskResponse, isEdit: boolean) => void;
+
   const renderCellStatus = useCallback(
-    (params: GridRenderCellParams<string, ITaskResponse, string>) => (
+    (params: GridRenderCellParams<ITaskResponse, string>) => (
       <TableCellStatus
         SelectOption={
-          <ProjectTaskChangeStatus currentStatus={params.value ?? ''} handleChange={handleChangeStatus(params.row)} />
+          <ProjectTaskChangeStatus
+            currentStatus={params.value ?? ''}
+            handleChange={handleChangeStatus(params.row) as FunctionVoidWithParams<string>}
+          />
         }
         status={params.value as StatusType}
       />
@@ -104,12 +116,12 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
   );
 
   const renderCellLevel = useCallback(
-    (params: GridRenderCellParams<string>) => <TableCellLevel level={params.value as LevelType} />,
+    (params: GridRenderCellParams<ITaskResponse>) => <TableCellLevel level={params.value as LevelType} />,
     [],
   );
 
   const renderCellAction = useCallback(
-    ({ row }: GridRenderCellParams<string, ITaskResponse, string>) => (
+    ({ row }: GridRenderCellParams<ITaskResponse, string>) => (
       <TableAction
         hideDelete={
           projectData?.data.rolePermissions.TASK.delete === false ||
@@ -122,10 +134,8 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
         hideView={
           projectData?.data.rolePermissions.TASK.read === false || (row?.permissions && row?.permissions.read === false)
         }
-        handleView={() => router.push(`/app/projects/${row.project?.shortId}/${row.stage?.shortId}/${row.shortId}`)}
-        handleEdit={() =>
-          router.push(`/app/projects/${row.project?.shortId}/${row.stage?.shortId}/${row.shortId}/edit`)
-        }
+        handleView={() => redirectTaskEditDetail(row, false)}
+        handleEdit={() => redirectTaskEditDetail(row, true)}
         handleDelete={() => openDialogDeleteWarning(row)}
       />
     ),
@@ -134,34 +144,37 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
       projectData?.data.rolePermissions.TASK.delete,
       projectData?.data.rolePermissions.TASK.read,
       projectData?.data.rolePermissions.TASK.update,
-      router,
+      redirectTaskEditDetail,
     ],
   );
 
-  const tableHeaders: GridColDef<ITaskResponse, string>[] = [
-    { headerName: 'Main Problem', field: 'title', width: 300 },
-    { headerName: 'Feature', field: 'feature', width: 200 },
-    { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
-    {
-      headerName: 'Date Updated',
-      field: 'updatedAt',
-      width: 200,
-      valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
-    },
-    {
-      headerName: 'Reporter',
-      field: 'reporter',
-      valueGetter: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
-      width: 200,
-    },
-    {
-      headerName: 'Assignee',
-      field: 'assignee',
-      valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
-    },
-    { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-    { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
-  ];
+  const tableHeaders: GridColDef<ITaskResponse, string>[] = useMemo<GridColDef<ITaskResponse, string>[]>(
+    () => [
+      { headerName: 'Main Problem', field: 'title', width: 300 },
+      { headerName: 'Feature', field: 'feature', width: 200 },
+      { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
+      {
+        headerName: 'Date Updated',
+        field: 'updatedAt',
+        width: 200,
+        valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
+      },
+      {
+        headerName: 'Reporter',
+        field: 'reporter',
+        valueGetter: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
+        width: 200,
+      },
+      {
+        headerName: 'Assignee',
+        field: 'assignee',
+        valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
+      },
+      { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
+      { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
+    ],
+    [renderCellAction, renderCellLevel, renderCellStatus],
+  );
 
   const buttonAddTask = (
     <Link href={`${router.asPath}/new`} passHref>

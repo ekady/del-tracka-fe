@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { BaseSyntheticEvent, useCallback, useEffect } from 'react';
 
 // Local Components
 import { BaseDialog } from '@/common/base';
@@ -77,17 +77,17 @@ const ProjectDialogNew = ({
     } catch (error) {
       //
     }
-  });
+  }) as (e?: BaseSyntheticEvent) => void;
 
   const handleClickCancel = useCallback(() => {
     if (!loading) {
-      handleCancel && handleCancel();
+      handleCancel?.();
       resetForm();
     }
   }, [handleCancel, loading, resetForm]);
 
   const propsBaseDialog = {
-    titleDialog: `${isEdit || defaultValues?.id ? 'Edit' : 'Create'} ${title || 'Project'}`,
+    titleDialog: `${isEdit || defaultValues?.id ? 'Edit' : 'Create'} ${title ?? 'Project'}`,
     isOpen: !!isOpen,
     handleCancel: () => handleClickCancel(),
     handleOk: handleClickOk,

@@ -1,11 +1,18 @@
 import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
+import { Thumbnail } from '../base/FileUploader/interfaces';
 
 export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
 export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
 export type FunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
+
+export interface IResponseError {
+  data?: null;
+  errors: { errorType: string; message: string }[];
+  statusCode: number;
+}
 
 export interface IInformationWithColor {
   value: string | number;
@@ -40,8 +47,16 @@ export interface IUserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
+  picture?: Thumbnail | null;
+  _id: string;
+}
+
+export interface IUserInfoResponse {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
   picture?: string | null;
-  _id: string | null;
+  _id: string;
 }
 
 export interface ICredential {

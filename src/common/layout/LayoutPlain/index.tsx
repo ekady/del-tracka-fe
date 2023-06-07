@@ -5,16 +5,16 @@ import Image from 'next/image';
 import { Box, Grid, Container } from '@mui/material';
 
 // Utils
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 // Icons
 import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
 
-const LayoutPlain = ({ children }: IPropsChildren) => {
-  const theme = useTheme();
+import theme from '@/theme';
 
+const LayoutPlain = ({ children }: IPropsChildren) => {
   return (
     <ThemeProvider theme={theme}>
       <Grid component="main" sx={{ height: '100%', width: '100%' }}>

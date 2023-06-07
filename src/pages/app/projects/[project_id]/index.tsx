@@ -1,5 +1,5 @@
 // React
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -19,17 +19,23 @@ import {
 
 import STATUS from '@/common/constants/status';
 
+import { useAppDispatch } from '@/common/store';
 import useProjectId from '@/features/projects/hooks/useProjectId';
-import { useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
+import { invalidateTags, useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
 import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 const ProjecOverviewDetailPage = () => {
+  const dispatch = useAppDispatch();
   const { data, projectId } = useProjectId();
   const { data: projectStat } = useGetProjectStatsQuery(projectId ?? skipToken);
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
 
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name || '' });
+  useEffect(() => {
+    dispatch(invalidateTags(['ProjectStats']));
+  }, [dispatch]);
+
+  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
 
   return (
     <>

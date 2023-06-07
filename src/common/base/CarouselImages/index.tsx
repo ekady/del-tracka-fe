@@ -28,7 +28,7 @@ export interface CarouselImagesProps {
 
 const CarouselImages = ({
   images,
-  thumbsHeight = CarouselSize.DefaultThumbsHeight,
+  thumbsHeight = CarouselSize.DefaultThumbsWidth,
   thumbsWidth = CarouselSize.DefaultThumbsWidth,
   imageHeight = CarouselSize.DefaultImageHeight,
   imageWidth = CarouselSize.DefaultImageWidth,
