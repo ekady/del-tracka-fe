@@ -19,7 +19,7 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 import { emailValidation } from '@/common/helper';
 
 // Store
-import { getSession, signIn } from 'next-auth/react';
+import { SignInResponse, getSession, signIn } from 'next-auth/react';
 import { LoginRequest } from '@/features/auth/interfaces';
 import { useAppDispatch } from '@/common/store';
 import { setCredential } from '@/features/auth/store/auth.slice';
@@ -47,14 +47,22 @@ const SignIn = () => {
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
     const redirect = router.query?.callbackUrl?.toString() ?? '/app/dashboard';
-    const response = await signIn('credentials', { email: data.email, password: data.password, redirect: false });
+    const response: SignInResponse | undefined = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
     const session = await getSession();
     if (response?.ok && session) {
       dispatch(setCredential(session.user.userToken));
       router.replace(redirect).catch(() => {
         //
       });
-    } else toast.error('Invalid email or password');
+    } else {
+      const errorMessage =
+        response?.error === 'TOO_MANY_REQUESTS' ? 'Too many requests. Try again later' : 'Invalid email or password';
+      toast.error(errorMessage);
+    }
     setLoading(false);
   }) as (e?: BaseSyntheticEvent) => void;
 

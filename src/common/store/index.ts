@@ -15,7 +15,9 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
     if (isRejectedWithValue(action)) {
       const errorMessage = action.payload.data?.errors?.[0].message ?? action.error.message;
       const errorType = action.payload.data?.errors?.[0].errorType ?? 'ERROR';
-      if (errorType !== 'ACCESS_TOKEN_EXPIRED') toast.error(errorMessage);
+
+      if (errorType === 'TOO_MANY_REQUESTS') toast.error('Too many requests. Try again later');
+      else if (errorType !== 'ACCESS_TOKEN_EXPIRED') toast.error(errorMessage);
     }
   }
   return next(action);

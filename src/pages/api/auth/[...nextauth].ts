@@ -1,6 +1,6 @@
-import { ICredential } from '@/common/types';
+import { ICredential, IResponseError } from '@/common/types';
 import { ContinueWithProviderRequest, LoginRequest } from '@/features/auth/interfaces';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { CallbacksOptions } from 'next-auth';
@@ -50,11 +50,18 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         jwtToken: { type: 'text' },
       },
       async authorize(credentials) {
-        const res = await requestSignIn(credentials);
-        const user = res.data;
+        try {
+          const res = await requestSignIn(credentials);
+          const user = res.data;
 
-        if (user && user.statusCode === 200) return user;
-        return null;
+          if (user && user.statusCode === 200) return user;
+          return null;
+        } catch (err) {
+          const error = err as AxiosError<IResponseError>;
+          const { errors } = error.response?.data ?? {};
+          const errorType = errors?.[0].errorType ?? 'CredentialsError';
+          throw new Error(errorType);
+        }
       },
     }),
   ];
