@@ -86,7 +86,7 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
           <Toolbar disableGutters>
             <Container>
               <Typography sx={{ flexGrow: 1 }}>
-                <Image src={IconLogo} width={70} alt="logo" />
+                <Image src={IconLogo} width={70} alt="logo" priority />
               </Typography>
             </Container>
           </Toolbar>

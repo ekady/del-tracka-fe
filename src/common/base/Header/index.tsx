@@ -99,12 +99,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
         <Breadcrumb />
       </Box>
     ) : (
-      <Image src={IconLogo} width={70} alt="logo" />
+      <Image src={IconLogo} width={70} alt="logo" priority />
     );
 
   const logo: ReactNode = lgAndUp && (
     <LogoContainer>
-      <Image src={IconLogo} width={70} alt="logo" />
+      <Image src={IconLogo} width={70} alt="logo" priority />
     </LogoContainer>
   );
 

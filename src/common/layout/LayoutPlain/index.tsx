@@ -22,7 +22,7 @@ const LayoutPlain = ({ children }: IPropsChildren) => {
           sx={{ my: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', width: '100%' }}
         >
           <Box sx={{ mb: 1 }}>
-            <Image src={IconLogo} alt="logo" width={70} />
+            <Image src={IconLogo} alt="logo" width={70} priority />
           </Box>
 
           <Container

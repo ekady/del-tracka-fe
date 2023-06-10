@@ -59,7 +59,7 @@ const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
         >
           <Box sx={{ my: 3, mx: { xs: 4, lg: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box sx={{ mb: 1 }}>
-              <Image src={IconLogo} alt="logo" width={70} />
+              <Image src={IconLogo} alt="logo" width={70} priority />
             </Box>
             <Container maxWidth={false}>{children}</Container>
           </Box>
