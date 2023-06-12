@@ -141,6 +141,7 @@ export interface IProjectSprintTaskDetail {
   project?: IProject;
   stage?: ISprint;
   name?: string;
+  shortId?: string;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {

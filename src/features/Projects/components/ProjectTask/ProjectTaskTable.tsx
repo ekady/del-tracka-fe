@@ -4,11 +4,11 @@ import { useCallback, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 
 // MUI Components
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // MUI Icons
-import { AddCircleOutlined } from '@mui/icons-material';
+import { AddCircleOutlined, ContentCopy } from '@mui/icons-material';
 
 // Toast
 import { toast } from 'react-toastify';
@@ -29,6 +29,7 @@ import { useAppDispatch } from '@/common/store';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useDeleteTaskMutation, useUpdateStatusTaskMutation } from '@/features/projects/store/task.api.slice';
 import useProjectId from '@/features/projects/hooks/useProjectId';
+import { copyToClipboard } from '@/common/helper';
 
 const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
   const dispatch = useAppDispatch();
@@ -148,8 +149,22 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
     ],
   );
 
+  const renderCellTaskId = useCallback(
+    ({ row }: GridRenderCellParams<ITaskResponse, string>) => (
+      <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+        <Typography>{`#${row.shortId}`}</Typography>
+        <IconButton id="demo-positioned-button" aria-haspopup="true" onClick={() => copyToClipboard(`#${row.shortId}`)}>
+          <ContentCopy />
+        </IconButton>
+      </Box>
+    ),
+    [],
+  );
+
   const tableHeaders: GridColDef<ITaskResponse, string>[] = useMemo<GridColDef<ITaskResponse, string>[]>(
     () => [
+      { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
+      { headerName: 'Task Id', field: 'shortId', sortable: false, width: 170, renderCell: renderCellTaskId },
       { headerName: 'Main Problem', field: 'title', width: 300 },
       { headerName: 'Feature', field: 'feature', width: 200 },
       { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
@@ -171,9 +186,8 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
         valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
       },
       { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-      { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
     ],
-    [renderCellAction, renderCellLevel, renderCellStatus],
+    [renderCellAction, renderCellLevel, renderCellStatus, renderCellTaskId],
   );
 
   const buttonAddTask = (

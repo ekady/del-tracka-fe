@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // MUI Components
-import { Box, Button, ButtonGroup, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, IconButton, Typography } from '@mui/material';
+import { ContentCopy } from '@mui/icons-material';
 
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -21,6 +22,8 @@ import { invalidateTags } from '../store/project.api.slice';
 
 import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { FunctionVoid } from '@/common/types';
+
+import { copyToClipboard } from '@/common/helper';
 
 // Create : Only Form that contain upload image
 // View: Disabled form, contain form without upload image, media, comments, logs
@@ -108,6 +111,22 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
       )}
 
       <Box height={40} />
+
+      {!isCreate && (
+        <Box marginBottom={3}>
+          <Typography fontWeight="bold">Task Id</Typography>
+          <Box display="flex" alignItems="center" justifyContent="flex-start" gap={4}>
+            <Typography>#{task?.data?.shortId ?? '-'}</Typography>
+            <IconButton
+              id="demo-positioned-button"
+              aria-haspopup="true"
+              onClick={() => copyToClipboard(`#${task?.data?.shortId ?? ''}`)}
+            >
+              <ContentCopy />
+            </IconButton>
+          </Box>
+        </Box>
+      )}
 
       {tab === 'form' && (
         <ProjectTaskForm hideUploadFile={isDetail} disabled={isDetail} data={task.data} hideActions={isDetail} />

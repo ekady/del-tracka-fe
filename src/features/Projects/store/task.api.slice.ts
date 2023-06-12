@@ -46,6 +46,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           project: response.data.project,
           stage: response.data.stage,
           name: response.data?.name,
+          shortId: response.data.shortId,
         };
       },
       providesTags: ['Task'],
