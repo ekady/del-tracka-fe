@@ -12,8 +12,8 @@ const initialState: IPaginationParams = {
 
 export type TSearchDebounce = (event: ChangeEvent<HTMLInputElement>) => void;
 
-export const useTableChange = () => {
-  const [tableOption, setTableOption] = useState<IPaginationParams>(initialState);
+export const useTableChange = (initialParams: IPaginationParams = {}) => {
+  const [tableOption, setTableOption] = useState<IPaginationParams>({ ...initialState, ...initialParams });
 
   const onSearch: Cancelable & TSearchDebounce = debounce<TSearchDebounce>((event) => {
     const search = event?.target?.value ? { search: event?.target?.value } : { search: '' };

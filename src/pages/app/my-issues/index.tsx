@@ -16,7 +16,7 @@ import { ProjectTaskTable } from '@/features/projects/components';
 
 const MyTasksPage = () => {
   const [getTasks, { data, isFetching, isLoading }] = useLazyGetMyTasksQuery();
-  const { onFilter, onSearch, onSort, tableOption, onLimitPage } = useTableChange();
+  const { onFilter, onSearch, onSort, tableOption, onLimitPage } = useTableChange({ sortBy: 'updatedAt|-1' });
 
   useEffect(() => {
     getTasks(tableOption).catch(() => {

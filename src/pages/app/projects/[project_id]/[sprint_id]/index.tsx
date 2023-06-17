@@ -33,7 +33,7 @@ const ProjectSprintPage = () => {
   const idProject = router.query?.project_id as string;
   const idSprint = router.query?.sprint_id as string;
 
-  const { onFilter, onLimitPage, onSearch, onSort, tableOption } = useTableChange();
+  const { onFilter, onLimitPage, onSearch, onSort, tableOption } = useTableChange({ sortBy: 'updatedAt|-1' });
   const { data: sprintInfo, isFetching: isSprintInfoFetching } = useGetSprintQuery(
     idProject && idSprint ? { idProject, idSprint } : skipToken,
   );
