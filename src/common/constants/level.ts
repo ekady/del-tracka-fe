@@ -1,6 +1,6 @@
 import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
-export type LevelType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+export type LevelType = 'CRITICAL' | 'HIGH' | 'NORMAL' | 'LOW';
 
 export type LevelIndexable = {
   [key in LevelType]: IInformationWithColor;
@@ -19,11 +19,11 @@ const LEVEL: LevelIndexable = {
     name: 'High',
     value: 'HIGH',
   },
-  MEDIUM: {
+  NORMAL: {
     color: '#FFF9C3',
     textColor: '#000',
-    name: 'Medium',
-    value: 'MEDIUM',
+    name: 'Normal',
+    value: 'NORMAL',
   },
   LOW: {
     color: '#FFF',
