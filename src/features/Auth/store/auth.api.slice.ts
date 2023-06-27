@@ -38,10 +38,23 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'post',
       }),
     }),
+    registerDeviceId: builder.mutation<IApiResponse<IStatusMessageResponse>, { deviceId: string }>({
+      query: ({ deviceId }) => ({
+        url: '/user/device',
+        method: 'post',
+        body: { deviceId },
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation, useLogoutMutation, useForgotPasswordMutation, useResetPasswordMutation } =
-  authApiSlice;
+export const {
+  useSignupMutation,
+  useLogoutMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useRegisterDeviceIdMutation,
+} = authApiSlice;
 
-export const { forgotPassword, logout, resetPassword, signup, verifyResetToken } = authApiSlice.endpoints;
+export const { forgotPassword, logout, resetPassword, signup, verifyResetToken, registerDeviceId } =
+  authApiSlice.endpoints;
