@@ -37,6 +37,7 @@ import useHeaderMenu from './useHeaderMenu';
 import { useGetProfileQuery } from '@/common/store/api.slice';
 import { convertFilePathToUrl } from '@/common/helper/convert';
 import { useLogout } from '@/common/hooks/useLogout';
+import NotificationMenu from '@/features/notifications/components/NotificationMenu';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -65,32 +66,38 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   }, [handleClose, logout]);
 
   const logInInfo: ReactNode = lgAndUp ? (
-    <Button
-      color="inherit"
-      onClick={handleMenu}
-      variant="text"
-      startIcon={
-        data?.data.picture ? (
-          <Image
-            src={convertFilePathToUrl(data.data.picture.src)}
-            alt="profile"
-            height={24}
-            width={24}
-            style={{ borderRadius: '50%' }}
-          />
-        ) : (
-          <AccountCircle />
-        )
-      }
-    >
-      <Text sx={{ flexGrow: 1, ml: 1 }}>
-        {data?.data.firstName} {data?.data.lastName}
-      </Text>
-    </Button>
+    <Box display="flex" alignItems="center" gap={2}>
+      <NotificationMenu />
+      <Button
+        color="inherit"
+        onClick={handleMenu}
+        variant="text"
+        startIcon={
+          data?.data.picture ? (
+            <Image
+              src={convertFilePathToUrl(data.data.picture.src)}
+              alt="profile"
+              height={24}
+              width={24}
+              style={{ borderRadius: '50%' }}
+            />
+          ) : (
+            <AccountCircle />
+          )
+        }
+      >
+        <Text sx={{ flexGrow: 1, ml: 1 }}>
+          {data?.data.firstName} {data?.data.lastName}
+        </Text>
+      </Button>
+    </Box>
   ) : (
-    <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
-      <AccountCircle />
-    </IconButton>
+    <Box display="flex" alignItems="center" gap={2}>
+      <NotificationMenu />
+      <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
+        <AccountCircle />
+      </IconButton>
+    </Box>
   );
 
   const menuInfo: ReactNode =
