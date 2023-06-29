@@ -1,24 +1,30 @@
 // Components
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography, useTheme } from '@mui/material';
 
 // Next Components
 import Link from 'next/link';
 
 const LandingCTA = () => {
+  const theme = useTheme();
   return (
-    <Box
+    <Paper
+      elevation={0}
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         height: 220,
-        backgroundColor: '#ebebeb',
+        backgroundColor: theme.palette.primary.dark,
         mb: 20,
         mt: 24,
       }}
     >
-      <Typography component="h5" variant="h5" sx={{ textAlign: 'center' }}>
+      <Typography
+        component="h5"
+        variant="h5"
+        sx={{ textAlign: 'center', color: theme.palette.getContrastText(theme.palette.primary.dark) }}
+      >
         SIGN IN &amp; START WORKING NOW
       </Typography>
       <Box sx={{ mt: 3 }}>
@@ -28,7 +34,7 @@ const LandingCTA = () => {
           </Button>
         </Link>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

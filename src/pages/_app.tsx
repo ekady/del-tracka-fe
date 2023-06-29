@@ -16,10 +16,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 // Utils
-import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
 
@@ -32,6 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Charts
 import 'chart.js/auto';
+import { LayoutTheme } from '@/common/layout';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -59,24 +58,24 @@ export default function MyApp(props: AppPropsWithLayout) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Provider store={store}>
+      <Provider store={store}>
+        <LayoutTheme>
+          <CssBaseline />
           <PersistGate persistor={persistor}>
             <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
           </PersistGate>
-        </Provider>
-        <ToastContainer
-          position="top-center"
-          autoClose={8000}
-          newestOnTop
-          closeOnClick
-          hideProgressBar
-          closeButton={false}
-          pauseOnFocusLoss={false}
-          theme="colored"
-        />
-      </ThemeProvider>
+          <ToastContainer
+            position="top-center"
+            autoClose={8000}
+            newestOnTop
+            closeOnClick
+            hideProgressBar
+            closeButton={false}
+            pauseOnFocusLoss={false}
+            theme="colored"
+          />
+        </LayoutTheme>
+      </Provider>
     </CacheProvider>
   );
 }

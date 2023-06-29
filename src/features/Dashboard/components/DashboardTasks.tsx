@@ -51,7 +51,7 @@ const DashboardTasks = () => {
           doughnut: { backgroundColor: isAllZero ? labelGrey : labelColors, hoverOffset: 4 },
         },
         plugins: {
-          legend: { position: mdAndDown ? 'bottom' : 'right' },
+          legend: { position: mdAndDown ? 'bottom' : 'right', labels: { color: theme.palette.text.primary } },
           tooltip: {
             callbacks: {
               label: (context) => {
@@ -64,7 +64,7 @@ const DashboardTasks = () => {
         },
       };
     },
-    [mdAndDown],
+    [mdAndDown, theme.palette.text.primary],
   );
 
   return (
@@ -74,6 +74,7 @@ const DashboardTasks = () => {
           <TypographyTasks>All Tasks</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
+              redraw
               data={{
                 labels: Object.keys(dataTotal?.data ?? {}).map((key) => STATUS[key as StatusType].name),
                 datasets: [
@@ -94,6 +95,7 @@ const DashboardTasks = () => {
           <TypographyTasks>Tasks Assign to You</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
+              redraw
               data={{
                 labels: Object.keys(dataUser?.data ?? {}).map((key) => STATUS[key as StatusType].name),
                 datasets: [

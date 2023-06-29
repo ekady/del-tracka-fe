@@ -10,3 +10,4 @@ export const selectUserImage = (state: RootState) => selectUser(state)?.picture 
 
 export const selectCustomBreadcrumb = (state: RootState) => state.general.customBreadcrumb ?? {};
 export const selectSidebarOpen = (state: RootState) => state.general.sidebarOpen ?? false;
+export const selectColorTheme = (state: RootState) => state.general.colorTheme ?? 'light';

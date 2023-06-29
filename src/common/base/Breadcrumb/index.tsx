@@ -11,9 +11,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // MUI Icons
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-// MUI Colors
-import { grey } from '@mui/material/colors';
-
 // Custom Hook
 import useBreadcrumbs from './useBreadcrumbs';
 
@@ -33,7 +30,7 @@ const Breadcrumb = () => {
           breadcrumbs.map((breadcrumb, index) => {
             if (index === breadcrumbs.length - 1) {
               return (
-                <Typography sx={{ textTransform: 'capitalize', fontSize: 9 }} color={grey[600]} key={breadcrumb.href}>
+                <Typography sx={{ textTransform: 'capitalize', fontSize: 9 }} key={breadcrumb.href}>
                   {breadcrumb.breadcrumb}
                 </Typography>
               );

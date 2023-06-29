@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Alert, Box, Button, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, Divider, Typography, useTheme } from '@mui/material';
 
 // Local Components
 import { LayoutAuth } from '@/common/layout';
@@ -32,6 +32,7 @@ const validation = {
 };
 
 const SignIn = () => {
+  const theme = useTheme();
   const {
     handleSubmit,
     formState: { errors },
@@ -51,7 +52,7 @@ const SignIn = () => {
       <Typography component="div" variant="h6">
         Forgot Password
       </Typography>
-      <Typography component="div" variant="caption" color="GrayText" sx={{ mt: 1 }}>
+      <Typography component="div" variant="caption" color={theme.palette.text.secondary} sx={{ mt: 1 }}>
         Please enter your email so we can send instruction for reset password to your email
       </Typography>
 

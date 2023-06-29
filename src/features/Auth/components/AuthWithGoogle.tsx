@@ -7,7 +7,7 @@ import { signIn } from 'next-auth/react';
 
 import { toast } from 'react-toastify';
 
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import { IconGoogle } from '@/common/icons';
 import { FunctionVoid } from '@/common/types';
 
@@ -24,13 +24,15 @@ const AuthWithGoogle = ({ disabled }: AuthWithGoogleProps) => {
     }
   }, []);
 
+  const theme = useTheme();
+
   return (
     <Button
       onClick={onGoogleLogin as FunctionVoid}
       disabled={disabled}
       fullWidth
       variant="outlined"
-      sx={{ textTransform: 'capitalize', borderColor: '#dbdbdb', color: 'black' }}
+      sx={{ textTransform: 'capitalize', borderColor: '#dbdbdb', color: theme.palette.text.primary }}
     >
       <Image src={IconGoogle} alt="logo" height={25} />
       Continue With Google

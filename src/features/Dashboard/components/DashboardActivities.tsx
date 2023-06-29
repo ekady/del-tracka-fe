@@ -13,6 +13,7 @@ import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
 import { useGetUserActivitiesQuery } from '../store/dashboard.api.slice';
+import { useMemo } from 'react';
 
 const baseCardStyle: BaseCardProps = { sx: { height: 400 } };
 
@@ -33,21 +34,24 @@ const DashboardActivities = () => {
     ],
   };
 
-  const optionsChart: ChartOptions<'line'> = {
-    maintainAspectRatio: false,
-    datasets: {
-      line: {
-        backgroundColor: theme.palette.primary.main,
+  const optionsChart: ChartOptions<'line'> = useMemo(
+    () => ({
+      maintainAspectRatio: false,
+      datasets: {
+        line: {
+          backgroundColor: theme.palette.primary.main,
+        },
       },
-    },
-    plugins: {
-      legend: { position: 'bottom' },
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { display: false } },
-    },
-  };
+      plugins: {
+        legend: { position: 'bottom', labels: { color: theme.palette.text.primary } },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: theme.palette.text.primary } },
+        y: { grid: { display: false }, ticks: { color: theme.palette.text.primary } },
+      },
+    }),
+    [theme.palette.primary.main, theme.palette.text.primary],
+  );
 
   return (
     <Grid container spacing={3} columns={12}>
@@ -55,7 +59,7 @@ const DashboardActivities = () => {
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <TypographyActivities>Your Activities</TypographyActivities>
           <Box sx={{ height: 330, width: '97%' }}>
-            <Line data={chartData} options={optionsChart} />
+            <Line redraw data={chartData} options={optionsChart} />
           </Box>
         </BaseCard>
       </Grid>

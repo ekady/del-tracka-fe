@@ -9,15 +9,10 @@ import { useSession } from 'next-auth/react';
 // MUI Components
 import { Paper, Box, Grid, Container } from '@mui/material';
 
-// Utils
-import { ThemeProvider } from '@mui/material/styles';
-
 // Icons
 import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
-
-import theme from '@/theme';
 
 export interface LayoutAuthProps extends IPropsChildren {
   noRedirect?: boolean;
@@ -36,36 +31,37 @@ const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
   }, [session, noRedirect, router]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <Grid
+      component="main"
+      sx={{ display: 'flex', minHeight: '100vh', py: 4 }}
+      alignItems={{ xs: 'start', md: 'center' }}
+      justifyContent="center"
+    >
       <Grid
-        component="main"
-        sx={{ display: 'flex', minHeight: '100vh', py: 4 }}
-        alignItems={{ xs: 'start', md: 'center' }}
+        item
+        xs={11}
+        sm={6}
+        md={5}
+        xl={4}
+        maxWidth={500}
+        component={Paper}
+        elevation={6}
+        alignItems="center"
         justifyContent="center"
+        square
+        sx={{ py: 5, height: '100%', display: 'flex', width: { xs: '90%', sm: '500px' } }}
       >
-        <Grid
-          item
-          xs={11}
-          sm={6}
-          md={5}
-          xl={4}
-          maxWidth={500}
-          component={Paper}
-          elevation={6}
-          alignItems="center"
-          justifyContent="center"
-          square
-          sx={{ py: 5, height: '100%', display: 'flex' }}
+        <Box
+          width="100%"
+          sx={{ my: 3, mx: { xs: 4, lg: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
         >
-          <Box sx={{ my: 3, mx: { xs: 4, lg: 8 }, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Box sx={{ mb: 1 }}>
-              <Image src={IconLogo} alt="logo" width={70} priority />
-            </Box>
-            <Container maxWidth={false}>{children}</Container>
+          <Box mb={1}>
+            <Image src={IconLogo} alt="logo" width={70} priority />
           </Box>
-        </Grid>
+          <Container maxWidth={false}>{children}</Container>
+        </Box>
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
 };
 

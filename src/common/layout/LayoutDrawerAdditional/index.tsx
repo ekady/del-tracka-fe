@@ -2,12 +2,10 @@
 import { ReactNode } from 'react';
 
 // MUI Components
-import { Box, Breakpoint, Drawer, PaperProps, useMediaQuery } from '@mui/material';
+import { Box, Breakpoint, Drawer, PaperProps, useMediaQuery, useTheme } from '@mui/material';
 
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
-
-import theme from '@/theme';
 
 export interface LayoutDefaultWithDrawerProps {
   menuList: ReactNode;
@@ -27,6 +25,7 @@ const LayoutDrawerAdditional = ({
   mediaQueryForShow,
   isMenu,
 }: LayoutDefaultWithDrawerProps) => {
+  const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const showQuery = useMediaQuery(theme.breakpoints.up(mediaQueryForShow ?? 'lg'));
   const hideMenuQuery = hideMenu && !showQuery;
