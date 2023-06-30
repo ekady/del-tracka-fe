@@ -22,7 +22,14 @@ import {
   useTheme,
 } from '@mui/material';
 
-import { Menu as MenuIcon, AccountCircle, Logout as LogoutIcon, Settings } from '@mui/icons-material';
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  Logout as LogoutIcon,
+  Settings,
+  DarkMode,
+  LightMode,
+} from '@mui/icons-material';
 
 // Local Components
 import Breadcrumb from '../Breadcrumb';
@@ -38,6 +45,9 @@ import { useGetProfileQuery } from '@/common/store/api.slice';
 import { convertFilePathToUrl } from '@/common/helper/convert';
 import { useLogout } from '@/common/hooks/useLogout';
 import NotificationMenu from '@/features/notifications/components/NotificationMenu';
+import { useAppDispatch, useAppSelector } from '@/common/store';
+import { selectColorTheme } from '@/common/store/selector';
+import { setColorTheme } from '@/common/store/general.slice';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -50,13 +60,21 @@ export interface HeaderProps {
 }
 
 const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
+  const dispatch = useAppDispatch();
   const pathname = usePathname() || '';
   const theme = useTheme();
   const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
+  const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
+
+  const changeColorTheme = useCallback(() => {
+    const changeTo = colorTheme === 'dark' ? 'light' : 'dark';
+    dispatch(setColorTheme(changeTo));
+    handleClose();
+  }, [colorTheme, dispatch, handleClose]);
 
   const onLogout = useCallback(() => {
     handleClose();
@@ -95,7 +113,17 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
     <Box display="flex" alignItems="center" gap={2}>
       <NotificationMenu />
       <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
-        <AccountCircle />
+        {data?.data.picture ? (
+          <Image
+            src={convertFilePathToUrl(data.data.picture.src)}
+            alt="profile"
+            height={24}
+            width={24}
+            style={{ borderRadius: '50%' }}
+          />
+        ) : (
+          <AccountCircle />
+        )}
       </IconButton>
     </Box>
   );
@@ -156,6 +184,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                       <ListItemText>Settings</ListItemText>
                     </MenuItem>
                   </Link>
+                  <MenuItem onClick={changeColorTheme}>
+                    <ListItemIcon>
+                      {colorTheme === 'light' ? <DarkMode fontSize="small" /> : <LightMode fontSize="small" />}
+                    </ListItemIcon>
+                    <ListItemText>{colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</ListItemText>
+                  </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => onLogout()}>
                     <ListItemIcon>

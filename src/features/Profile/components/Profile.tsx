@@ -115,7 +115,7 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
           {isChangePassword ? (
             <>
               <Box sx={{ my: 2 }}>
-                <Typography align="center" component="span" variant="subtitle2" sx={{ color: 'black' }}>
+                <Typography align="center" component="span" variant="subtitle2">
                   Change Password
                 </Typography>
                 <Button color="primary" variant="outlined" onClick={onClickChangePassword} size="small" sx={{ ml: 2 }}>

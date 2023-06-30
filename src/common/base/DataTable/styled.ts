@@ -3,7 +3,7 @@ import { ElementType } from 'react';
 import { styled } from '@mui/material';
 import { DataGrid as DataGridMUI } from '@mui/x-data-grid';
 
-export const DataGridStyled: ElementType = styled(DataGridMUI)(() => ({
+export const DataGridStyled: ElementType = styled(DataGridMUI)(({ theme }) => ({
   border: 'none',
 
   '& .MuiDataGrid-main > div:first-of-type': {
@@ -14,7 +14,7 @@ export const DataGridStyled: ElementType = styled(DataGridMUI)(() => ({
     fontWeight: 'bold',
   },
   '& .MuiDataGrid-row': {
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : 'white',
   },
   '& .MuiDataGrid-cell': {
     borderColor: 'transparent',

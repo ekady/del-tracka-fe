@@ -29,6 +29,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     getTask: builder.query<IProjectSprintTaskDetail, { ids: ProjectIds }>({
       query: ({ ids }) => {
         const taskParam = ids.idTask ? `/tasks/${ids.idTask}` : '';
+        console.log({ ids });
         return {
           url: `/projects/${ids.idProject}/stages/${ids.idSprint}${taskParam}`,
         };

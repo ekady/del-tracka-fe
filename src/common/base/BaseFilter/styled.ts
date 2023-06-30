@@ -12,8 +12,9 @@ export const FilterContainer: ElementType = styled(Box)(({ theme }) => ({
   paddingRight: 24,
   paddingBottom: 16,
   paddingTop: 16,
-  background: 'white',
-  border: '1px solid #ddd',
+  background: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+  border: '1px solid',
+  borderColor: theme.palette.mode === 'dark' ? '#737373' : '#ddd',
   borderRadius: 16,
   width: '100%',
 

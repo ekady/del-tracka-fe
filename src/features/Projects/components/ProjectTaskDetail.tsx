@@ -43,7 +43,7 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
-    projectId && query.sprint_id
+    projectId && query.sprint_id && query.task_id
       ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: query.task_id as string } }
       : skipToken,
   );

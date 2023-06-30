@@ -25,7 +25,10 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
 
 const combinedReducer = combineReducers({
   auth: persistReducer({ key: 'tracka-persist-auth', version: 1, storage, blacklist: ['data'] }, authSlice),
-  general: generalSlice,
+  general: persistReducer(
+    { key: 'tracka-persist-general', version: 1, storage, whitelist: ['colorTheme'] },
+    generalSlice,
+  ),
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

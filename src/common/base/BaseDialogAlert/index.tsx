@@ -10,7 +10,11 @@ import { grey, blueGrey } from '@mui/material/colors';
 import { CheckCircle, DialogContainer, DialogActions, DialogTitle, Delete, TextContainer, Warning } from './styled';
 import ButtonLoading from '../ButtonLoading';
 
+// Hooks
+import { useAppSelector } from '@/common/store';
+
 import { FunctionVoid, IPropsChildren } from '@/common/types';
+import { selectColorTheme } from '@/common/store/selector';
 
 export type DialogAlertType = 'warning' | 'error' | 'success';
 
@@ -47,6 +51,7 @@ const BaseDialogAlert = ({
   const onCancel = useCallback(() => {
     if (!loading && handleCancel) handleCancel();
   }, [handleCancel, loading]);
+  const isDark = useAppSelector(selectColorTheme) === 'dark';
 
   return (
     <Dialog open={!!isOpen} onClose={onCancel} PaperProps={{ sx: { borderRadius: 5, py: 4, px: 3 } }}>
@@ -55,8 +60,8 @@ const BaseDialogAlert = ({
         <DialogTitle>{titleDialog}</DialogTitle>
         <DialogContent>
           <TextContainer>
-            <Typography color={grey[800]}>{description}</Typography>
-            <Typography color={blueGrey[300]}>{subDescription}</Typography>
+            <Typography color={isDark ? grey[200] : grey[800]}>{description}</Typography>
+            <Typography color={isDark ? blueGrey[100] : blueGrey[300]}>{subDescription}</Typography>
           </TextContainer>
         </DialogContent>
         {children}

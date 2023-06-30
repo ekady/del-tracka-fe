@@ -56,4 +56,7 @@ export const RemoveIconButton: ElementType = styled(IconButton)(() => ({
   right: 2,
   color: 'white',
   backgroundColor: '#00000057',
+  '&:hover': {
+    backgroundColor: '#00000026',
+  },
 }));

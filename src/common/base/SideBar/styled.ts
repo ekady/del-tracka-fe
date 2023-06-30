@@ -49,6 +49,6 @@ export const ListItem: ElementType = styled(ListItemMUI, {
   border: '1px solid trasparent',
   borderRadius: 10,
   '&:hover': {
-    backgroundColor: selected ? '#2B75B3' : '#eee',
+    backgroundColor: selected ? '#2B75B3' : '#91919136',
   },
 }));

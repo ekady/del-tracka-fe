@@ -23,9 +23,7 @@ const DashboardTotal = () => {
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.error.main, fontWeight: 'bold' }}>
             {data?.data.totalProject}
           </Typography>
-          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>
-            Total Projects
-          </Typography>
+          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5 }}>Total Projects</Typography>
         </BaseCard>
       </Grid>
       <Grid item xs={12} sm={3} lg={2}>
@@ -33,9 +31,7 @@ const DashboardTotal = () => {
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
             {data?.data.totalTask}
           </Typography>
-          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5, color: '#4F4F4F' }}>
-            Total Tasks
-          </Typography>
+          <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5 }}>Total Tasks</Typography>
         </BaseCard>
       </Grid>
     </Grid>

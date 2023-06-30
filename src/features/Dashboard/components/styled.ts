@@ -19,7 +19,6 @@ export const TypographyActivities: ElementType = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: 14,
   letterSpacing: 0.5,
-  color: '#4F4F4F',
   marginBottom: 10,
 }));
 
@@ -27,6 +26,5 @@ export const TypographyTasks: ElementType = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: 14,
   letterSpacing: 0.5,
-  color: '#4F4F4F',
   marginBottom: 10,
 }));

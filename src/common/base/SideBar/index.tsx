@@ -60,11 +60,19 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
               sx={{ background: mainPath.includes(path) ? theme.palette.primary.main : null, mb: 1 }}
             >
               <ListItemIcon>
-                <Icon sx={{ color: mainPath.includes(path) ? theme.palette.common.white : null }}>{icon}</Icon>
+                <Icon
+                  sx={{
+                    color: mainPath.includes(path) ? theme.palette.getContrastText(theme.palette.primary.main) : null,
+                  }}
+                >
+                  {icon}
+                </Icon>
               </ListItemIcon>
               <ListItemText
                 primary={name}
-                sx={{ color: mainPath.includes(path) ? theme.palette.common.white : null }}
+                sx={{
+                  color: mainPath.includes(path) ? theme.palette.getContrastText(theme.palette.primary.main) : null,
+                }}
               />
             </ListItem>
           </Link>

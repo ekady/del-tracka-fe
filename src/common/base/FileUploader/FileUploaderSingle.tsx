@@ -74,7 +74,7 @@ const FileUploaderSingle = ({
   return (
     <>
       <FilesUploadContainer
-        bgcolor={isDrop ? '#cbfff0' : 'white'}
+        bgcolor={isDrop ? theme.palette.success.main : theme.palette.background.default}
         borderColor={isDrop ? theme.palette.success.main : theme.palette.secondary.main}
         onDragOver={onHandleDragEnter}
         onDragLeave={onHandleDragExit}

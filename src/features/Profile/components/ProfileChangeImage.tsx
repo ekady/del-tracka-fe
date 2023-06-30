@@ -34,7 +34,7 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
       }}
     >
       <Box sx={{ width: 200 }}>
-        <Typography align="center" component="p" variant="subtitle2" sx={{ mt: 1, color: 'black' }}>
+        <Typography align="center" component="p" variant="subtitle2" sx={{ mt: 1 }}>
           Profile Picture
         </Typography>
       </Box>

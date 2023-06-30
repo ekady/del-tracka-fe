@@ -7,9 +7,6 @@ import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 // MUI Icons
 import { AddCircleOutlined, Sync } from '@mui/icons-material';
 
-// MUI Colors
-import { grey } from '@mui/material/colors';
-
 // Local Components
 import { ProjectDialogNew, ProjectList } from '.';
 import { BaseDialogAlert } from '@/common/base';
@@ -61,7 +58,7 @@ const ProjectSide = () => {
   if (!data?.data.length) {
     return (
       <Box sx={{ textAlign: 'center', px: 2 }}>
-        <Typography color={grey[600]}>No Project</Typography>
+        <Typography>No Project</Typography>
         <Box sx={{ height: 25 }} />
         <Grid container columns={14} spacing={2} alignItems="center">
           <Grid item xs={11}>
@@ -113,7 +110,7 @@ const ProjectSide = () => {
           loading={isLoading}
         />
       </Box>
-      <ProjectList projectList={data.data} />
+      <ProjectList projectList={data?.data ?? []} />
       <BaseDialogAlert handleCancel={closeDialogAlert} handleOk={closeDialogAlert} {...dialogAlertOpt} />
     </Box>
   );
