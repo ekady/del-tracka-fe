@@ -3,12 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createWrapper } from 'next-redux-wrapper';
-import { toast } from 'react-toastify';
 
 // Slice Reducer
 import authSlice from '@/features/auth/store/auth.slice';
 import { apiSlice } from './api.slice';
 import generalSlice from './general.slice';
+import { ErrorToastContainerProps } from '../base/ErrorToastContainer';
+import toastError from '@/common/base/ErrorToastContainer/toastError';
 
 const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (typeof window !== undefined) {
@@ -16,8 +17,13 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
       const errorMessage = action.payload.data?.errors?.[0].message ?? action.error.message;
       const errorType = action.payload.data?.errors?.[0].errorType ?? 'ERROR';
 
-      if (errorType === 'TOO_MANY_REQUESTS') toast.error('Too many requests. Try again later');
-      else if (errorType !== 'ACCESS_TOKEN_EXPIRED') toast.error(errorMessage);
+      const toastPayload: ErrorToastContainerProps = {
+        message: errorType === 'TOO_MANY_REQUESTS' ? 'Too many requests. Try again later' : errorMessage,
+        requestId: action.meta?.baseQueryMeta?.response?.headers?.get?.('X-Request-Id'),
+      };
+      if (errorType === 'TOO_MANY_REQUESTS' || errorType !== 'ACCESS_TOKEN_EXPIRED') {
+        toastError(toastPayload);
+      }
     }
   }
   return next(action);

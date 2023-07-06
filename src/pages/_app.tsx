@@ -69,7 +69,6 @@ export default function MyApp(props: AppPropsWithLayout) {
             autoClose={8000}
             newestOnTop
             closeOnClick
-            hideProgressBar
             closeButton={false}
             pauseOnFocusLoss={false}
             theme="colored"
