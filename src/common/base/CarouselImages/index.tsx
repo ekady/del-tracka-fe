@@ -16,20 +16,19 @@ import { BoxArrow, ButtonArrow, CircleIndicator } from './styled';
 
 // Constants
 import { CarouselSize } from './constants';
-import { Thumbnail } from '../FileUploader/interfaces';
+import { IFileStream } from '@/common/types';
+import ImageLoader from '../ImageLoader';
 
 export interface CarouselImagesProps {
-  images: Thumbnail[];
-  thumbsHeight?: number | string;
-  thumbsWidth?: number | string;
+  images: IFileStream[] | string[];
+  thumbSize?: number | string;
   imageHeight?: number | string;
   imageWidth?: number | string;
 }
 
 const CarouselImages = ({
   images,
-  thumbsHeight = CarouselSize.DefaultThumbsWidth,
-  thumbsWidth = CarouselSize.DefaultThumbsWidth,
+  thumbSize = CarouselSize.DefaultThumbsWidth,
   imageHeight = CarouselSize.DefaultImageHeight,
   imageWidth = CarouselSize.DefaultImageWidth,
 }: CarouselImagesProps) => {
@@ -41,8 +40,25 @@ const CarouselImages = ({
       swipeScrollTolerance={5}
       renderThumbs={() =>
         images.map((image) => (
-          <Box key={image.src} position="relative" height={thumbsHeight} width={thumbsWidth}>
-            <Image src={image.src} layout="fill" objectFit="contain" alt="logo" />
+          <Box
+            key={typeof image !== 'string' ? image.completedPath : image}
+            position="relative"
+            height={thumbSize}
+            width="100%"
+          >
+            {typeof image !== 'string' ? (
+              <ImageLoader
+                image={image}
+                loaderSize={24}
+                imageProps={{
+                  alt: 'logo',
+                  layout: 'fill',
+                  objectFit: 'contain',
+                }}
+              />
+            ) : (
+              <Image src={image} layout="fill" objectFit="contain" alt="logo" />
+            )}
           </Box>
         ))
       }
@@ -69,8 +85,26 @@ const CarouselImages = ({
       )}
     >
       {images.map((image) => (
-        <Box key={image.src} position="relative" height={imageHeight} width={imageWidth}>
-          <Image alt="image" src={image.src} layout="fill" objectFit="contain" loading="lazy" />
+        <Box
+          key={typeof image !== 'string' ? image.completedPath : image}
+          position="relative"
+          height={imageHeight}
+          width={imageWidth}
+        >
+          {typeof image !== 'string' ? (
+            <ImageLoader
+              image={image}
+              loaderSize={60}
+              imageProps={{
+                alt: 'logo',
+                layout: 'fill',
+                objectFit: 'contain',
+                loading: 'lazy',
+              }}
+            />
+          ) : (
+            <Image src={image} layout="fill" objectFit="contain" alt="logo" loading="lazy" />
+          )}
         </Box>
       ))}
     </CarouselResponsive>

@@ -1,14 +1,13 @@
-import Image from 'next/image';
-
 import { Avatar, Box, Typography } from '@mui/material';
 
-import { convertFilePathToUrl } from '@/common/helper/convert';
+import { ImageLoader } from '@/common/base';
+import { IFileStream } from '@/common/types';
 
 export type ProjectTaskCommentProps = {
   name: string;
   date: string;
   comment: string;
-  image?: string | null;
+  image?: IFileStream | null;
 };
 
 const ProjectTaskComment = ({ name, date, comment, image }: ProjectTaskCommentProps) => {
@@ -18,12 +17,16 @@ const ProjectTaskComment = ({ name, date, comment, image }: ProjectTaskCommentPr
         {!image ? (
           <Avatar />
         ) : (
-          <Image
-            src={convertFilePathToUrl(image)}
-            alt="profile"
-            height={40}
-            width={40}
-            style={{ borderRadius: '50%' }}
+          <ImageLoader
+            image={image}
+            loaderSize={16}
+            disabledReload
+            imageProps={{
+              alt: 'profile',
+              height: 40,
+              width: 40,
+              style: { borderRadius: '50%' },
+            }}
           />
         )}
       </Box>

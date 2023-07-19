@@ -1,7 +1,6 @@
 import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
-import { Thumbnail } from '../base/FileUploader/interfaces';
 
 export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
 export type FunctionVoid = () => void;
@@ -47,7 +46,7 @@ export interface IUserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  picture?: Thumbnail | null;
+  picture?: IFileStream | null;
   _id: string;
 }
 
@@ -55,7 +54,7 @@ export interface IUserInfoResponse {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  picture?: string | null;
+  picture?: IFileStream;
   _id: string;
 }
 
@@ -126,4 +125,11 @@ export interface IApiResponse<Response> {
 export interface IRoleResponse {
   _id: string;
   name: string;
+}
+
+export interface IFileStream {
+  filename: string;
+  completedPath: string;
+  mime: string;
+  fileSize?: number;
 }

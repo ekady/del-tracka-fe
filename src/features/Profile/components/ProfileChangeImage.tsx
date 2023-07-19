@@ -9,7 +9,7 @@ import { Controller, FieldError, RegisterOptions } from 'react-hook-form';
 
 // Interfaces
 import { ProfileChildProps } from './Profile';
-import { Thumbnail } from '@/common/base/FileUploader/interfaces';
+import { IFileStream } from '@/common/types';
 
 export interface ProfileImage {
   picture?: RegisterOptions;
@@ -53,7 +53,7 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
             disabled={disabled}
             error={errors.picture as Pick<FieldError, 'type'>}
             value={field.value}
-            handleValue={(file: File | Thumbnail | null) => field.onChange(file)}
+            handleValue={(file: File | IFileStream | null) => field.onChange(file)}
             hideRemoveIcon
             maxSizeKb={500}
           />

@@ -5,8 +5,8 @@ import { ReactNode, useCallback, DragEvent } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 
 // Local types
-import { FunctionVoidWithParams } from '@/common/types';
-import { FileUploaderProps, Thumbnail } from './interfaces';
+import { FunctionVoidWithParams, IFileStream } from '@/common/types';
+import { FileUploaderProps } from './interfaces';
 
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
@@ -20,7 +20,7 @@ import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 import { toast } from 'react-toastify';
 
-export interface FileUploaderMultipleProps extends FileUploaderProps<(File | Thumbnail)[]> {
+export interface FileUploaderMultipleProps extends FileUploaderProps<(File | IFileStream)[]> {
   maxImages?: number;
 }
 
@@ -50,13 +50,13 @@ const FileUploaderMultiple = ({
   const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       if (maxImages && newFiles.length > maxImages) {
-        toast.warning(`Max images ${maxImages}`);
+        toast.error(`Max images ${maxImages}`);
         return;
       }
       const arrayFiles = Array.from(newFiles);
       const invalidSize = maxSizeKb && arrayFiles.some((file) => file.size / 1024 > maxSizeKb);
       if (invalidSize) {
-        toast.warning(`Max size each images are ${maxSizeKb} Kb`);
+        toast.error(`Max size each images are ${maxSizeKb} Kb`);
         return;
       }
 
@@ -67,9 +67,9 @@ const FileUploaderMultiple = ({
     [handleValue, maxImages, maxSizeKb, value],
   );
 
-  const removeImage: FunctionVoidWithParams<string> = useCallback(
-    (fileName: string) => {
-      const files = value?.filter((file) => file.name !== fileName) ?? [];
+  const removeImage: FunctionVoidWithParams<number> = useCallback(
+    (index: number) => {
+      const files = value?.filter((_file, i) => index !== i) ?? [];
       handleValue?.(files);
     },
     [handleValue, value],
@@ -113,14 +113,19 @@ const FileUploaderMultiple = ({
             <FilesContainer
               sx={{ overflow: 'auto', height: disabled || (!!maxImages && value.length >= maxImages) ? '100%' : '80%' }}
             >
-              {value.map((file) => (
-                <Box key={file.name} margin={1} height={disabled ? '100%' : '80%'} position="relative">
+              {value.map((file, index) => (
+                <Box
+                  key={'name' in file ? file.name : file.filename}
+                  margin={1}
+                  height={disabled ? '100%' : '80%'}
+                  position="relative"
+                >
                   <ImageView
                     disabled={disabled}
                     value={file}
                     width={width}
                     height={height}
-                    onClickRemove={removeImage}
+                    onClickRemove={() => removeImage(index)}
                     hideTextFile={hideTextFile}
                   />
                 </Box>

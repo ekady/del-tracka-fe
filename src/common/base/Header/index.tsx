@@ -42,12 +42,12 @@ import { IconLogo } from '@/common/icons';
 // Hooks
 import useHeaderMenu from './useHeaderMenu';
 import { useGetProfileQuery } from '@/common/store/api.slice';
-import { convertFilePathToUrl } from '@/common/helper/convert';
 import { useLogout } from '@/common/hooks/useLogout';
 import NotificationMenu from '@/features/notifications/components/NotificationMenu';
 import { useAppDispatch, useAppSelector } from '@/common/store';
 import { selectColorTheme } from '@/common/store/selector';
 import { setColorTheme } from '@/common/store/general.slice';
+import ImageLoader from '../ImageLoader';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -92,12 +92,16 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
         variant="text"
         startIcon={
           data?.data.picture ? (
-            <Image
-              src={convertFilePathToUrl(data.data.picture.src)}
-              alt="profile"
-              height={24}
-              width={24}
-              style={{ borderRadius: '50%' }}
+            <ImageLoader
+              image={data.data.picture}
+              loaderSize={12}
+              disabledReload
+              imageProps={{
+                alt: 'profile',
+                height: 24,
+                width: 24,
+                style: { borderRadius: '50%' },
+              }}
             />
           ) : (
             <AccountCircle />
@@ -114,12 +118,16 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
       <NotificationMenu />
       <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
         {data?.data.picture ? (
-          <Image
-            src={convertFilePathToUrl(data.data.picture.src)}
-            alt="profile"
-            height={24}
-            width={24}
-            style={{ borderRadius: '50%' }}
+          <ImageLoader
+            image={data.data.picture}
+            loaderSize={12}
+            disabledReload
+            imageProps={{
+              alt: 'profile',
+              height: 24,
+              width: 24,
+              style: { borderRadius: '50%' },
+            }}
           />
         ) : (
           <AccountCircle />

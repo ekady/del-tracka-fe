@@ -2,42 +2,59 @@ import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { Cancel } from '@mui/icons-material';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { FunctionVoidWithParams, IFileStream } from '@/common/types';
 import { formatBytes } from '@/common/helper';
-import { extractSrcThumbnailFile, getFileExtension } from '../helper';
+import { getFileExtension } from '../helper';
 import { FileTextContainer, ImageContainer, RemoveIconButton } from '../styled';
-import { FileUploaderProps, Thumbnail } from '../interfaces';
+import { FileUploaderProps } from '../interfaces';
+import ImageLoader from '../../ImageLoader';
+import { convertFileToUrl } from '@/common/helper/convert';
 
 interface ImageViewProps
-  extends Pick<FileUploaderProps<File | Thumbnail>, 'width' | 'height' | 'disabled' | 'hideTextFile'> {
-  value: File | Thumbnail;
+  extends Pick<FileUploaderProps<File | IFileStream>, 'width' | 'height' | 'disabled' | 'hideTextFile'> {
+  value: File | IFileStream;
   onClickRemove?: FunctionVoidWithParams<string>;
   hideRemoveIcon?: boolean;
 }
 const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile, hideRemoveIcon }: ImageViewProps) => {
+  const isStream = 'completedPath' in value;
   return (
     <>
       <ImageContainer sx={{ position: 'relative', width, height }}>
-        <Image
-          src={extractSrcThumbnailFile(value)}
-          alt={getFileExtension(value.name)}
-          width={200}
-          height={200}
-          style={{ objectFit: 'cover', width: width, height: height }}
-        />
+        {isStream ? (
+          <ImageLoader
+            image={value}
+            loaderSize={60}
+            brokenSize={60}
+            imageProps={{
+              alt: getFileExtension(value.filename),
+              height: 180,
+              width: 180,
+              style: { objectFit: 'cover', width: width, height: height },
+            }}
+          />
+        ) : (
+          <Image
+            src={convertFileToUrl(value)}
+            alt={getFileExtension(value.name)}
+            width={200}
+            height={200}
+            style={{ objectFit: 'cover', width: width, height: height }}
+          />
+        )}
       </ImageContainer>
       {!disabled && !hideRemoveIcon && (
-        <RemoveIconButton onClick={() => onClickRemove?.(value.name)}>
+        <RemoveIconButton onClick={() => onClickRemove?.(isStream ? value.filename : value.name)}>
           <Cancel />
         </RemoveIconButton>
       )}
       {!hideTextFile && (
         <FileTextContainer width={width}>
           <Typography fontWeight="bold" fontSize={12}>
-            {value.name}
+            {isStream ? value.filename : value.name}
           </Typography>
           <Box height={5} />
-          <Typography fontSize={12}>{formatBytes(Number(value.size))}</Typography>
+          <Typography fontSize={12}>{formatBytes(Number(isStream ? value.fileSize : value.size))}</Typography>
         </FileTextContainer>
       )}
     </>

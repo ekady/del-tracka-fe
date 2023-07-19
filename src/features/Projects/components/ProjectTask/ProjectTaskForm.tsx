@@ -23,8 +23,6 @@ import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
 import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
 import { FunctionVoid } from '@/common/types';
-import { compressImage } from '@/common/helper/compressImage';
-import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 
 export interface ProjectTaskFormProps {
   data?: IProjectSprintTaskDetail;
@@ -98,18 +96,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
         idSprint: router.query.sprint_id as string,
         idTask: router.query.task_id as string,
       };
-      let images: (Thumbnail | File)[] = [];
-      if (form.images?.length) {
-        images = await Promise.all(
-          form.images.map(async (image: Thumbnail | File) => {
-            if (image instanceof File) {
-              return await compressImage(image);
-            }
-            return image;
-          }),
-        );
-      }
-      const response = await saveTask({ id, body: { ...form, images } });
+      const response = await saveTask({ id, body: { ...form } });
       if ('data' in response && response.data) {
         openDialogSuccess('Success', 'Task has been successfully saved', {
           handleOk: onRedirectTaskList as FunctionVoid,

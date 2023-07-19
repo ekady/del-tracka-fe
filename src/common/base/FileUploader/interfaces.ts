@@ -2,12 +2,6 @@ import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
 import { FunctionVoidWithParams } from '@/common/types';
 
-export interface Thumbnail {
-  src: string;
-  size: string | number;
-  name: string;
-}
-
 export interface FileUploaderProps<FileType> {
   value?: FileType | null;
   handleValue?: FunctionVoidWithParams<FileType | null>;

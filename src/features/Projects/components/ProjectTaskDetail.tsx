@@ -20,8 +20,7 @@ import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
 
 import { invalidateTags } from '../store/project.api.slice';
 
-import { Thumbnail } from '@/common/base/FileUploader/interfaces';
-import { FunctionVoid } from '@/common/types';
+import { FunctionVoid, IFileStream } from '@/common/types';
 
 import { copyToClipboard } from '@/common/helper';
 
@@ -135,7 +134,16 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
-          <CarouselImages images={(task.data?.images?.filter((img) => 'src' in img && img.src) as Thumbnail[]) ?? []} />
+          {!task?.data?.images?.length && (
+            <Typography textAlign="center" py={4}>
+              No Images
+            </Typography>
+          )}
+          <CarouselImages
+            images={
+              (task.data?.images?.filter((img) => 'completedPath' in img && img.completedPath) as IFileStream[]) ?? []
+            }
+          />
         </Box>
       )}
 

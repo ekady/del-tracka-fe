@@ -1,7 +1,6 @@
 import { apiSlice } from '@/common/store/api.slice';
 
-import { Thumbnail } from '@/common/base/FileUploader/interfaces';
-import { IApiResponse, IStatusMessageResponse, IUserInfo } from '@/common/types';
+import { IApiResponse, IFileStream, IStatusMessageResponse, IUserInfo } from '@/common/types';
 
 export interface Profile {
   firstName?: string;
@@ -15,7 +14,7 @@ export interface ProfilePassword {
 }
 
 export interface ProfileRequest extends Profile, ProfilePassword {
-  picture?: File | Thumbnail | null;
+  picture?: File | IFileStream | null;
   imageUrl?: string | null;
 }
 

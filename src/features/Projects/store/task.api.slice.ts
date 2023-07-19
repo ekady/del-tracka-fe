@@ -1,5 +1,11 @@
 import { levelList } from '@/common/constants/level';
-import { IApiResponse, IPaginationParams, IPaginationResponse, IStatusMessageResponse } from '@/common/types';
+import {
+  IApiResponse,
+  IFileStream,
+  IPaginationParams,
+  IPaginationResponse,
+  IStatusMessageResponse,
+} from '@/common/types';
 import { ILogsResponse } from '@/features/logs/interfaces';
 import {
   IProjectComment,
@@ -29,7 +35,6 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     getTask: builder.query<IProjectSprintTaskDetail, { ids: ProjectIds }>({
       query: ({ ids }) => {
         const taskParam = ids.idTask ? `/tasks/${ids.idTask}` : '';
-        console.log({ ids });
         return {
           url: `/projects/${ids.idProject}/stages/${ids.idSprint}${taskParam}`,
         };
@@ -43,7 +48,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           assignee: response.data.assignee as IProjectMember,
           detail: response.data.detail,
           priority: levelList.find((level) => level.value === response.data.priority) ?? null,
-          images: [],
+          images: response.data.images,
           project: response.data.project,
           stage: response.data.stage,
           name: response.data?.name,
@@ -78,10 +83,12 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         formData.append('assignee', assignee?._id ?? '');
         formData.append('detail', detail ?? '');
         if (images && images.length > 0) {
+          const oldImages: IFileStream[] = [];
           images.forEach((image) => {
-            if (image instanceof File) formData.append('images', image);
-            else formData.append('imageOld', image.name);
+            if (image instanceof File || image instanceof Blob) formData.append('images', image);
+            else oldImages.push(image);
           });
+          formData.append('oldImages', JSON.stringify(oldImages));
         }
 
         return {

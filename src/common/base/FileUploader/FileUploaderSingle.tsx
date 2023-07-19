@@ -5,8 +5,8 @@ import { DragEvent, ReactNode, useCallback } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 
 // Local types
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
-import { FileUploaderProps, Thumbnail } from './interfaces';
+import { FunctionVoid, FunctionVoidWithParams, IFileStream } from '@/common/types';
+import { FileUploaderProps } from './interfaces';
 
 // Toastify
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ import { FileUploaderEnum } from './constants';
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 
-export interface FileUploaderSingleProps extends FileUploaderProps<File | Thumbnail> {}
+export interface FileUploaderSingleProps extends FileUploaderProps<File | IFileStream> {}
 
 const FileUploaderSingle = ({
   value,
@@ -47,12 +47,12 @@ const FileUploaderSingle = ({
   );
   const theme = useTheme();
 
-  const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
+  const changeImage: FunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
 
       if (maxSizeKb && file.size / 1024 > maxSizeKb) {
-        toast.warning(`Max size of image is ${maxSizeKb} Kb`);
+        toast.error(`Max size of image is ${maxSizeKb} Kb`);
         return;
       }
 
@@ -79,7 +79,7 @@ const FileUploaderSingle = ({
         onDragOver={onHandleDragEnter}
         onDragLeave={onHandleDragExit}
         onDragEnter={onHandleDragEnter}
-        onDrop={(e: DragEvent<HTMLDivElement>) => onHandleFileDrop(e, addNewImages)}
+        onDrop={(e: DragEvent<HTMLDivElement>) => onHandleFileDrop(e, changeImage)}
         width={widthContainer}
         height={heightContainer}
         sx={{ padding: 1 }}
@@ -109,7 +109,7 @@ const FileUploaderSingle = ({
         <ButtonContainer sx={{ height: 'unset', width: widthContainer, mt: 2 }}>
           <ButtonUpload
             onClickUpload={handleUploadButtonClick}
-            onChangeInput={(e) => onHandleFileUpload(e, addNewImages)}
+            onChangeInput={(e) => onHandleFileUpload(e, changeImage)}
             ref={inputFieldRef}
             accept={accept}
             buttonUploadText={buttonUploadText}

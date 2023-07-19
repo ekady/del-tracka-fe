@@ -17,3 +17,4 @@ export { default as ButtonLoading } from './ButtonLoading';
 export { default as BaseCard } from './BaseCard';
 export { default as DataTable } from './DataTable';
 export { default as ErrorToastContainer } from './ErrorToastContainer';
+export { default as ImageLoader } from './ImageLoader';

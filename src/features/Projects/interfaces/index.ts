@@ -1,7 +1,6 @@
-import { Thumbnail } from '@/common/base/FileUploader/interfaces';
 import { LevelType } from '@/common/constants/level';
 import { StatusType } from '@/common/constants/status';
-import { IAutocompleteOptions, IRoleResponse, IUserInfoResponse } from '@/common/types';
+import { IAutocompleteOptions, IFileStream, IRoleResponse, IUserInfoResponse } from '@/common/types';
 import { ProjectMenu } from '../constant/projectMenu';
 
 export interface ITasksCount {
@@ -114,7 +113,7 @@ export interface ITaskResponse {
   feature: string;
   assignee: IUserInfoResponse;
   reporter: IUserInfoResponse;
-  images: string[];
+  images: IFileStream[];
   status: StatusType;
   priority: LevelType;
   shortId: string;
@@ -136,8 +135,8 @@ export interface IProjectSprintTaskDetail {
   assignee?: IProjectMember | null;
   detail?: string;
   priority: IAutocompleteOptions | null;
-  images?: (File | Thumbnail)[] | null;
-  imageUrls?: Thumbnail[];
+  images?: (File | IFileStream)[] | null;
+  imageUrls?: IFileStream[];
   project?: IProject;
   stage?: ISprint;
   name?: string;
