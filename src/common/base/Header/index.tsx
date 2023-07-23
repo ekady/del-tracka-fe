@@ -83,6 +83,25 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
     });
   }, [handleClose, logout]);
 
+  const profilePicture =
+    typeof data?.data.picture === 'string' ? (
+      <Image src={data.data.picture} alt="profile" height={24} width={24} style={{ borderRadius: '50%' }} />
+    ) : (
+      data?.data.picture && (
+        <ImageLoader
+          image={data?.data.picture}
+          loaderSize={12}
+          disabledReload
+          imageProps={{
+            alt: 'profile',
+            height: 24,
+            width: 24,
+            style: { borderRadius: '50%' },
+          }}
+        />
+      )
+    );
+
   const logInInfo: ReactNode = lgAndUp ? (
     <Box display="flex" alignItems="center" gap={2}>
       <NotificationMenu />
@@ -90,23 +109,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
         color="inherit"
         onClick={handleMenu}
         variant="text"
-        startIcon={
-          data?.data.picture ? (
-            <ImageLoader
-              image={data.data.picture}
-              loaderSize={12}
-              disabledReload
-              imageProps={{
-                alt: 'profile',
-                height: 24,
-                width: 24,
-                style: { borderRadius: '50%' },
-              }}
-            />
-          ) : (
-            <AccountCircle />
-          )
-        }
+        startIcon={data?.data.picture ? profilePicture : <AccountCircle />}
       >
         <Text sx={{ flexGrow: 1, ml: 1 }}>
           {data?.data.firstName} {data?.data.lastName}
@@ -117,21 +120,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
     <Box display="flex" alignItems="center" gap={2}>
       <NotificationMenu />
       <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
-        {data?.data.picture ? (
-          <ImageLoader
-            image={data.data.picture}
-            loaderSize={12}
-            disabledReload
-            imageProps={{
-              alt: 'profile',
-              height: 24,
-              width: 24,
-              style: { borderRadius: '50%' },
-            }}
-          />
-        ) : (
-          <AccountCircle />
-        )}
+        {data?.data.picture ? profilePicture : <AccountCircle />}
       </IconButton>
     </Box>
   );

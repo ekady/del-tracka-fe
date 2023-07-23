@@ -22,7 +22,7 @@ import { FileUploaderEnum } from './constants';
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 
-export interface FileUploaderSingleProps extends FileUploaderProps<File | IFileStream> {}
+export interface FileUploaderSingleProps extends FileUploaderProps<File | IFileStream | string> {}
 
 const FileUploaderSingle = ({
   value,

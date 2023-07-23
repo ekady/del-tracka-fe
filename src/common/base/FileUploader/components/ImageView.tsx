@@ -12,12 +12,13 @@ import { convertFileToUrl } from '@/common/helper/convert';
 
 interface ImageViewProps
   extends Pick<FileUploaderProps<File | IFileStream>, 'width' | 'height' | 'disabled' | 'hideTextFile'> {
-  value: File | IFileStream;
+  value: File | IFileStream | string;
   onClickRemove?: FunctionVoidWithParams<string>;
   hideRemoveIcon?: boolean;
 }
 const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile, hideRemoveIcon }: ImageViewProps) => {
-  const isStream = 'completedPath' in value;
+  const isStream = typeof value !== 'string' && 'completedPath' in value;
+  const isString = typeof value === 'string';
   return (
     <>
       <ImageContainer sx={{ position: 'relative', width, height }}>
@@ -35,20 +36,20 @@ const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile
           />
         ) : (
           <Image
-            src={convertFileToUrl(value)}
-            alt={getFileExtension(value.name)}
+            src={value instanceof File ? convertFileToUrl(value) : value}
+            alt={isString ? value : getFileExtension(value.name)}
             width={200}
             height={200}
             style={{ objectFit: 'cover', width: width, height: height }}
           />
         )}
       </ImageContainer>
-      {!disabled && !hideRemoveIcon && (
+      {!disabled && !hideRemoveIcon && !isString && (
         <RemoveIconButton onClick={() => onClickRemove?.(isStream ? value.filename : value.name)}>
           <Cancel />
         </RemoveIconButton>
       )}
-      {!hideTextFile && (
+      {!hideTextFile && !isString && (
         <FileTextContainer width={width}>
           <Typography fontWeight="bold" fontSize={12}>
             {isStream ? value.filename : value.name}

@@ -53,7 +53,7 @@ const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChang
             disabled={disabled}
             error={errors.picture as Pick<FieldError, 'type'>}
             value={field.value}
-            handleValue={(file: File | IFileStream | null) => field.onChange(file)}
+            handleValue={(file: File | IFileStream | string | null) => field.onChange(file)}
             hideRemoveIcon
             maxSizeKb={500}
           />
