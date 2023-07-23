@@ -18,3 +18,4 @@ export { default as BaseCard } from './BaseCard';
 export { default as DataTable } from './DataTable';
 export { default as ErrorToastContainer } from './ErrorToastContainer';
 export { default as ImageLoader } from './ImageLoader';
+export { default as PasswordRequirement } from './PasswordRequirement';

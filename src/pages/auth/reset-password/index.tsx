@@ -13,7 +13,7 @@ import { Alert, Box, Divider, Typography } from '@mui/material';
 
 // Local Components
 import { LayoutAuth } from '@/common/layout';
-import { ButtonLoading, CustomInput } from '@/common/base';
+import { ButtonLoading, CustomInput, PasswordRequirement } from '@/common/base';
 
 // Store
 import { wrapper } from '@/common/store';
@@ -21,6 +21,7 @@ import { ResetPasswordForm, ResetPasswordRequest } from '@/features/auth/interfa
 import { useResetPasswordMutation, verifyResetToken } from '@/features/auth/store/auth.api.slice';
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import AuthResetInvalid from '@/features/auth/components/AuthResetInvalid';
+import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
 const validationRule = (getValues: UseFormGetValues<ResetPasswordForm>) => ({
   password: { required: true },
@@ -36,15 +37,19 @@ export interface ResetPasswordProps {
 const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     control,
     reset,
     trigger,
     getFieldState,
     getValues,
+    watch,
   } = useForm<ResetPasswordForm>({ mode: 'onSubmit' });
   const router = useRouter();
   const [resetPassword, { isLoading, isSuccess, isError }] = useResetPasswordMutation();
+
+  const passwordValue = watch('password');
+  const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
     (formTarget?: keyof ResetPasswordForm) => {
@@ -73,6 +78,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      if (!passwordValidation.isAllTrue) return;
       const payload: ResetPasswordRequest = { ...data, resetToken: router.query?.token as string };
       await resetPassword(payload).unwrap();
       reset();
@@ -112,6 +118,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
                   placeholder: 'Enter password',
                   type: 'password',
                   disabled: isLoading,
+                  error: !passwordValidation.isAllTrue && dirtyFields.password,
                   ...field,
                   onChange: (e) => onChangeInput(e, field.onChange, 'password'),
                   onBlur: () => validateTargetForm('password'),
@@ -119,6 +126,9 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
               />
             )}
           />
+          <PasswordRequirement value={passwordValue ?? ''} />
+          <Box height={20} />
+
           <Controller
             name="passwordConfirm"
             control={control}

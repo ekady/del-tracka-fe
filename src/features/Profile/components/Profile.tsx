@@ -19,6 +19,7 @@ import { useProfileForm } from '../hooks/useProfileForm';
 import { BaseDialogAlert, ButtonLoading } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useLogout } from '@/common/hooks/useLogout';
+import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
 export interface ProfileChildProps<T> {
   formMethods: UseFormReturn<ProfileRequest>;
@@ -66,7 +67,13 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
   const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
 
   const onClickChangePassword = () => setIsChangePassword((prevState) => !prevState);
-  const onSubmit = handleSubmit((data) => submit(data)) as (e?: BaseSyntheticEvent) => void;
+
+  const onSubmit = handleSubmit((data) => {
+    const passwordValidation = passwordValidator(data.password ?? '');
+    if (isChangePassword && !passwordValidation.isAllTrue) return;
+    submit(data);
+  }) as (e?: BaseSyntheticEvent) => void;
+
   const openDialogDeleteConfirm = useCallback(() => {
     openDialogWarning('Warning', 'Are your sure want to delete your account?', {
       handleOk: deleteAccount as FunctionVoid,

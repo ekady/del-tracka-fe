@@ -12,7 +12,7 @@ import { Alert, Box, Button, Divider, Typography } from '@mui/material';
 
 // Local Components
 import AuthWithGoogle from '@/features/auth/components/AuthWithGoogle';
-import { ButtonLoading, CustomInput } from '@/common/base';
+import { ButtonLoading, CustomInput, PasswordRequirement } from '@/common/base';
 
 // Helper
 import { emailValidation } from '@/common/helper';
@@ -22,6 +22,7 @@ import { useSignupMutation } from '@/features/auth/store/auth.api.slice';
 import { toast } from 'react-toastify';
 import { LayoutAuth } from '@/common/layout';
 import { SignUpRequest } from '@/features/auth/interfaces';
+import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
 type AuthSignUpForm = keyof SignUpRequest;
 
@@ -44,12 +45,16 @@ const SignUp = () => {
   const {
     handleSubmit,
     getFieldState,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     getValues,
     trigger,
     control,
     reset,
+    watch,
   } = useForm<SignUpRequest>({ mode: 'onSubmit' });
+
+  const passwordValue = watch('password');
+  const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
     (formTarget?: AuthSignUpForm) => {
@@ -78,6 +83,7 @@ const SignUp = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      if (!passwordValidation.isAllTrue) return;
       await signUp(data).unwrap();
       toast.success('Sign up success!');
       reset();
@@ -152,6 +158,7 @@ const SignUp = () => {
               TextFieldProps={{
                 placeholder: 'Enter password',
                 type: 'password',
+                error: !passwordValidation.isAllTrue && dirtyFields.password,
                 ...field,
                 onChange: (e) => onChangeInput(e, field.onChange, 'password'),
                 onBlur: () => validateTargetForm('password'),
@@ -159,6 +166,9 @@ const SignUp = () => {
             />
           )}
         />
+        <PasswordRequirement value={passwordValue ?? ''} />
+        <Box height={20} />
+
         <Controller
           name="passwordConfirm"
           control={control}

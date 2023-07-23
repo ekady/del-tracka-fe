@@ -4,12 +4,16 @@ import { ChangeEvent, useCallback } from 'react';
 // React Hook Form
 import { RegisterOptions, Controller } from 'react-hook-form';
 
+// MUI
+import { Box } from '@mui/material';
+
 // Local Components
-import { CustomInput } from '@/common/base';
+import { CustomInput, PasswordRequirement } from '@/common/base';
 
 import { ProfileChildProps } from './Profile';
 import { FunctionVoidWithParams } from '@/common/types';
 import { ProfilePassword } from '../store/profile.api.slice';
+import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
 type ProfileChangePasswordKey = keyof ProfilePassword;
 
@@ -22,10 +26,14 @@ export interface ProfileChangePasswordProps extends ProfileChildProps<ProfileCha
 const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     getFieldState,
     trigger,
+    watch,
   } = formMethods;
+
+  const passwordValue = watch('password');
+  const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
     async (formTarget: ProfileChangePasswordKey) => {
@@ -60,6 +68,7 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
             fieldname="Password"
             error={errors.password}
             TextFieldProps={{
+              error: !passwordValidation.isAllTrue && dirtyFields.password,
               ...field,
               placeholder: !disabled ? 'Enter password' : '',
               type: 'password',
@@ -70,6 +79,9 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
           />
         )}
       />
+      <PasswordRequirement value={passwordValue ?? ''} />
+      <Box height={20} />
+
       <Controller
         name="passwordConfirm"
         control={control}
