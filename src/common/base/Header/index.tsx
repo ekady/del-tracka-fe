@@ -48,6 +48,7 @@ import { useAppDispatch, useAppSelector } from '@/common/store';
 import { selectColorTheme } from '@/common/store/selector';
 import { setColorTheme } from '@/common/store/general.slice';
 import ImageLoader from '../ImageLoader';
+import { IFileStream } from '@/common/types';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -59,9 +60,31 @@ export interface HeaderProps {
   usingSidebar?: boolean;
 }
 
+const ProfilePicture = ({ image }: { image?: string | IFileStream | null }) => {
+  if (!image) return <AccountCircle />;
+
+  return typeof image === 'string' ? (
+    <Image src={image} alt="profile" height={24} width={24} style={{ borderRadius: '50%' }} />
+  ) : (
+    image && (
+      <ImageLoader
+        image={image}
+        loaderSize={12}
+        disabledReload
+        imageProps={{
+          alt: 'profile',
+          height: 24,
+          width: 24,
+          style: { borderRadius: '50%' },
+        }}
+      />
+    )
+  );
+};
+
 const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const dispatch = useAppDispatch();
-  const pathname = usePathname() || '';
+  const pathname = usePathname();
   const theme = useTheme();
   const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
@@ -83,25 +106,6 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
     });
   }, [handleClose, logout]);
 
-  const profilePicture =
-    typeof data?.data.picture === 'string' ? (
-      <Image src={data.data.picture} alt="profile" height={24} width={24} style={{ borderRadius: '50%' }} />
-    ) : (
-      data?.data.picture && (
-        <ImageLoader
-          image={data?.data.picture}
-          loaderSize={12}
-          disabledReload
-          imageProps={{
-            alt: 'profile',
-            height: 24,
-            width: 24,
-            style: { borderRadius: '50%' },
-          }}
-        />
-      )
-    );
-
   const logInInfo: ReactNode = lgAndUp ? (
     <Box display="flex" alignItems="center" gap={2}>
       <NotificationMenu />
@@ -109,7 +113,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
         color="inherit"
         onClick={handleMenu}
         variant="text"
-        startIcon={data?.data.picture ? profilePicture : <AccountCircle />}
+        startIcon={<ProfilePicture image={data?.data.picture} />}
       >
         <Text sx={{ flexGrow: 1, ml: 1 }}>
           {data?.data.firstName} {data?.data.lastName}
@@ -120,7 +124,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
     <Box display="flex" alignItems="center" gap={2}>
       <NotificationMenu />
       <IconButton color="primary" onClick={handleMenu} aria-label="upload picture" component="span">
-        {data?.data.picture ? profilePicture : <AccountCircle />}
+        <ProfilePicture image={data?.data.picture} />
       </IconButton>
     </Box>
   );
