@@ -9,7 +9,6 @@ import { LayoutDefault } from '@/common/layout';
 import Profile from '@/features/profile/components/Profile';
 
 import { ProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
-import { compressImage } from '@/common/helper/compressImage';
 import { FunctionVoidWithParams } from '@/common/types';
 
 const Settings = () => {
@@ -17,9 +16,6 @@ const Settings = () => {
 
   const submitHander = useCallback(
     async (v: ProfileRequest) => {
-      if (v.picture && v.picture instanceof File) {
-        v.picture = await compressImage(v.picture);
-      }
       await updateProfile(v);
     },
     [updateProfile],
