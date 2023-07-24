@@ -14,7 +14,7 @@ const LayoutHome = ({ children }: IPropsChildren) => {
       <Grid component="main" sx={{ minHeight: '100vh', marginTop: { xs: '50px', md: '90px' } }}>
         {children}
       </Grid>
-      <Copyright sx={{ mt: 5, mb: 1 }} />
+      <Copyright sx={{ mt: 5, mb: 2 }} />
     </LayoutWrapper>
   );
 };
