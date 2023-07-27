@@ -46,7 +46,7 @@ export interface IUserInfo {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  picture?: IFileStream | null;
+  picture?: IFileStream | string | null;
   _id: string;
 }
 
@@ -54,7 +54,7 @@ export interface IUserInfoResponse {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
-  picture?: IFileStream;
+  picture?: IFileStream | string | null;
   _id: string;
 }
 
@@ -73,7 +73,7 @@ export type IPaginationParams = {
   page?: number | null;
   sortBy?: string | null;
   search?: string | null;
-  [x: string]: string | number | null | undefined;
+  [x: string]: string | string[] | number | null | undefined;
 };
 
 export type PaginationParamsText = keyof IPaginationParams;
