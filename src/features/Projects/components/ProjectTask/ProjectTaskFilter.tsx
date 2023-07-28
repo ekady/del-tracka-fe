@@ -14,7 +14,7 @@ import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';
 
 export interface ProjectTaskFilterProps {
-  onChange: FunctionVoidWithParams<Record<string, string | null>>;
+  onChange: FunctionVoidWithParams<Record<string, string | string[] | null>>;
 }
 
 const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
@@ -25,8 +25,9 @@ const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
         <FilterSelectContainer item xs={12} md={6}>
           <Autocomplete
             id="tags-outlined"
+            multiple
             options={levelList}
-            onChange={(_, value) => onChange?.({ priority: value?.value ?? '' })}
+            onChange={(_, value) => onChange?.({ priority: value?.map((val) => val.value) ?? [] })}
             renderInput={(params) => (
               <CustomInput fieldname="Level" TextFieldProps={{ ...params, size: 'small', placeholder: 'Level' }} />
             )}
@@ -35,8 +36,9 @@ const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
         <FilterSelectContainer item xs={12} md={6}>
           <Autocomplete
             id="tags-outlined"
+            multiple
             options={statusList}
-            onChange={(_, value) => onChange?.({ status: value?.value ?? '' })}
+            onChange={(_, value) => onChange?.({ status: value?.map((val) => val.value) ?? [] })}
             renderInput={(params) => (
               <CustomInput fieldname="Status" TextFieldProps={{ ...params, size: 'small', placeholder: 'Status' }} />
             )}

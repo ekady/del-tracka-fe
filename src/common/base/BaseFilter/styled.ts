@@ -19,7 +19,8 @@ export const FilterContainer: ElementType = styled(Box)(({ theme }) => ({
   width: '100%',
 
   [theme.breakpoints.up('md')]: {
-    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
   },
 }));
 
@@ -29,10 +30,6 @@ export const FilterText: ElementType = styled(Typography)(() => ({
 
 export const FilterListSelectContainer: ElementType = styled(Grid)(({ theme }) => ({
   width: '100%',
-
-  [theme.breakpoints.up('md')]: {
-    width: 'unset',
-  },
 }));
 
 export const FilterSelectContainer: ElementType = styled(Grid)(({ theme }) => ({
