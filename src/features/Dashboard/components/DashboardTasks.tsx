@@ -19,24 +19,25 @@ import { TypographyTasks } from './styled';
 import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
-import { useGetTaskStatusAllQuery, useGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
+import { useLazyGetTaskStatusAllQuery, useLazyGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
 import { ITaskStatusStatsResponse } from '../interfaces';
 
 const baseCardStyle: BaseCardProps = { sx: { height: 250 } };
 const labelGrey = ['#dddbdbd6'];
 
 const DashboardTasks = () => {
-  const { data: dataTotal, isFetching, isLoading, refetch: referchTotal } = useGetTaskStatusAllQuery();
-  const { data: dataUser, refetch: refetchUser } = useGetTaskStatusUserQuery();
+  const [fetchTotal, { data: dataTotal, isFetching, isLoading }] = useLazyGetTaskStatusAllQuery();
+  const [fetchUser, { data: dataUser, isFetching: isFetchingUser, isLoading: isLoadingUser }] =
+    useLazyGetTaskStatusUserQuery();
 
   useEffect(() => {
-    referchTotal().catch(() => {
+    fetchTotal().catch(() => {
       //
     });
-    refetchUser().catch(() => {
+    fetchUser().catch(() => {
       //
     });
-  }, [referchTotal, refetchUser]);
+  }, [fetchTotal, fetchUser]);
 
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -74,7 +75,6 @@ const DashboardTasks = () => {
           <TypographyTasks>All Tasks</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
-              redraw
               data={{
                 labels: Object.keys(dataTotal?.data ?? {}).map((key) => STATUS[key as StatusType].name),
                 datasets: [
@@ -91,11 +91,10 @@ const DashboardTasks = () => {
         </BaseCard>
       </Grid>
       <Grid item xs={12} sm={6} md={5} lg={4}>
-        <BaseCard {...baseCardStyle} loading={isLoading ?? isFetching}>
+        <BaseCard {...baseCardStyle} loading={isLoadingUser ?? isFetchingUser}>
           <TypographyTasks>Tasks Assign to You</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
-              redraw
               data={{
                 labels: Object.keys(dataUser?.data ?? {}).map((key) => STATUS[key as StatusType].name),
                 datasets: [

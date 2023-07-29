@@ -34,6 +34,8 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetTaskProjectTotalQuery,
+  useLazyGetTaskStatusAllQuery,
+  useLazyGetTaskStatusUserQuery,
   useGetTaskStatusAllQuery,
   useGetTaskStatusUserQuery,
   useGetUserActivitiesQuery,
