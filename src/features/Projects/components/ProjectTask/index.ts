@@ -5,3 +5,5 @@ export { default as ProjectTaskForm } from './ProjectTaskForm';
 export { default as ProjectTaskComment } from './ProjectTaskComment';
 export { default as ProjectTaskComments } from './ProjectTaskComments';
 export { default as ProjectTaskActivity } from './ProjectTaskActivity';
+export { default as ProjectTaskChangeStatusBulk } from './ProjectTaskChangeStatusBulk';
+export { default as ProjectTaskMoveSprint } from './ProjectTaskMoveSprint';

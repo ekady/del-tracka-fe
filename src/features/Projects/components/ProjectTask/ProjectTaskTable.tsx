@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Next
 import Link from 'next/link';
@@ -30,9 +30,22 @@ import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useDeleteTaskMutation, useUpdateStatusTaskMutation } from '@/features/projects/store/task.api.slice';
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { copyToClipboard } from '@/common/helper';
+import ProjectTaskChangeStatusBulk from './ProjectTaskChangeStatusBulk';
+import ProjectTaskMoveSprint from './ProjectTaskMoveSprint';
 
-const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => {
+export interface ProjectTaskTableProps extends ITableAndSearchProps {
+  disabledBulkUpdateStatus?: boolean;
+  disabledBulkMoveSprint?: boolean;
+}
+
+const ProjectTaskTable = ({
+  SearchProps,
+  TableProps,
+  disabledBulkMoveSprint,
+  disabledBulkUpdateStatus,
+}: ProjectTaskTableProps) => {
   const dispatch = useAppDispatch();
+  const [selection, setSelection] = useState<string[]>([]);
 
   useEffect(() => {
     dispatch(invalidateTags(['Tasks']));
@@ -166,6 +179,7 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
       { headerName: 'Action', field: 'action', sortable: false, width: 70, renderCell: renderCellAction },
       { headerName: 'Task Id', field: 'shortId', sortable: false, width: 170, renderCell: renderCellTaskId },
       { headerName: 'Main Problem', field: 'title', width: 300 },
+      { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
       { headerName: 'Feature', field: 'feature', width: 200 },
       { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
       {
@@ -185,10 +199,13 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
         field: 'assignee',
         valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
       },
-      { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
     ],
     [renderCellAction, renderCellLevel, renderCellStatus, renderCellTaskId],
   );
+
+  const handleCallbackBulkStatus = useCallback((statusUpdate: 'success' | 'error') => {
+    if (statusUpdate === 'success') setSelection([]);
+  }, []);
 
   const buttonAddTask = (
     <Link href={`${router.asPath}/new`} passHref>
@@ -206,8 +223,36 @@ const ProjectTaskTable = ({ SearchProps, TableProps }: ITableAndSearchProps) => 
         isUsingSearch
         TextFieldProps={SearchProps}
       />
+      {selection.length > 0 && (
+        <Box
+          mt={2}
+          display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
+          justifyContent={{ xs: 'center', md: 'start' }}
+          alignItems={{ xs: 'initial', md: 'center' }}
+          gap={2}
+        >
+          <Typography>{selection.length} data selected</Typography>
+          <Box display="flex" gap={2}>
+            {!disabledBulkUpdateStatus && (
+              <ProjectTaskChangeStatusBulk values={selection} callback={handleCallbackBulkStatus} />
+            )}
+            {!disabledBulkMoveSprint && (
+              <ProjectTaskMoveSprint values={selection} callback={handleCallbackBulkStatus} />
+            )}
+          </Box>
+        </Box>
+      )}
       <Box sx={{ height: 20 }} />
-      <DataTable rows={[]} columns={tableHeaders} {...TableProps} />
+      <DataTable
+        rows={[]}
+        columns={tableHeaders}
+        checkboxSelection={!disabledBulkMoveSprint || !disabledBulkUpdateStatus}
+        onRowSelectionModelChange={(values) => setSelection(values as string[])}
+        rowSelectionModel={selection}
+        {...TableProps}
+        getRowId={(val) => val.shortId}
+      />
     </>
   );
 };
