@@ -6,7 +6,7 @@ export const myTasksApiSLice = projectApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getMyTasks: builder.query<IApiResponse<IPaginationResponse<ITaskResponse>>, IPaginationParams>({
-      query: (params) => ({ url: '/my-tasks', params }),
+      query: (params) => ({ url: '/my-task', params }),
       providesTags: ['Tasks'],
     }),
   }),

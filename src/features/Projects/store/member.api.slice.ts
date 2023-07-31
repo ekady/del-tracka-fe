@@ -11,14 +11,14 @@ export const memberApiSlice = projectApiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getProjectMembers: builder.query<IProjectMember[], string>({
-      query: (id) => `/projects/${id}/member`,
+      query: (id) => `/project/${id}/member`,
       providesTags: ['Member'],
       transformResponse: (response: IApiResponse<IProjectMember[]>) => response.data,
     }),
     addMember: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectMemberAddRequest>>(
       {
         query: ({ id, body }) => ({
-          url: `/projects/${id}/member`,
+          url: `/project/${id}/member`,
           method: 'post',
           body,
         }),
@@ -30,7 +30,7 @@ export const memberApiSlice = projectApiSlice.injectEndpoints({
       IProjectSettingRequest<IProjectMemberUpdateRequest>
     >({
       query: ({ id, body }) => ({
-        url: `/projects/${id}/member`,
+        url: `/project/${id}/member`,
         method: 'put',
         body,
       }),
@@ -42,7 +42,7 @@ export const memberApiSlice = projectApiSlice.injectEndpoints({
     >({
       query: ({ id, body }) => {
         return {
-          url: `/projects/${id}/member`,
+          url: `/project/${id}/member`,
           method: 'delete',
           body,
         };
@@ -52,7 +52,7 @@ export const memberApiSlice = projectApiSlice.injectEndpoints({
     leaveProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<void>>({
       query: ({ id }) => {
         return {
-          url: `/projects/${id}/leave`,
+          url: `/project/${id}/leave`,
           method: 'put',
         };
       },

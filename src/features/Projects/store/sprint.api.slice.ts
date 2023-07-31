@@ -10,7 +10,7 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
         query: ({ id, body }) => {
           const stageId = body.id ?? '';
           return {
-            url: `/projects/${id}/stages/${stageId}`,
+            url: `/project/${id}/stage/${stageId}`,
             method: stageId ? 'put' : 'post',
             body,
           };
@@ -19,16 +19,16 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
       },
     ),
     getSprintInfo: builder.query<IApiResponse<ISprintsResponse[]>, ProjectIds>({
-      query: ({ idProject }) => `tasks-statistic/project/${idProject}/stages`,
+      query: ({ idProject }) => `task-statistic/project/${idProject}/stage`,
       providesTags: ['Sprints'],
     }),
     getSprint: builder.query<IApiResponse<ISprintResponse>, ProjectIds>({
-      query: ({ idProject, idSprint }) => `/projects/${idProject}/stages/${idSprint}`,
+      query: ({ idProject, idSprint }) => `/project/${idProject}/stage/${idSprint}`,
       providesTags: ['Sprint'],
     }),
     deleteSprint: builder.mutation<IApiResponse<IStatusMessageResponse>, ProjectIds>({
       query: ({ idProject, idSprint }) => ({
-        url: `projects/${idProject}/stages/${idSprint}`,
+        url: `project/${idProject}/stage/${idSprint}`,
         method: 'delete',
       }),
       invalidatesTags: ['Projects', 'Project', 'Sprints', 'ProjectActivities'],

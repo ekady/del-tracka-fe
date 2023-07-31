@@ -56,7 +56,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
         const accessToken = session?.user.userToken.accessToken ?? null;
         const isUnauthorized = (result.error.data as IResponseError)?.errors?.[0]?.errorType === 'UNAUTHORIZED';
 
-        if (!accessToken || session?.error === 'RefreshAccessTokenError' || isUnauthorized) {
+        if (!session?.user || !accessToken || session?.error === 'RefreshAccessTokenError' || isUnauthorized) {
           await signOut({ redirect: false });
           redirect('/auth/sign-in', RedirectType.replace);
         } else {

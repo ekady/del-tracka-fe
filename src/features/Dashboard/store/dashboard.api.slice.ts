@@ -6,7 +6,7 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getTaskStatusAll: builder.query<IApiResponse<ITaskStatusStatsResponse>, void>({
-      query: () => '/tasks-statistic/all',
+      query: () => '/task-statistic/all',
       transformResponse: (response: IApiResponse<ITaskStatusStatsResponse>) => {
         Object.keys(response.data).forEach((key) => {
           response.data[key] = response.data[key] || 0.01;
@@ -15,7 +15,7 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getTaskStatusUser: builder.query<IApiResponse<ITaskStatusStatsResponse>, void>({
-      query: () => '/tasks-statistic/user',
+      query: () => '/task-statistic/user',
       transformResponse: (response: IApiResponse<ITaskStatusStatsResponse>) => {
         Object.keys(response.data).forEach((key) => {
           response.data[key] = response.data[key] || 0.01;
@@ -24,10 +24,10 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getTaskProjectTotal: builder.query<IApiResponse<ITaskProjectResponse>, void>({
-      query: () => '/tasks-statistic/total',
+      query: () => '/task-statistic/total',
     }),
     getUserActivities: builder.query<IApiResponse<IUserActivitiesStats[]>, void>({
-      query: () => '/activities/stats',
+      query: () => '/activity/stats',
     }),
   }),
 });

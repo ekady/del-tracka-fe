@@ -13,7 +13,9 @@ import {
   IProjectMember,
   IProjectSettingRequest,
   IProjectSprintTaskDetail,
+  ITaskMoveStageRequest,
   ITaskResponse,
+  ITaskStatusUpdateBulkRequest,
   ITaskStatusUpdateRequest,
 } from '../interfaces';
 import { ProjectIds } from './project.api.slice';
@@ -27,16 +29,16 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       { ids: ProjectIds; params: IPaginationParams }
     >({
       query: ({ ids, params }) => ({
-        url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks`,
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task`,
         params,
       }),
       providesTags: ['Tasks'],
     }),
     getTask: builder.query<IProjectSprintTaskDetail, { ids: ProjectIds }>({
       query: ({ ids }) => {
-        const taskParam = ids.idTask ? `/tasks/${ids.idTask}` : '';
+        const taskParam = ids.idTask ? `/task/${ids.idTask}` : '';
         return {
-          url: `/projects/${ids.idProject}/stages/${ids.idSprint}${taskParam}`,
+          url: `/project/${ids.idProject}/stage/${ids.idSprint}${taskParam}`,
         };
       },
       transformResponse: (response: IApiResponse<ITaskResponse>) => {
@@ -57,12 +59,34 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       },
       providesTags: ['Task'],
     }),
+    moveSprint: builder.mutation<
+      IApiResponse<IStatusMessageResponse>,
+      { ids: ProjectIds; payload: ITaskMoveStageRequest }
+    >({
+      query: ({ ids, payload }) => ({
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task/move-stage`,
+        body: payload,
+        method: 'put',
+      }),
+      invalidatesTags: ['Tasks', 'ProjectStats', 'Project', 'Sprint'],
+    }),
+    updateStatusTaskBulk: builder.mutation<
+      IApiResponse<IStatusMessageResponse>,
+      { ids: ProjectIds; payload: ITaskStatusUpdateBulkRequest }
+    >({
+      query: ({ ids, payload }) => ({
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task/update-status`,
+        body: payload,
+        method: 'put',
+      }),
+      invalidatesTags: ['Tasks', 'Task', 'TaskActivities', 'ProjectStats'],
+    }),
     updateStatusTask: builder.mutation<
       IApiResponse<IStatusMessageResponse>,
       { ids: ProjectIds; payload: ITaskStatusUpdateRequest }
     >({
       query: ({ ids, payload }) => ({
-        url: `/projects/${ids.idProject}/stages/${ids.idSprint}/tasks/${ids.idTask}/update-status`,
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task/${ids.idTask}/update-status`,
         body: payload,
         method: 'put',
       }),
@@ -92,7 +116,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
         }
 
         return {
-          url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask ? id.idTask : ''}`,
+          url: `/project/${id.idProject}/stage/${id.idSprint}/task/${id.idTask ? id.idTask : ''}`,
           method: id.idTask ? 'put' : 'post',
           body: formData,
         };
@@ -101,19 +125,20 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     }),
     deleteTask: builder.mutation<IProjectSprintTaskDetail, ProjectIds>({
       query: ({ idProject, idSprint, idTask }) => ({
-        url: `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}`,
+        url: `/project/${idProject}/stage/${idSprint}/task/${idTask}`,
         method: 'delete',
       }),
       invalidatesTags: ['Tasks', 'Task', 'TaskActivities', 'ProjectStats'],
     }),
-    getComments: builder.query<IApiResponse<IProjectComment[]>, ProjectIds>({
-      query: ({ idProject, idSprint, idTask }) => `/projects/${idProject}/stages/${idSprint}/tasks/${idTask}/comments`,
+    getComments: builder.query<
+      IApiResponse<IPaginationResponse<IProjectComment>>,
+      { ids: ProjectIds; params?: IPaginationParams }
+    >({
+      query: ({ ids, params }) => ({
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task/${ids.idTask}/comment`,
+        params,
+      }),
       providesTags: ['Comments'],
-      transformResponse: (response: IApiResponse<IProjectComment[]>) => {
-        const dataCopy = [...response.data];
-        dataCopy.reverse();
-        return { ...response, data: dataCopy };
-      },
     }),
     createComment: builder.mutation<
       IApiResponse<IStatusMessageResponse>,
@@ -121,15 +146,21 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     >({
       query: ({ id, body }) => {
         return {
-          url: `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask}/comments`,
+          url: `/project/${id.idProject}/stage/${id.idSprint}/task/${id.idTask}/comment`,
           method: 'post',
           body,
         };
       },
-      invalidatesTags: ['Comments', 'TaskActivities'],
+      invalidatesTags: ['TaskActivities'],
     }),
-    getTaskActivities: builder.query<IApiResponse<IPaginationResponse<ILogsResponse[]>>, ProjectIds>({
-      query: (id) => `/projects/${id.idProject}/stages/${id.idSprint}/tasks/${id.idTask}/activities`,
+    getTaskActivities: builder.query<
+      IApiResponse<IPaginationResponse<ILogsResponse[]>>,
+      { ids: ProjectIds; params?: IPaginationParams }
+    >({
+      query: ({ ids, params }) => ({
+        url: `/project/${ids.idProject}/stage/${ids.idSprint}/task/${ids.idTask}/activity`,
+        params,
+      }),
       providesTags: ['TaskActivities'],
     }),
   }),
@@ -139,10 +170,14 @@ export const {
   useGetTasksQuery,
   useGetTaskQuery,
   useLazyGetTasksQuery,
+  useMoveSprintMutation,
   useUpdateStatusTaskMutation,
+  useUpdateStatusTaskBulkMutation,
   useCreateUpdateTaskMutation,
   useDeleteTaskMutation,
   useGetCommentsQuery,
+  useLazyGetCommentsQuery,
   useCreateCommentMutation,
   useGetTaskActivitiesQuery,
+  useLazyGetTaskActivitiesQuery,
 } = taskApiSlice;

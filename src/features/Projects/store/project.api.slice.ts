@@ -39,7 +39,7 @@ export const projectApiSlice = apiSlice
     endpoints: (builder) => ({
       // Projects
       getProjects: builder.query<IApiResponse<IProjectWithPermissions[]>, void>({
-        query: () => '/projects',
+        query: () => '/project',
         transformResponse: (response: IApiResponse<IProjectResponse[]>) => {
           return {
             data: response.data.map((data) => ({
@@ -65,14 +65,14 @@ export const projectApiSlice = apiSlice
       }),
       createProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectRequest>({
         query: (body) => ({
-          url: '/projects',
+          url: '/project',
           method: 'post',
           body,
         }),
         invalidatesTags: ['Projects'],
       }),
       getProject: builder.query<IApiResponse<IProjectWithPermissions>, string>({
-        query: (id) => `/projects/${id}`,
+        query: (id) => `/project/${id}`,
         providesTags: ['Project'],
         transformResponse: (response: IApiResponse<IProjectResponse>) => {
           return {
@@ -98,7 +98,7 @@ export const projectApiSlice = apiSlice
       }),
       updateProject: builder.mutation<IApiResponse<IStatusMessageResponse>, IProjectSettingRequest<IProjectRequest>>({
         query: ({ id, body }) => ({
-          url: `/projects/${id}`,
+          url: `/project/${id}`,
           method: 'put',
           body,
         }),
@@ -106,7 +106,7 @@ export const projectApiSlice = apiSlice
       }),
       deleteProject: builder.mutation<IApiResponse<IStatusMessageResponse>, string>({
         query: (id) => ({
-          url: `/projects/${id}`,
+          url: `/project/${id}`,
           method: 'delete',
         }),
         invalidatesTags: ['Projects'],
@@ -116,13 +116,13 @@ export const projectApiSlice = apiSlice
         { id: string; params: IPaginationParams }
       >({
         query: ({ id, params }) => ({
-          url: `/projects/${id}/activities`,
+          url: `/project/${id}/activity`,
           params,
         }),
         providesTags: ['ProjectActivities'],
       }),
       getProjectStats: builder.query<Record<keyof ITasksCount, number>, string>({
-        query: (id) => `tasks-statistic/project/${id}`,
+        query: (id) => `task-statistic/project/${id}`,
         transformResponse: (response) => {
           const res = response as IApiResponse<IStatsResponse[]>;
           return res.data?.reduce((acc, curr) => {
