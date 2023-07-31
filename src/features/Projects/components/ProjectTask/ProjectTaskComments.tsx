@@ -7,26 +7,26 @@ import { useRouter } from 'next/router';
 // React Hook Form
 import { useForm } from 'react-hook-form';
 
-// Redux
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-
 // Toast
 import { toast } from 'react-toastify';
 
 // MUI Components
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, TablePagination } from '@mui/material';
 
 // Local Components
 import { ButtonLoading, CustomInput } from '@/common/base';
 import ProjectTaskComment from './ProjectTaskComment';
 
 // Hooks
-import { useCreateCommentMutation, useGetCommentsQuery } from '@/features/projects/store/task.api.slice';
+import { useCreateCommentMutation, useLazyGetCommentsQuery } from '@/features/projects/store/task.api.slice';
+import { useAppDispatch } from '@/common/store';
+import { useTableChange } from '@/common/hooks/useTableChange';
 
 // Interfaces
 import { IProjectCommentRequest } from '@/features/projects/interfaces';
-import { useAppDispatch } from '@/common/store';
+
 import { invalidateTags } from '@/features/projects/store/project.api.slice';
+import { table } from '@/common/constants';
 
 const ProjectTaskComments = () => {
   const dispatch = useAppDispatch();
@@ -36,11 +36,16 @@ const ProjectTaskComments = () => {
   }, [dispatch]);
 
   const { query } = useRouter();
+  const { tableOption, onLimitPage } = useTableChange({ sortBy: 'createdAt|-1' });
   const idProject = query.project_id as string;
   const idSprint = query.sprint_id as string;
   const idTask = query.task_id as string;
 
-  const { data } = useGetCommentsQuery(idProject && idSprint && idTask ? { idProject, idSprint, idTask } : skipToken);
+  const [fetchComments, { data }] = useLazyGetCommentsQuery();
+  useEffect(() => {
+    if (idProject && idSprint && idTask) fetchComments({ ids: { idProject, idSprint, idTask }, params: tableOption });
+  }, [dispatch, fetchComments, idProject, idSprint, idTask, tableOption]);
+
   const [createComment, { isLoading }] = useCreateCommentMutation();
 
   const {
@@ -62,6 +67,7 @@ const ProjectTaskComments = () => {
       if ('data' in response && response.data) {
         toast.success('Comment created successfully');
         reset({ comment: '' });
+        onLimitPage('page', 1);
       }
     } catch (_) {
       //
@@ -85,7 +91,7 @@ const ProjectTaskComments = () => {
         </ButtonLoading>
       </Box>
       <Divider sx={{ mt: 3, mb: 2 }} />
-      {data?.data.map((comment) => (
+      {data?.data.data.map((comment) => (
         <Box key={comment._id}>
           <ProjectTaskComment
             comment={comment.comment}
@@ -96,6 +102,18 @@ const ProjectTaskComments = () => {
           <Box height={35} />
         </Box>
       ))}
+      {!!data?.data?.data?.length && (
+        <TablePagination
+          rowsPerPageOptions={table.limitOptions}
+          component="div"
+          labelRowsPerPage="Comments per page"
+          count={data?.data.pagination.total}
+          page={data?.data.pagination.page > 0 ? data.data.pagination.page - 1 : 0}
+          rowsPerPage={data?.data.pagination.limit}
+          onPageChange={(_, page) => onLimitPage('page', page + 1)}
+          onRowsPerPageChange={(e) => onLimitPage('limit', Number(e.target.value))}
+        />
+      )}
     </>
   );
 };
