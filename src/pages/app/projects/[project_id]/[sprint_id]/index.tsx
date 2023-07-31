@@ -65,6 +65,7 @@ const ProjectSprintPage = () => {
         <ProjectTaskFilter onChange={onFilter} />
         <Box sx={{ height: 40 }} />
         <ProjectTaskTable
+          disabledBulkMoveSprint
           SearchProps={{ onChange: onSearch }}
           TableProps={{
             getRowId: (row: ITaskResponse) => row._id,
@@ -76,6 +77,10 @@ const ProjectSprintPage = () => {
             onPaginationModelChange: (model) => {
               onLimitPage('limit', model.pageSize);
               onLimitPage('page', model.page + 1);
+            },
+            paginationModel: {
+              page: (issuesData?.data.pagination.page ?? 1) - 1,
+              pageSize: issuesData?.data.pagination.limit ?? 10,
             },
           }}
         />

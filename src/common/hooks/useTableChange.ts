@@ -31,8 +31,8 @@ export const useTableChange = (initialParams: IPaginationParams = {}) => {
     setTableOption((prevTableOption) => ({ ...prevTableOption, ...sort }));
   }, []);
 
-  const onFilter = useCallback((value?: Record<string, string | number | null>) => {
-    setTableOption((prevTableOption) => ({ ...prevTableOption, ...value }));
+  const onFilter = useCallback((value?: Record<string, string | string[] | number | null>) => {
+    setTableOption((prevTableOption) => ({ ...prevTableOption, page: 1, ...value }));
   }, []);
 
   const onLimitPage = useCallback((type: 'limit' | 'page', number: number) => {

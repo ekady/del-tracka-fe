@@ -29,6 +29,7 @@ const MyTasksPage = () => {
       <MyTasksFilter onChange={onFilter} />
       <Box sx={{ height: 40 }} />
       <ProjectTaskTable
+        disabledBulkMoveSprint
         SearchProps={{ onChange: onSearch }}
         TableProps={{
           getRowId: (row: ITaskResponse) => row._id,
@@ -40,6 +41,10 @@ const MyTasksPage = () => {
           onPaginationModelChange: (model) => {
             onLimitPage('limit', model.pageSize);
             onLimitPage('page', model.page + 1);
+          },
+          paginationModel: {
+            page: (data?.data.pagination.page ?? 1) - 1,
+            pageSize: data?.data.pagination.limit ?? 10,
           },
         }}
       />

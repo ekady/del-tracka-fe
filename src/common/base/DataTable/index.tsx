@@ -15,6 +15,7 @@ const DataTable = (props: DataGridProps) => {
       sortingMode="server"
       paginationMode="server"
       rowCount={0}
+      disableRowSelectionOnClick
       initialState={{
         pagination: {
           paginationModel: { page: table.initialPage, pageSize: table.initialLimit },
