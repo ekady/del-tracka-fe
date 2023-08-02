@@ -15,6 +15,10 @@ import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
+// MUI Date Picker Localization
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 // Utils
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -80,7 +84,9 @@ export default function MyApp(props: AppPropsWithLayout) {
         <LayoutTheme>
           <CssBaseline />
           <PersistGate persistor={persistor}>
-            <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
+            </LocalizationProvider>
           </PersistGate>
           <ToastContainer
             position="top-center"

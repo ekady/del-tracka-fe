@@ -127,6 +127,15 @@ export interface ITaskStatusUpdateRequest {
   status: string;
 }
 
+export interface ITaskStatusUpdateBulkRequest extends ITaskStatusUpdateRequest {
+  taskIds: string[];
+}
+
+export interface ITaskMoveStageRequest {
+  stageId: string;
+  taskIds: string[];
+}
+
 export interface IProjectSprintTaskDetail {
   _id: string;
   title: string;
