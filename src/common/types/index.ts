@@ -133,3 +133,23 @@ export interface IFileStream {
   mime: string;
   fileSize?: number;
 }
+
+export interface IMenuPermission {
+  _id: string;
+  menu: string;
+  create: boolean;
+  read: boolean;
+  update: boolean;
+  delete: boolean;
+}
+
+export interface IPermission {
+  roleName: string;
+  permissions: IMenuPermission[];
+}
+
+export interface IPermissionResponse {
+  [roleName: string]: {
+    [menuName: string]: IMenuPermission;
+  };
+}
