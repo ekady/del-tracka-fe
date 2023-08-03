@@ -1,8 +1,18 @@
 // MUI Components
-import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogProps } from '@mui/material';
+import {
+  Divider,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogProps,
+  IconButton,
+} from '@mui/material';
 
 import { FunctionVoid, IPropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
+import { Close } from '@mui/icons-material';
 
 export interface BaseDialogProps extends IPropsChildren {
   handleOk?: FunctionVoid;
@@ -14,6 +24,7 @@ export interface BaseDialogProps extends IPropsChildren {
   isOpen?: boolean;
   titleDialog: string;
   loading?: boolean;
+  showClose?: boolean;
   DialogMuiProps?: Omit<DialogProps, 'open'>;
 }
 
@@ -27,6 +38,7 @@ const BaseDialog = ({
   textCancel,
   titleDialog,
   loading,
+  showClose,
   children,
   DialogMuiProps,
 }: BaseDialogProps) => {
@@ -36,7 +48,14 @@ const BaseDialog = ({
       onClose={() => handleCancel?.()}
       PaperProps={{ ...DialogMuiProps, sx: { borderRadius: 5, ...DialogMuiProps?.sx } }}
     >
-      <DialogTitle>{titleDialog}</DialogTitle>
+      <DialogTitle component="div" display="flex" justifyContent="space-between" alignItems="center" gap={3}>
+        {titleDialog}
+        {showClose && (
+          <IconButton onClick={handleCancel}>
+            <Close />
+          </IconButton>
+        )}
+      </DialogTitle>
       <Divider />
       <DialogContent sx={{ mb: 5, minHeight: 100, minWidth: 300 }}>{children}</DialogContent>
       <DialogActions sx={{ mb: 1, px: 3 }}>
