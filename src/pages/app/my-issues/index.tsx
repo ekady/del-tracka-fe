@@ -30,6 +30,7 @@ const MyTasksPage = () => {
       <Box sx={{ height: 40 }} />
       <ProjectTaskTable
         disabledBulkMoveSprint
+        disabledBulkUpdateStatus
         SearchProps={{ onChange: onSearch }}
         TableProps={{
           getRowId: (row: ITaskResponse) => row._id,
