@@ -77,6 +77,10 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
     await push(`/app/projects/${projectId}/${query.sprint_id as string}`);
   }, [projectId, push, query.sprint_id]);
 
+  const handleToEdit = useCallback(async () => {
+    await push(`/app/projects/${projectId}/${query.sprint_id as string}/${query.task_id as string}/edit`);
+  }, [projectId, push, query.sprint_id, query.task_id]);
+
   return (
     <>
       <Box display={isCreate ? 'none' : 'flex'} alignItems="center" justifyContent="center">
@@ -135,7 +139,7 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
       {tab === 'media' && (
         <Box position="relative" bgcolor="white">
           {!task?.data?.images?.length && (
-            <Typography textAlign="center" py={4}>
+            <Typography textAlign="center" py={4} color="black">
               No Images
             </Typography>
           )}
@@ -149,14 +153,18 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
 
       <Box height={100} />
       {isDetail && (
-        <Box sx={{ textAlign: 'right' }}>
+        <Box sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end' }}>
           <Button
             className="text-right"
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={handleBackToTaskList as FunctionVoid}
           >
             Back
+          </Button>
+
+          <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
+            Edit
           </Button>
         </Box>
       )}
