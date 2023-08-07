@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 // Next
 import Image from 'next/image';
@@ -29,6 +29,7 @@ import {
   Settings,
   DarkMode,
   LightMode,
+  Help,
 } from '@mui/icons-material';
 
 // Local Components
@@ -49,6 +50,7 @@ import { selectColorTheme } from '@/common/store/selector';
 import { setColorTheme } from '@/common/store/general.slice';
 import ImageLoader from '../ImageLoader';
 import { IFileStream } from '@/common/types';
+import ProjectHelpDialog from '@/features/projects/components/ProjectHelpDialog';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -92,6 +94,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  const toggleDialogHelp = useCallback(() => {
+    if (helpOpen) handleClose();
+    setHelpOpen(!helpOpen);
+  }, [handleClose, helpOpen]);
 
   const changeColorTheme = useCallback(() => {
     const changeTo = colorTheme === 'dark' ? 'light' : 'dark';
@@ -191,6 +199,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                     </ListItemIcon>
                     <ListItemText>{colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</ListItemText>
                   </MenuItem>
+                  <MenuItem onClick={toggleDialogHelp}>
+                    <ListItemIcon>
+                      <Help fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Help</ListItemText>
+                  </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => onLogout()}>
                     <ListItemIcon>
@@ -210,6 +224,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
           </Container>
         </Toolbar>
       </AppBar>
+      <ProjectHelpDialog open={helpOpen} onCloseHelp={toggleDialogHelp} />
       {showMenu && <SideBar isOpen={sidebarOpen} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>
   );

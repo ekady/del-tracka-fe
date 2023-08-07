@@ -7,10 +7,18 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError 
 
 import { Mutex } from 'async-mutex';
 
-import { IApiResponse, ICredential, IResponseError, IUserInfoResponse } from '@/common/types';
+import {
+  IApiResponse,
+  ICredential,
+  IPermission,
+  IPermissionResponse,
+  IResponseError,
+  IUserInfoResponse,
+} from '@/common/types';
 import { setCredential } from '@/features/auth/store/auth.slice';
 import store, { RootState } from '.';
 import { RedirectType } from 'next/dist/client/components/redirect';
+import { MAPPING_MENU } from '../constants/menu';
 
 const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
   let accessToken = state.auth.data.ICredential.accessToken;
@@ -83,15 +91,35 @@ export const apiSlice = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: ['Profile'],
+  tagTypes: ['Profile', 'Permission'],
   endpoints: (builder) => ({
     getProfile: builder.query<IApiResponse<IUserInfoResponse>, void>({
       query: () => '/profile',
       providesTags: ['Profile'],
     }),
+    getPermission: builder.query<IPermission[], void>({
+      query: () => '/permission',
+      providesTags: ['Permission'],
+      transformResponse: (response: IApiResponse<IPermissionResponse>) => {
+        const modifiedResponse = { ...response.data };
+        if (modifiedResponse.GUEST) delete modifiedResponse.GUEST;
+
+        const keys = Object.keys(modifiedResponse);
+        const values = Object.values(modifiedResponse);
+
+        const result = keys.map((key, index) => ({
+          roleName: key,
+          permissions: Object.values(values[index]).map((permission) => ({
+            ...permission,
+            menu: MAPPING_MENU[permission.menu] ?? permission.menu,
+          })),
+        }));
+        return result;
+      },
+    }),
   }),
 });
 
-export const { useGetProfileQuery } = apiSlice;
+export const { useGetProfileQuery, useGetPermissionQuery } = apiSlice;
 export const { resetApiState } = apiSlice.util;
 export const { getProfile } = apiSlice.endpoints;

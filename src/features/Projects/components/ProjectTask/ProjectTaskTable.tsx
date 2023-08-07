@@ -247,7 +247,9 @@ const ProjectTaskTable = ({
       <DataTable
         rows={[]}
         columns={tableHeaders}
-        checkboxSelection={!disabledBulkMoveSprint || !disabledBulkUpdateStatus}
+        checkboxSelection={
+          (!disabledBulkMoveSprint || !disabledBulkUpdateStatus) && projectData?.data.rolePermissions.TASK.update
+        }
         onRowSelectionModelChange={(values) => setSelection(values as string[])}
         rowSelectionModel={selection}
         {...TableProps}

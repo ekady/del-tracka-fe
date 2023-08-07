@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 //MUI Components
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 // MUI Icons
 import { AddCircleOutlined, Sync } from '@mui/icons-material';
@@ -26,7 +26,7 @@ const messageSuccess = 'Project created successfully';
 const ProjectSide = () => {
   const dispatch = useAppDispatch();
   const [createProject, { isLoading }] = useCreateProjectMutation();
-  const { data } = useGetProjectsQuery();
+  const { data, isFetching, isLoading: isLoadingData } = useGetProjectsQuery();
   const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -60,8 +60,8 @@ const ProjectSide = () => {
       <Box sx={{ textAlign: 'center', px: 2 }}>
         <Typography>No Project</Typography>
         <Box sx={{ height: 25 }} />
-        <Grid container columns={14} spacing={2} alignItems="center">
-          <Grid item xs={11}>
+        <Grid container columns={1} spacing={1} alignItems="center">
+          <Grid item xs={1}>
             <Button
               fullWidth
               color="primary"
@@ -72,10 +72,16 @@ const ProjectSide = () => {
               Add New Project
             </Button>
           </Grid>
-          <Grid item xs={3}>
-            <IconButton color="primary" onClick={validateTags}>
+          <Grid item xs={1}>
+            <Button
+              fullWidth
+              color="primary"
+              variant="outlined"
+              onClick={validateTags}
+              disabled={isLoadingData || isFetching}
+            >
               <Sync />
-            </IconButton>
+            </Button>
           </Grid>
         </Grid>
         <ProjectDialogNew isOpen={openDialog} handleCancel={toggleDialog} handleOk={successDialog} />
@@ -85,8 +91,8 @@ const ProjectSide = () => {
   return (
     <Box sx={{ px: 2 }}>
       <Box sx={{ mb: 2, textAlign: 'center' }}>
-        <Grid container columns={14} spacing={2} alignItems="center">
-          <Grid item xs={11}>
+        <Grid container columns={1} spacing={2} alignItems="center">
+          <Grid item xs={1}>
             <Button
               fullWidth
               color="primary"
@@ -97,10 +103,16 @@ const ProjectSide = () => {
               Add New Project
             </Button>
           </Grid>
-          <Grid item xs={3}>
-            <IconButton color="primary" onClick={validateTags}>
+          <Grid item xs={1}>
+            <Button
+              fullWidth
+              color="primary"
+              variant="outlined"
+              onClick={validateTags}
+              disabled={isLoadingData || isFetching}
+            >
               <Sync />
-            </IconButton>
+            </Button>
           </Grid>
         </Grid>
         <ProjectDialogNew
