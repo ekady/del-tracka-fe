@@ -11,7 +11,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 // MUI Components
-import { Box, Divider, TablePagination } from '@mui/material';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import TablePagination from '@mui/material/TablePagination';
 
 // Local Components
 import { ButtonLoading, CustomInput } from '@/common/base';
@@ -106,7 +108,7 @@ const ProjectTaskComments = () => {
         <TablePagination
           rowsPerPageOptions={table.limitOptions}
           component="div"
-          labelRowsPerPage="Comments per page"
+          labelRowsPerPage=""
           count={data?.data.pagination.total}
           page={data?.data.pagination.page > 0 ? data.data.pagination.page - 1 : 0}
           rowsPerPage={data?.data.pagination.limit}

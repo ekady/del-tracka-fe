@@ -9,7 +9,10 @@ import Link from 'next/link';
 import { Controller, useForm, UseFormGetValues } from 'react-hook-form';
 
 // MUI Components
-import { Alert, Box, Divider, Typography } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 // Local Components
 import { LayoutAuth } from '@/common/layout';

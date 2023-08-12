@@ -2,10 +2,14 @@
 import { memo, ReactNode } from 'react';
 
 // MUI Components
-import { Box, InputAdornment, TextField, TextFieldProps, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+
+import { useTheme } from '@mui/material/styles';
 
 // MUI Icons
-import { SearchRounded } from '@mui/icons-material';
+import SearchRounded from '@mui/icons-material/SearchRounded';
 
 export interface TableHeaderProps {
   TextFieldProps?: TextFieldProps;

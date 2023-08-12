@@ -2,7 +2,7 @@
 import { ReactElement, useEffect } from 'react';
 
 // MUI Component
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // Components
 import { LayoutDefault } from '@/common/layout';

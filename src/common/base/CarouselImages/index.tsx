@@ -2,10 +2,11 @@
 import Image from 'next/image';
 
 // MUI Components
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // MUI Icons
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
 
 // React Carousel
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader

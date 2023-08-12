@@ -1,5 +1,5 @@
 // Components
-import { Typography, TypographyProps } from '@mui/material';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 
 const Copyright = (props: TypographyProps) => {
   return (

@@ -2,8 +2,12 @@ import Image, { ImageProps } from 'next/image';
 
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
-import { Box, CircularProgress, IconButton } from '@mui/material';
-import { BrokenImage, Replay } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+
+import BrokenImage from '@mui/icons-material/BrokenImage';
+import Replay from '@mui/icons-material/Replay';
 
 import { useGetFileQuery } from '@/features/file-stream/store/file-stream.api.slice';
 import { IFileStream } from '@/common/types';

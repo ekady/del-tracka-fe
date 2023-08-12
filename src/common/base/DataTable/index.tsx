@@ -1,4 +1,4 @@
-import { LinearProgress } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
 import { DataGridProps } from '@mui/x-data-grid';
 
 import { DataGridStyled } from './styled';

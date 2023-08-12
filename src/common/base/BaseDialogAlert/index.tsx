@@ -1,7 +1,10 @@
 import { useCallback } from 'react';
 
 // MUI Components
-import { Button, Dialog, DialogContent, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Typography from '@mui/material/Typography';
 
 // MUI Colors
 import { grey, blueGrey } from '@mui/material/colors';

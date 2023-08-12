@@ -2,7 +2,10 @@
 import { ElementType } from 'react';
 
 // MUI Components
-import { Box, DialogActions as DialogActionsMUI, DialogTitle as DialogTitleMUI, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import DialogActionsMUI from '@mui/material/DialogActions';
+import DialogTitleMUI from '@mui/material/DialogTitle';
+import { styled } from '@mui/material/styles';
 
 // MUI Icons
 import { CheckCircle as CheckCircleMUI, Delete as DeleteMUI, Warning as WarningMUI } from '@mui/icons-material';

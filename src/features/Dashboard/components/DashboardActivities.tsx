@@ -1,5 +1,8 @@
+import { useMemo } from 'react';
+
 // MUI Components
-import { Box, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 // MUI utils
 import { useTheme } from '@mui/material/styles';
@@ -13,7 +16,6 @@ import { BaseCard } from '@/common/base';
 import { BaseCardProps } from '@/common/base/BaseCard';
 
 import { useGetUserActivitiesQuery } from '../store/dashboard.api.slice';
-import { useMemo } from 'react';
 
 const baseCardStyle: BaseCardProps = { sx: { height: 400 } };
 

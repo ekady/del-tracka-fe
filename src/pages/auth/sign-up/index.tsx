@@ -8,7 +8,11 @@ import Link from 'next/link';
 import { Controller, useForm, UseFormGetValues } from 'react-hook-form';
 
 // MUI Components
-import { Alert, Box, Button, Divider, Typography } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 // Local Components
 import AuthWithGoogle from '@/features/auth/components/AuthWithGoogle';

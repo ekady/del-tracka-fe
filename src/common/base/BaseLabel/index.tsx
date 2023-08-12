@@ -1,4 +1,4 @@
-import { InputLabel, InputLabelProps } from '@mui/material';
+import InputLabel, { InputLabelProps } from '@mui/material/InputLabel';
 
 import { useAppSelector } from '@/common/store';
 import { selectColorTheme } from '@/common/store/selector';

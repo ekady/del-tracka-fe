@@ -1,6 +1,10 @@
 import { ElementType } from 'react';
 
-import { Box, Container, ListItemButton, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import ListItemButton from '@mui/material/ListItemButton';
+
+import { styled } from '@mui/material/styles';
 
 export const ListButton: ElementType = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== 'selected',

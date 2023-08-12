@@ -5,7 +5,7 @@ import { ChangeEvent, useCallback } from 'react';
 import { RegisterOptions, Controller } from 'react-hook-form';
 
 // MUI
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // Local Components
 import { CustomInput, PasswordRequirement } from '@/common/base';

@@ -1,11 +1,15 @@
+import { ReactElement } from 'react';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
 import { LayoutDefault } from '@/common/layout';
 import { FunctionVoid } from '@/common/types';
 import NotificationList from '@/features/notifications/components/NotificationList';
 import useAllNotification from '@/features/notifications/hooks/useAllNotification';
 import useUnreadNotification from '@/features/notifications/hooks/useUnreadNotification';
 import { useReadAllNotificationsMutation } from '@/features/notifications/store/notification.api.slice';
-import { Box, Button, Typography } from '@mui/material';
-import { ReactElement } from 'react';
 
 const NotificationPage = () => {
   const unread = useUnreadNotification();

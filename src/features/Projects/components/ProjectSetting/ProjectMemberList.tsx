@@ -1,7 +1,9 @@
 import { useCallback, useEffect } from 'react';
 
 // MUI Components
-import { Box, MenuItem, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // Redux

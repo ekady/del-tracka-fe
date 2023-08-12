@@ -8,7 +8,10 @@ import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box, Button, Divider, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 // Local Components
 import { LayoutAuth } from '@/common/layout';

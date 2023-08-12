@@ -1,6 +1,9 @@
 import Image from 'next/image';
-import { Box, Typography } from '@mui/material';
-import { Cancel } from '@mui/icons-material';
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+import Cancel from '@mui/icons-material/Cancel';
 
 import { FunctionVoidWithParams, IFileStream } from '@/common/types';
 import { formatBytes } from '@/common/helper';

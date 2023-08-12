@@ -1,6 +1,6 @@
 import { ElementType } from 'react';
 
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { DataGrid as DataGridMUI } from '@mui/x-data-grid';
 
 export const DataGridStyled: ElementType = styled(DataGridMUI)(({ theme }) => ({

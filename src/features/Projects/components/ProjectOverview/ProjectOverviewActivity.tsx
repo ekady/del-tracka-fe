@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
+
 // MUI Components
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 // Local Component
 import { Logs } from '@/features/logs/components';

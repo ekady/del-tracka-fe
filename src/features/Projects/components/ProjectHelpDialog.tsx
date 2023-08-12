@@ -1,5 +1,15 @@
-import { Box, CircularProgress, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { CheckCircle, CircleOutlined } from '@mui/icons-material';
+// MUI Components
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+// MUI Icons
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import CircleOutlined from '@mui/icons-material/CircleOutlined';
 
 import { BaseDialog } from '@/common/base';
 import { useGetPermissionQuery } from '@/common/store/api.slice';

@@ -1,6 +1,6 @@
 import { ChangeEvent, forwardRef, useMemo } from 'react';
 
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import { IMAGE_EXTENSION } from '../constants';
 import { InputFile } from '../styled';

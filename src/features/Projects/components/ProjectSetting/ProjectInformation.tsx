@@ -5,7 +5,7 @@ import { BaseSyntheticEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 // MUI Components
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // Local Components
 import ProjectNewForm from '../ProjectNewForm';

@@ -2,7 +2,9 @@
 import Link from 'next/link';
 
 // MUI Components
-import { Breadcrumbs, Typography, Link as LinkMUI } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
+import LinkMUI from '@mui/material/Link';
 
 // MUI Utils
 import { useTheme } from '@mui/material/styles';

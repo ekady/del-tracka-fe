@@ -5,7 +5,8 @@ import { ReactElement, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 // MUI
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 // Components
 import { LayoutDefault } from '@/common/layout';

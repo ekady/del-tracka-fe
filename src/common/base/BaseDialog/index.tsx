@@ -1,18 +1,16 @@
 // MUI Components
-import {
-  Divider,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  DialogProps,
-  IconButton,
-} from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import Close from '@mui/icons-material/Close';
 
 import { FunctionVoid, IPropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
-import { Close } from '@mui/icons-material';
 
 export interface BaseDialogProps extends IPropsChildren {
   handleOk?: FunctionVoid;

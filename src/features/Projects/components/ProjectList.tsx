@@ -6,10 +6,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // MUI Components
-import { Collapse, Icon, List, ListItemText, MenuItem } from '@mui/material';
+import Collapse from '@mui/material/Collapse';
+import Icon from '@mui/material/Icon';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
 
 // MUI Icons
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 // Local Components
 import { TableAction } from '@/common/base';

@@ -1,5 +1,5 @@
 // MUI Components
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 // Local Components
 import { Copyright, Header } from '@/common/base';

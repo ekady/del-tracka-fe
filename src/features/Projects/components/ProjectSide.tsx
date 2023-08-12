@@ -1,11 +1,15 @@
 // React
 import { useCallback, useEffect, useState } from 'react';
 
-//MUI Components
-import { Box, Button, Grid, Typography } from '@mui/material';
+// MUI Components
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // MUI Icons
-import { AddCircleOutlined, Sync } from '@mui/icons-material';
+import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
+import Sync from '@mui/icons-material/Sync';
 
 // Local Components
 import { ProjectDialogNew, ProjectList } from '.';

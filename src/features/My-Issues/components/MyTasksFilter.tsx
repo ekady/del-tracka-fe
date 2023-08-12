@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 // MUI Component
-import { Autocomplete } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 
 // Local Component
 import { CustomInput } from '@/common/base';

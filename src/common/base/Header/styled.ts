@@ -1,6 +1,10 @@
 import { ElementType } from 'react';
 
-import { AppBar as MuiAppBar, Box, styled, Typography } from '@mui/material';
+import MuiAppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+
 import { SIDEBAR_WIDTH } from '../SideBar/constants';
 
 import { AppBarProps } from '.';

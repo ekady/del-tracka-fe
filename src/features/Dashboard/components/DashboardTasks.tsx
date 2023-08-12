@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from 'react';
 
 // MUI Components
-import { Box, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 // MUI utils
 import { useTheme } from '@mui/material/styles';

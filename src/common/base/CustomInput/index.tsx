@@ -2,7 +2,8 @@
 import { FieldError } from 'react-hook-form';
 
 // MUI Components
-import { InputLabel, TextField, TextFieldProps } from '@mui/material';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
 
 // Hooks
 import { useAppSelector } from '@/common/store';

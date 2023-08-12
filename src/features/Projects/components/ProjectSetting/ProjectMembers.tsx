@@ -1,5 +1,5 @@
 // MUI Components
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // Local Components
 import ProjectFormNewMember from './ProjectFormNewMember';

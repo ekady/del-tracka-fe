@@ -1,5 +1,9 @@
-import { CheckCircle, CircleOutlined } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import CircleOutlined from '@mui/icons-material/CircleOutlined';
+
 import { passwordValidator } from './helper';
 
 export interface PasswordRequirementProps {

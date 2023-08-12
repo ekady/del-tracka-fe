@@ -2,7 +2,7 @@
 import { ReactElement } from 'react';
 
 // Components
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 import { LayoutDefault } from '@/common/layout';
 import { DashboardActivities, DashboardTasks, DashboardTotal } from '@/features/dashboard/components';
