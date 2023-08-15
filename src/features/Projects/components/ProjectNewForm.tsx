@@ -2,7 +2,7 @@
 import { Controller, RegisterOptions, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // Local Components
 import { CustomInput } from '@/common/base';

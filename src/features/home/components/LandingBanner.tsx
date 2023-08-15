@@ -1,5 +1,8 @@
 // MUI Components
-import { Box, Button, Grid, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // Next Components
 import Image from 'next/image';

@@ -5,7 +5,8 @@ import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 // MUI Component
-import { Autocomplete, Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import Autocomplete from '@mui/material/Autocomplete';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 
 // Date

@@ -1,7 +1,9 @@
 import { ElementType } from 'react';
 
 // MUI Components
-import { Box, IconButton, styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
 
 // Constant
 import { CarouselSize } from './constants';

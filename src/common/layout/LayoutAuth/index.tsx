@@ -7,7 +7,10 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 // MUI Components
-import { Paper, Box, Grid, Container } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 // Icons
 import { IconLogo } from '@/common/icons';

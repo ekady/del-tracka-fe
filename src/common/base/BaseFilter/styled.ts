@@ -1,7 +1,10 @@
 import { ElementType } from 'react';
 
 // MUI
-import { Box, Grid, styled, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
 export const FilterContainer: ElementType = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -28,7 +31,7 @@ export const FilterText: ElementType = styled(Typography)(() => ({
   flexGrow: 1,
 }));
 
-export const FilterListSelectContainer: ElementType = styled(Grid)(({ theme }) => ({
+export const FilterListSelectContainer: ElementType = styled(Grid)(() => ({
   width: '100%',
 }));
 

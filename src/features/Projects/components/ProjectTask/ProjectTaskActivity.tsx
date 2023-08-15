@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 
 import dayjs from 'dayjs';

@@ -2,7 +2,7 @@
 import { memo, ReactElement } from 'react';
 
 // MUI
-import { Chip, ChipProps } from '@mui/material';
+import Chip, { ChipProps } from '@mui/material/Chip';
 
 import STATUS, { StatusType } from '@/common/constants/status';
 import { FunctionVoidWithParams } from '@/common/types';

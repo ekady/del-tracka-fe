@@ -2,8 +2,12 @@ import { useCallback } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, MenuItem, Pagination, Typography } from '@mui/material';
-import { Circle } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import Pagination from '@mui/material/Pagination';
+import Typography from '@mui/material/Typography';
+
+import Circle from '@mui/icons-material/Circle';
 
 import { FunctionVoidWithParams, IPaginationResponse } from '@/common/types';
 import { INotificationResponse } from '../interfaces';

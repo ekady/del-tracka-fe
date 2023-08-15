@@ -1,4 +1,6 @@
-import { LinearProgress, PaperProps } from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
+import { PaperProps } from '@mui/material/Paper';
+
 import { IPropsChildren } from '@/common/types';
 import { CardBoxStyled, CardPaperStyled } from './styled';
 

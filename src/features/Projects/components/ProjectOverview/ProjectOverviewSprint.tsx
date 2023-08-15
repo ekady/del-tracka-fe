@@ -2,11 +2,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // MUI Components
-import { Box, IconButton, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import { GridColDef } from '@mui/x-data-grid';
 
 // MUI Icons
-import { AddCircleOutlined, Sync } from '@mui/icons-material';
+import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
+import Sync from '@mui/icons-material/Sync';
 
 // Local Component
 import { BaseDialogAlert, DataTable, TableAction, TableHeader } from '@/common/base';

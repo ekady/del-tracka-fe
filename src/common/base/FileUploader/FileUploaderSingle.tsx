@@ -2,7 +2,10 @@
 import { DragEvent, ReactNode, useCallback } from 'react';
 
 // MUI Components
-import { Box, Typography, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+import { useTheme } from '@mui/material/styles';
 
 // Local types
 import { FunctionVoid, FunctionVoidWithParams, IFileStream } from '@/common/types';

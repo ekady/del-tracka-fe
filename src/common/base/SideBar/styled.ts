@@ -1,6 +1,10 @@
 import { ElementType } from 'react';
 
-import { Drawer as MuiDrawer, ListItemButton as ListItemMUI, CSSObject, Theme, styled } from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
+import ListItemMUI from '@mui/material/ListItemButton';
+import type { CSSObject, Theme } from '@mui/material';
+
+import { styled } from '@mui/material/styles';
 
 // Constant
 import { SIDEBAR_WIDTH } from './constants';

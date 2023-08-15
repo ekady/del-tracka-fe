@@ -5,8 +5,14 @@ import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // MUI
-import { Box, CircularProgress, Collapse, Icon, ListItemText } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Collapse from '@mui/material/Collapse';
+import Icon from '@mui/material/Icon';
+import ListItemText from '@mui/material/ListItemText';
+
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 // Components
 import { LayoutDefault } from '@/common/layout';

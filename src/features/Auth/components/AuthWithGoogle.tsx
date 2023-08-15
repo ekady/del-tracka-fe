@@ -7,7 +7,9 @@ import { signIn } from 'next-auth/react';
 
 import { toast } from 'react-toastify';
 
-import { Button, useTheme } from '@mui/material';
+import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
+
 import { IconGoogle } from '@/common/icons';
 import { FunctionVoid } from '@/common/types';
 

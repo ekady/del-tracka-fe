@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
+
 // MUI Components
-import { Button, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 // MUI Icons
-import { Warning } from '@mui/icons-material';
+import Warning from '@mui/icons-material/Warning';
 
 import { BaseDialogAlert } from '@/common/base';
 

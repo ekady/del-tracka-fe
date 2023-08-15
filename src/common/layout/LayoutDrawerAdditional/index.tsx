@@ -2,7 +2,16 @@
 import { ReactNode } from 'react';
 
 // MUI Components
-import { Box, Breakpoint, Drawer, PaperProps, useMediaQuery, useTheme } from '@mui/material';
+
+// MUI Components
+import Box from '@mui/material/Box';
+import type { Breakpoint } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import { PaperProps } from '@mui/material/Paper';
+
+// MUI utils
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';

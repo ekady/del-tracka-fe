@@ -14,7 +14,7 @@ export interface ProfilePassword {
 }
 
 export interface ProfileRequest extends Profile, ProfilePassword {
-  picture?: File | IFileStream | null;
+  picture?: string | File | IFileStream | null;
   imageUrl?: string | null;
 }
 

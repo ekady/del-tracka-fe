@@ -2,10 +2,13 @@
 import { memo, useCallback, useState } from 'react';
 
 // MUI Components
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
 
 // MUI Icons
-import { MoreVert as MoreVertIcon } from '@mui/icons-material/';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { FunctionVoid, IPropsChildren } from '@/common/types';
 

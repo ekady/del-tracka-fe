@@ -2,7 +2,13 @@
 import Image from 'next/image';
 
 // Components
-import { Box, ImageList, ImageListItem, useMediaQuery, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+
+// MUI utils
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const LandingImages = () => {
   const theme = useTheme();

@@ -5,7 +5,10 @@ import { ReactElement, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 // MUI
-import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Components
 import { LayoutDefault } from '@/common/layout';

@@ -8,7 +8,8 @@ import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 
 // MUI Components
-import { Autocomplete, Grid } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import Grid from '@mui/material/Grid';
 
 // Local Components
 import { ButtonLoading, CustomInput } from '@/common/base';

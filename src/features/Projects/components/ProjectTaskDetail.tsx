@@ -2,8 +2,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // MUI Components
-import { Box, Button, ButtonGroup, IconButton, Typography } from '@mui/material';
-import { ContentCopy } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+
+// MUI Icons
+import ContentCopy from '@mui/icons-material/ContentCopy';
 
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';

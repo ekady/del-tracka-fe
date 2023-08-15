@@ -1,7 +1,8 @@
 import { BaseSyntheticEvent, useCallback, useEffect } from 'react';
 
 // MUI Components
-import { Autocomplete, Grid } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import Grid from '@mui/material/Grid';
 
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';

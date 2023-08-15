@@ -6,7 +6,10 @@ import { useRouter } from 'next/router';
 import { Settings } from '@mui/icons-material';
 
 // MUI Icons
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
 export type ProjectDetailTitleProps = {
   title: string;

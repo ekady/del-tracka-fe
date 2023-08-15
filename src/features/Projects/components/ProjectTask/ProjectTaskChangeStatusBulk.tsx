@@ -5,8 +5,12 @@ import { useState, MouseEvent, memo, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 // MUI Components
-import { Menu, MenuItem, Fade, ListSubheader, Divider } from '@mui/material';
-import { KeyboardArrowDown } from '@mui/icons-material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import Divider from '@mui/material/Divider';
+import ListSubheader from '@mui/material/ListSubheader';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 import { toast } from 'react-toastify';
 

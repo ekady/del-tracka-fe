@@ -2,7 +2,13 @@
 import type { ReactElement } from 'react';
 
 // MUI
-import { Box, Container, useMediaQuery, useTheme } from '@mui/material';
+// Components
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+
+// MUI utils
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Components
 import { LayoutHome } from '@/common/layout';

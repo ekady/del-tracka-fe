@@ -2,7 +2,8 @@
 import { memo } from 'react';
 
 // MUI Component
-import { Autocomplete, Typography } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import Typography from '@mui/material/Typography';
 
 // Local Component
 import { CustomInput } from '@/common/base';

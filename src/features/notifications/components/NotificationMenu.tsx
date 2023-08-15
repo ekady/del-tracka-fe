@@ -2,8 +2,17 @@ import { MouseEvent, useCallback, useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Badge, Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { Circle, Notifications, NotificationsOff } from '@mui/icons-material';
+import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+
+import Circle from '@mui/icons-material/Circle';
+import Notifications from '@mui/icons-material/Notifications';
+import NotificationsOff from '@mui/icons-material/NotificationsOff';
 
 import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
 import useUnreadNotification from '../hooks/useUnreadNotification';

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { GridColDef } from '@mui/x-data-grid';
 
@@ -11,7 +11,7 @@ import { ActivityMessage } from '../constants/activityType.constant';
 const dateColumn: GridColDef<ILogsResponse> = {
   headerName: 'Date',
   field: 'date',
-  valueGetter: ({ row }) => moment(row?.createdAt).format('MMM-DD-YYYY HH:mm'),
+  valueGetter: ({ row }) => dayjs(row?.createdAt).format('MMM-DD-YYYY HH:mm'),
   width: 150,
   sortable: false,
 };

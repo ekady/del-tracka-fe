@@ -4,11 +4,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 
 // MUI Components
-import { Box, Button, Typography, IconButton } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 // MUI Icons
-import { AddCircleOutlined, ContentCopy } from '@mui/icons-material';
+import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined';
+import ContentCopy from '@mui/icons-material/ContentCopy';
 
 // Toast
 import { toast } from 'react-toastify';
@@ -247,7 +251,9 @@ const ProjectTaskTable = ({
       <DataTable
         rows={[]}
         columns={tableHeaders}
-        checkboxSelection={!disabledBulkMoveSprint || !disabledBulkUpdateStatus}
+        checkboxSelection={
+          (!disabledBulkMoveSprint || !disabledBulkUpdateStatus) && projectData?.data.rolePermissions.TASK.update
+        }
         onRowSelectionModelChange={(values) => setSelection(values as string[])}
         rowSelectionModel={selection}
         {...TableProps}

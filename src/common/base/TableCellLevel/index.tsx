@@ -2,7 +2,7 @@
 import { memo, ReactElement } from 'react';
 
 // MUI
-import { Chip, ChipProps } from '@mui/material';
+import Chip, { ChipProps } from '@mui/material/Chip';
 
 import { FunctionVoidWithParams } from '@/common/types';
 import LEVEL, { LevelType } from '@/common/constants/level';

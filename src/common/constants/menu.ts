@@ -8,3 +8,11 @@ const menu: readonly IMenuItem[] = [
 ];
 
 export default menu;
+
+export const MAPPING_MENU: Record<string, string> = {
+  PROJECT: 'Project',
+  MEMBER: 'Member',
+  STAGE: 'Sprint',
+  TASK: 'Task',
+  COMMENT: 'Comment',
+};

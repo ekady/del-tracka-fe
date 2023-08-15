@@ -8,7 +8,11 @@ import { useRouter } from 'next/dist/client/router';
 import { UseFormGetValues, UseFormReturn } from 'react-hook-form';
 
 // MUI Components
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // Local Components
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';

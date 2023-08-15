@@ -1,5 +1,8 @@
 // MUI Components
-import { Grid, Container, Box, CssBaseline } from '@mui/material';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 
 // Local Components
 import { Header } from '@/common/base';

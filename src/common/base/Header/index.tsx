@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 // Next
 import Image from 'next/image';
@@ -6,30 +6,27 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 // MUI
-import {
-  Box,
-  Container,
-  Toolbar,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemText,
-  ListItemIcon,
-  Divider,
-  AppBarProps as MuiAppBarProps,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
-import {
-  Menu as MenuIcon,
-  AccountCircle,
-  Logout as LogoutIcon,
-  Settings,
-  DarkMode,
-  LightMode,
-} from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Settings from '@mui/icons-material/Settings';
+import DarkMode from '@mui/icons-material/DarkMode';
+import LightMode from '@mui/icons-material/LightMode';
+import Help from '@mui/icons-material/Help';
 
 // Local Components
 import Breadcrumb from '../Breadcrumb';
@@ -49,6 +46,7 @@ import { selectColorTheme } from '@/common/store/selector';
 import { setColorTheme } from '@/common/store/general.slice';
 import ImageLoader from '../ImageLoader';
 import { IFileStream } from '@/common/types';
+import ProjectHelpDialog from '@/features/projects/components/ProjectHelpDialog';
 
 export interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -92,6 +90,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  const toggleDialogHelp = useCallback(() => {
+    if (helpOpen) handleClose();
+    setHelpOpen(!helpOpen);
+  }, [handleClose, helpOpen]);
 
   const changeColorTheme = useCallback(() => {
     const changeTo = colorTheme === 'dark' ? 'light' : 'dark';
@@ -191,6 +195,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                     </ListItemIcon>
                     <ListItemText>{colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</ListItemText>
                   </MenuItem>
+                  <MenuItem onClick={toggleDialogHelp}>
+                    <ListItemIcon>
+                      <Help fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Help</ListItemText>
+                  </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => onLogout()}>
                     <ListItemIcon>
@@ -210,6 +220,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
           </Container>
         </Toolbar>
       </AppBar>
+      <ProjectHelpDialog open={helpOpen} onCloseHelp={toggleDialogHelp} />
       {showMenu && <SideBar isOpen={sidebarOpen} handleOpenDrawer={handleSidebar} isMobile={!lgAndUp} />}
     </>
   );

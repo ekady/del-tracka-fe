@@ -1,5 +1,6 @@
 // MUI Components
-import { Grid, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // MUI utils
 import { useTheme } from '@mui/material/styles';
