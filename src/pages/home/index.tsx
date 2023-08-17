@@ -5,6 +5,7 @@ import type { ReactElement } from 'react';
 // Components
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 // MUI utils
 import { useTheme } from '@mui/material/styles';
@@ -12,7 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Components
 import { LayoutHome } from '@/common/layout';
-import { LandingBanner, LandingCTA, LandingFeature, LandingImages } from '@/features/home/components';
+import { LandingBanner, LandingCTA, LandingFeature, LandingChooseUs } from '@/features/home/components';
 
 // Constant
 import { FEATURE } from '@/features/home/constant/landing';
@@ -25,17 +26,26 @@ const Home = () => {
     <Box>
       <Container>
         <LandingBanner />
-        <LandingFeature
-          direction={smAndUp ? 'row-reverse' : 'column-reverse'}
-          featureItems={FEATURE.feature1.items}
-          icon={FEATURE.feature1.icon}
-        />
-        <LandingFeature
-          direction={smAndUp ? 'row' : 'column-reverse'}
-          featureItems={FEATURE.feature2.items}
-          icon={FEATURE.feature2.icon}
-        />
-        <LandingImages />
+
+        <Box height={200} />
+
+        <Typography component="h1" textAlign="center" fontSize={36} fontWeight="bold" mb={-5}>
+          OUR FEATURE
+        </Typography>
+        {FEATURE.map((feature, index) => (
+          <LandingFeature
+            key={feature.items.toString()}
+            direction={smAndUp ? (index % 2 !== 1 ? 'row-reverse' : 'row') : 'column-reverse'}
+            featureItems={feature.items}
+            icon={feature.icon}
+          />
+        ))}
+
+        <Box height={200} />
+
+        <LandingChooseUs />
+
+        <Box height={200} />
       </Container>
       <Container maxWidth={false} disableGutters>
         <LandingCTA />

@@ -37,7 +37,7 @@ const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) 
         <Grid item xs={10}>
           {featureItems.map((item) => (
             <Box key={item.title} sx={{ mb: 3 }}>
-              <Typography component="h4" variant="h4" align="left">
+              <Typography component="h4" variant="h4" align="left" mb={2}>
                 {item.title}
               </Typography>
               <Typography component="p" variant="subtitle2" fontSize={16} align="left" gutterBottom>

@@ -1,30 +1,36 @@
-import { IconTask, IconTracking } from '@/common/icons';
+import LandingSprint from '@/common/icons/images/sprint-1.png';
+import LandingTaskList from '@/common/icons/images/task-list-1.png';
+import LandingTaskComment from '@/common/icons/images/task-comment-1.png';
 
-export const FEATURE = {
-  feature1: {
-    icon: IconTracking,
+export const FEATURE = [
+  {
+    icon: LandingSprint,
     items: [
       {
-        title: 'Set Priority',
-        subtitle: 'Manage and monitor your application issue together with your team member..',
-      },
-      {
-        title: 'Track',
-        subtitle: 'Manage and monitor your application issue together with your team member..',
+        title: 'Project List with Sprint Planning and Tracking',
+        subtitle:
+          "Keep your projects organized and your team on the same page. Define sprint goals, allocate tasks, and monitor the sprint's overall progress. Achieve a new level of efficiency in your development cycles.",
       },
     ],
   },
-  feature2: {
-    icon: IconTask,
+  {
+    icon: LandingTaskList,
     items: [
       {
-        title: 'Assign',
-        subtitle: 'Manage and monitor your application issue together with your team member..',
-      },
-      {
-        title: 'Discuss',
-        subtitle: 'Manage and monitor your application issue together with your team member..',
+        title: 'Task List Management',
+        subtitle:
+          'Stay on top of your tasks with our intuitive task list feature. Break down projects into manageable tasks, assign them to team members, and set deadlines. Track task statuses and ensure your projects stay on schedule.',
       },
     ],
   },
-};
+  {
+    icon: LandingTaskComment,
+    items: [
+      {
+        title: 'Task Comments and Collaboration',
+        subtitle:
+          "Communication is key, and with Tracka's task commenting feature, your team can collaborate seamlessly. Discuss task-specific details, share insights, and keep everyone informed about progress. No more scattered conversations—everything is neatly organized within the task.",
+      },
+    ],
+  },
+];

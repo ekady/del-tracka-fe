@@ -4,8 +4,9 @@ import Typography, { TypographyProps } from '@mui/material/Typography';
 const Copyright = (props: TypographyProps) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" sx={{ my: 2 }} {...props}>
-      {'Copyright © Dyah Eka Lestari '}
+      {'Copyright © '}
       {new Date().getFullYear()}
+      {' Dyah Eka Lestari'}
     </Typography>
   );
 };
