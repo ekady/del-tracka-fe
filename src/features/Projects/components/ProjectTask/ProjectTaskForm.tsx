@@ -1,8 +1,11 @@
-import { BaseSyntheticEvent, useCallback, useEffect } from 'react';
+import { BaseSyntheticEvent, ElementType, useCallback, useEffect } from 'react';
 
 // MUI Components
 import Autocomplete from '@mui/material/Autocomplete';
+import { TextFieldProps } from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { MobileDatePicker } from '@mui/x-date-pickers';
 
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -10,8 +13,11 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 // React Hook Form
 import { Controller, FieldError, RegisterOptions, useForm } from 'react-hook-form';
 
+// Date
+import dayjs from 'dayjs';
+
 // Local Components
-import { BaseDialogAlert, ButtonLoading, CustomInput, FileUploaderMultiple } from '@/common/base';
+import { BaseDialogAlert, BaseLabel, ButtonLoading, CustomInput, FileUploaderMultiple } from '@/common/base';
 import { levelList } from '@/common/constants/level';
 
 // Hooks
@@ -24,6 +30,7 @@ import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
 import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
 import { FunctionVoid } from '@/common/types';
+import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
 export interface ProjectTaskFormProps {
   data?: IProjectSprintTaskDetail;
@@ -44,6 +51,7 @@ const defaultValue: IProjectSprintTaskDetail = {
   reporter: null,
   assignee: null,
   detail: '',
+  dueDate: null,
   images: [],
 };
 
@@ -54,6 +62,7 @@ const validations: ProjectSprintTaskDetailForm = {
   title: { required: true },
   reporter: { required: false },
   assignee: { required: false },
+  dueDate: { required: false },
   detail: { required: false },
   images: { required: false },
   project: { required: false },
@@ -68,7 +77,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
   }, [dispatch]);
 
   const { projectId, router } = useProjectId();
-  const { data: dataMember } = useGetProjectMembersQuery(projectId || skipToken);
+  const { data: dataMember } = useGetProjectMembersQuery(projectId ?? skipToken);
   const [saveTask, { isLoading }] = useCreateUpdateTaskMutation();
   const {
     control,
@@ -113,7 +122,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
     <>
       <BaseDialogAlert {...dialogAlertOpt} />
       <Grid container columnSpacing={3} component="main">
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <Controller
             name="title"
             control={control}
@@ -126,6 +135,8 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
               />
             )}
           />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <Controller
             name="feature"
             control={control}
@@ -148,7 +159,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
                 disabled={disabled}
                 disableClearable={!!value}
                 getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                value={value ? value : null}
+                value={value ?? null}
                 onChange={(_, item) => onChange(item)}
                 isOptionEqualToValue={(option, val) => option._id === val._id}
                 renderInput={(params) => (
@@ -171,7 +182,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
                 disabled={disabled}
                 disableClearable={!!value}
                 getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                value={value ? value : null}
+                value={value ?? null}
                 onChange={(_, item) => onChange(item)}
                 isOptionEqualToValue={(option, val) => option._id === val._id}
                 renderInput={(params) => (
@@ -184,8 +195,6 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
               />
             )}
           />
-        </Grid>
-        <Grid item xs={12} md={6}>
           <Controller
             name="priority"
             control={control}
@@ -195,7 +204,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
                 options={levelList}
                 disabled={disabled}
                 disableClearable={!!value}
-                value={value ? value : null}
+                value={value ?? null}
                 onChange={(_, item) => onChange(item)}
                 isOptionEqualToValue={(option, val) => option.value === val.value}
                 renderInput={(params) => (
@@ -208,6 +217,29 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
               />
             )}
           />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box>
+            <BaseLabel>Due Date</BaseLabel>
+            <Controller
+              name="dueDate"
+              control={control}
+              rules={validations.dueDate}
+              render={({ field: { onChange, value } }) => (
+                <MobileDatePicker
+                  format="YYYY-MM-DD"
+                  sx={{ width: '100%', marginBottom: 2 }}
+                  closeOnSelect
+                  value={value ? dayjs(value) : null}
+                  onChange={(val) => onChange(val)}
+                  minDate={dayjs()}
+                  disabled={disabled}
+                  slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
+                  slotProps={{ textField: { size: 'small', placeholder: 'Enter due date' }, }}
+                />
+              )}
+            />
+          </Box>
           <Controller
             name="detail"
             control={control}

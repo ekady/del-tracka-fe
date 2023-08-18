@@ -45,6 +45,7 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const dispatch = useAppDispatch();
   const {
     projectId,
+    data: projectData,
     router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
@@ -169,9 +170,11 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
             Back
           </Button>
 
-          <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
-            Edit
-          </Button>
+          {projectData?.data.rolePermissions.TASK.update && (
+            <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
+              Edit
+            </Button>
+          )}
         </Box>
       )}
     </>

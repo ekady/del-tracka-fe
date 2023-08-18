@@ -1,11 +1,12 @@
 // React
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ElementType, ReactElement, useCallback, useEffect, useState } from 'react';
 
 // Next Auth
 import { useSession } from 'next-auth/react';
 
 // MUI Component
 import Box from '@mui/material/Box';
+import { TextFieldProps } from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 
@@ -28,6 +29,7 @@ import { useGetProjectsQuery, useLazyGetProjectActivitiesQuery } from '@/feature
 import { forceFileDownload } from '@/common/helper/file';
 
 import { FunctionVoid } from '@/common/types';
+import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
 const initialDateValue = {
   startDate: dayjs().startOf('month').toISOString(),
@@ -108,7 +110,9 @@ const LogsPage = () => {
               sx={{ width: '100%', marginBottom: 2 }}
               disabled={!tableOption.projectId}
               closeOnSelect
+              maxDate={tableOption.endDate ? dayjs(tableOption.endDate as string) : dayjs(initialDateValue.endDate)}
               onChange={(value) => onFilter({ startDate: value?.toISOString() ?? '' })}
+              slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
             />
           </Box>
           <Box width="100%">
@@ -120,7 +124,11 @@ const LogsPage = () => {
               sx={{ width: '100%', marginBottom: 2 }}
               disabled={!tableOption.projectId}
               closeOnSelect
+              minDate={
+                tableOption.startDate ? dayjs(tableOption.startDate as string) : dayjs(initialDateValue.startDate)
+              }
               onChange={(value) => onFilter({ endDate: value?.toISOString() ?? '' })}
+              slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
             />
           </Box>
         </Box>

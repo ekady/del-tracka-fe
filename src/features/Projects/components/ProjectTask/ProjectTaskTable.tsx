@@ -187,10 +187,10 @@ const ProjectTaskTable = ({
       { headerName: 'Feature', field: 'feature', width: 200 },
       { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
       {
-        headerName: 'Date Updated',
-        field: 'updatedAt',
-        width: 200,
-        valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
+        headerName: 'Due Date',
+        field: 'dueDate',
+        width: 150,
+        valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleDateString() : '-'),
       },
       {
         headerName: 'Reporter',
@@ -202,6 +202,12 @@ const ProjectTaskTable = ({
         headerName: 'Assignee',
         field: 'assignee',
         valueGetter: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
+      },
+      {
+        headerName: 'Date Updated',
+        field: 'updatedAt',
+        width: 200,
+        valueFormatter: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
       },
     ],
     [renderCellAction, renderCellLevel, renderCellStatus, renderCellTaskId],
