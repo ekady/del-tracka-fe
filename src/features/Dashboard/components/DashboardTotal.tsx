@@ -18,8 +18,8 @@ const DashboardTotal = () => {
   const theme = useTheme();
 
   return (
-    <Grid container spacing={3} columns={10}>
-      <Grid item xs={12} sm={3} lg={2}>
+    <Grid container spacing={3} columns={12}>
+      <Grid item xs={12} sm={3}>
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.error.main, fontWeight: 'bold' }}>
             {data?.data.totalProject}
@@ -27,7 +27,7 @@ const DashboardTotal = () => {
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5 }}>Total Projects</Typography>
         </BaseCard>
       </Grid>
-      <Grid item xs={12} sm={3} lg={2}>
+      <Grid item xs={12} sm={3}>
         <BaseCard {...baseCardStyle} loading={isLoading || isFetching}>
           <Typography component="h4" variant="h4" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
             {data?.data.totalTask}
