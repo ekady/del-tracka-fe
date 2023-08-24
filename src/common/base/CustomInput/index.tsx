@@ -2,7 +2,7 @@
 import { FieldError } from 'react-hook-form';
 
 // MUI Components
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import { TextFieldProps } from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 
 // Hooks
@@ -11,6 +11,7 @@ import { useAppSelector } from '@/common/store';
 // Helper
 import { extractErrorMessage } from '@/common/helper';
 import { selectColorTheme } from '@/common/store/selector';
+import { TextFieldStyled } from './styled';
 
 export interface CustomInputProps {
   TextFieldProps?: TextFieldProps;
@@ -20,9 +21,7 @@ export interface CustomInputProps {
 }
 
 const defaultStyle = {
-  marginTop: 0,
   marginBottom: 2,
-  fontSize: 14,
 };
 
 const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: CustomInputProps) => {
@@ -34,7 +33,7 @@ const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: Cu
       <InputLabel margin="dense" sx={{ fontSize: '0.875rem', color: isDark ? 'white' : 'black' }}>
         {fieldname}
       </InputLabel>
-      <TextField
+      <TextFieldStyled
         error={containError}
         helperText={errorMessage}
         size="small"
@@ -42,10 +41,7 @@ const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: Cu
         fullWidth
         {...TextFieldProps}
         sx={{ ...defaultStyle, ...TextFieldProps?.sx }}
-        InputProps={{
-          ...TextFieldProps?.InputProps,
-          sx: { backgroundColor: isDark ? 'transparent' : 'white', ...TextFieldProps?.InputProps?.sx },
-        }}
+        InputProps={TextFieldProps?.InputProps}
       />
     </>
   );

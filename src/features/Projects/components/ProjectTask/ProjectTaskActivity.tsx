@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { ElementType, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
+import { TextFieldProps } from '@mui/material/TextField';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 
 import dayjs from 'dayjs';
@@ -12,6 +13,7 @@ import { Logs } from '@/features/logs/components';
 import { useLazyGetTaskActivitiesQuery } from '@/features/projects/store/task.api.slice';
 import { useTableChange } from '@/common/hooks/useTableChange';
 import { BaseLabel } from '@/common/base';
+import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
 const initialDateValue = {
   startDate: dayjs().startOf('month').toISOString(),
@@ -43,7 +45,9 @@ const ProjectTaskActivity = () => {
             slotProps={{ textField: { size: 'small' } }}
             sx={{ width: '100%', marginBottom: 2 }}
             closeOnSelect
+            maxDate={tableOption.endDate ? dayjs(tableOption.endDate as string) : dayjs(initialDateValue.endDate)}
             onChange={(value) => onFilter({ startDate: value?.toISOString() ?? '' })}
+            slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
           />
         </Box>
         <Box width="100%">
@@ -55,6 +59,10 @@ const ProjectTaskActivity = () => {
             sx={{ width: '100%', marginBottom: 2 }}
             closeOnSelect
             onChange={(value) => onFilter({ endDate: value?.toISOString() ?? '' })}
+            minDate={
+              tableOption.startDate ? dayjs(tableOption.startDate as string) : dayjs(initialDateValue.startDate)
+            }
+            slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
           />
         </Box>
       </Box>

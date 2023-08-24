@@ -49,6 +49,7 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
           reporter: response.data.reporter as IProjectMember,
           assignee: response.data.assignee as IProjectMember,
           detail: response.data.detail,
+          dueDate: response.data.dueDate,
           priority: levelList.find((level) => level.value === response.data.priority) ?? null,
           images: response.data.images,
           project: response.data.project,
@@ -98,10 +99,11 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
     >({
       query: ({ id, body }) => {
         const formData = new FormData();
-        const { feature, priority, title, reporter, assignee, detail, images } = body;
+        const { feature, priority, title, reporter, assignee, detail, dueDate, images } = body;
 
         formData.append('feature', feature);
         formData.append('title', title);
+        if (dueDate) formData.append('dueDate', dueDate.toISOString());
         formData.append('priority', priority?.value ?? '');
         formData.append('reporter', reporter?._id ?? '');
         formData.append('assignee', assignee?._id ?? '');

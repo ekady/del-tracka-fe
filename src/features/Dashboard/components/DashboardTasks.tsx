@@ -71,7 +71,7 @@ const DashboardTasks = () => {
 
   return (
     <Grid container spacing={3} columns={12}>
-      <Grid item xs={12} sm={6} md={5} lg={4}>
+      <Grid item xs={12} sm={6}>
         <BaseCard {...baseCardStyle} loading={isLoading ?? isFetching}>
           <TypographyTasks>All Tasks</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -91,7 +91,7 @@ const DashboardTasks = () => {
           </Box>
         </BaseCard>
       </Grid>
-      <Grid item xs={12} sm={6} md={5} lg={4}>
+      <Grid item xs={12} sm={6}>
         <BaseCard {...baseCardStyle} loading={isLoadingUser ?? isFetchingUser}>
           <TypographyTasks>Tasks Assign to You</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>

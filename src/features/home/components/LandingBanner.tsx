@@ -9,23 +9,28 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Icons
-import { IconScrumBoard } from '@/common/icons';
+import LandingBannerPict from '@/common/icons/images/landing-1.png';
 
 const LandingBanner = () => {
   return (
-    <Grid container spacing={2} sx={{ alignItems: 'center', my: 2, justifyContent: 'center' }}>
+    <Grid
+      container
+      spacing={{ xs: 2, md: 12 }}
+      sx={{ alignItems: 'center', my: 2, justifyContent: 'center', height: { xs: 'auto', sm: 500 } }}
+    >
       <Grid item xs={12} sm={6} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
         <Box>
           <Typography component="p" gutterBottom sx={{ fontSize: { lg: 44, md: 36, xs: 28 }, mt: { xs: 4, sm: 0 } }}>
-            Invite your team and start working together.
+            Welcome to Tracka: Your Ultimate Bug Tracker App
           </Typography>
           <Typography component="p" variant="subtitle2" fontSize={18} gutterBottom>
-            Manage and monitor your application issue together with your team member.
+            Introducing the comprehensive bug tracker app designed to streamline your project management process and
+            keep your team on track.
           </Typography>
           <Box sx={{ mt: 3 }}>
-            <Link href="/auth/sign-in" passHref>
+            <Link href="/auth/sign-up" passHref>
               <Button color="secondary" variant="contained">
-                Sign In
+                Get Started
               </Button>
             </Link>
           </Box>
@@ -33,10 +38,10 @@ const LandingBanner = () => {
       </Grid>
       <Grid item xs={12} sm={6}>
         <Image
-          src={IconScrumBoard}
+          src={LandingBannerPict}
           alt="icon-scrum-board"
-          width={400}
-          height={400}
+          width={900}
+          height={600}
           priority
           style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
         />

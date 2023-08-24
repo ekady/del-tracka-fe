@@ -28,14 +28,19 @@ const LandingCTA = () => {
       <Typography
         component="h5"
         variant="h5"
-        sx={{ textAlign: 'center', color: theme.palette.getContrastText(theme.palette.primary.dark) }}
+        sx={{
+          textAlign: 'center',
+          color: theme.palette.getContrastText(theme.palette.primary.dark),
+          textTransform: 'uppercase',
+          fontWeight: 'bold',
+        }}
       >
-        SIGN IN &amp; START WORKING NOW
+        Elevate Your Project Management <br /> Join Tracka Today!
       </Typography>
       <Box sx={{ mt: 3 }}>
-        <Link href="/auth/sign-in" passHref>
+        <Link href="/auth/sign-up" passHref>
           <Button color="secondary" variant="contained">
-            Sign In
+            Get Started Now!
           </Button>
         </Link>
       </Box>

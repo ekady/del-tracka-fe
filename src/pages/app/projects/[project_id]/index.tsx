@@ -50,7 +50,7 @@ const ProjecOverviewDetailPage = () => {
         />
       </Grid>
       <Box sx={{ height: 40 }} />
-      <Grid container gap={1} columns={15} justifyContent={{ xs: 'center', sm: 'space-between' }}>
+      <Grid container gap={1} columns={15} justifyContent={{ xs: 'center', sm: 'start' }}>
         <ProjectOverview {...STATUS.OPEN} value={projectStat?.OPEN ?? 0} />
         <ProjectOverview {...STATUS.IN_PROGRESS} value={projectStat?.IN_PROGRESS ?? 0} />
         <ProjectOverview {...STATUS.REVIEW} value={projectStat?.REVIEW ?? 0} />

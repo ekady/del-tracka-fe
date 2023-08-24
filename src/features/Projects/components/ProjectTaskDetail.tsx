@@ -45,11 +45,12 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   const dispatch = useAppDispatch();
   const {
     projectId,
+    data: projectData,
     router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
-    projectId && query.sprint_id && query.task_id
-      ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: query.task_id as string } }
+    projectId && query.sprint_id && (query.task_id || isCreate)
+      ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: (query?.task_id as string) ?? '' } }
       : skipToken,
   );
   const [tab, setTab] = useState<string>('form');
@@ -169,9 +170,11 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
             Back
           </Button>
 
-          <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
-            Edit
-          </Button>
+          {projectData?.data.rolePermissions.TASK.update && (
+            <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
+              Edit
+            </Button>
+          )}
         </Box>
       )}
     </>

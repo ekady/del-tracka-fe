@@ -119,6 +119,7 @@ export interface ITaskResponse {
   shortId: string;
   project: IProject;
   stage: ISprint;
+  dueDate?: Date | null;
   permissions?: IProjectPermission;
   name?: string;
 }
@@ -149,6 +150,7 @@ export interface IProjectSprintTaskDetail {
   project?: IProject;
   stage?: ISprint;
   name?: string;
+  dueDate?: Date | null;
   shortId?: string;
 }
 
