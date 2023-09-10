@@ -24,6 +24,7 @@ import {
   useCreateProjectMutation,
   useGetProjectsQuery,
 } from '../store/project.api.slice';
+import { useGetProfileQuery } from '@/common/store/api.slice';
 
 const messageSuccess = 'Project created successfully';
 
@@ -33,6 +34,7 @@ const ProjectSide = () => {
   const { data, isFetching, isLoading: isLoadingData } = useGetProjectsQuery();
   const { dialogAlertOpt, openDialogSuccess, closeDialogAlert } = useDialogAlert();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const { data: profileData } = useGetProfileQuery();
 
   useEffect(() => {
     return () => {
@@ -65,17 +67,19 @@ const ProjectSide = () => {
         <Typography>No Project</Typography>
         <Box sx={{ height: 25 }} />
         <Grid container columns={1} spacing={1} alignItems="center">
-          <Grid item xs={1}>
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              startIcon={<AddCircleOutlined />}
-              onClick={toggleDialog}
-            >
-              Add New Project
-            </Button>
-          </Grid>
+          {!profileData?.data?.isDemo && (
+            <Grid item xs={1}>
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                startIcon={<AddCircleOutlined />}
+                onClick={toggleDialog}
+              >
+                Add New Project
+              </Button>
+            </Grid>
+          )}
           <Grid item xs={1}>
             <Button
               fullWidth
@@ -96,17 +100,19 @@ const ProjectSide = () => {
     <Box sx={{ px: 2 }}>
       <Box sx={{ mb: 2, textAlign: 'center' }}>
         <Grid container columns={1} spacing={2} alignItems="center">
-          <Grid item xs={1}>
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              startIcon={<AddCircleOutlined />}
-              onClick={toggleDialog}
-            >
-              Add New Project
-            </Button>
-          </Grid>
+          {!profileData?.data?.isDemo && (
+            <Grid item xs={1}>
+              <Button
+                fullWidth
+                color="primary"
+                variant="contained"
+                startIcon={<AddCircleOutlined />}
+                onClick={toggleDialog}
+              >
+                Add New Project
+              </Button>
+            </Grid>
+          )}
           <Grid item xs={1}>
             <Button
               fullWidth

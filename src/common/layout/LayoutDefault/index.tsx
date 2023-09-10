@@ -12,14 +12,19 @@ import { IPropsChildren } from '@/common/types';
 
 import { useAppSelector } from '@/common/store';
 import { selectColorTheme, selectSidebarOpen } from '@/common/store/selector';
+import { useGetProfileQuery } from '@/common/store/api.slice';
 
 const LayoutDefault = ({ children }: IPropsChildren) => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);
   const colorTheme = useAppSelector(selectColorTheme);
+  const { data } = useGetProfileQuery();
 
   return (
     <LayoutWrapper>
-      <Grid component="main" sx={{ flexGrow: 1, pt: 6 }}>
+      <Grid
+        component="main"
+        sx={{ flexGrow: 1, pt: { xs: data?.data?.isDemo ? 12 : 8, sm: data?.data?.isDemo ? 11 : 8 } }}
+      >
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header showMenu usingSidebar />
@@ -36,9 +41,11 @@ const LayoutDefault = ({ children }: IPropsChildren) => {
             <Container
               maxWidth={false}
               sx={{
-                minHeight: 'calc(100vh - 120px)',
+                minHeight: {
+                  xs: `calc(100vh - ${data?.data?.isDemo ? '180px' : '120px'})`,
+                  sm: `calc(100vh - ${data?.data?.isDemo ? '144px' : '120px'})`,
+                },
                 flexGrow: 1,
-                mt: 2,
                 py: 3,
                 mb: 2,
                 height: '100%',

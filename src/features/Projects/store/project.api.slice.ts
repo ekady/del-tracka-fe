@@ -125,10 +125,13 @@ export const projectApiSlice = apiSlice
         query: (id) => `task-statistic/project/${id}`,
         transformResponse: (response) => {
           const res = response as IApiResponse<IStatsResponse[]>;
-          return res.data?.reduce((acc, curr) => {
-            acc[curr.name] = curr.count;
-            return acc;
-          }, {} as Record<string, number>);
+          return res.data?.reduce(
+            (acc, curr) => {
+              acc[curr.name] = curr.count;
+              return acc;
+            },
+            {} as Record<string, number>,
+          );
         },
         providesTags: ['ProjectStats'],
       }),

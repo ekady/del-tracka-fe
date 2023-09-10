@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 // MUI
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -87,6 +89,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const xsAndDown = useMediaQuery(theme.breakpoints.down('xs'));
   const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
@@ -151,73 +154,84 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   return (
     <>
       <AppBar color="inherit" open={sidebarOpen} sidebar={usingSidebar}>
-        <Toolbar disableGutters>
-          {usingSidebar && (
-            <TitleContainer>
-              {logo}
-              <IconButton
-                onClick={handleSidebar}
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ display: 'block', mx: lgAndUp ? 'unset' : 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-            </TitleContainer>
+        <Toolbar disableGutters sx={{ flexDirection: 'column' }}>
+          {data?.data?.isDemo && (
+            <Alert icon={!xsAndDown} severity="warning" sx={{ width: '100%', py: 0 }}>
+              You&apos;re currently using a{' '}
+              <Typography fontWeight="bold" display="inline-block" fontSize={12.25}>
+                demo account
+              </Typography>
+              , and creating a new project is not available with this account type
+            </Alert>
           )}
-          <Container maxWidth={false} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ flexGrow: 1 }}>{menuInfo}</Box>
-            {data?.data.email ? (
-              <>
-                {logInInfo}
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                  keepMounted
-                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
+          <Box width="100%" display="flex" alignItems="center">
+            {usingSidebar && (
+              <TitleContainer>
+                {logo}
+                <IconButton
+                  onClick={handleSidebar}
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ display: 'block', mx: lgAndUp ? 'unset' : 2 }}
                 >
-                  <Link href="/app/settings" passHref>
-                    <MenuItem onClick={handleClose}>
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>Settings</ListItemText>
-                    </MenuItem>
-                  </Link>
-                  <MenuItem onClick={changeColorTheme}>
-                    <ListItemIcon>
-                      {colorTheme === 'light' ? <DarkMode fontSize="small" /> : <LightMode fontSize="small" />}
-                    </ListItemIcon>
-                    <ListItemText>{colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</ListItemText>
-                  </MenuItem>
-                  <MenuItem onClick={toggleDialogHelp}>
-                    <ListItemIcon>
-                      <Help fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Help</ListItemText>
-                  </MenuItem>
-                  <Divider />
-                  <MenuItem onClick={() => onLogout()}>
-                    <ListItemIcon>
-                      <LogoutIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Log Out</ListItemText>
-                  </MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <Link href="/auth/sign-in" passHref>
-                <Button color="inherit">
-                  <Text>Log In</Text>
-                </Button>
-              </Link>
+                  <MenuIcon />
+                </IconButton>
+              </TitleContainer>
             )}
-          </Container>
+            <Container maxWidth={false} sx={{ display: 'flex', alignItems: 'center', height: 52 }}>
+              <Box sx={{ flexGrow: 1 }}>{menuInfo}</Box>
+              {data?.data.email ? (
+                <>
+                  {logInInfo}
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    keepMounted
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <Link href="/app/settings" passHref>
+                      <MenuItem onClick={handleClose}>
+                        <ListItemIcon>
+                          <Settings fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Settings</ListItemText>
+                      </MenuItem>
+                    </Link>
+                    <MenuItem onClick={changeColorTheme}>
+                      <ListItemIcon>
+                        {colorTheme === 'light' ? <DarkMode fontSize="small" /> : <LightMode fontSize="small" />}
+                      </ListItemIcon>
+                      <ListItemText>{colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={toggleDialogHelp}>
+                      <ListItemIcon>
+                        <Help fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Help</ListItemText>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={() => onLogout()}>
+                      <ListItemIcon>
+                        <LogoutIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Log Out</ListItemText>
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <Link href="/auth/sign-in" passHref>
+                  <Button color="inherit">
+                    <Text>Log In</Text>
+                  </Button>
+                </Link>
+              )}
+            </Container>
+          </Box>
         </Toolbar>
       </AppBar>
       <ProjectHelpDialog open={helpOpen} onCloseHelp={toggleDialogHelp} />

@@ -23,17 +23,19 @@ import { ListButton, ListContainer, ListContentContainer, ListItemContainer } fr
 // Hooks
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
+import { useGetProfileQuery } from '@/common/store/api.slice';
 
-const menus = [
-  { menu: 'Project Information', component: <ProjectInformation />, isLazyLoad: false },
-  { menu: 'Member', component: <ProjectMembers />, isLazyLoad: false },
-  { menu: 'Other', component: <ProjectOtherSetting />, isLazyLoad: true },
-];
+const menusObj = {
+  project: { menu: 'Project Information', component: <ProjectInformation />, isLazyLoad: false },
+  member: { menu: 'Member', component: <ProjectMembers />, isLazyLoad: false },
+  other: { menu: 'Other', component: <ProjectOtherSetting />, isLazyLoad: true },
+};
 
 const ProjectSettingPage = () => {
   const router = useRouter();
   const { data, projectId } = useProjectId();
   const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
+  const { data: profileData } = useGetProfileQuery();
 
   useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
 
@@ -63,21 +65,53 @@ const ProjectSettingPage = () => {
 
   return (
     <>
-      {menus.map(({ menu, component, isLazyLoad }, index) => (
-        <ListContainer key={menu}>
+      {data?.data?.rolePermissions?.PROJECT?.update && (
+        <ListContainer>
           <ListItemContainer>
-            <ListButton disableTouchRipple onClick={handleClick(index)}>
-              <ListItemText className="cursor-pointer" primary={menu} />
+            <ListButton disableTouchRipple onClick={handleClick(0)}>
+              <ListItemText className="cursor-pointer" primary={menusObj.project.menu} />
               <Icon className="cursor-pointer" sx={{ mr: 1 }}>
-                {open[index] ? <ExpandLess /> : <ExpandMore />}
+                {open[0] ? <ExpandLess /> : <ExpandMore />}
               </Icon>
             </ListButton>
           </ListItemContainer>
-          <Collapse in={open[index]} timeout="auto" mountOnEnter={isLazyLoad}>
-            <ListContentContainer maxWidth={false}>{component}</ListContentContainer>
+          <Collapse in={open[0]} timeout="auto" mountOnEnter={menusObj.project.isLazyLoad}>
+            <ListContentContainer maxWidth={false}>{menusObj.project.component}</ListContentContainer>
           </Collapse>
         </ListContainer>
-      ))}
+      )}
+
+      {data?.data?.rolePermissions?.MEMBER?.update && (
+        <ListContainer>
+          <ListItemContainer>
+            <ListButton disableTouchRipple onClick={handleClick(1)}>
+              <ListItemText className="cursor-pointer" primary={menusObj.member.menu} />
+              <Icon className="cursor-pointer" sx={{ mr: 1 }}>
+                {open[1] ? <ExpandLess /> : <ExpandMore />}
+              </Icon>
+            </ListButton>
+          </ListItemContainer>
+          <Collapse in={open[1]} timeout="auto" mountOnEnter={menusObj.member.isLazyLoad}>
+            <ListContentContainer maxWidth={false}>{menusObj.member.component}</ListContentContainer>
+          </Collapse>
+        </ListContainer>
+      )}
+
+      {data?.data?.rolePermissions?.PROJECT?.delete && !profileData?.data?.isDemo && (
+        <ListContainer>
+          <ListItemContainer>
+            <ListButton disableTouchRipple onClick={handleClick(2)}>
+              <ListItemText className="cursor-pointer" primary={menusObj.other.menu} />
+              <Icon className="cursor-pointer" sx={{ mr: 1 }}>
+                {open[2] ? <ExpandLess /> : <ExpandMore />}
+              </Icon>
+            </ListButton>
+          </ListItemContainer>
+          <Collapse in={open[2]} timeout="auto" mountOnEnter={menusObj.other.isLazyLoad}>
+            <ListContentContainer maxWidth={false}>{menusObj.other.component}</ListContentContainer>
+          </Collapse>
+        </ListContainer>
+      )}
     </>
   );
 };
