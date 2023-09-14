@@ -83,7 +83,7 @@ const TableMenuSelection = ({
         }}
       >
         <ListSubheader component="div" sx={{ lineHeight: '30px' }}>
-          {title ? title : 'Change to'}
+          {title || 'Change to'}
         </ListSubheader>
         <Divider />
         {list.map((item) => (
