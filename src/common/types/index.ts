@@ -56,6 +56,7 @@ export interface IUserInfoResponse {
   email: string | null;
   picture?: IFileStream | string | null;
   _id: string;
+  isDemo?: boolean;
 }
 
 export interface ICredential {

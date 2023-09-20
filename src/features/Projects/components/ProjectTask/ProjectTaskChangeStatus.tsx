@@ -17,7 +17,7 @@ const ProjectTaskChangeStatus = ({ currentStatus, handleChange }: ProjectTaskCha
     <TableMenuSelection
       list={Object.keys(STATUS).map(
         (key) =>
-          ({ name: STATUS[key as StatusType].name, value: STATUS[key as StatusType].value } as Record<string, string>),
+          ({ name: STATUS[key as StatusType].name, value: STATUS[key as StatusType].value }) as Record<string, string>,
       )}
       itemText="name"
       currentValue={currentStatus}

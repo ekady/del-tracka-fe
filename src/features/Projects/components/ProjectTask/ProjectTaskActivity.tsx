@@ -59,9 +59,7 @@ const ProjectTaskActivity = () => {
             sx={{ width: '100%', marginBottom: 2 }}
             closeOnSelect
             onChange={(value) => onFilter({ endDate: value?.toISOString() ?? '' })}
-            minDate={
-              tableOption.startDate ? dayjs(tableOption.startDate as string) : dayjs(initialDateValue.startDate)
-            }
+            minDate={tableOption.startDate ? dayjs(tableOption.startDate as string) : dayjs(initialDateValue.startDate)}
             slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
           />
         </Box>

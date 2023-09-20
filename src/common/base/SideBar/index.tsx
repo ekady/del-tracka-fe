@@ -28,6 +28,7 @@ import { Drawer, ListItem } from './styled';
 
 import { menu } from '@/common/constants';
 import { IMenuItem, FunctionVoid } from '@/common/types';
+import { useGetProfileQuery } from '@/common/store/api.slice';
 
 export interface SideBarProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ export interface SideBarProps {
 const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
   const theme = useTheme();
   const mainPath = useRouter().pathname;
+  const { data } = useGetProfileQuery();
 
   const toggleDrawer = useCallback(
     (isClickList: boolean): FunctionVoid => {
@@ -102,7 +104,7 @@ const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
         </SwipeableDrawer>
       ) : (
         <Drawer open={isOpen} variant="permanent" sx={{ boxSizing: 'border-box' }}>
-          <Toolbar disableGutters />
+          <Toolbar disableGutters sx={{ height: data?.data?.isDemo ? '88px' : '64px' }} />
           {list}
           <Divider />
         </Drawer>
