@@ -44,8 +44,8 @@ const MyTasksPage = () => {
             onLimitPage('page', model.page + 1);
           },
           paginationModel: {
-            page: (data?.data.pagination.page ?? 1) - 1,
-            pageSize: data?.data.pagination.limit ?? 10,
+            page: (data?.data.pagination.page ? Number(data.data.pagination.page) : 1) - 1,
+            pageSize: data?.data.pagination.limit ? Number(data.data.pagination.limit) : 10,
           },
         }}
       />

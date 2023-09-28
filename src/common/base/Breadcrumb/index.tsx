@@ -40,7 +40,7 @@ const Breadcrumb = () => {
             return (
               <Link href={breadcrumb.href} passHref key={breadcrumb.href}>
                 <Typography sx={{ textTransform: 'capitalize', fontSize: 9 }}>
-                  <LinkMUI underline="none" sx={{ cursor: 'pointer' }}>
+                  <LinkMUI component="span" underline="none" sx={{ cursor: 'pointer' }}>
                     {breadcrumb.breadcrumb}
                   </LinkMUI>
                 </Typography>

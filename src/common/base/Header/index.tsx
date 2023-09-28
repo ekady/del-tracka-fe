@@ -89,7 +89,6 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-  const xsAndDown = useMediaQuery(theme.breakpoints.down('xs'));
   const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
@@ -156,7 +155,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
       <AppBar color="inherit" open={sidebarOpen} sidebar={usingSidebar}>
         <Toolbar disableGutters sx={{ flexDirection: 'column' }}>
           {data?.data?.isDemo && (
-            <Alert icon={!xsAndDown} severity="warning" sx={{ width: '100%', py: 0 }}>
+            <Alert icon={false} severity="warning" sx={{ width: '100%', py: 0 }}>
               You&apos;re currently using a{' '}
               <Typography fontWeight="bold" display="inline-block" fontSize={12.25}>
                 demo account
