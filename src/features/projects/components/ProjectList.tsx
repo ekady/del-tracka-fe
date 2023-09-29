@@ -73,7 +73,7 @@ const ProjectList = ({ projectList }: ProjectListProps) => {
                 <ListItemText className="cursor-pointer" primary={name} />
               </Link>
               <TableAction hideView hideDelete hideEdit>
-                {rolePermissions.PROJECT.update ? (
+                {rolePermissions.PROJECT.update || rolePermissions.MEMBER.update ? (
                   <Link href={`/app/projects/${shortId}/setting`} passHref>
                     <MenuItem>Settings</MenuItem>
                   </Link>

@@ -46,7 +46,7 @@ const ProjecOverviewDetailPage = () => {
         <ProjectDetailTitle
           title={data?.data?.name ?? ''}
           description={data?.data?.description}
-          canAccessSettings={data?.data?.rolePermissions.PROJECT.update}
+          canAccessSettings={data?.data?.rolePermissions.PROJECT.update || data?.data?.rolePermissions.MEMBER.update}
         />
       </Grid>
       <Box sx={{ height: 40 }} />
