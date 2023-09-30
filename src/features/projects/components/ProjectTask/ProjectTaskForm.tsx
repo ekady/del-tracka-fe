@@ -232,7 +232,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
                   closeOnSelect
                   value={value ? dayjs(value) : null}
                   onChange={(val) => onChange(val)}
-                  minDate={dayjs()}
+                  minDate={value ? dayjs(value) : dayjs()}
                   disabled={disabled}
                   slots={{ textField: TextFieldStyled as ElementType<TextFieldProps> }}
                   slotProps={{ textField: { size: 'small', placeholder: 'Enter due date' } }}
