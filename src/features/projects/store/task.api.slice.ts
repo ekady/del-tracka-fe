@@ -103,7 +103,10 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
 
         formData.append('feature', feature);
         formData.append('title', title);
-        if (dueDate) formData.append('dueDate', dueDate.toISOString());
+        if (dueDate) {
+          const date = typeof dueDate === 'string' ? dueDate : dueDate?.toISOString();
+          formData.append('dueDate', date);
+        }
         formData.append('priority', priority?.value ?? '');
         formData.append('reporter', reporter?._id ?? '');
         formData.append('assignee', assignee?._id ?? '');

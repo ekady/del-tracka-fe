@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 // MUI Components
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -49,14 +51,14 @@ const ProjectHelpDialog = ({ open, onCloseHelp }: ProjectHelpDialogProps) => {
 
           <TableBody>
             {data?.map((row) => (
-              <>
+              <Fragment key={row.roleName}>
                 <TableRow>
                   <TableCell rowSpan={row.permissions.length + 1} component="th" scope="row">
                     {row.roleName}
                   </TableCell>
                 </TableRow>
-                {row.permissions.map((permission) => (
-                  <TableRow key={permission._id}>
+                {row.permissions.map((permission, index) => (
+                  <TableRow key={index}>
                     <TableCell>{permission.menu}</TableCell>
                     <TableCell>{permission.create ? <CheckCircle color="success" /> : <CircleOutlined />}</TableCell>
                     <TableCell>{permission.read ? <CheckCircle color="success" /> : <CircleOutlined />}</TableCell>
@@ -64,7 +66,7 @@ const ProjectHelpDialog = ({ open, onCloseHelp }: ProjectHelpDialogProps) => {
                     <TableCell>{permission.delete ? <CheckCircle color="success" /> : <CircleOutlined />}</TableCell>
                   </TableRow>
                 ))}
-              </>
+              </Fragment>
             ))}
           </TableBody>
         </Table>

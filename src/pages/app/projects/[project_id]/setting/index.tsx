@@ -50,13 +50,18 @@ const ProjectSettingPage = () => {
   }, [router]);
 
   useEffect(() => {
-    if (projectId && data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)
+    if (
+      projectId &&
+      data?.data.rolePermissions &&
+      !data?.data.rolePermissions.PROJECT.update &&
+      !data?.data.rolePermissions.MEMBER.update
+    )
       router.push(`/app/projects/${projectId}/member`).catch(() => {
         //
       });
   }, [data, projectId, router]);
 
-  if (!data?.data.rolePermissions.PROJECT.update)
+  if (!data?.data.rolePermissions.PROJECT.update && !data?.data.rolePermissions.MEMBER.update)
     return (
       <Box display="flex" alignItems="center" justifyContent="center" height="100%" marginTop={5}>
         <CircularProgress />
