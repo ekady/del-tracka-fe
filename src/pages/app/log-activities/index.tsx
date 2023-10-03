@@ -59,9 +59,7 @@ const LogsPage = () => {
           endDate: tableOption.endDate as string,
         });
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/projects/${
-            tableOption.projectId
-          }/activities/${type}?${params.toString()}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/project/${tableOption.projectId}/activity/${type}?${params.toString()}`,
           { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` }, method: 'POST' },
         );
         if (!response.ok) {
