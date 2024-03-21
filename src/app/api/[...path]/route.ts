@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import axios, { AxiosError } from 'axios';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { IErrorResponse } from '@/common/types';
+import { IResponseError } from '@/common/types';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL_V1;
 
@@ -52,7 +52,7 @@ async function handler(req: Request) {
     });
   } catch (err) {
     const error = err as AxiosError<ArrayBuffer>;
-    const errorParsed: IErrorResponse = error.response?.data
+    const errorParsed: IResponseError = error.response?.data
       ? JSON.parse(new TextDecoder().decode(error.response.data))
       : {
           data: null,
