@@ -7,34 +7,35 @@ export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signup: builder.mutation<IApiResponse<IStatusMessageResponse>, SignUpRequest>({
       query: (body) => ({
-        url: '/auth/sign-up',
+        url: '/authentication/sign-up',
         method: 'post',
         body,
       }),
     }),
     forgotPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ForgotPasswordRequest>({
       query: (body) => ({
-        url: '/auth/forgot-password',
+        url: '/authentication/forgot-password',
         method: 'post',
         body,
       }),
     }),
     resetPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ResetPasswordRequest>({
       query: ({ resetToken, ...passwords }) => ({
-        url: `/auth/reset-password?reset-token=${resetToken}`,
+        url: '/authentication/reset-password',
+        params: { 'reset-token': resetToken },
         method: 'post',
         body: passwords,
       }),
     }),
     verifyResetToken: builder.query<IApiResponse<IStatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
       query: ({ resetToken }) => ({
-        url: `/auth/verify-reset-token`,
+        url: '/authentication/verify-reset-token',
         params: { token: resetToken },
       }),
     }),
     logout: builder.mutation<IApiResponse<IStatusMessageResponse>, void>({
       query: () => ({
-        url: '/auth/sign-out',
+        url: '/authentication/sign-out',
         method: 'post',
       }),
     }),

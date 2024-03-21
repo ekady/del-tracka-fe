@@ -10,14 +10,14 @@ import GoogleProvider from 'next-auth/providers/google';
 
 const requestSignIn = async (request?: LoginRequest | ContinueWithProviderRequest) => {
   if (request && 'jwtToken' in request) {
-    return axios.post(`${process.env.NEXT_PUBLIC_API_URL_V1}/auth/with-provider`, request);
+    return axios.post(`${process.env.NEXT_PUBLIC_API_URL_V1}/authentication/with-provider`, request);
   }
-  return axios.post(`${process.env.NEXT_PUBLIC_API_URL_V1}/auth/sign-in`, request);
+  return axios.post(`${process.env.NEXT_PUBLIC_API_URL_V1}/authentication/sign-in`, request);
 };
 
 const requestRefreshToken = async (refreshToken: string) => {
   return axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL_V1}/auth/refresh`,
+    `${process.env.NEXT_PUBLIC_API_URL_V1}/authentication/refresh`,
     {},
     {
       headers: {
