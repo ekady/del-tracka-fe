@@ -1,9 +1,6 @@
 // React
 import { ElementType, ReactElement, useCallback, useEffect, useState } from 'react';
 
-// Next Auth
-import { useSession } from 'next-auth/react';
-
 // MUI Component
 import Box from '@mui/material/Box';
 import { TextFieldProps } from '@mui/material/TextField';
@@ -37,7 +34,6 @@ const initialDateValue = {
 };
 
 const LogsPage = () => {
-  const session = useSession();
   const [loadingDownload, setLoadingDownload] = useState(false);
 
   const { onFilter, onLimitPage, tableOption } = useTableChange(initialDateValue);
@@ -58,10 +54,9 @@ const LogsPage = () => {
           startDate: tableOption.startDate as string,
           endDate: tableOption.endDate as string,
         });
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/project/${tableOption.projectId}/activity/${type}?${params.toString()}`,
-          { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` }, method: 'POST' },
-        );
+        const response = await fetch(`/api/project/${tableOption.projectId}/activity/${type}?${params.toString()}`, {
+          method: 'POST',
+        });
         if (!response.ok) {
           toast.error('Something went wrong. Try again later');
           return;
@@ -74,7 +69,7 @@ const LogsPage = () => {
         setLoadingDownload(false);
       }
     },
-    [session.data?.user.userToken.accessToken, tableOption.endDate, tableOption.projectId, tableOption.startDate],
+    [tableOption.endDate, tableOption.projectId, tableOption.startDate],
   );
 
   return (

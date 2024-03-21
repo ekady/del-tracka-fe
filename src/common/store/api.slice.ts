@@ -1,50 +1,18 @@
 import { redirect } from 'next/navigation';
 
 import { HYDRATE } from 'next-redux-wrapper';
-import { getSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 import { Mutex } from 'async-mutex';
 
-import {
-  IApiResponse,
-  ICredential,
-  IPermission,
-  IPermissionResponse,
-  IResponseError,
-  IUserInfoResponse,
-} from '@/common/types';
-import { setCredential } from '@/features/auth/store/auth.slice';
-import store, { RootState } from '.';
+import { IApiResponse, IPermission, IPermissionResponse, IResponseError, IUserInfoResponse } from '@/common/types';
 import { RedirectType } from 'next/dist/client/components/redirect';
 import { MAPPING_MENU } from '../constants/menu';
 
-const getTokens = async (state: RootState): Promise<ICredential | undefined> => {
-  let accessToken = state.auth.data.ICredential.accessToken;
-
-  if (!accessToken) {
-    const session = await getSession();
-    accessToken = session?.user.userToken.accessToken ?? null;
-    store.dispatch(setCredential({ accessToken }));
-  }
-
-  if (!accessToken) return undefined;
-  return { accessToken };
-};
-
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? '//api.local/',
-  prepareHeaders: async (headers, { getState, endpoint }) => {
-    if (!['signup', 'forgotPassword', 'resetPassword', 'verifyResetToken'].includes(endpoint)) {
-      const ICredential = await getTokens(getState() as RootState);
-      if (!ICredential) {
-        await signOut({ redirect: false });
-        redirect('/auth/sign-in', RedirectType.replace);
-      } else if (ICredential?.accessToken) headers.set('Authorization', `Bearer ${ICredential.accessToken}`);
-    }
-    return headers;
-  },
+  baseUrl: '/api',
 });
 
 const mutex = new Mutex();
@@ -60,15 +28,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
-        const session = await getSession();
-        const accessToken = session?.user.userToken.accessToken ?? null;
         const isUnauthorized = (result.error.data as IResponseError)?.errors?.[0]?.errorType === 'UNAUTHORIZED';
 
-        if (!session?.user || !accessToken || session?.error === 'RefreshAccessTokenError' || isUnauthorized) {
+        if (isUnauthorized) {
           await signOut({ redirect: false });
           redirect('/auth/sign-in', RedirectType.replace);
         } else {
-          api.dispatch(setCredential({ accessToken }));
           result = await baseQuery(args, api, extraOptions);
         }
       } finally {
@@ -87,9 +52,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
+    if (action.type === HYDRATE) return action.payload[reducerPath];
   },
   tagTypes: ['Profile', 'Permission'],
   endpoints: (builder) => ({
