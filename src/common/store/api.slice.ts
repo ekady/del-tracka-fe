@@ -12,7 +12,7 @@ import { RedirectType } from 'next/dist/client/components/redirect';
 import { MAPPING_MENU } from '../constants/menu';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api',
+  baseUrl: typeof window !== 'undefined' ? '/api' : `${process.env.NEXT_PUBLIC_ROOT_URL}/api`,
 });
 
 const mutex = new Mutex();
