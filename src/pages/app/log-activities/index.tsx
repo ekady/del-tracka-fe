@@ -13,6 +13,9 @@ import dayjs from 'dayjs';
 // Toast
 import { toast } from 'react-toastify';
 
+// Axios
+import axios from 'axios';
+
 // Components
 import { LayoutDefault } from '@/common/layout';
 import { BaseLabel, ButtonLoading, CustomInput } from '@/common/base';
@@ -54,17 +57,15 @@ const LogsPage = () => {
           startDate: tableOption.startDate as string,
           endDate: tableOption.endDate as string,
         });
-        const response = await fetch(`/api/project/${tableOption.projectId}/activity/${type}?${params.toString()}`, {
-          method: 'POST',
-        });
-        if (!response.ok) {
-          toast.error('Something went wrong. Try again later');
-          return;
-        }
-        const blob = await response.blob();
-        if (blob) forceFileDownload(blob, { fileFormat: type, filename: 'Project Activities' });
+        const response = await axios.post(
+          `/api/project/${tableOption.projectId}/activity/${type}?${params.toString()}`,
+          {},
+          { responseType: 'blob' },
+        );
+
+        if (response.data) forceFileDownload(response.data, { fileFormat: type, filename: 'Project Activities' });
       } catch {
-        //
+        toast.error('Something went wrong. Try again later');
       } finally {
         setLoadingDownload(false);
       }
