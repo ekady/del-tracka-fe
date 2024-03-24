@@ -22,10 +22,8 @@ import { ButtonLoading, CustomInput } from '@/common/base';
 import { emailValidation } from '@/common/helper';
 
 // Store
-import { SignInResponse, getSession, signIn } from 'next-auth/react';
+import { SignInResponse, signIn } from 'next-auth/react';
 import { LoginRequest } from '@/features/auth/interfaces';
-import { useAppDispatch } from '@/common/store';
-import { setCredential } from '@/features/auth/store/auth.slice';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
@@ -43,7 +41,6 @@ const SignIn = () => {
     formState: { errors },
     control,
   } = useForm<LoginRequest>({ mode: 'onSubmit' });
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -55,9 +52,7 @@ const SignIn = () => {
       password: data.password,
       redirect: false,
     });
-    const session = await getSession();
-    if (response?.ok && session) {
-      dispatch(setCredential(session.user.userToken));
+    if (response?.ok) {
       router.replace(redirect).catch(() => {
         //
       });

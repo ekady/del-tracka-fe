@@ -35,5 +35,5 @@ export const convertFilePathToUrl = (path: string): string => {
   if (!path) return '';
 
   if (path.includes('http')) return path;
-  return `${process.env.NEXT_PUBLIC_API_URL}/${path}`;
+  return `${process.env.NEXT_PUBLIC_API_URL_V1}/${path}`;
 };

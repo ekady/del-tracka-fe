@@ -1,9 +1,6 @@
 // React
 import { ElementType, ReactElement, useCallback, useEffect, useState } from 'react';
 
-// Next Auth
-import { useSession } from 'next-auth/react';
-
 // MUI Component
 import Box from '@mui/material/Box';
 import { TextFieldProps } from '@mui/material/TextField';
@@ -15,6 +12,9 @@ import dayjs from 'dayjs';
 
 // Toast
 import { toast } from 'react-toastify';
+
+// Axios
+import axios from 'axios';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
@@ -37,7 +37,6 @@ const initialDateValue = {
 };
 
 const LogsPage = () => {
-  const session = useSession();
   const [loadingDownload, setLoadingDownload] = useState(false);
 
   const { onFilter, onLimitPage, tableOption } = useTableChange(initialDateValue);
@@ -58,23 +57,20 @@ const LogsPage = () => {
           startDate: tableOption.startDate as string,
           endDate: tableOption.endDate as string,
         });
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/project/${tableOption.projectId}/activity/${type}?${params.toString()}`,
-          { headers: { authorization: `Bearer ${session.data?.user.userToken.accessToken}` }, method: 'POST' },
+        const response = await axios.post(
+          `/api/project/${tableOption.projectId}/activity/${type}?${params.toString()}`,
+          {},
+          { responseType: 'blob' },
         );
-        if (!response.ok) {
-          toast.error('Something went wrong. Try again later');
-          return;
-        }
-        const blob = await response.blob();
-        if (blob) forceFileDownload(blob, { fileFormat: type, filename: 'Project Activities' });
+
+        if (response.data) forceFileDownload(response.data, { fileFormat: type, filename: 'Project Activities' });
       } catch {
-        //
+        toast.error('Something went wrong. Try again later');
       } finally {
         setLoadingDownload(false);
       }
     },
-    [session.data?.user.userToken.accessToken, tableOption.endDate, tableOption.projectId, tableOption.startDate],
+    [tableOption.endDate, tableOption.projectId, tableOption.startDate],
   );
 
   return (

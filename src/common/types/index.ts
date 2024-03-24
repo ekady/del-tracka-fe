@@ -106,17 +106,6 @@ export interface IStatusMessageResponse {
   message: string;
 }
 
-export interface IErrorDataResponse {
-  errorType: string;
-  message: string;
-}
-
-export interface IErrorResponse {
-  data: null;
-  errors: IErrorDataResponse[];
-  statusCode: number;
-}
-
 export interface IApiResponse<Response> {
   data: Response;
   errors: null;
