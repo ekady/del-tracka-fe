@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useState } from 'react';
 // Next
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -41,7 +41,6 @@ import { IconLogo } from '@/common/icons';
 // Hooks
 import useHeaderMenu from './useHeaderMenu';
 import { useGetProfileQuery } from '@/common/store/api.slice';
-import { useLogout } from '@/common/hooks/useLogout';
 import NotificationMenu from '@/features/notifications/components/NotificationMenu';
 import { useAppDispatch, useAppSelector } from '@/common/store';
 import { selectColorTheme } from '@/common/store/selector';
@@ -89,7 +88,7 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-  const logout = useLogout();
+  const router = useRouter();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
   const [helpOpen, setHelpOpen] = useState(false);
@@ -107,10 +106,8 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
 
   const onLogout = useCallback(() => {
     handleClose();
-    logout().catch(() => {
-      //
-    });
-  }, [handleClose, logout]);
+    router.replace('/auth/logout');
+  }, [handleClose, router]);
 
   const logInInfo: ReactNode = lgAndUp ? (
     <Box display="flex" alignItems="center" gap={2}>

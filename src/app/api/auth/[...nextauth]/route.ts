@@ -86,7 +86,7 @@ const callbacks: Partial<CallbacksOptions> = {
         const refreshResponse = await requestRefreshToken(tokenData?.refreshToken ?? '');
         const refreshTokenData = refreshResponse.data;
         if (refreshTokenData && refreshTokenData.statusCode === 200) token.userToken = refreshTokenData.data;
-        else token.userToken = {};
+        else token.userToken = null;
       }
     }
 

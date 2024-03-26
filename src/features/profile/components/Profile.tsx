@@ -2,7 +2,7 @@
 import { BaseSyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 // Next
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 // Helper
 import { UseFormGetValues, UseFormReturn } from 'react-hook-form';
@@ -22,7 +22,6 @@ import { ProfileRequest, useDeleteProfileMutation } from '../store/profile.api.s
 import { useProfileForm } from '../hooks/useProfileForm';
 import { BaseDialogAlert, ButtonLoading } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { useLogout } from '@/common/hooks/useLogout';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
 export interface ProfileChildProps<T> {
@@ -63,10 +62,9 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
   const form = useProfileForm();
   const { handleSubmit, getValues, resetField } = form;
 
-  const [deleteAccount, { isSuccess }] = useDeleteProfileMutation();
+  const [deleteAccount] = useDeleteProfileMutation();
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
   const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
-  const logout = useLogout(true);
 
   const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
 
@@ -78,21 +76,20 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
     submit(data);
   }) as (e?: BaseSyntheticEvent) => void;
 
+  const deleteAccountFn = useCallback(async () => {
+    await deleteAccount().unwrap();
+    openDialogSuccess(undefined, undefined, {
+      handleOk: () => router.replace('/auth/logout'),
+      hideCancel: true,
+    });
+  }, [router, deleteAccount, openDialogSuccess]);
+
   const openDialogDeleteConfirm = useCallback(() => {
     openDialogWarning('Warning', 'Are your sure want to delete your account?', {
-      handleOk: deleteAccount as FunctionVoid,
+      handleOk: deleteAccountFn as FunctionVoid,
       handleCancel: closeDialogAlert,
     });
-  }, [closeDialogAlert, deleteAccount, openDialogWarning]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      openDialogSuccess(undefined, undefined, {
-        handleOk: logout as FunctionVoid,
-        hideCancel: true,
-      });
-    }
-  }, [isSuccess, router, openDialogSuccess, logout]);
+  }, [closeDialogAlert, deleteAccountFn, openDialogWarning]);
 
   useEffect(() => {
     if (!isChangePassword) {
