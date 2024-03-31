@@ -1,12 +1,11 @@
 // React
 import { ReactNode } from 'react';
 
-// MUI Components
+// Next
+import dynamic from 'next/dynamic';
 
 // MUI Components
-import Box from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
 import { PaperProps } from '@mui/material/Paper';
 
 // MUI utils
@@ -15,6 +14,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
+
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const Drawer = dynamic(() => import('@mui/material/Drawer'), { ssr: false });
 
 export interface LayoutDefaultWithDrawerProps {
   menuList: ReactNode;

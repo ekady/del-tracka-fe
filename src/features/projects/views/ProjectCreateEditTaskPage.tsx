@@ -15,7 +15,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 // Local Components
-import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskForm } from '.';
+import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskForm } from '../components';
 import { CarouselImages } from '@/common/base';
 
 // Hooks
@@ -34,11 +34,11 @@ import { copyToClipboard } from '@/common/helper';
 // View: Disabled form, contain form without upload image, media, comments, logs
 // Edit: Form contain upload image, comments, logs
 
-export type ProjectTaskDetailProps = {
+export type ProjectCreateEditTaskPageProps = {
   category: 'create' | 'edit' | 'detail';
 };
 
-const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
+const ProjectCreateEditTaskPage = ({ category }: ProjectCreateEditTaskPageProps) => {
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
@@ -181,4 +181,4 @@ const ProjectTaskDetail = ({ category }: ProjectTaskDetailProps) => {
   );
 };
 
-export default ProjectTaskDetail;
+export default ProjectCreateEditTaskPage;

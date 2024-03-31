@@ -1,18 +1,17 @@
-// MUI Components
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-
-// Local Components
-import { Header } from '@/common/base';
-import LayoutWrapper from '../LayoutWrapper';
+import dynamic from 'next/dynamic';
 
 import { IPropsChildren } from '@/common/types';
 
 import { useAppSelector } from '@/common/store';
 import { selectColorTheme, selectSidebarOpen } from '@/common/store/selector';
 import { useGetProfileQuery } from '@/common/store/api.slice';
+
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const Grid = dynamic(() => import('@mui/material/Grid'), { ssr: false });
+const CssBaseline = dynamic(() => import('@mui/material/CssBaseline'), { ssr: false });
+const Container = dynamic(() => import('@mui/material/Container'), { ssr: false });
+const LayoutWrapper = dynamic(() => import('../LayoutWrapper'), { ssr: false });
+const Header = dynamic(() => import('@/common/base/Header'), { ssr: false });
 
 const LayoutDefault = ({ children }: IPropsChildren) => {
   const sidebarOpen = useAppSelector(selectSidebarOpen);
@@ -21,10 +20,7 @@ const LayoutDefault = ({ children }: IPropsChildren) => {
 
   return (
     <LayoutWrapper>
-      <Grid
-        component="main"
-        sx={{ flexGrow: 1, pt: { xs: data?.data?.isDemo ? 12 : 8, sm: data?.data?.isDemo ? 11 : 8 } }}
-      >
+      <Grid sx={{ flexGrow: 1, pt: { xs: data?.data?.isDemo ? 12 : 8, sm: data?.data?.isDemo ? 11 : 8 } }}>
         <Box sx={{ display: 'flex', width: '100%' }}>
           <CssBaseline />
           <Header showMenu usingSidebar />

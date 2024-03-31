@@ -1,19 +1,19 @@
 // Next Components
 import Image from 'next/image';
-
-// MUI Components
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
+import dynamic from 'next/dynamic';
 
 // Icons
 import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
 
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const Grid = dynamic(() => import('@mui/material/Grid'), { ssr: false });
+const Container = dynamic(() => import('@mui/material/Container'), { ssr: false });
+
 const LayoutPlain = ({ children }: IPropsChildren) => {
   return (
-    <Grid component="main" sx={{ height: '100%', width: '100%' }}>
+    <Grid sx={{ height: '100%', width: '100%' }}>
       <Box
         sx={{ my: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', width: '100%' }}
       >

@@ -1,16 +1,24 @@
 // React
-import type { ReactElement } from 'react';
+import { ReactElement } from 'react';
+
+// Next
+import dynamic from 'next/dynamic';
+
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import ProjectTaskDetail from '@/features/projects/components/ProjectTaskDetail';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
+import PageLoader from '@/common/base/PageLoader';
 
-const ProjectSprintNewTaskPage = () => {
-  return <ProjectTaskDetail category="create" />;
-};
+const ProjectCreateEditTask = dynamic(() => import('@/features/projects/views/ProjectCreateEditTaskPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-ProjectSprintNewTaskPage.getLayout = (page: ReactElement) => {
+const ProjectCreateTask = () => <ProjectCreateEditTask category="create" />;
+
+ProjectCreateTask.getLayout = (page: ReactElement) => {
   return (
     <LayoutDefault>
       <LayoutProject hideMenu content={page} />
@@ -18,4 +26,12 @@ ProjectSprintNewTaskPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default ProjectSprintNewTaskPage;
+export const getServerSideProps = authWallWrapper(async () => {
+  return {
+    props: {
+      title: 'New Task',
+    },
+  };
+});
+
+export default ProjectCreateTask;

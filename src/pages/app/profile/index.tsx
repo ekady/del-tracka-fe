@@ -9,23 +9,23 @@ import { authWallWrapper } from '@/common/helper/authWallWrapper';
 import { LayoutDefault } from '@/common/layout';
 import PageLoader from '@/common/base/PageLoader';
 
-const MyIssuesPage = dynamic(() => import('@/features/my-issues/views/MyIssuesPage'), {
+const ProfilePage = dynamic(() => import('@/features/profile/views/ProfilePage'), {
   ssr: false,
   loading: () => <PageLoader />,
 });
 
-const MyIssues = () => <MyIssuesPage />;
+const Profile = () => <ProfilePage />;
 
-MyIssues.getLayout = (page: ReactElement) => {
+Profile.getLayout = (page: ReactElement) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
 
 export const getServerSideProps = authWallWrapper(async () => {
   return {
     props: {
-      title: 'My Tasks',
+      title: 'Profile',
     },
   };
 });
 
-export default MyIssues;
+export default Profile;

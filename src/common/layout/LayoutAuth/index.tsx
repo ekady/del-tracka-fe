@@ -1,15 +1,8 @@
-// React
-import { useEffect } from 'react';
-
 // Next
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 
 // MUI Components
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
 // Icons
@@ -17,22 +10,15 @@ import { IconLogo } from '@/common/icons';
 
 import { IPropsChildren } from '@/common/types';
 
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const Paper = dynamic(() => import('@mui/material/Paper'), { ssr: false });
+const Container = dynamic(() => import('@mui/material/Container'), { ssr: false });
+
 export interface LayoutAuthProps extends IPropsChildren {
   noRedirect?: boolean;
 }
 
-const LayoutAuth = ({ noRedirect, children }: LayoutAuthProps) => {
-  const session = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!noRedirect && session.data?.user.userToken.accessToken) {
-      router.replace('/app/dashboard').catch(() => {
-        //
-      });
-    }
-  }, [session, noRedirect, router]);
-
+const LayoutAuth = ({ children }: LayoutAuthProps) => {
   return (
     <Grid
       component="main"

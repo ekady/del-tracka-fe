@@ -1,24 +1,31 @@
 // React
 import { ReactElement } from 'react';
 
-// Components
-import Box from '@mui/material/Box';
+// Next
+import dynamic from 'next/dynamic';
+
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
 
 import { LayoutDefault } from '@/common/layout';
-import { DashboardActivities, DashboardTasks, DashboardTotal } from '@/features/dashboard/components';
+import PageLoader from '@/common/base/PageLoader';
 
-const DashboardPage = () => (
-  <>
-    <DashboardTotal />
-    <Box sx={{ height: 30 }} />
-    <DashboardTasks />
-    <Box sx={{ height: 30 }} />
-    <DashboardActivities />
-  </>
-);
+const DashboardPage = dynamic(() => import('@/features/dashboard/views/DashboardPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-DashboardPage.getLayout = (page: ReactElement) => {
+const Dashboard = () => <DashboardPage />;
+
+Dashboard.getLayout = (page: ReactElement) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
 
-export default DashboardPage;
+export const getServerSideProps = authWallWrapper(async () => {
+  return {
+    props: {
+      title: 'Dashboard',
+    },
+  };
+});
+
+export default Dashboard;

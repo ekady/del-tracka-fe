@@ -1,43 +1,22 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 
 // Next
-import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
-// MUI
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { ProjectMemberList } from '@/features/projects/components';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
+import PageLoader from '@/common/base/PageLoader';
 
-import useProjectId from '@/features/projects/hooks/useProjectId';
-import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
+const ProjectMember = dynamic(() => import('@/features/projects/views/ProjectMemberPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-const ProjectMemberPage = () => {
-  const { data, projectId } = useProjectId();
-  const router = useRouter();
-
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
-
-  useEffect(() => {
-    if (data?.data.rolePermissions.PROJECT.update) {
-      router.push(`/app/projects/${projectId}/setting`).catch(() => {
-        //
-      });
-    }
-  }, [data, projectId, router]);
-
-  if (data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)
-    return <ProjectMemberList hideSelectOption />;
-  return (
-    <Box display="flex" alignItems="center" justifyContent="center" height="100%" marginTop={5}>
-      <CircularProgress />
-    </Box>
-  );
-};
+const ProjectMemberPage = () => <ProjectMember />;
 
 ProjectMemberPage.getLayout = (page: ReactElement) => {
   return (
@@ -46,5 +25,13 @@ ProjectMemberPage.getLayout = (page: ReactElement) => {
     </LayoutDefault>
   );
 };
+
+export const getServerSideProps = authWallWrapper(async () => {
+  return {
+    props: {
+      title: 'Project Member',
+    },
+  };
+});
 
 export default ProjectMemberPage;

@@ -1,22 +1,24 @@
 // React
 import { ReactElement } from 'react';
 
-// MUI Component
-import Box from '@mui/material/Box';
+// Next
+import dynamic from 'next/dynamic';
+
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
+import PageLoader from '@/common/base/PageLoader';
 
-const ProjectsPage = () => {
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-      Your project content goes here
-    </Box>
-  );
-};
+const ProjectBlank = dynamic(() => import('@/features/projects/views/ProjectBlankPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-ProjectsPage.getLayout = (page: ReactElement) => {
+const ProjectPage = () => <ProjectBlank />;
+
+ProjectPage.getLayout = (page: ReactElement) => {
   return (
     <LayoutDefault>
       <LayoutProject hideMenu isMenu content={page} />
@@ -24,4 +26,12 @@ ProjectsPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default ProjectsPage;
+export const getServerSideProps = authWallWrapper(async () => {
+  return {
+    props: {
+      title: 'Project',
+    },
+  };
+});
+
+export default ProjectPage;

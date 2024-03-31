@@ -1,78 +1,24 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 
-// Redux
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+// Next
+import dynamic from 'next/dynamic';
 
-// MUI
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
-import {
-  ProjectDetailTitle,
-  ProjectOverview,
-  ProjectOverviewActivity,
-  ProjectOverviewSprint,
-} from '@/features/projects/components';
+import PageLoader from '@/common/base/PageLoader';
 
-import STATUS from '@/common/constants/status';
+const ProjectDetail = dynamic(() => import('@/features/projects/views/ProjectDetailPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-import { useAppDispatch } from '@/common/store';
-import useProjectId from '@/features/projects/hooks/useProjectId';
-import { invalidateTags, useGetProjectStatsQuery } from '@/features/projects/store/project.api.slice';
-import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
+const ProjectDetailPage = () => <ProjectDetail />;
 
-const ProjecOverviewDetailPage = () => {
-  const dispatch = useAppDispatch();
-  const { data, projectId } = useProjectId();
-  const { data: projectStat } = useGetProjectStatsQuery(projectId ?? skipToken);
-  const theme = useTheme();
-  const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-
-  useEffect(() => {
-    dispatch(invalidateTags(['ProjectStats']));
-  }, [dispatch]);
-
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
-
-  return (
-    <>
-      <Grid container gap={2} justifyContent={{ xs: 'start', sm: 'space-between' }}>
-        <ProjectDetailTitle
-          title={data?.data?.name ?? ''}
-          description={data?.data?.description}
-          canAccessSettings={data?.data?.rolePermissions.PROJECT.update || data?.data?.rolePermissions.MEMBER.update}
-        />
-      </Grid>
-      <Box sx={{ height: 40 }} />
-      <Grid container gap={1} columns={15} justifyContent={{ xs: 'center', sm: 'start' }}>
-        <ProjectOverview {...STATUS.OPEN} value={projectStat?.OPEN ?? 0} />
-        <ProjectOverview {...STATUS.IN_PROGRESS} value={projectStat?.IN_PROGRESS ?? 0} />
-        <ProjectOverview {...STATUS.REVIEW} value={projectStat?.REVIEW ?? 0} />
-        <ProjectOverview {...STATUS.READY_FOR_TEST} value={projectStat?.READY_FOR_TEST ?? 0} />
-        <ProjectOverview {...STATUS.FAILED} value={projectStat?.FAILED ?? 0} />
-        <ProjectOverview {...STATUS.CLOSED} value={projectStat?.CLOSED ?? 0} />
-        <ProjectOverview {...STATUS.HOLD} value={projectStat?.HOLD ?? 0} />
-      </Grid>
-      <Box sx={{ height: 50 }} />
-      <Grid container gap={2} justifyContent={{ xs: 'center', md: 'space-between' }}>
-        <Grid item xs={12}>
-          <ProjectOverviewSprint />
-        </Grid>
-        <Grid item xs={12} sx={{ pt: lgAndUp ? 0 : 5 }}>
-          <ProjectOverviewActivity />
-        </Grid>
-      </Grid>
-    </>
-  );
-};
-
-ProjecOverviewDetailPage.getLayout = (page: ReactElement) => {
+ProjectDetailPage.getLayout = (page: ReactElement) => {
   return (
     <LayoutDefault>
       <LayoutProject hideMenu content={page} />
@@ -80,4 +26,12 @@ ProjecOverviewDetailPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default ProjecOverviewDetailPage;
+export const getServerSideProps = authWallWrapper(async () => {
+  return {
+    props: {
+      title: 'Project',
+    },
+  };
+});
+
+export default ProjectDetailPage;

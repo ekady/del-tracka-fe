@@ -1,11 +1,11 @@
 // React
-import * as React from 'react';
 import type { ReactElement, ReactNode } from 'react';
 
-// Next Components
+// Next
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 
 // Next Auth
 import { Session } from 'next-auth';
@@ -15,12 +15,7 @@ import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-// MUI Date Picker Localization
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
 // Utils
-import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
@@ -28,13 +23,9 @@ import '@/styles/global.scss';
 // Store
 import store, { persistor } from '@/common/store';
 
-// Toast
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-// Charts
-import 'chart.js/auto';
-import { LayoutTheme } from '@/common/layout';
+const LayoutTheme = dynamic(() => import('@/common/layout/LayoutTheme'), { ssr: false });
+const ToastContainer = dynamic(() => import('react-toastify').then((comp) => comp.ToastContainer), { ssr: false });
+const CssBaseline = dynamic(() => import('@mui/material/CssBaseline'), { ssr: false });
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -78,15 +69,13 @@ export default function MyApp(props: AppPropsWithLayout) {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/images/icons/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
-        <title>Tracka</title>
+        <title>{pageProps?.title ? `${pageProps.title} | Tracka` : 'Tracka'}</title>
       </Head>
       <Provider store={store}>
         <LayoutTheme>
           <CssBaseline />
           <PersistGate persistor={persistor}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
-            </LocalizationProvider>
+            <SessionProvider session={session}>{getLayout(<Component {...pageProps} />)}</SessionProvider>
           </PersistGate>
           <ToastContainer
             position="top-center"

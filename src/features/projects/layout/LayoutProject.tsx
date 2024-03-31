@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 
-import { Box } from '@mui/material';
-
-import { LayoutDrawerAdditional } from '@/common/layout';
-import { ProjectSide } from '../components';
+import dynamic from 'next/dynamic';
 
 import { LayoutDefaultWithDrawerProps } from '@/common/layout/LayoutDrawerAdditional';
+
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const LayoutDrawerAdditional = dynamic(() => import('@/common/layout/LayoutDrawerAdditional'), { ssr: false });
+const ProjectSide = dynamic(() => import('../components/ProjectSide'), { ssr: false });
 
 export type LayoutProjectProps = Omit<LayoutDefaultWithDrawerProps, 'menuList' | 'content'> & {
   content: ReactNode;

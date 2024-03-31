@@ -1,35 +1,15 @@
 // React
-import { ReactElement, useCallback, useEffect } from 'react';
-
-// Next
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-
-// Next Auth
-import { signOut } from 'next-auth/react';
+import { ReactElement } from 'react';
 
 // Utils
 import { logout } from '@/features/auth/store/auth.api.slice';
+import { wrapper } from '@/common/store';
 
 // Components
 import { LayoutPlain } from '@/common/layout';
-import { wrapper } from '@/common/store';
+import AuthLogoutPage from '@/features/auth/views/AuthLogoutPage';
 
-const PageLoader = dynamic(() => import('@/common/base/PageLoader'));
-
-const LogoutPage = () => {
-  const router = useRouter();
-  const logoutFn = useCallback(async () => {
-    await signOut({ redirect: false });
-    router.replace('/auth/sign-in');
-  }, [router]);
-
-  useEffect(() => {
-    logoutFn();
-  }, [logoutFn]);
-
-  return <PageLoader />;
-};
+const LogoutPage = () => <AuthLogoutPage />;
 
 LogoutPage.getLayout = (page: ReactElement) => {
   return <LayoutPlain>{page}</LayoutPlain>;
