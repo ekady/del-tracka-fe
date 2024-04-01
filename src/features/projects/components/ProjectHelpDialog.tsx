@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 
+import { useRouter } from 'next/router';
+
 // MUI Components
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -22,7 +24,8 @@ export interface ProjectHelpDialogProps {
 }
 
 const ProjectHelpDialog = ({ open, onCloseHelp }: ProjectHelpDialogProps) => {
-  const { data, isFetching, isLoading } = useGetPermissionQuery();
+  const router = useRouter();
+  const { data, isFetching, isLoading } = useGetPermissionQuery(undefined, { skip: !router.asPath?.includes('app') });
   return (
     <BaseDialog
       isOpen={open}

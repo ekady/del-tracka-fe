@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useState } from 'react';
 // Next
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -25,7 +25,7 @@ import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Settings from '@mui/icons-material/Settings';
+import Person from '@mui/icons-material/Person';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import Help from '@mui/icons-material/Help';
@@ -83,12 +83,11 @@ const ProfilePicture = ({ image }: { image?: string | IFileStream | null }) => {
 
 const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
   const dispatch = useAppDispatch();
-  const pathname = usePathname();
+  const router = useRouter();
   const theme = useTheme();
-  const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
+  const { data } = useGetProfileQuery(undefined, { skip: !router.asPath?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-  const router = useRouter();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
   const [helpOpen, setHelpOpen] = useState(false);
@@ -190,12 +189,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <Link href="/app/settings" passHref>
+                    <Link href="/app/profile" passHref>
                       <MenuItem onClick={handleClose}>
                         <ListItemIcon>
-                          <Settings fontSize="small" />
+                          <Person fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Settings</ListItemText>
+                        <ListItemText>Profile</ListItemText>
                       </MenuItem>
                     </Link>
                     <MenuItem onClick={changeColorTheme}>
