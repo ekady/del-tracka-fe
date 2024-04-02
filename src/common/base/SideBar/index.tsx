@@ -27,22 +27,22 @@ import { IconLogo } from '@/common/icons';
 import { Drawer, ListItem } from './styled';
 
 import { menu } from '@/common/constants';
-import { IMenuItem, FunctionVoid } from '@/common/types';
+import { IMenuItem, TFunctionVoid } from '@/common/types';
 import { useGetProfileQuery } from '@/common/store/api.slice';
 
-export interface SideBarProps {
+export interface ISideBarProps {
   isOpen: boolean;
   isMobile: boolean;
-  handleOpenDrawer: FunctionVoid;
+  handleOpenDrawer: TFunctionVoid;
 }
 
-const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: SideBarProps) => {
+const SideBar = ({ isOpen, handleOpenDrawer, isMobile }: ISideBarProps) => {
   const theme = useTheme();
   const mainPath = useRouter().pathname;
   const { data } = useGetProfileQuery();
 
   const toggleDrawer = useCallback(
-    (isClickList: boolean): FunctionVoid => {
+    (isClickList: boolean): TFunctionVoid => {
       return () => {
         if ((isMobile && isClickList) || !isClickList) handleOpenDrawer();
       };

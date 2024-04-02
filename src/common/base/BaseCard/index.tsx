@@ -4,11 +4,11 @@ import { PaperProps } from '@mui/material/Paper';
 import { IPropsChildren } from '@/common/types';
 import { CardBoxStyled, CardPaperStyled } from './styled';
 
-export interface BaseCardProps extends IPropsChildren, PaperProps {
+export interface IBaseCardProps extends IPropsChildren, PaperProps {
   loading?: boolean;
 }
 
-const BaseCard = ({ children, loading, ...paperProps }: BaseCardProps) => {
+const BaseCard = ({ children, loading, ...paperProps }: IBaseCardProps) => {
   return (
     <CardBoxStyled borderRadius="20px">
       {loading && <LinearProgress />}

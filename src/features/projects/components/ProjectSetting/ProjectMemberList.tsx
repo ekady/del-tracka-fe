@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import { BaseDialogAlert, DataTable, TableAction, TableHeader, TableMenuSelection } from '@/common/base';
 
 // Types | Interfaces
-import { FunctionReturnFunction, FunctionVoid } from '@/common/types';
+import { TFunctionReturnFunction, TFunctionVoid } from '@/common/types';
 import { IProjectMember } from '@/features/projects/interfaces';
 
 // Hooks
@@ -27,7 +27,7 @@ import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useAppDispatch } from '@/common/store';
 import { invalidateTags } from '@/features/projects/store/project.api.slice';
 
-export interface ProjectMemberListProps {
+export interface IProjectMemberListProps {
   hideSelectOption?: boolean;
 }
 
@@ -41,7 +41,7 @@ const roleExample = [
 const renderCellRole = (
   params: GridRenderCellParams<IProjectMember>,
   hideSelectOption: boolean,
-  handleChange: FunctionReturnFunction<string, string, void>,
+  handleChange: TFunctionReturnFunction<string, string, void>,
 ) => (
   <>
     <Typography>{params.row?.role.name ?? params.value}</Typography>
@@ -77,7 +77,7 @@ const headers: GridColDef<IProjectMember>[] = [
   },
 ];
 
-const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
+const ProjectMemberList = ({ hideSelectOption }: IProjectMemberListProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const ProjectMemberList = ({ hideSelectOption }: ProjectMemberListProps) => {
       }?`;
       openDialogWarning('Warning', dialogMessage, {
         handleCancel: closeDialogAlert,
-        handleOk: (() => deleteLeaveMember(row, closeDialogAlert)) as FunctionVoid,
+        handleOk: (() => deleteLeaveMember(row, closeDialogAlert)) as TFunctionVoid,
       });
     },
     [closeDialogAlert, deleteLeaveMember, openDialogWarning, profileData],

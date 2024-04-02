@@ -7,14 +7,14 @@ import { toast } from 'react-toastify';
 // Components
 import Profile from '@/features/profile/components/Profile';
 
-import { ProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
-import { FunctionVoidWithParams } from '@/common/types';
+import { IProfileRequest, useUpdateProfileMutation } from '@/features/profile/store/profile.api.slice';
+import { TFunctionVoidWithParams } from '@/common/types';
 
 const ProfilePage = () => {
   const [updateProfile, { isSuccess, isLoading }] = useUpdateProfileMutation();
 
   const submitHander = useCallback(
-    async (v: ProfileRequest) => {
+    async (v: IProfileRequest) => {
       await updateProfile(v);
     },
     [updateProfile],
@@ -30,7 +30,7 @@ const ProfilePage = () => {
   return (
     <Profile
       isFirstTime={false}
-      submit={submitHander as FunctionVoidWithParams<ProfileRequest>}
+      submit={submitHander as TFunctionVoidWithParams<IProfileRequest>}
       isEditable={true}
       isLoading={isLoading}
     />

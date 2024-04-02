@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
-import ErrorToastContainer, { ErrorToastContainerProps } from '.';
+import ErrorToastContainer, { IErrorToastContainerProps } from '.';
 
-const toastError = (payload: ErrorToastContainerProps) => {
+const toastError = (payload: IErrorToastContainerProps) => {
   toast.error(<ErrorToastContainer {...payload} />, {
     pauseOnHover: true,
     closeOnClick: false,

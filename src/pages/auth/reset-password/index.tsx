@@ -6,14 +6,14 @@ import { wrapper } from '@/common/store';
 
 import { LayoutAuth } from '@/common/layout';
 import PageLoader from '@/common/base/PageLoader';
-import { ResetPasswordProps } from '@/features/auth/views/AuthResetPasswordPage';
+import { IResetPasswordProps } from '@/features/auth/views/AuthResetPasswordPage';
 
 const AuthResetPasswordPage = dynamic(() => import('@/features/auth/views/AuthResetPasswordPage'), {
   ssr: false,
   loading: () => <PageLoader />,
 });
 
-const ResetPassword = (props: ResetPasswordProps) => <AuthResetPasswordPage {...props} />;
+const ResetPassword = (props: IResetPasswordProps) => <AuthResetPasswordPage {...props} />;
 
 ResetPassword.getLayout = (page: ReactElement) => {
   return <LayoutAuth noRedirect>{page}</LayoutAuth>;

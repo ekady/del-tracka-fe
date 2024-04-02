@@ -10,17 +10,17 @@ import { FormEvent } from 'react';
 
 // Types
 import { IProjectRequest } from '../interfaces';
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 
-export type ProjectNewFormValidation = {
+export type TProjectNewFormValidation = {
   [key in keyof IProjectRequest]: RegisterOptions;
 };
 
-export interface ProjectNewFormProps {
+export interface IProjectNewFormProps {
   title?: string;
   formMethods: UseFormReturn<IProjectRequest>;
-  formOptions: ProjectNewFormValidation;
-  onSubmit?: FunctionVoidWithParams<FormEvent<HTMLFormElement>>;
+  formOptions: TProjectNewFormValidation;
+  onSubmit?: TFunctionVoidWithParams<FormEvent<HTMLFormElement>>;
   disabled?: boolean;
   defaultValues?: IProjectRequest;
 }
@@ -32,7 +32,7 @@ const ProjectNewForm = ({
   onSubmit,
   disabled,
   defaultValues,
-}: ProjectNewFormProps) => {
+}: IProjectNewFormProps) => {
   const {
     control,
     formState: { errors },

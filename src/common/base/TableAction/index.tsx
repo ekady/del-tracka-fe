@@ -10,15 +10,15 @@ import IconButton from '@mui/material/IconButton';
 // MUI Icons
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import { FunctionVoid, IPropsChildren } from '@/common/types';
+import { TFunctionVoid, IPropsChildren } from '@/common/types';
 
-export interface TableActionProps extends IPropsChildren {
+export interface ITableActionProps extends IPropsChildren {
   hideView?: boolean;
-  handleView?: FunctionVoid;
+  handleView?: TFunctionVoid;
   hideDelete?: boolean;
-  handleDelete?: FunctionVoid;
+  handleDelete?: TFunctionVoid;
   hideEdit?: boolean;
-  handleEdit?: FunctionVoid;
+  handleEdit?: TFunctionVoid;
 }
 
 const TableAction = ({
@@ -29,10 +29,10 @@ const TableAction = ({
   hideDelete,
   hideEdit,
   hideView,
-}: TableActionProps) => {
+}: ITableActionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClose = useCallback((fn?: FunctionVoid): void => {
+  const handleClose = useCallback((fn?: TFunctionVoid): void => {
     setAnchorEl(null);
     fn?.();
   }, []);

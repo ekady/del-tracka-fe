@@ -5,21 +5,29 @@ import Typography from '@mui/material/Typography';
 
 import Cancel from '@mui/icons-material/Cancel';
 
-import { FunctionVoidWithParams, IFileStream } from '@/common/types';
+import { TFunctionVoidWithParams, IFileStream } from '@/common/types';
 import { formatBytes } from '@/common/helper';
 import { getFileExtension } from '../helper';
 import { FileTextContainer, ImageContainer, RemoveIconButton } from '../styled';
-import { FileUploaderProps } from '../interfaces';
+import { IFileUploaderProps } from '../interfaces';
 import ImageLoader from '../../ImageLoader';
 import { convertFileToUrl } from '@/common/helper/convert';
 
-interface ImageViewProps
-  extends Pick<FileUploaderProps<File | IFileStream>, 'width' | 'height' | 'disabled' | 'hideTextFile'> {
+interface IImageViewProps
+  extends Pick<IFileUploaderProps<File | IFileStream>, 'width' | 'height' | 'disabled' | 'hideTextFile'> {
   value: File | IFileStream | string;
-  onClickRemove?: FunctionVoidWithParams<string>;
+  onClickRemove?: TFunctionVoidWithParams<string>;
   hideRemoveIcon?: boolean;
 }
-const ImageView = ({ width, height, value, disabled, onClickRemove, hideTextFile, hideRemoveIcon }: ImageViewProps) => {
+const ImageView = ({
+  width,
+  height,
+  value,
+  disabled,
+  onClickRemove,
+  hideTextFile,
+  hideRemoveIcon,
+}: IImageViewProps) => {
   const isStream = typeof value !== 'string' && 'completedPath' in value;
   const isString = typeof value === 'string';
   return (

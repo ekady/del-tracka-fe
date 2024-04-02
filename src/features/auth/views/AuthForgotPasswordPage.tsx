@@ -26,7 +26,7 @@ import { emailValidation } from '@/common/helper';
 import { toast } from 'react-toastify';
 
 // Store
-import { ForgotPasswordRequest } from '@/features/auth/interfaces';
+import { IForgotPasswordRequest } from '@/features/auth/interfaces';
 import { useForgotPasswordMutation } from '@/features/auth/store/auth.api.slice';
 
 const validation = {
@@ -43,7 +43,7 @@ const AuthForgotPassword = () => {
     formState: { errors },
     control,
     reset,
-  } = useForm<ForgotPasswordRequest>({ mode: 'onSubmit' });
+  } = useForm<IForgotPasswordRequest>({ mode: 'onSubmit' });
   const [forgotPassword, { isLoading, isSuccess }] = useForgotPasswordMutation();
 
   const onSubmit = handleSubmit(async (data) => {

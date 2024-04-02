@@ -1,12 +1,12 @@
 import { IAutocompleteOptions, IInformationWithColor } from '@/common/types';
 
-export type LevelType = 'CRITICAL' | 'HIGH' | 'NORMAL' | 'LOW';
+export type TLevelType = 'CRITICAL' | 'HIGH' | 'NORMAL' | 'LOW';
 
-export type LevelIndexable = {
-  [key in LevelType]: IInformationWithColor;
+export type TLevelIndexable = {
+  [key in TLevelType]: IInformationWithColor;
 };
 
-const LEVEL: LevelIndexable = {
+const LEVEL: TLevelIndexable = {
   CRITICAL: {
     color: '#E54242',
     textColor: '#fff',
@@ -34,8 +34,8 @@ const LEVEL: LevelIndexable = {
 };
 
 export const levelList: readonly IAutocompleteOptions[] = Object.keys(LEVEL).map((level) => ({
-  value: LEVEL[level as LevelType].value as string,
-  label: LEVEL[level as LevelType].name,
+  value: LEVEL[level as TLevelType].value as string,
+  label: LEVEL[level as TLevelType].name,
 }));
 
 export default LEVEL;

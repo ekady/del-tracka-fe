@@ -27,7 +27,7 @@ import { useGetProjectsQuery, useLazyGetProjectActivitiesQuery } from '@/feature
 // Helpers
 import { forceFileDownload } from '@/common/helper/file';
 
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
 const initialDateValue = {
@@ -129,7 +129,7 @@ const LogActivitiesPage = () => {
           <ButtonLoading
             variant="contained"
             color="secondary"
-            onClick={(() => handleGetFile('xlsx')) as FunctionVoid}
+            onClick={(() => handleGetFile('xlsx')) as TFunctionVoid}
             disabled={!tableOption.projectId}
             loading={loadingDownload}
           >
@@ -140,7 +140,7 @@ const LogActivitiesPage = () => {
             sx={{ background: '#27A03B', color: '#fff', ml: { xs: 0, sm: 1 }, mt: { xs: 1, sm: 0 } }}
             disabled={!tableOption.projectId}
             loading={loadingDownload}
-            onClick={(() => handleGetFile('pdf')) as FunctionVoid}
+            onClick={(() => handleGetFile('pdf')) as TFunctionVoid}
           >
             Export to PDF
           </ButtonLoading>

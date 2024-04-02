@@ -1,16 +1,16 @@
 import { ChangeEvent, DragEvent, useCallback, useState } from 'react';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 
-export type ReturnTypeFileUploaderEvent = {
+export type TReturnTypeFileUploaderEvent = {
   isDrop: boolean;
   onHandleDragEnter: (e: DragEvent<HTMLDivElement>) => void;
   onHandleDragExit: (e: DragEvent<HTMLDivElement>) => void;
-  onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, callback?: FunctionVoidWithParams<FileList>) => void;
-  onHandleFileDrop: (e: DragEvent<HTMLDivElement>, callback?: FunctionVoidWithParams<FileList>) => void;
+  onHandleFileUpload: (e: ChangeEvent<HTMLInputElement>, callback?: TFunctionVoidWithParams<FileList>) => void;
+  onHandleFileDrop: (e: DragEvent<HTMLDivElement>, callback?: TFunctionVoidWithParams<FileList>) => void;
 };
 
-const useFileUploaderEvent = (disabled: boolean): ReturnTypeFileUploaderEvent => {
+const useFileUploaderEvent = (disabled: boolean): TReturnTypeFileUploaderEvent => {
   const [isDrop, setIsDrop] = useState<boolean>(false);
 
   const onHandleDragEnter = useCallback(
@@ -32,7 +32,7 @@ const useFileUploaderEvent = (disabled: boolean): ReturnTypeFileUploaderEvent =>
   );
 
   const onHandleFileUpload = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, callback?: FunctionVoidWithParams<FileList>): void => {
+    (e: ChangeEvent<HTMLInputElement>, callback?: TFunctionVoidWithParams<FileList>): void => {
       if (disabled) return;
       e.preventDefault();
       if (callback && e.target.files) callback(e.target.files);
@@ -41,7 +41,7 @@ const useFileUploaderEvent = (disabled: boolean): ReturnTypeFileUploaderEvent =>
   );
 
   const onHandleFileDrop = useCallback(
-    (e: DragEvent<HTMLDivElement>, callback?: FunctionVoidWithParams<FileList>): void => {
+    (e: DragEvent<HTMLDivElement>, callback?: TFunctionVoidWithParams<FileList>): void => {
       if (disabled) return;
       e.preventDefault();
       setIsDrop(false);

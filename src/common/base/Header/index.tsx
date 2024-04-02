@@ -49,12 +49,12 @@ import ImageLoader from '../ImageLoader';
 import { IFileStream } from '@/common/types';
 import ProjectHelpDialog from '@/features/projects/components/ProjectHelpDialog';
 
-export interface AppBarProps extends MuiAppBarProps {
+export interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
   sidebar?: boolean;
 }
 
-export interface HeaderProps {
+export interface IHeaderProps {
   showMenu: boolean;
   usingSidebar?: boolean;
 }
@@ -81,7 +81,7 @@ const ProfilePicture = ({ image }: { image?: string | IFileStream | null }) => {
   );
 };
 
-const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
+const Header = ({ showMenu, usingSidebar }: IHeaderProps) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const theme = useTheme();

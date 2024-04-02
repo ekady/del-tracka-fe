@@ -18,12 +18,12 @@ import CircleOutlined from '@mui/icons-material/CircleOutlined';
 import { BaseDialog } from '@/common/base';
 import { useGetPermissionQuery } from '@/common/store/api.slice';
 
-export interface ProjectHelpDialogProps {
+export interface IProjectHelpDialogProps {
   open?: boolean;
   onCloseHelp?: () => void;
 }
 
-const ProjectHelpDialog = ({ open, onCloseHelp }: ProjectHelpDialogProps) => {
+const ProjectHelpDialog = ({ open, onCloseHelp }: IProjectHelpDialogProps) => {
   const router = useRouter();
   const { data, isFetching, isLoading } = useGetPermissionQuery(undefined, { skip: !router.asPath?.includes('app') });
   return (

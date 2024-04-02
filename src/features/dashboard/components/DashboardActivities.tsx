@@ -13,11 +13,11 @@ import { ChartOptions } from 'chart.js';
 
 import { TypographyActivities } from './styled';
 import { BaseCard } from '@/common/base';
-import { BaseCardProps } from '@/common/base/BaseCard';
+import { IBaseCardProps } from '@/common/base/BaseCard';
 
 import { useGetUserActivitiesQuery } from '../store/dashboard.api.slice';
 
-const baseCardStyle: BaseCardProps = { sx: { height: 400 } };
+const baseCardStyle: IBaseCardProps = { sx: { height: 400 } };
 
 const DashboardActivities = () => {
   const { data, isLoading, isFetching } = useGetUserActivitiesQuery();

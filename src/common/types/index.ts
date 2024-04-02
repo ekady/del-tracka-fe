@@ -2,10 +2,10 @@ import { TextFieldProps } from '@mui/material';
 import { DataGridProps } from '@mui/x-data-grid';
 import { ReactNode, SyntheticEvent } from 'react';
 
-export type FunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
-export type FunctionVoid = () => void;
-export type FunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
-export type FunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
+export type TFunctionVoidWithParams<ParamsType> = (params: ParamsType) => void;
+export type TFunctionVoid = () => void;
+export type TFunctionWithReturn<ParamsReturnType> = (params: ParamsReturnType) => ParamsReturnType;
+export type TFunctionReturnFunction<P1, P2, R> = (param1: P1) => (param2: P2) => R;
 
 export interface IResponseError {
   data?: null;
@@ -69,15 +69,15 @@ export interface IStateStore<DataType> {
   data: DataType;
 }
 
-export type IPaginationParams = {
+export interface IPaginationParams {
   limit?: number | null;
   page?: number | null;
   sortBy?: string | null;
   search?: string | null;
   [x: string]: string | string[] | number | null | undefined;
-};
+}
 
-export type PaginationParamsText = keyof IPaginationParams;
+export type TPaginationParamsText = keyof IPaginationParams;
 
 export interface IPaginationResponse<ContentType> {
   data: ContentType[];
@@ -94,12 +94,12 @@ export interface ITableAndSearchProps {
   SearchProps?: TextFieldProps;
 }
 
-export type onChangeWithAdditionalParams<ParamsType, OptionType> = (
+export type TOnChangeWithAdditionalParams<ParamsType, OptionType> = (
   params?: ParamsType,
 ) => (event: SyntheticEvent<Element, Event>, value: OptionType | null) => void;
 
 export interface IFilterProps<ParamsType, OptionType> {
-  onChange?: onChangeWithAdditionalParams<ParamsType, OptionType>;
+  onChange?: TOnChangeWithAdditionalParams<ParamsType, OptionType>;
 }
 
 export interface IStatusMessageResponse {

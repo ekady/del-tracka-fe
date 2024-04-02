@@ -6,11 +6,11 @@ import CircleOutlined from '@mui/icons-material/CircleOutlined';
 
 import { passwordValidator } from './helper';
 
-export interface PasswordRequirementProps {
+export interface IPasswordRequirementProps {
   value: string;
 }
 
-const PasswordRequirement = ({ value }: PasswordRequirementProps) => {
+const PasswordRequirement = ({ value }: IPasswordRequirementProps) => {
   const passwordValidation = passwordValidator(value);
 
   return (

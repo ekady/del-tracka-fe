@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
-import { FunctionVoid } from '../types';
+import { TFunctionVoid } from '../types';
 
-const copyToClipboard = (async (text: string, callback?: FunctionVoid): Promise<void> => {
+const copyToClipboard = (async (text: string, callback?: TFunctionVoid): Promise<void> => {
   if (navigator) await navigator.clipboard.writeText(text);
 
   callback?.();
 
   toast.info('Copied to the clipboard');
-}) as (text: string, callback?: FunctionVoid) => void;
+}) as (text: string, callback?: TFunctionVoid) => void;
 
 export default copyToClipboard;

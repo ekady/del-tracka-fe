@@ -17,7 +17,7 @@ import ProjectDialogNew from '../ProjectDialogNew';
 
 // Types
 import { IProjectRequest, ISprintsResponse } from '@/features/projects/interfaces';
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 
 // Hooks
 import { useAppDispatch } from '@/common/store';
@@ -153,7 +153,7 @@ const ProjectOverviewSprint = () => {
           if ('data' in data && data.data?.data) {
             openDialogSuccess('Success', 'Sprint has sucessfully deleted');
           }
-        }) as FunctionVoid,
+        }) as TFunctionVoid,
       });
     },
     [closeDialogAlert, deleteSprint, openDialogSuccess, openDialogWarning, projectId],

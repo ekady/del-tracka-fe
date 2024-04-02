@@ -17,26 +17,26 @@ import Typography from '@mui/material/Typography';
 // Local Components
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
-import { ProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
+import { IProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
 import { useProfileForm } from '../hooks/useProfileForm';
 import { BaseDialogAlert, ButtonLoading } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
-export interface ProfileChildProps<T> {
-  formMethods: UseFormReturn<ProfileRequest>;
+export interface IProfileChildProps<T> {
+  formMethods: UseFormReturn<IProfileRequest>;
   formOptions: T;
   disabled?: boolean;
 }
 
-export interface ProfileProps {
+export interface IProfileProps {
   isFirstTime: boolean;
   isEditable: boolean;
   disabled?: boolean;
   isLoading?: boolean;
-  submit: FunctionVoidWithParams<ProfileRequest>;
-  handleEditButton?: FunctionVoid;
+  submit: TFunctionVoidWithParams<IProfileRequest>;
+  handleEditButton?: TFunctionVoid;
 }
 
 const validationChangeData = {
@@ -47,7 +47,7 @@ const validationChangeData = {
 
 const validationImage = { picture: { required: false } };
 
-const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) => ({
+const validationChangePassword = (getValues: UseFormGetValues<IProfileRequest>) => ({
   password: { required: true },
   passwordConfirm: {
     required: true,
@@ -57,7 +57,7 @@ const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) =
   },
 });
 
-const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleEditButton }: ProfileProps) => {
+const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleEditButton }: IProfileProps) => {
   const router = useRouter();
   const form = useProfileForm();
   const { handleSubmit, getValues, resetField } = form;
@@ -86,7 +86,7 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
 
   const openDialogDeleteConfirm = useCallback(() => {
     openDialogWarning('Warning', 'Are your sure want to delete your account?', {
-      handleOk: deleteAccountFn as FunctionVoid,
+      handleOk: deleteAccountFn as TFunctionVoid,
       handleCancel: closeDialogAlert,
     });
   }, [closeDialogAlert, deleteAccountFn, openDialogWarning]);

@@ -7,7 +7,7 @@ import { useLeaveProjectMutation, useRemoveMemberMutation } from '../store/membe
 import { toast } from 'react-toastify';
 
 import { IProjectMember } from '../interfaces';
-import { FunctionVoid, IApiResponse, IStatusMessageResponse } from '@/common/types';
+import { TFunctionVoid, IApiResponse, IStatusMessageResponse } from '@/common/types';
 
 export const useRemoveMember = (projectId: string) => {
   const router = useRouter();
@@ -16,7 +16,7 @@ export const useRemoveMember = (projectId: string) => {
   const [leave, { isLoading: isLoadingLeave }] = useLeaveProjectMutation();
 
   const deleteLeaveMember = useCallback(
-    async (data: IProjectMember, callbackSuccess?: FunctionVoid) => {
+    async (data: IProjectMember, callbackSuccess?: TFunctionVoid) => {
       let res: { data: IApiResponse<IStatusMessageResponse> } | { error: unknown }, message: string;
       if (data._id === profileData?.data?._id) {
         res = await leave({ id: projectId, body: undefined });

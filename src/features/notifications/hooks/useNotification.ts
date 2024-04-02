@@ -4,10 +4,10 @@ import { firebaseCloudMessaging } from '../utils/firebase';
 import { toast } from 'react-toastify';
 import { authApiSlice } from '@/features/auth/store/auth.api.slice';
 import store from '@/common/store';
-import { ProjectTags, invalidateTags } from '@/features/projects/store/project.api.slice';
+import { TProjectTags, invalidateTags } from '@/features/projects/store/project.api.slice';
 import { notificationInvalidateTags } from '../store/notification.api.slice';
 
-const TAG_TYPE: { [key: string]: ProjectTags[] } = {
+const TAG_TYPE: { [key: string]: TProjectTags[] } = {
   CREATE_TASK: ['Task', 'Tasks'],
   UPDATE_TASK: ['Task', 'Tasks'],
   UPDATE_TASK_STATUS: ['Task', 'Tasks'],

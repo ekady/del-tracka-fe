@@ -1,6 +1,6 @@
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
 import { IProjectRequest, IProjectSettingRequest, ISprintResponse, ISprintsResponse } from '../interfaces';
-import { projectApiSlice, ProjectIds } from './project.api.slice';
+import { projectApiSlice, TProjectIds } from './project.api.slice';
 
 export const sprintApiSlice = projectApiSlice.injectEndpoints({
   overrideExisting: true,
@@ -18,15 +18,15 @@ export const sprintApiSlice = projectApiSlice.injectEndpoints({
         invalidatesTags: ['Project', 'Projects', 'Sprints', 'ProjectActivities'],
       },
     ),
-    getSprintInfo: builder.query<IApiResponse<ISprintsResponse[]>, ProjectIds>({
+    getSprintInfo: builder.query<IApiResponse<ISprintsResponse[]>, TProjectIds>({
       query: ({ idProject }) => `task-statistic/project/${idProject}/stage`,
       providesTags: ['Sprints'],
     }),
-    getSprint: builder.query<IApiResponse<ISprintResponse>, ProjectIds>({
+    getSprint: builder.query<IApiResponse<ISprintResponse>, TProjectIds>({
       query: ({ idProject, idSprint }) => `/project/${idProject}/stage/${idSprint}`,
       providesTags: ['Sprint'],
     }),
-    deleteSprint: builder.mutation<IApiResponse<IStatusMessageResponse>, ProjectIds>({
+    deleteSprint: builder.mutation<IApiResponse<IStatusMessageResponse>, TProjectIds>({
       query: ({ idProject, idSprint }) => ({
         url: `project/${idProject}/stage/${idSprint}`,
         method: 'delete',

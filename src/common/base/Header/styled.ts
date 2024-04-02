@@ -7,11 +7,11 @@ import { styled } from '@mui/material/styles';
 
 import { SIDEBAR_WIDTH } from '../SideBar/constants';
 
-import { AppBarProps } from '.';
+import { IAppBarProps } from '.';
 
 export const AppBar: ElementType = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'sidebar',
-})<AppBarProps>(({ theme, open }) => ({
+})<IAppBarProps>(({ theme, open }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,

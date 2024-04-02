@@ -15,10 +15,10 @@ import {
 import { statusList } from '@/common/constants/status';
 import { levelList } from '@/common/constants/level';
 
-import { ProjectTaskFilterProps } from '@/features/projects/components/ProjectTask/ProjectTaskFilter';
+import { IProjectTaskFilterProps } from '@/features/projects/components/ProjectTask/ProjectTaskFilter';
 import { useGetProjectsQuery } from '@/features/projects/store/project.api.slice';
 
-const MyTasksFilter = ({ onChange }: ProjectTaskFilterProps) => {
+const MyTasksFilter = ({ onChange }: IProjectTaskFilterProps) => {
   const { data: projectList, isFetching, isLoading } = useGetProjectsQuery();
 
   return (

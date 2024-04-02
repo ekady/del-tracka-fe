@@ -20,7 +20,7 @@ import { CarouselSize } from './constants';
 import { IFileStream } from '@/common/types';
 import ImageLoader from '../ImageLoader';
 
-export interface CarouselImagesProps {
+export interface ICarouselImagesProps {
   images: IFileStream[] | string[];
   thumbSize?: number | string;
   imageHeight?: number | string;
@@ -32,7 +32,7 @@ const CarouselImages = ({
   thumbSize = CarouselSize.DefaultThumbsWidth,
   imageHeight = CarouselSize.DefaultImageHeight,
   imageWidth = CarouselSize.DefaultImageWidth,
-}: CarouselImagesProps) => {
+}: ICarouselImagesProps) => {
   return (
     <CarouselResponsive
       showStatus={false}

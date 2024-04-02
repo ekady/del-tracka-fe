@@ -4,16 +4,16 @@ import { RegisterOptions, Controller } from 'react-hook-form';
 // Local Components
 import { CustomInput } from '@/common/base';
 
-import { Profile } from '../store/profile.api.slice';
-import { ProfileChildProps } from './Profile';
+import { IProfile } from '../store/profile.api.slice';
+import { IProfileChildProps } from './Profile';
 
-export type ProfileChangeDataValidation = {
-  [key in keyof Profile]: RegisterOptions;
+export type TProfileChangeDataValidation = {
+  [key in keyof IProfile]: RegisterOptions;
 };
 
-export type ProfileChangeDataProps = ProfileChildProps<ProfileChangeDataValidation>;
+export type TProfileChangeDataProps = IProfileChildProps<TProfileChangeDataValidation>;
 
-const ProfileChangeData = ({ formMethods, formOptions, disabled }: ProfileChangeDataProps) => {
+const ProfileChangeData = ({ formMethods, formOptions, disabled }: TProfileChangeDataProps) => {
   const {
     control,
     formState: { errors },

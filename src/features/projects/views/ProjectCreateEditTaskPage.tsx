@@ -26,7 +26,7 @@ import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
 
 import { invalidateTags } from '../store/project.api.slice';
 
-import { FunctionVoid, IFileStream } from '@/common/types';
+import { TFunctionVoid, IFileStream } from '@/common/types';
 
 import { copyToClipboard } from '@/common/helper';
 
@@ -34,11 +34,11 @@ import { copyToClipboard } from '@/common/helper';
 // View: Disabled form, contain form without upload image, media, comments, logs
 // Edit: Form contain upload image, comments, logs
 
-export type ProjectCreateEditTaskPageProps = {
+export interface IProjectCreateEditTaskPageProps {
   category: 'create' | 'edit' | 'detail';
-};
+}
 
-const ProjectCreateEditTaskPage = ({ category }: ProjectCreateEditTaskPageProps) => {
+const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps) => {
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
@@ -165,13 +165,13 @@ const ProjectCreateEditTaskPage = ({ category }: ProjectCreateEditTaskPageProps)
             className="text-right"
             variant="outlined"
             color="primary"
-            onClick={handleBackToTaskList as FunctionVoid}
+            onClick={handleBackToTaskList as TFunctionVoid}
           >
             Back
           </Button>
 
           {projectData?.data.rolePermissions.TASK.update && (
-            <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as FunctionVoid}>
+            <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as TFunctionVoid}>
               Edit
             </Button>
           )}

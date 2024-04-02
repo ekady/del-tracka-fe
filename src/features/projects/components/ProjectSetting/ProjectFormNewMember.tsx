@@ -18,7 +18,7 @@ import { ProjectRolesArray } from '@/features/projects/constant/role';
 import { useAddMemberMutation } from '@/features/projects/store/member.api.slice';
 
 import { toast } from 'react-toastify';
-import { IAutocompleteOptions, FunctionVoidWithParams } from '@/common/types';
+import { IAutocompleteOptions, TFunctionVoidWithParams } from '@/common/types';
 import { IProjectMemberAddRequest } from '@/features/projects/interfaces';
 
 const validation = {
@@ -38,7 +38,7 @@ const ProjectFormNewMember = () => {
   } = useForm<IProjectMemberAddRequest>({ mode: 'all', defaultValues: { roleName: '', email: '' } });
 
   const onChangeAutoComplete = useCallback(
-    (onChangeForm: FunctionVoidWithParams<string>, item: IAutocompleteOptions | null) => {
+    (onChangeForm: TFunctionVoidWithParams<string>, item: IAutocompleteOptions | null) => {
       onChangeForm(item?.value ?? '');
       setLabelRole(item);
     },

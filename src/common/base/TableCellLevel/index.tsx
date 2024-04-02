@@ -4,17 +4,17 @@ import { memo, ReactElement } from 'react';
 // MUI
 import Chip, { ChipProps } from '@mui/material/Chip';
 
-import { FunctionVoidWithParams } from '@/common/types';
-import LEVEL, { LevelType } from '@/common/constants/level';
+import { TFunctionVoidWithParams } from '@/common/types';
+import LEVEL, { TLevelType } from '@/common/constants/level';
 
-export interface TableCellLevelProps {
-  level?: LevelType;
+export interface ITableCellLevelProps {
+  level?: TLevelType;
   SelectOption?: ReactElement;
   ChipProps?: ChipProps;
-  onClickSelectOption?: FunctionVoidWithParams<string>;
+  onClickSelectOption?: TFunctionVoidWithParams<string>;
 }
 
-const TableCellLevel = ({ level, SelectOption, ChipProps }: TableCellLevelProps) => {
+const TableCellLevel = ({ level, SelectOption, ChipProps }: ITableCellLevelProps) => {
   const chipProps = ChipProps ?? {};
   const chipSelectOption: ChipProps = SelectOption
     ? {

@@ -2,18 +2,18 @@ import { apiSlice } from '@/common/store/api.slice';
 
 import { IApiResponse, IFileStream, IStatusMessageResponse, IUserInfo } from '@/common/types';
 
-export interface Profile {
+export interface IProfile {
   firstName?: string;
   lastName?: string;
   email?: string;
 }
 
-export interface ProfilePassword {
+export interface IProfilePassword {
   password?: string;
   passwordConfirm?: string;
 }
 
-export interface ProfileRequest extends Profile, ProfilePassword {
+export interface IProfileRequest extends IProfile, IProfilePassword {
   picture?: string | File | IFileStream | null;
   imageUrl?: string | null;
 }
@@ -21,7 +21,7 @@ export interface ProfileRequest extends Profile, ProfilePassword {
 export const profileApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    updateProfile: builder.mutation<IUserInfo, ProfileRequest>({
+    updateProfile: builder.mutation<IUserInfo, IProfileRequest>({
       query: (body) => {
         const formData = new FormData();
         formData.append('firstName', body?.firstName ?? '');

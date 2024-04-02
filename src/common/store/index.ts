@@ -7,7 +7,7 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage';
 
 import toastError from '@/common/base/ErrorToastContainer/toastError';
-import { ErrorToastContainerProps } from '../base/ErrorToastContainer';
+import { IErrorToastContainerProps } from '../base/ErrorToastContainer';
 
 // Slice Reducer
 import authSlice from '@/features/auth/store/auth.slice';
@@ -20,7 +20,7 @@ const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
       const errorMessage = action.payload.data?.errors?.[0].message ?? action.error.message;
       const errorType = action.payload.data?.errors?.[0].errorType ?? 'ERROR';
 
-      const toastPayload: ErrorToastContainerProps = {
+      const toastPayload: IErrorToastContainerProps = {
         message: errorType === 'TOO_MANY_REQUESTS' ? 'Too many requests. Try again later' : errorMessage,
         requestId: action.meta?.baseQueryMeta?.response?.headers?.get?.('X-Request-Id'),
       };
@@ -64,13 +64,13 @@ const store = storeFn();
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type TRootState = ReturnType<typeof store.getState>;
+export type TAppDispatch = typeof store.dispatch;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch = () => useDispatch<TAppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<TRootState> = useSelector;
 
-type AppStore = ReturnType<typeof storeFn>;
-export const wrapper = createWrapper<AppStore>(storeFn, { debug: process.env.NODE_ENV === 'development' });
+type TAppStore = ReturnType<typeof storeFn>;
+export const wrapper = createWrapper<TAppStore>(storeFn, { debug: process.env.NODE_ENV === 'development' });
 
 export default store;

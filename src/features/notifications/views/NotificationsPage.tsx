@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 import NotificationList from '@/features/notifications/components/NotificationList';
 
 import useAllNotification from '@/features/notifications/hooks/useAllNotification';
@@ -27,7 +27,7 @@ const NotificationsPage = () => {
               color="primary"
               variant="contained"
               sx={{ textTransform: 'capitalize' }}
-              onClick={readAllNotification as FunctionVoid}
+              onClick={readAllNotification as TFunctionVoid}
             >
               Mark All As Read
             </Button>

@@ -18,24 +18,24 @@ import Typography from '@mui/material/Typography';
 import { ButtonLoading, CustomInput, PasswordRequirement } from '@/common/base';
 
 // Store
-import { ResetPasswordForm, ResetPasswordRequest } from '@/features/auth/interfaces';
+import { IResetPasswordForm, IResetPasswordRequest } from '@/features/auth/interfaces';
 import { useResetPasswordMutation } from '@/features/auth/store/auth.api.slice';
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
 import AuthResetInvalid from '@/features/auth/components/AuthResetInvalid';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
-const validationRule = (getValues: UseFormGetValues<ResetPasswordForm>) => ({
+const validationRule = (getValues: UseFormGetValues<IResetPasswordForm>) => ({
   password: { required: true },
   passwordConfirm: {
     required: true,
     validate: { sameConfirmPassword: (v: string) => v === getValues('password') },
   },
 });
-export interface ResetPasswordProps {
+export interface IResetPasswordProps {
   tokenValid: boolean;
 }
 
-const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
+const ResetPassword = ({ tokenValid }: IResetPasswordProps) => {
   const {
     handleSubmit,
     formState: { errors, dirtyFields },
@@ -45,7 +45,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
     getFieldState,
     getValues,
     watch,
-  } = useForm<ResetPasswordForm>({ mode: 'onSubmit' });
+  } = useForm<IResetPasswordForm>({ mode: 'onSubmit' });
   const router = useRouter();
   const [resetPassword, { isLoading, isSuccess, isError }] = useResetPasswordMutation();
 
@@ -53,12 +53,12 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
   const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
-    (formTarget?: keyof ResetPasswordForm) => {
+    (formTarget?: keyof IResetPasswordForm) => {
       return (async () => {
         if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
           await trigger(formTarget);
         }
-      }) as FunctionVoid;
+      }) as TFunctionVoid;
     },
     [getFieldState, trigger],
   );
@@ -68,8 +68,8 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
   const onChangeInput = useCallback(
     (
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      onChange: FunctionVoidWithParams<string>,
-      formTarget?: keyof ResetPasswordForm,
+      onChange: TFunctionVoidWithParams<string>,
+      formTarget?: keyof IResetPasswordForm,
     ) => {
       onChange(event.target.value);
       validateTargetForm(formTarget);
@@ -80,7 +80,7 @@ const ResetPassword = ({ tokenValid }: ResetPasswordProps) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!passwordValidation.isAllTrue) return;
-      const payload: ResetPasswordRequest = { ...data, resetToken: router.query?.token as string };
+      const payload: IResetPasswordRequest = { ...data, resetToken: router.query?.token as string };
       await resetPassword(payload).unwrap();
       reset();
     } catch {

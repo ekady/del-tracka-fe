@@ -22,7 +22,7 @@ import { emailValidation } from '@/common/helper';
 
 // Store
 import { SignInResponse, signIn } from 'next-auth/react';
-import { LoginRequest } from '@/features/auth/interfaces';
+import { ILoginRequest } from '@/features/auth/interfaces';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
@@ -39,7 +39,7 @@ const AuthSignInPage = () => {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<LoginRequest>({ mode: 'onSubmit' });
+  } = useForm<ILoginRequest>({ mode: 'onSubmit' });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 

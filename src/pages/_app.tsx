@@ -30,20 +30,20 @@ const CssBaseline = dynamic(() => import('@mui/material/CssBaseline'), { ssr: fa
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-interface MyAppProps extends AppProps {
+interface IMyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-type NextPageWithLayout = NextPage & {
+type TNextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type AppPropsWithLayout = MyAppProps & {
-  Component: NextPageWithLayout;
+type TAppPropsWithLayout = IMyAppProps & {
+  Component: TNextPageWithLayout;
   session: Session;
 };
 
-export default function MyApp(props: AppPropsWithLayout) {
+export default function MyApp(props: TAppPropsWithLayout) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);

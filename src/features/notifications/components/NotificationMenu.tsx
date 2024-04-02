@@ -14,7 +14,7 @@ import Circle from '@mui/icons-material/Circle';
 import Notifications from '@mui/icons-material/Notifications';
 import NotificationsOff from '@mui/icons-material/NotificationsOff';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
 import useUnreadNotification from '../hooks/useUnreadNotification';
 import { INotificationResponse } from '../interfaces';
 
@@ -32,7 +32,7 @@ const NotificationMenu = () => {
       await router.push(notification.webUrl);
     },
     [readNotification, router],
-  ) as FunctionVoidWithParams<INotificationResponse>;
+  ) as TFunctionVoidWithParams<INotificationResponse>;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -45,7 +45,7 @@ const NotificationMenu = () => {
 
   const redirectToNotificationPage = useCallback(async () => {
     if (router.pathname !== '/app/notification') await router.push('/app/notification');
-  }, [router]) as FunctionVoid;
+  }, [router]) as TFunctionVoid;
 
   return (
     <>

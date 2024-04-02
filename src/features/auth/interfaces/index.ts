@@ -1,33 +1,33 @@
 import { ICredential } from '@/common/types';
 
-export interface LoginRequest {
+export interface ILoginRequest {
   email: string;
   password: string;
 }
 
-export interface ContinueWithProviderRequest {
+export interface IContinueWithProviderRequest {
   jwtToken: string;
 }
 
-export interface SignUpRequest extends LoginRequest {
+export interface ISignUpRequest extends ILoginRequest {
   passwordConfirm: string;
   firstName: string;
   lastName: string;
 }
 
-export interface AuthResponse {
+export interface IAuthResponse {
   data: ICredential;
 }
 
-export interface ForgotPasswordRequest {
+export interface IForgotPasswordRequest {
   email: string;
 }
 
-export interface ResetPasswordForm {
+export interface IResetPasswordForm {
   password: string;
   passwordConfirm: string;
 }
 
-export interface ResetPasswordRequest extends ResetPasswordForm {
+export interface IResetPasswordRequest extends IResetPasswordForm {
   resetToken: string;
 }

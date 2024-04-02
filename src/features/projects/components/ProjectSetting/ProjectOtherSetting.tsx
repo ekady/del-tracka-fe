@@ -13,7 +13,7 @@ import { BaseDialogAlert } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import { useDeleteProjectMutation } from '@/features/projects/store/project.api.slice';
 
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 
 const ProjectOtherSetting = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const ProjectOtherSetting = () => {
 
   const redirectToProject = useCallback(async () => {
     await router.replace('/app/projects');
-  }, [router]) as FunctionVoid;
+  }, [router]) as TFunctionVoid;
 
   const openSuccess = useCallback(() => {
     openDialogSuccess('Success', 'Project has been deleted successfully!', {
@@ -43,7 +43,7 @@ const ProjectOtherSetting = () => {
   const openWarning = useCallback(() => {
     openDialogWarning('Warning', 'Are you sure you want to delete this project?', {
       subDescription: 'This action cannot be undone.',
-      handleOk: handleDeleteProject as FunctionVoid,
+      handleOk: handleDeleteProject as TFunctionVoid,
     });
   }, [handleDeleteProject, openDialogWarning]);
 

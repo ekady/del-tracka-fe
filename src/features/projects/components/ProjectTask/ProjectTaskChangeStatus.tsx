@@ -2,27 +2,30 @@
 import { TableMenuSelection } from '@/common/base';
 
 // Constants
-import STATUS, { StatusType } from '@/common/constants/status';
+import STATUS, { TStatusType } from '@/common/constants/status';
 
 // Types
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 
-export type ProjectTaskChangeStatusProps = {
+export interface IProjectTaskChangeStatusProps {
   currentStatus: string;
-  handleChange?: FunctionVoidWithParams<string>;
-};
+  handleChange?: TFunctionVoidWithParams<string>;
+}
 
-const ProjectTaskChangeStatus = ({ currentStatus, handleChange }: ProjectTaskChangeStatusProps) => {
+const ProjectTaskChangeStatus = ({ currentStatus, handleChange }: IProjectTaskChangeStatusProps) => {
   return (
     <TableMenuSelection
       list={Object.keys(STATUS).map(
         (key) =>
-          ({ name: STATUS[key as StatusType].name, value: STATUS[key as StatusType].value }) as Record<string, string>,
+          ({ name: STATUS[key as TStatusType].name, value: STATUS[key as TStatusType].value }) as Record<
+            string,
+            string
+          >,
       )}
       itemText="name"
       currentValue={currentStatus}
       handleChange={handleChange}
-      IconProps={{ sx: { color: STATUS[currentStatus as StatusType].textColor, padding: 0, mr: 1 } }}
+      IconProps={{ sx: { color: STATUS[currentStatus as TStatusType].textColor, padding: 0, mr: 1 } }}
     />
   );
 };

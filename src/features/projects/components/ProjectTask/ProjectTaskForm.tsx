@@ -28,18 +28,18 @@ import { useGetProjectMembersQuery } from '@/features/projects/store/member.api.
 import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.slice';
 
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
-import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
-import { FunctionVoid } from '@/common/types';
+import { invalidateTags, TProjectIds } from '@/features/projects/store/project.api.slice';
+import { TFunctionVoid } from '@/common/types';
 import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
-export interface ProjectTaskFormProps {
+export interface IProjectTaskFormProps {
   data?: IProjectSprintTaskDetail;
   hideUploadFile?: boolean;
   disabled?: boolean;
   hideActions?: boolean;
 }
 
-type ProjectSprintTaskDetailForm = {
+type TProjectSprintTaskDetailForm = {
   [key in keyof IProjectSprintTaskDetail]: RegisterOptions;
 };
 
@@ -55,7 +55,7 @@ const defaultValue: IProjectSprintTaskDetail = {
   images: [],
 };
 
-const validations: ProjectSprintTaskDetailForm = {
+const validations: TProjectSprintTaskDetailForm = {
   _id: { required: false },
   feature: { required: true },
   priority: { required: true },
@@ -69,7 +69,7 @@ const validations: ProjectSprintTaskDetailForm = {
   stage: { required: false },
 };
 
-export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideActions }: ProjectTaskFormProps) {
+export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideActions }: IProjectTaskFormProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
 
   const onSubmit = handleSubmit(async (form) => {
     try {
-      const id: ProjectIds = {
+      const id: TProjectIds = {
         idProject: projectId,
         idSprint: router.query.sprint_id as string,
         idTask: router.query.task_id as string,
@@ -109,7 +109,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
       const response = await saveTask({ id, body: { ...form } });
       if ('data' in response && response.data) {
         openDialogSuccess('Success', 'Task has been successfully saved', {
-          handleOk: onRedirectTaskList as FunctionVoid,
+          handleOk: onRedirectTaskList as TFunctionVoid,
           handleCancel: closeDialogAlert,
         });
       }
@@ -274,7 +274,7 @@ export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideAc
         )}
         {!hideActions && (
           <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
-            <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList as FunctionVoid}>
+            <ButtonLoading loading={isLoading} variant="outlined" onClick={onRedirectTaskList as TFunctionVoid}>
               {router.query.task_id && !router.asPath.includes('edit') ? 'Back' : 'Cancel'}
             </ButtonLoading>
             {(router.asPath.includes('new') || router.asPath.includes('edit')) && (

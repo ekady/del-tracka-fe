@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 
 import Circle from '@mui/icons-material/Circle';
 
-import { FunctionVoidWithParams, IPaginationResponse } from '@/common/types';
+import { TFunctionVoidWithParams, IPaginationResponse } from '@/common/types';
 import { INotificationResponse } from '../interfaces';
 import { useReadNotificationMutation } from '../store/notification.api.slice';
 
 export interface INotificationListProps {
   content: IPaginationResponse<INotificationResponse>;
-  onChangePagination?: FunctionVoidWithParams<number>;
+  onChangePagination?: TFunctionVoidWithParams<number>;
 }
 
 const NotificationList = ({ content, onChangePagination }: INotificationListProps) => {
@@ -31,7 +31,7 @@ const NotificationList = ({ content, onChangePagination }: INotificationListProp
       await router.push(notification.webUrl);
     },
     [readNotification, router],
-  ) as FunctionVoidWithParams<INotificationResponse>;
+  ) as TFunctionVoidWithParams<INotificationResponse>;
   return (
     <Box marginLeft={-2}>
       {content.data.map((notification) => (

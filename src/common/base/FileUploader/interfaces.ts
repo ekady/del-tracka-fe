@@ -1,10 +1,10 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 
-export interface FileUploaderProps<FileType> {
+export interface IFileUploaderProps<FileType> {
   value?: FileType | null;
-  handleValue?: FunctionVoidWithParams<FileType | null>;
+  handleValue?: TFunctionVoidWithParams<FileType | null>;
   accept?: readonly string[];
   buttonUploadText?: string;
   description?: string;

@@ -11,13 +11,13 @@ import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 
 import { IconGoogle } from '@/common/icons';
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 
-export interface AuthWithGoogleProps {
+export interface IAuthWithGoogleProps {
   disabled?: boolean;
 }
 
-const AuthWithGoogle = ({ disabled }: AuthWithGoogleProps) => {
+const AuthWithGoogle = ({ disabled }: IAuthWithGoogleProps) => {
   const onGoogleLogin = useCallback(async () => {
     try {
       await signIn('google', { redirect: false });
@@ -30,7 +30,7 @@ const AuthWithGoogle = ({ disabled }: AuthWithGoogleProps) => {
 
   return (
     <Button
-      onClick={onGoogleLogin as FunctionVoid}
+      onClick={onGoogleLogin as TFunctionVoid}
       disabled={disabled}
       fullWidth
       variant="outlined"

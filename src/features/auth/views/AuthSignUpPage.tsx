@@ -21,15 +21,15 @@ import { ButtonLoading, CustomInput, PasswordRequirement } from '@/common/base';
 // Helper
 import { emailValidation } from '@/common/helper';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
 import { useSignupMutation } from '@/features/auth/store/auth.api.slice';
 import { toast } from 'react-toastify';
-import { SignUpRequest } from '@/features/auth/interfaces';
+import { ISignUpRequest } from '@/features/auth/interfaces';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
-type AuthSignUpForm = keyof SignUpRequest;
+type TAuthSignUpForm = keyof ISignUpRequest;
 
-const validationRule = (getValues: UseFormGetValues<SignUpRequest>) => ({
+const validationRule = (getValues: UseFormGetValues<ISignUpRequest>) => ({
   firstName: { required: true },
   lastName: { required: true },
   email: {
@@ -54,18 +54,18 @@ const AuthSignUpPage = () => {
     control,
     reset,
     watch,
-  } = useForm<SignUpRequest>({ mode: 'onSubmit' });
+  } = useForm<ISignUpRequest>({ mode: 'onSubmit' });
 
   const passwordValue = watch('password');
   const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
-    (formTarget?: AuthSignUpForm) => {
+    (formTarget?: TAuthSignUpForm) => {
       return (async () => {
         if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
           await trigger(formTarget);
         }
-      }) as FunctionVoid;
+      }) as TFunctionVoid;
     },
     [getFieldState, trigger],
   );
@@ -75,8 +75,8 @@ const AuthSignUpPage = () => {
   const onChangeInput = useCallback(
     (
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      onChange: FunctionVoidWithParams<string>,
-      formTarget?: AuthSignUpForm,
+      onChange: TFunctionVoidWithParams<string>,
+      formTarget?: TAuthSignUpForm,
     ) => {
       onChange(event.target.value);
       validateTargetForm(formTarget);

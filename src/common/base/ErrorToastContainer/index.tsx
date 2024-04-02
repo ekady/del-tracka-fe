@@ -5,12 +5,12 @@ import Typography from '@mui/material/Typography';
 
 import { copyToClipboard } from '@/common/helper';
 
-export interface ErrorToastContainerProps {
+export interface IErrorToastContainerProps {
   message: string;
   requestId?: string;
 }
 
-const ErrorToastContainer = ({ message, requestId }: ErrorToastContainerProps) => (
+const ErrorToastContainer = ({ message, requestId }: IErrorToastContainerProps) => (
   <Box>
     <Typography>{message}</Typography>
     {requestId && (

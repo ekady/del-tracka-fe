@@ -14,11 +14,11 @@ const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
 const Paper = dynamic(() => import('@mui/material/Paper'), { ssr: false });
 const Container = dynamic(() => import('@mui/material/Container'), { ssr: false });
 
-export interface LayoutAuthProps extends IPropsChildren {
+export interface ILayoutAuthProps extends IPropsChildren {
   noRedirect?: boolean;
 }
 
-const LayoutAuth = ({ children }: LayoutAuthProps) => {
+const LayoutAuth = ({ children }: ILayoutAuthProps) => {
   return (
     <Grid
       component="main"

@@ -1,25 +1,25 @@
 import { apiSlice } from '@/common/store/api.slice';
 import { IApiResponse, IStatusMessageResponse } from '@/common/types';
-import { ForgotPasswordRequest, ResetPasswordRequest, SignUpRequest } from '../interfaces';
+import { IForgotPasswordRequest, IResetPasswordRequest, ISignUpRequest } from '../interfaces';
 
 export const authApiSlice = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    signup: builder.mutation<IApiResponse<IStatusMessageResponse>, SignUpRequest>({
+    signup: builder.mutation<IApiResponse<IStatusMessageResponse>, ISignUpRequest>({
       query: (body) => ({
         url: '/authentication/sign-up',
         method: 'post',
         body,
       }),
     }),
-    forgotPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ForgotPasswordRequest>({
+    forgotPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, IForgotPasswordRequest>({
       query: (body) => ({
         url: '/authentication/forgot-password',
         method: 'post',
         body,
       }),
     }),
-    resetPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, ResetPasswordRequest>({
+    resetPassword: builder.mutation<IApiResponse<IStatusMessageResponse>, IResetPasswordRequest>({
       query: ({ resetToken, ...passwords }) => ({
         url: '/authentication/reset-password',
         params: { 'reset-token': resetToken },
@@ -27,7 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: passwords,
       }),
     }),
-    verifyResetToken: builder.query<IApiResponse<IStatusMessageResponse>, Pick<ResetPasswordRequest, 'resetToken'>>({
+    verifyResetToken: builder.query<IApiResponse<IStatusMessageResponse>, Pick<IResetPasswordRequest, 'resetToken'>>({
       query: ({ resetToken }) => ({
         url: '/authentication/verify-reset-token',
         params: { token: resetToken },

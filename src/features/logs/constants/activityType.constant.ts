@@ -1,7 +1,7 @@
-import STATUS, { StatusType } from '@/common/constants/status';
+import STATUS, { TStatusType } from '@/common/constants/status';
 import { ILogsResponse } from '../interfaces';
 
-export type ActivityType =
+export type TActivityType =
   | 'CREATE_STAGE'
   | 'UPDATE_STAGE'
   | 'DELETE_STAGE'
@@ -11,7 +11,7 @@ export type ActivityType =
   | 'DELETE_TASK'
   | 'CREATE_COMMENT';
 
-export const ActivityMessage: Record<ActivityType, (data: ILogsResponse) => string> = {
+export const ActivityMessage: Record<TActivityType, (data: ILogsResponse) => string> = {
   CREATE_STAGE: (data) =>
     '{name} created a new sprint, {sprint}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
@@ -36,8 +36,8 @@ export const ActivityMessage: Record<ActivityType, (data: ILogsResponse) => stri
     '{name} has updated status task {task} from {status1} to {status2}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)
       .replace('{task}', `${data.taskAfter.title} (#${data.taskAfter.shortId})`)
-      .replace('{status1}', STATUS[data.taskBefore.status as StatusType].name)
-      .replace('{status2}', STATUS[data.taskAfter.status as StatusType].name),
+      .replace('{status1}', STATUS[data.taskBefore.status as TStatusType].name)
+      .replace('{status2}', STATUS[data.taskAfter.status as TStatusType].name),
   DELETE_TASK: (data) =>
     '{name} has deleted task {task}'
       .replace('{name}', `${data.createdBy.firstName} ${data.createdBy.lastName}`)

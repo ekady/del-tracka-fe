@@ -4,17 +4,17 @@ import { memo, ReactElement } from 'react';
 // MUI
 import Chip, { ChipProps } from '@mui/material/Chip';
 
-import STATUS, { StatusType } from '@/common/constants/status';
-import { FunctionVoidWithParams } from '@/common/types';
+import STATUS, { TStatusType } from '@/common/constants/status';
+import { TFunctionVoidWithParams } from '@/common/types';
 
-export interface TableCellStatusProps {
-  status?: StatusType;
+export interface ITableCellStatusProps {
+  status?: TStatusType;
   SelectOption?: ReactElement;
   ChipProps?: ChipProps;
-  onClickSelectOption?: FunctionVoidWithParams<string>;
+  onClickSelectOption?: TFunctionVoidWithParams<string>;
 }
 
-const TableCellStatus = ({ status, SelectOption, ChipProps }: TableCellStatusProps) => {
+const TableCellStatus = ({ status, SelectOption, ChipProps }: ITableCellStatusProps) => {
   const chipProps = ChipProps ?? {};
   const chipSelectOption: ChipProps = SelectOption
     ? {

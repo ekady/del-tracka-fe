@@ -23,11 +23,11 @@ import { ListButton, ListContainer, ListItemContainer } from '@/common/base/List
 // Types
 import { IProjectWithPermissions, ISprintResponse } from '../interfaces';
 
-export interface ProjectListProps {
+export interface IProjectListProps {
   projectList?: IProjectWithPermissions[];
 }
 
-const ProjectList = ({ projectList }: ProjectListProps) => {
+const ProjectList = ({ projectList }: IProjectListProps) => {
   const [open, setOpen] = useState<Record<number, boolean>>({ 0: false, 1: false, 2: false });
   const [currProject, setCurrProject] = useState<string>('');
   const [currSprint, setCurrSprint] = useState<string>('');

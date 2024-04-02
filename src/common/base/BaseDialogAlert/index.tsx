@@ -16,17 +16,17 @@ import ButtonLoading from '../ButtonLoading';
 // Hooks
 import { useAppSelector } from '@/common/store';
 
-import { FunctionVoid, IPropsChildren } from '@/common/types';
+import { TFunctionVoid, IPropsChildren } from '@/common/types';
 import { selectColorTheme } from '@/common/store/selector';
 
-export type DialogAlertType = 'warning' | 'error' | 'success';
+export type TDialogAlertType = 'warning' | 'error' | 'success';
 
-export interface BaseDialogAlertProps extends IPropsChildren {
-  type?: DialogAlertType;
-  handleOk?: FunctionVoid;
+export interface IBaseDialogAlertProps extends IPropsChildren {
+  type?: TDialogAlertType;
+  handleOk?: TFunctionVoid;
   hideButtonOk?: boolean;
   textOk?: string;
-  handleCancel?: FunctionVoid;
+  handleCancel?: TFunctionVoid;
   hideCancel?: boolean;
   textCancel?: string;
   isOpen?: boolean;
@@ -50,7 +50,7 @@ const BaseDialogAlert = ({
   subDescription,
   loading,
   children,
-}: BaseDialogAlertProps) => {
+}: IBaseDialogAlertProps) => {
   const onCancel = useCallback(() => {
     if (!loading && handleCancel) handleCancel();
   }, [handleCancel, loading]);

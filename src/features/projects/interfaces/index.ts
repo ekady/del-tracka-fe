@@ -1,5 +1,5 @@
-import { LevelType } from '@/common/constants/level';
-import { StatusType } from '@/common/constants/status';
+import { TLevelType } from '@/common/constants/level';
+import { TStatusType } from '@/common/constants/status';
 import { IAutocompleteOptions, IFileStream, IRoleResponse, IUserInfoResponse } from '@/common/types';
 import { ProjectMenu } from '../constant/projectMenu';
 
@@ -114,8 +114,8 @@ export interface ITaskResponse {
   assignee: IUserInfoResponse;
   reporter: IUserInfoResponse;
   images: IFileStream[];
-  status: StatusType;
-  priority: LevelType;
+  status: TStatusType;
+  priority: TLevelType;
   shortId: string;
   project: IProject;
   stage: ISprint;
@@ -155,7 +155,7 @@ export interface IProjectSprintTaskDetail {
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {
-  status: StatusType;
+  status: TStatusType;
   bugNumber: string;
   dateUpdated: string;
   assigneeAvatar?: string | null;

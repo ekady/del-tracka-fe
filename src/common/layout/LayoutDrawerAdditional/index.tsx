@@ -18,7 +18,7 @@ import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
 const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
 const Drawer = dynamic(() => import('@mui/material/Drawer'), { ssr: false });
 
-export interface LayoutDefaultWithDrawerProps {
+export interface ILayoutDefaultWithDrawerProps {
   menuList: ReactNode;
   content: ReactNode;
   hideContent?: boolean;
@@ -35,7 +35,7 @@ const LayoutDrawerAdditional = ({
   hideMenu,
   mediaQueryForShow,
   isMenu,
-}: LayoutDefaultWithDrawerProps) => {
+}: ILayoutDefaultWithDrawerProps) => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const showQuery = useMediaQuery(theme.breakpoints.up(mediaQueryForShow ?? 'lg'));

@@ -12,7 +12,7 @@ import {
 } from '../interfaces';
 import { ProjectMenu } from '../constant/projectMenu';
 
-export type ProjectIds = { idTask?: string; idProject: string; idSprint: string };
+export type TProjectIds = { idTask?: string; idProject: string; idSprint: string };
 
 const projectTags = [
   'Project',
@@ -28,7 +28,7 @@ const projectTags = [
   'Comments',
 ] as const;
 
-export type ProjectTags = (typeof projectTags)[number];
+export type TProjectTags = (typeof projectTags)[number];
 
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({
