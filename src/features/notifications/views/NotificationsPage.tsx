@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 
 import { TFunctionVoid } from '@/common/types';
 import NotificationList from '@/features/notifications/components/NotificationList';
+import { PageEmpty } from '@/common/base';
 
 import useAllNotification from '@/features/notifications/hooks/useAllNotification';
 import useUnreadNotification from '@/features/notifications/hooks/useUnreadNotification';
@@ -14,6 +15,10 @@ const NotificationsPage = () => {
   const all = useAllNotification();
 
   const [readAllNotification] = useReadAllNotificationsMutation();
+
+  if (all.content.data.length <= 0) {
+    return <PageEmpty text="No Notification" />;
+  }
 
   return (
     <>
