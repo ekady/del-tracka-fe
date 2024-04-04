@@ -11,9 +11,10 @@ import dynamic from 'next/dynamic';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 
-// React redux
+// Redux
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 // Utils
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -21,7 +22,7 @@ import createEmotionCache from '../createEmotionCache';
 import '@/styles/global.scss';
 
 // Store
-import store, { persistor } from '@/common/store';
+import { wrapper } from '@/common/store';
 
 const LayoutTheme = dynamic(() => import('@/common/layout/LayoutTheme'), { ssr: false });
 const ToastContainer = dynamic(() => import('react-toastify').then((comp) => comp.ToastContainer), { ssr: false });
@@ -43,8 +44,11 @@ type TAppPropsWithLayout = IMyAppProps & {
   session: Session;
 };
 
-export default function MyApp(props: TAppPropsWithLayout) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props;
+export default function MyApp({ Component, ...restProps }: TAppPropsWithLayout) {
+  const { store, props } = wrapper.useWrappedStore(restProps);
+  const persistor = persistStore(store);
+
+  const { emotionCache = clientSideEmotionCache, pageProps, session } = props as Partial<TAppPropsWithLayout>;
 
   const getLayout = Component.getLayout ?? ((page) => page);
 

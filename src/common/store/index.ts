@@ -3,7 +3,7 @@ import { Context, createWrapper } from 'next-redux-wrapper';
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { combineReducers, configureStore, isRejectedWithValue, Middleware } from '@reduxjs/toolkit';
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import toastError from '@/common/base/ErrorToastContainer/toastError';
@@ -60,17 +60,11 @@ const storeFn = (context?: Context) =>
     },
   });
 
-const store = storeFn();
+export type TAppStore = ReturnType<typeof storeFn>;
+export const wrapper = createWrapper<TAppStore>(storeFn, { debug: process.env.NODE_ENV === 'development' });
 
-export const persistor = persistStore(store);
-
-export type TRootState = ReturnType<typeof store.getState>;
-export type TAppDispatch = typeof store.dispatch;
+export type TRootState = ReturnType<TAppStore['getState']>;
+export type TAppDispatch = TAppStore['dispatch'];
 
 export const useAppDispatch = () => useDispatch<TAppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<TRootState> = useSelector;
-
-type TAppStore = ReturnType<typeof storeFn>;
-export const wrapper = createWrapper<TAppStore>(storeFn, { debug: process.env.NODE_ENV === 'development' });
-
-export default store;
