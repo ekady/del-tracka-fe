@@ -45,3 +45,5 @@ export const {
   useLazyGetSprintQuery,
 } = sprintApiSlice;
 export const { resetApiState } = sprintApiSlice.util;
+
+export const { createUpdateSprint, getSprintInfo, getSprint, deleteSprint } = sprintApiSlice.endpoints;

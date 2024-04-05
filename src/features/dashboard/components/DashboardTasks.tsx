@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -20,25 +20,15 @@ import { TypographyTasks } from './styled';
 import { BaseCard } from '@/common/base';
 import { IBaseCardProps } from '@/common/base/BaseCard';
 
-import { useLazyGetTaskStatusAllQuery, useLazyGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
+import { useGetTaskStatusAllQuery, useGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
 import { ITaskStatusStatsResponse } from '../interfaces';
 
 const baseCardStyle: IBaseCardProps = { sx: { height: 250 } };
 const labelGrey = ['#dddbdbd6'];
 
 const DashboardTasks = () => {
-  const [fetchTotal, { data: dataTotal, isFetching, isLoading }] = useLazyGetTaskStatusAllQuery();
-  const [fetchUser, { data: dataUser, isFetching: isFetchingUser, isLoading: isLoadingUser }] =
-    useLazyGetTaskStatusUserQuery();
-
-  useEffect(() => {
-    fetchTotal().catch(() => {
-      //
-    });
-    fetchUser().catch(() => {
-      //
-    });
-  }, [fetchTotal, fetchUser]);
+  const { data: dataTotal, isFetching, isLoading } = useGetTaskStatusAllQuery();
+  const { data: dataUser, isFetching: isFetchingUser, isLoading: isLoadingUser } = useGetTaskStatusUserQuery();
 
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));

@@ -17,8 +17,8 @@ import generalSlice from './general.slice';
 const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (typeof window !== undefined) {
     if (isRejectedWithValue(action)) {
-      const errorMessage = action.payload.data?.errors?.[0].message ?? action.error.message;
-      const errorType = action.payload.data?.errors?.[0].errorType ?? 'ERROR';
+      const errorMessage = action.payload.data?.errors?.[0]?.message ?? action.error.message;
+      const errorType = action.payload.data?.errors?.[0]?.errorType ?? 'ERROR';
 
       const toastPayload: IErrorToastContainerProps = {
         message: errorType === 'TOO_MANY_REQUESTS' ? 'Too many requests. Try again later' : errorMessage,

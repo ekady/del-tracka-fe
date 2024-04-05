@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -27,7 +27,7 @@ import {
   useCreateUpdateSprintMutation,
   useDeleteSprintMutation,
   useGetSprintInfoQuery,
-  useLazyGetSprintQuery,
+  useGetSprintQuery,
 } from '@/features/projects/store/sprint.api.slice';
 
 // Constants
@@ -80,15 +80,11 @@ const tableHeaders: GridColDef<ISprintsResponse>[] = [
 const ProjectOverviewSprint = () => {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(invalidateTags(['Sprints']));
-  }, [dispatch]);
-
   const { projectId, router, refetch, data: projectData } = useProjectId();
   const { data, isLoading, isFetching } = useGetSprintInfoQuery(
     projectId ? { idProject: projectId, idSprint: '' } : skipToken,
   );
-  const [getSprint] = useLazyGetSprintQuery();
+  const { data: sprintData } = useGetSprintQuery(projectId ? { idProject: projectId, idSprint: '' } : skipToken);
   const [createUpdateSprint, { isLoading: loadingCreateUpdate }] = useCreateUpdateSprintMutation();
   const [deleteSprint] = useDeleteSprintMutation();
 
@@ -107,16 +103,15 @@ const ProjectOverviewSprint = () => {
   const toggleDialog = useCallback(
     async (id?: string) => {
       if (id) {
-        const { data: responseData } = await getSprint({ idProject: projectId, idSprint: id });
         setDefaultValues({
-          id: responseData?.data.shortId,
-          name: responseData?.data.name ?? '',
-          description: responseData?.data.description ?? '',
+          id: sprintData?.data.shortId,
+          name: sprintData?.data.name ?? '',
+          description: sprintData?.data.description ?? '',
         });
       } else setDefaultValues({ id: undefined, description: '', name: '' });
       setOpenDialog(!openDialog);
     },
-    [getSprint, openDialog, projectId],
+    [openDialog, sprintData?.data.description, sprintData?.data.name, sprintData?.data.shortId],
   ) as (id?: string) => void;
 
   const successDialog = useCallback(

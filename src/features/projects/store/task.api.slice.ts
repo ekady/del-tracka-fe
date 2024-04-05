@@ -43,19 +43,10 @@ export const taskApiSlice = sprintApiSlice.injectEndpoints({
       },
       transformResponse: (response: IApiResponse<ITaskResponse>) => {
         return {
-          _id: response.data._id,
-          title: response.data.title,
-          feature: response.data.feature,
-          reporter: response.data.reporter as IProjectMember,
-          assignee: response.data.assignee as IProjectMember,
-          detail: response.data.detail,
-          dueDate: response.data.dueDate,
-          priority: levelList.find((level) => level.value === response.data.priority) ?? null,
-          images: response.data.images,
-          project: response.data.project,
-          stage: response.data.stage,
-          name: response.data?.name,
-          shortId: response.data.shortId,
+          ...(response?.data ?? {}),
+          reporter: (response?.data?.reporter as IProjectMember) ?? null,
+          assignee: (response?.data?.assignee as IProjectMember) ?? null,
+          priority: levelList.find((level) => level.value === response?.data?.priority) ?? null,
         };
       },
       providesTags: ['Task'],
@@ -186,3 +177,16 @@ export const {
   useGetTaskActivitiesQuery,
   useLazyGetTaskActivitiesQuery,
 } = taskApiSlice;
+
+export const {
+  createComment,
+  createUpdateTask,
+  deleteTask,
+  getComments,
+  getTask,
+  getTaskActivities,
+  getTasks,
+  moveSprint,
+  updateStatusTask,
+  updateStatusTaskBulk,
+} = taskApiSlice.endpoints;

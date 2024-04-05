@@ -21,14 +21,13 @@ import { BaseDialogAlert, BaseLabel, ButtonLoading, CustomInput, FileUploaderMul
 import { levelList } from '@/common/constants/level';
 
 // Hooks
-import { useAppDispatch } from '@/common/store';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
 import useProjectId from '@/features/projects/hooks/useProjectId';
 import { useGetProjectMembersQuery } from '@/features/projects/store/member.api.slice';
 import { useCreateUpdateTaskMutation } from '@/features/projects/store/task.api.slice';
 
 import { IProjectSprintTaskDetail } from '@/features/projects/interfaces';
-import { invalidateTags, TProjectIds } from '@/features/projects/store/project.api.slice';
+import { TProjectIds } from '@/features/projects/store/project.api.slice';
 import { TFunctionVoid } from '@/common/types';
 import { TextFieldStyled } from '@/common/base/CustomInput/styled';
 
@@ -70,12 +69,6 @@ const validations: TProjectSprintTaskDetailForm = {
 };
 
 export default function ProjectTaskForm({ hideUploadFile, disabled, data, hideActions }: IProjectTaskFormProps) {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(invalidateTags(['Task']));
-  }, [dispatch]);
-
   const { projectId, router } = useProjectId();
   const { data: dataMember } = useGetProjectMembersQuery(projectId ?? skipToken);
   const [saveTask, { isLoading }] = useCreateUpdateTaskMutation();

@@ -83,4 +83,4 @@ export const apiSlice = createApi({
 
 export const { useGetProfileQuery, useGetPermissionQuery } = apiSlice;
 export const { resetApiState } = apiSlice.util;
-export const { getProfile } = apiSlice.endpoints;
+export const { getProfile, getPermission } = apiSlice.endpoints;

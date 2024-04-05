@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 // Toast
 import { toast } from 'react-toastify';
@@ -11,21 +11,15 @@ import { IProfileRequest, useUpdateProfileMutation } from '@/features/profile/st
 import { TFunctionVoidWithParams } from '@/common/types';
 
 const ProfilePage = () => {
-  const [updateProfile, { isSuccess, isLoading }] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
   const submitHander = useCallback(
     async (v: IProfileRequest) => {
-      await updateProfile(v);
+      const response = await updateProfile(v);
+      if ('data' in response) toast.success('Profile Updated!');
     },
     [updateProfile],
   );
-
-  useEffect(() => {
-    if (isSuccess) toast.success('Profile Updated!');
-    return () => {
-      toast.dismiss();
-    };
-  }, [isSuccess]);
 
   return (
     <Profile

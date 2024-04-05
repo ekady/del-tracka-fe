@@ -1,6 +1,3 @@
-// React
-import { useEffect } from 'react';
-
 // Redux
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
@@ -14,20 +11,12 @@ import { ProjectTaskFilter, ProjectTaskTable } from '@/features/projects/compone
 import { useRouter } from 'next/router';
 import { useGetSprintQuery } from '@/features/projects/store/sprint.api.slice';
 import { useTableChange } from '@/common/hooks/useTableChange';
-import { useLazyGetTasksQuery } from '@/features/projects/store/task.api.slice';
-import { useAppDispatch } from '@/common/store';
-import { invalidateTags } from '@/features/projects/store/project.api.slice';
+import { useGetTasksQuery } from '@/features/projects/store/task.api.slice';
 import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
 
 import { ITaskResponse } from '@/features/projects/interfaces';
 
 const ProjectSprintPage = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(invalidateTags(['Sprint', 'Tasks']));
-  }, [dispatch]);
-
   const router = useRouter();
   const idProject = router.query?.project_id as string;
   const idSprint = router.query?.sprint_id as string;
@@ -36,20 +25,15 @@ const ProjectSprintPage = () => {
   const { data: sprintInfo, isFetching: isSprintInfoFetching } = useGetSprintQuery(
     idProject && idSprint ? { idProject, idSprint } : skipToken,
   );
-  const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
+  const { data: issuesData, isFetching: isTasksFetching } = useGetTasksQuery({
+    ids: { idProject, idSprint },
+    params: tableOption,
+  });
 
   useProjectBreadcrumb({
     '[project_id]': sprintInfo?.data.project?.name ?? '',
     '[sprint_id]': sprintInfo?.data.name ?? '',
   });
-
-  useEffect(() => {
-    if (idProject && idSprint) {
-      getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
-        //
-      });
-    }
-  }, [getTasks, idProject, idSprint, tableOption]);
 
   return (
     <>

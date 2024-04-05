@@ -11,6 +11,8 @@ import { LayoutDefault } from '@/common/layout';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
 import PageLoader from '@/common/base/PageLoader';
 
+import { getProject, getProjects } from '@/features/projects/store/project.api.slice';
+
 const ProjectSetting = dynamic(() => import('@/features/projects/views/ProjectSettingPage'), {
   ssr: false,
   loading: () => <PageLoader />,
@@ -26,7 +28,10 @@ ProjectSettingPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export const getServerSideProps = authWallWrapper(async () => {
+export const getServerSideProps = authWallWrapper(async (context, store) => {
+  await store.dispatch(getProjects.initiate());
+  if (context?.params?.project_id) await store.dispatch(getProject.initiate(context.params.project_id as string));
+
   return {
     props: {
       title: 'Project Setting',

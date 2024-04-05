@@ -5,6 +5,7 @@ import { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 
 import { authWallWrapper } from '@/common/helper/authWallWrapper';
+import { getProjects } from '@/features/projects/store/project.api.slice';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
@@ -26,7 +27,8 @@ ProjectPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export const getServerSideProps = authWallWrapper(async () => {
+export const getServerSideProps = authWallWrapper(async (_, store) => {
+  await store.dispatch(getProjects.initiate());
   return {
     props: {
       title: 'Project',

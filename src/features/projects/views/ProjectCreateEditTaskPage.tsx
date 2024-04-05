@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -21,10 +21,7 @@ import { CarouselImages } from '@/common/base';
 // Hooks
 import { useGetTaskQuery } from '../store/task.api.slice';
 import useProjectId from '../hooks/useProjectId';
-import { useAppDispatch } from '@/common/store';
 import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
-
-import { invalidateTags } from '../store/project.api.slice';
 
 import { TFunctionVoid, IFileStream } from '@/common/types';
 
@@ -42,7 +39,6 @@ const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps
   const isDetail = category === 'detail';
   const isCreate = category === 'create';
 
-  const dispatch = useAppDispatch();
   const {
     projectId,
     data: projectData,
@@ -60,10 +56,6 @@ const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps
     '[sprint_id]': task.data?.stage?.name ?? task?.data?.name ?? '',
     '[task_id]': task.data?.title ?? '',
   });
-
-  useEffect(() => {
-    dispatch(invalidateTags(['Task']));
-  }, [dispatch]);
 
   const setVariantButton = useCallback(
     (type: string) => {
