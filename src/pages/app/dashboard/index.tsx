@@ -15,6 +15,9 @@ import {
   getTaskStatusUser,
   getUserActivities,
 } from '@/features/dashboard/store/dashboard.api.slice';
+import handleErrorSSr from '@/common/helper/handleErrorSSr';
+
+import { IResponseError } from '@/common/types';
 
 const DashboardPage = dynamic(() => import('@/features/dashboard/views/DashboardPage'), {
   ssr: false,
@@ -28,10 +31,24 @@ Dashboard.getLayout = (page: ReactElement) => {
 };
 
 export const getServerSideProps = authWallWrapper(async (_, store) => {
-  await store.dispatch(getTaskProjectTotal.initiate());
-  await store.dispatch(getTaskStatusUser.initiate());
-  await store.dispatch(getTaskStatusAll.initiate());
-  await store.dispatch(getUserActivities.initiate());
+  try {
+    const dispatches = [
+      store.dispatch(getTaskProjectTotal.initiate()),
+      store.dispatch(getTaskStatusUser.initiate()),
+      store.dispatch(getTaskStatusAll.initiate()),
+      store.dispatch(getUserActivities.initiate()),
+    ];
+    const responses = await Promise.all(dispatches);
+    const rejected = responses.find((response) => response.status !== 'fulfilled');
+
+    if (rejected && rejected?.error) {
+      const dataError: IResponseError =
+        'data' in rejected.error ? (rejected.error.data as IResponseError) : { statusCode: 500, errors: [] };
+      throw new Error(`${dataError?.statusCode}`);
+    }
+  } catch (err) {
+    return handleErrorSSr(err as Error);
+  }
 
   return {
     props: {

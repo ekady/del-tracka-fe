@@ -10,6 +10,7 @@ import { authWallWrapper } from '@/common/helper/authWallWrapper';
 import { LayoutDefault } from '@/common/layout';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
 import PageLoader from '@/common/base/PageLoader';
+
 import {
   getProject,
   getProjectActivities,
@@ -17,6 +18,10 @@ import {
   getProjectStats,
 } from '@/features/projects/store/project.api.slice';
 import { getSprint, getSprintInfo } from '@/features/projects/store/sprint.api.slice';
+
+import handleErrorSSr from '@/common/helper/handleErrorSSr';
+
+import { IResponseError } from '@/common/types';
 
 const ProjectDetail = dynamic(() => import('@/features/projects/views/ProjectDetailPage'), {
   ssr: false,
@@ -34,16 +39,31 @@ ProjectDetailPage.getLayout = (page: ReactElement) => {
 };
 
 export const getServerSideProps = authWallWrapper(async (context, store) => {
-  await store.dispatch(getProjects.initiate());
-
   const projectId = context?.params?.project_id as string;
-  if (projectId) {
-    await store.dispatch(getProject.initiate(projectId));
-    await store.dispatch(getProjectStats.initiate(projectId));
-    await store.dispatch(getSprintInfo.initiate({ idProject: projectId, idSprint: '' }));
-    await store.dispatch(getSprint.initiate({ idProject: projectId, idSprint: '' }));
-    await store.dispatch(getProjectActivities.initiate({ id: projectId, params: {} }));
+
+  try {
+    if (!projectId) throw new Error('500');
+
+    await store.dispatch(getProjects.initiate());
+    const dispatches = [
+      store.dispatch(getProject.initiate(projectId)),
+      store.dispatch(getProjectStats.initiate(projectId)),
+      store.dispatch(getSprintInfo.initiate({ idProject: projectId, idSprint: '' })),
+      store.dispatch(getSprint.initiate({ idProject: projectId, idSprint: '' })),
+      store.dispatch(getProjectActivities.initiate({ id: projectId, params: {} })),
+    ];
+    const responses = await Promise.all(dispatches);
+    const rejected = responses.find((response) => response.status !== 'fulfilled');
+
+    if (rejected && rejected?.error) {
+      const dataError: IResponseError =
+        'data' in rejected.error ? (rejected.error.data as IResponseError) : { statusCode: 500, errors: [] };
+      throw new Error(`${dataError?.statusCode}`);
+    }
+  } catch (err) {
+    return handleErrorSSr(err as Error);
   }
+
   return {
     props: {
       title: 'Project',
