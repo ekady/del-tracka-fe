@@ -24,9 +24,10 @@ import '@/styles/global.scss';
 // Store
 import { wrapper } from '@/common/store';
 
-const LayoutTheme = dynamic(() => import('@/common/layout/LayoutTheme'), { ssr: false });
 const ToastContainer = dynamic(() => import('react-toastify').then((comp) => comp.ToastContainer), { ssr: false });
 const CssBaseline = dynamic(() => import('@mui/material/CssBaseline'), { ssr: false });
+const LayoutTheme = dynamic(() => import('@/common/layout/LayoutTheme'), { ssr: false });
+const RouteLoader = dynamic(() => import('@/common/base/RouteLoader'), { ssr: false });
 const Custom500 = dynamic(() => import('./500'), { ssr: false });
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -62,6 +63,7 @@ export default function MyApp({ Component, ...restProps }: TAppPropsWithLayout) 
       <Provider store={store}>
         <LayoutTheme>
           <CssBaseline />
+          <RouteLoader />
           <PersistGate persistor={persistor}>
             <SessionProvider session={session}>
               {pageProps.isError ? <Custom500 /> : getLayout(<Component {...pageProps} />)}
