@@ -33,8 +33,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   }
 
   return {
-    props: {
-      title: '',
+    redirect: {
+      permanent: false,
+      destination: '/home',
     },
   };
 };
