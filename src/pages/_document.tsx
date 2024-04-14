@@ -21,6 +21,18 @@ const DocumentPage = () => (
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="msapplication-TileImage" content="/images/icons/ms-icon-144x144.png" />
       <meta name="theme-color" content="#ffffff" />
+
+      <meta property="og:title" content="Tracka - Bug Tracker Application" />
+      <meta
+        property="og:description"
+        content="Introducing the comprehensive bug tracker app designed to streamline your project management process and
+            keep your team on track."
+      />
+      <meta
+        property="og:image"
+        content="https://res.cloudinary.com/dwixtayvd/image/upload/v1712361636/tracka-meta.png"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
     </Head>
     <body>
       <Main />

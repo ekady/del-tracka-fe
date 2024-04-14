@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 import { IPropsChildren } from '@/common/types';
 
@@ -19,42 +20,47 @@ const LayoutDefault = ({ children }: IPropsChildren) => {
   const { data } = useGetProfileQuery();
 
   return (
-    <LayoutWrapper>
-      <Grid sx={{ flexGrow: 1, pt: { xs: data?.data?.isDemo ? 12 : 8, sm: data?.data?.isDemo ? 11 : 8 } }}>
-        <Box sx={{ display: 'flex', width: '100%' }}>
-          <CssBaseline />
-          <Header showMenu usingSidebar />
-          <Container
-            maxWidth={false}
-            sx={{
-              px: 0,
-              pt: 1,
-              width: {
-                lg: sidebarOpen ? `calc(100% - 254px)` : '100%',
-              },
-            }}
-          >
+    <>
+      <Head>
+        <meta name="robots" content="noindex,nofollow" />
+      </Head>
+      <LayoutWrapper>
+        <Grid sx={{ flexGrow: 1, pt: { xs: data?.data?.isDemo ? 12 : 8, sm: data?.data?.isDemo ? 11 : 8 } }}>
+          <Box sx={{ display: 'flex', width: '100%' }}>
+            <CssBaseline />
+            <Header showMenu usingSidebar />
             <Container
               maxWidth={false}
               sx={{
-                minHeight: {
-                  xs: `calc(100vh - ${data?.data?.isDemo ? '180px' : '120px'})`,
-                  sm: `calc(100vh - ${data?.data?.isDemo ? '144px' : '120px'})`,
+                px: 0,
+                pt: 1,
+                width: {
+                  lg: sidebarOpen ? `calc(100% - 254px)` : '100%',
                 },
-                flexGrow: 1,
-                py: 3,
-                mb: 2,
-                height: '100%',
-                backgroundColor: colorTheme === 'dark' ? '#f4f4f426' : '#f4f4f4d6',
-                borderRadius: '25px',
               }}
             >
-              {children}
+              <Container
+                maxWidth={false}
+                sx={{
+                  minHeight: {
+                    xs: `calc(100vh - ${data?.data?.isDemo ? '180px' : '120px'})`,
+                    sm: `calc(100vh - ${data?.data?.isDemo ? '144px' : '120px'})`,
+                  },
+                  flexGrow: 1,
+                  py: 3,
+                  mb: 2,
+                  height: '100%',
+                  backgroundColor: colorTheme === 'dark' ? '#f4f4f426' : '#f4f4f4d6',
+                  borderRadius: '25px',
+                }}
+              >
+                {children}
+              </Container>
             </Container>
-          </Container>
-        </Box>
-      </Grid>
-    </LayoutWrapper>
+          </Box>
+        </Grid>
+      </LayoutWrapper>
+    </>
   );
 };
 
