@@ -8,12 +8,12 @@ import { TProjectTags, invalidateTags } from '@/features/projects/store/project.
 import { notificationInvalidateTags } from '../store/notification.api.slice';
 
 const TAG_TYPE: { [key: string]: TProjectTags[] } = {
-  CREATE_TASK: ['Task', 'Tasks'],
-  UPDATE_TASK: ['Task', 'Tasks'],
-  UPDATE_TASK_STATUS: ['Task', 'Tasks'],
-  DELETE_TASK: ['Tasks', 'Task'],
-  CREATE_COMMENT: ['Task', 'Comments'],
-  ADDED_PROJECT: ['Project'],
+  CREATE_TASK: ['Task', 'Tasks', 'ProjectStats', 'ProjectActivities', 'TaskActivities'],
+  UPDATE_TASK: ['Task', 'Tasks', 'ProjectStats', 'ProjectActivities', 'TaskActivities'],
+  UPDATE_TASK_STATUS: ['Task', 'Tasks', 'ProjectStats', 'ProjectActivities', 'TaskActivities'],
+  DELETE_TASK: ['Tasks', 'Task', 'ProjectStats', 'ProjectActivities', 'TaskActivities'],
+  CREATE_COMMENT: ['Task', 'Comments', 'ProjectActivities', 'TaskActivities'],
+  ADDED_PROJECT: ['Project', 'Projects'],
   UPDATED_ROLE: ['Project'],
 };
 
