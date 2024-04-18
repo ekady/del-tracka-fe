@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useGetProfileQuery } from '@/common/store/api.slice';
-import { ProfileRequest } from '../store/profile.api.slice';
+import { IProfileRequest } from '../store/profile.api.slice';
 
 export const useProfileForm = () => {
   const { data } = useGetProfileQuery();
-  const form = useForm<ProfileRequest>({
+  const form = useForm<IProfileRequest>({
     mode: 'all',
     defaultValues: {
       firstName: data?.data.firstName ?? '',

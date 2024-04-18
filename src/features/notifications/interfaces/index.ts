@@ -1,4 +1,4 @@
-import { ActivityType } from '@/features/logs/constants/activityType.constant';
+import { TActivityType } from '@/features/logs/constants/activityType.constant';
 
 export interface INotificationResponse {
   id: string;
@@ -7,7 +7,7 @@ export interface INotificationResponse {
   webUrl: string;
   isRead: boolean;
   createdAt: Date;
-  type: ActivityType;
+  type: TActivityType;
   task?: {
     deletedAt: Date;
   };

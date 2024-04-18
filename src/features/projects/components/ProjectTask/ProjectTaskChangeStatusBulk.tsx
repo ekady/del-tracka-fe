@@ -14,22 +14,22 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 import { toast } from 'react-toastify';
 
-import { FunctionVoidWithParams } from '@/common/types';
-import STATUS, { StatusType } from '@/common/constants/status';
+import { TFunctionVoidWithParams } from '@/common/types';
+import STATUS, { TStatusType } from '@/common/constants/status';
 import { useUpdateStatusTaskBulkMutation } from '../../store/task.api.slice';
 import { ButtonLoading } from '@/common/base';
 
-export interface ProjectTaskChangeStatusBulkProps {
+export interface IProjectTaskChangeStatusBulkProps {
   values: string[];
-  callback?: FunctionVoidWithParams<'success' | 'error'>;
+  callback?: TFunctionVoidWithParams<'success' | 'error'>;
 }
 
 const list = Object.keys(STATUS).map((key) => ({
-  name: STATUS[key as StatusType].name,
-  value: STATUS[key as StatusType].value,
+  name: STATUS[key as TStatusType].name,
+  value: STATUS[key as TStatusType].value,
 }));
 
-const ProjectTaskChangeStatusBulk = ({ values, callback }: ProjectTaskChangeStatusBulkProps) => {
+const ProjectTaskChangeStatusBulk = ({ values, callback }: IProjectTaskChangeStatusBulkProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { query } = useRouter();
   const [updateStatus, { isLoading }] = useUpdateStatusTaskBulkMutation();
@@ -63,7 +63,7 @@ const ProjectTaskChangeStatusBulk = ({ values, callback }: ProjectTaskChangeStat
       }
     },
     [callback, handleOpenClose, query.project_id, query.sprint_id, updateStatus, values],
-  ) as FunctionVoidWithParams<string>;
+  ) as TFunctionVoidWithParams<string>;
 
   return (
     <>

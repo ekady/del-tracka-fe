@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 // Types
 import { IInformationWithColor } from '@/common/types';
 
-export type ProjectOverviewProps = IInformationWithColor;
+export type TProjectOverviewProps = IInformationWithColor;
 
-const ProjectOverview = ({ name, value, color, textColor }: ProjectOverviewProps) => {
+const ProjectOverview = ({ name, value, color, textColor }: TProjectOverviewProps) => {
   const styleItem = {
     textAlign: 'center',
     backgroundColor: color ?? 'white',

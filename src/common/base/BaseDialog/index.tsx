@@ -9,14 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import Close from '@mui/icons-material/Close';
 
-import { FunctionVoid, IPropsChildren } from '@/common/types';
+import { TFunctionVoid, IPropsChildren } from '@/common/types';
 import ButtonLoading from '../ButtonLoading';
 
-export interface BaseDialogProps extends IPropsChildren {
-  handleOk?: FunctionVoid;
+export interface IBaseDialogProps extends IPropsChildren {
+  handleOk?: TFunctionVoid;
   hideButtonOk?: boolean;
   textOk?: string;
-  handleCancel?: FunctionVoid;
+  handleCancel?: TFunctionVoid;
   hideCancel?: boolean;
   textCancel?: string;
   isOpen?: boolean;
@@ -39,7 +39,7 @@ const BaseDialog = ({
   showClose,
   children,
   DialogMuiProps,
-}: BaseDialogProps) => {
+}: IBaseDialogProps) => {
   return (
     <Dialog
       open={!!isOpen}

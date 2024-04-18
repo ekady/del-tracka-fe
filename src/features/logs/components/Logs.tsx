@@ -6,7 +6,7 @@ import { DataTable } from '@/common/base';
 
 import { ITableAndSearchProps } from '@/common/types';
 import { ILogsResponse } from '../interfaces';
-import { ActivityMessage } from '../constants/activityType.constant';
+import { ActivityMessage, TActivityType } from '../constants/activityType.constant';
 
 const dateColumn: GridColDef<ILogsResponse> = {
   headerName: 'Date',
@@ -35,7 +35,7 @@ const sprintColumn: GridColDef<ILogsResponse> = {
 const activityColumn: GridColDef<ILogsResponse> = {
   headerName: 'Activity',
   field: 'activity',
-  valueGetter: ({ row }) => ActivityMessage[row.type](row),
+  valueGetter: ({ row }) => ActivityMessage[row.type as TActivityType](row),
   sortable: false,
   width: 400,
 };

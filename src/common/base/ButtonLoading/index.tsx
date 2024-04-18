@@ -3,12 +3,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { IPropsChildren } from '@/common/types';
 
-export interface ButtonLoadingProps extends ButtonProps, IPropsChildren {
+export interface IButtonLoadingProps extends ButtonProps, IPropsChildren {
   loading?: boolean;
   loadingSize?: string | number;
 }
 
-const ButtonLoading = (props: ButtonLoadingProps) => {
+const ButtonLoading = (props: IButtonLoadingProps) => {
   const { children, loading, loadingSize, ...buttonProps } = props;
 
   return (

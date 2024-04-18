@@ -10,20 +10,20 @@ import Box from '@mui/material/Box';
 // Local Components
 import { CustomInput, PasswordRequirement } from '@/common/base';
 
-import { ProfileChildProps } from './Profile';
-import { FunctionVoidWithParams } from '@/common/types';
-import { ProfilePassword } from '../store/profile.api.slice';
+import { IProfileChildProps } from './Profile';
+import { TFunctionVoidWithParams } from '@/common/types';
+import { IProfilePassword } from '../store/profile.api.slice';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
-type ProfileChangePasswordKey = keyof ProfilePassword;
+type TProfileChangePasswordKey = keyof IProfilePassword;
 
-export type ProfileChangePasswordValidation = {
-  [key in ProfileChangePasswordKey]: RegisterOptions;
+export type TProfileChangePasswordValidation = {
+  [key in TProfileChangePasswordKey]: RegisterOptions;
 };
 
-export interface ProfileChangePasswordProps extends ProfileChildProps<ProfileChangePasswordValidation> {}
+export interface IProfileChangePasswordProps extends IProfileChildProps<TProfileChangePasswordValidation> {}
 
-const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileChangePasswordProps) => {
+const ProfileChangePassword = ({ formMethods, formOptions, disabled }: IProfileChangePasswordProps) => {
   const {
     control,
     formState: { errors, dirtyFields },
@@ -36,19 +36,19 @@ const ProfileChangePassword = ({ formMethods, formOptions, disabled }: ProfileCh
   const passwordValidation = passwordValidator(passwordValue ?? '');
 
   const validateTargetForm = useCallback(
-    async (formTarget: ProfileChangePasswordKey) => {
+    async (formTarget: TProfileChangePasswordKey) => {
       if (formTarget !== undefined && getFieldState(formTarget).isTouched) {
         await trigger(formTarget);
       }
     },
     [getFieldState, trigger],
-  ) as FunctionVoidWithParams<ProfileChangePasswordKey>;
+  ) as TFunctionVoidWithParams<TProfileChangePasswordKey>;
 
   const onChangeInput = useCallback(
     (
       event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      onChange: FunctionVoidWithParams<string>,
-      formTarget: ProfileChangePasswordKey,
+      onChange: TFunctionVoidWithParams<string>,
+      formTarget: TProfileChangePasswordKey,
     ) => {
       onChange(event.target.value);
       validateTargetForm(formTarget);

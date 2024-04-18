@@ -1,5 +1,5 @@
 import { ICredential, IResponseError } from '@/common/types';
-import { ContinueWithProviderRequest, LoginRequest } from '@/features/auth/interfaces';
+import { IContinueWithProviderRequest, ILoginRequest } from '@/features/auth/interfaces';
 import axios, { AxiosError } from 'axios';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import NextAuth, { CallbacksOptions } from 'next-auth';
@@ -8,7 +8,7 @@ import NextAuth, { CallbacksOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
-const requestSignIn = async (request?: LoginRequest | ContinueWithProviderRequest) => {
+const requestSignIn = async (request?: ILoginRequest | IContinueWithProviderRequest) => {
   if (request && 'jwtToken' in request) {
     return axios.post(`${process.env.NEXT_PUBLIC_API_URL_V1}/authentication/with-provider`, request);
   }
@@ -86,7 +86,7 @@ const callbacks: Partial<CallbacksOptions> = {
         const refreshResponse = await requestRefreshToken(tokenData?.refreshToken ?? '');
         const refreshTokenData = refreshResponse.data;
         if (refreshTokenData && refreshTokenData.statusCode === 200) token.userToken = refreshTokenData.data;
-        else token.userToken = {};
+        else token.userToken = null;
       }
     }
 

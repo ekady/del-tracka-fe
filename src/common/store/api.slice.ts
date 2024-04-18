@@ -1,18 +1,23 @@
-import { redirect } from 'next/navigation';
-
 import { HYDRATE } from 'next-redux-wrapper';
-import { signOut } from 'next-auth/react';
 
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 
 import { Mutex } from 'async-mutex';
 
-import { IApiResponse, IPermission, IPermissionResponse, IResponseError, IUserInfoResponse } from '@/common/types';
-import { RedirectType } from 'next/dist/client/components/redirect';
+import { IApiResponse, IPermission, IPermissionResponse, IUserInfoResponse } from '@/common/types';
 import { MAPPING_MENU } from '../constants/menu';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: typeof window !== 'undefined' ? '/api' : `${process.env.NEXT_PUBLIC_ROOT_URL}/api`,
+  credentials: 'include',
+  prepareHeaders: async (headers, { extra }) => {
+    const extraThunk = extra as { cookies: { [key: string]: string } };
+    if (extraThunk.cookies) {
+      const cookie = Object.keys(extraThunk.cookies).map((key: string) => `${key}=${extraThunk.cookies[key]}`);
+      headers.append('Cookie', cookie.join('; '));
+    }
+    return headers;
+  },
 });
 
 const mutex = new Mutex();
@@ -28,14 +33,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
-        const isUnauthorized = (result.error.data as IResponseError)?.errors?.[0]?.errorType === 'UNAUTHORIZED';
-
-        if (isUnauthorized) {
-          await signOut({ redirect: false });
-          redirect('/auth/sign-in', RedirectType.replace);
-        } else {
-          result = await baseQuery(args, api, extraOptions);
-        }
+        result = await baseQuery(args, api, extraOptions);
       } finally {
         release();
       }
@@ -85,4 +83,4 @@ export const apiSlice = createApi({
 
 export const { useGetProfileQuery, useGetPermissionQuery } = apiSlice;
 export const { resetApiState } = apiSlice.util;
-export const { getProfile } = apiSlice.endpoints;
+export const { getProfile, getPermission } = apiSlice.endpoints;

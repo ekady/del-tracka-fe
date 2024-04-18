@@ -4,11 +4,11 @@ import { FieldError } from 'react-hook-form';
 
 import { extractErrorMessage } from '@/common/helper';
 
-interface ErrorMessageProps {
+interface IErrorMessageProps {
   width?: number | string;
   error?: FieldError;
 }
-const ErrorMessage = ({ width, error }: ErrorMessageProps) => {
+const ErrorMessage = ({ width, error }: IErrorMessageProps) => {
   const [containError, errorMessage] = extractErrorMessage(error as FieldError, 'Image', '');
   if (!containError) return null;
   return (

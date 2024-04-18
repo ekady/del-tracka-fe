@@ -9,16 +9,16 @@ import Typography from '@mui/material/Typography';
 import { CustomInput } from '@/common/base';
 import { FilterContainer, FilterListSelectContainer, FilterSelectContainer } from '@/common/base/BaseFilter/styled';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 
 import { levelList } from '@/common/constants/level';
 import { statusList } from '@/common/constants/status';
 
-export interface ProjectTaskFilterProps {
-  onChange: FunctionVoidWithParams<Record<string, string | string[] | null>>;
+export interface IProjectTaskFilterProps {
+  onChange: TFunctionVoidWithParams<Record<string, string | string[] | null>>;
 }
 
-const ProjectTaskFilter = ({ onChange }: ProjectTaskFilterProps) => {
+const ProjectTaskFilter = ({ onChange }: IProjectTaskFilterProps) => {
   return (
     <FilterContainer>
       <Typography sx={{ flexGrow: 1 }}>Filter</Typography>

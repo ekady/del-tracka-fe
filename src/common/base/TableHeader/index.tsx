@@ -11,13 +11,13 @@ import { useTheme } from '@mui/material/styles';
 // MUI Icons
 import SearchRounded from '@mui/icons-material/SearchRounded';
 
-export interface TableHeaderProps {
+export interface ITableHeaderProps {
   TextFieldProps?: TextFieldProps;
   isUsingSearch?: boolean;
   header?: ReactNode;
 }
 
-const TableHeader = ({ TextFieldProps, isUsingSearch, header }: TableHeaderProps) => {
+const TableHeader = ({ TextFieldProps, isUsingSearch, header }: ITableHeaderProps) => {
   const theme = useTheme();
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -17,18 +17,18 @@ import Circle from '@mui/icons-material/Circle';
 
 import { toast } from 'react-toastify';
 
-import { FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoidWithParams } from '@/common/types';
 import useProjectId from '../../hooks/useProjectId';
 import { DialogActions } from '@/common/base/BaseDialogAlert/styled';
 import { useMoveSprintMutation } from '../../store/task.api.slice';
 import { ButtonLoading } from '@/common/base';
 
-export interface ProjectTaskMoveSprintProps {
+export interface IProjectTaskMoveSprintProps {
   values: string[];
-  callback?: FunctionVoidWithParams<'success' | 'error'>;
+  callback?: TFunctionVoidWithParams<'success' | 'error'>;
 }
 
-const ProjectTaskMoveSprint = ({ values, callback }: ProjectTaskMoveSprintProps) => {
+const ProjectTaskMoveSprint = ({ values, callback }: IProjectTaskMoveSprintProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const { data, isLoading, isFetching, router } = useProjectId();
   const [moveSprint, { isLoading: isLoadingUpdate }] = useMoveSprintMutation();
@@ -53,7 +53,7 @@ const ProjectTaskMoveSprint = ({ values, callback }: ProjectTaskMoveSprintProps)
       }
     },
     [callback, moveSprint, router.query?.project_id, router.query?.sprint_id, values],
-  ) as FunctionVoidWithParams<string>;
+  ) as TFunctionVoidWithParams<string>;
   return (
     <>
       <ButtonLoading

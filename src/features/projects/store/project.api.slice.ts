@@ -12,7 +12,7 @@ import {
 } from '../interfaces';
 import { ProjectMenu } from '../constant/projectMenu';
 
-export type ProjectIds = { idTask?: string; idProject: string; idSprint: string };
+export type TProjectIds = { idTask?: string; idProject: string; idSprint: string };
 
 const projectTags = [
   'Project',
@@ -28,7 +28,7 @@ const projectTags = [
   'Comments',
 ] as const;
 
-export type ProjectTags = (typeof projectTags)[number];
+export type TProjectTags = (typeof projectTags)[number];
 
 export const projectApiSlice = apiSlice
   .enhanceEndpoints({
@@ -42,23 +42,29 @@ export const projectApiSlice = apiSlice
         query: () => '/project',
         transformResponse: (response: IApiResponse<IProjectResponse[]>) => {
           return {
-            data: response.data.map((data) => ({
-              id: data._id,
-              name: data.name,
-              description: data.description,
-              shortId: data.shortId,
-              role: data.role,
-              stages: data.stages,
-              rolePermissions: data.rolePermissions.reduce(
-                (acc, role) => ({
-                  ...acc,
-                  [role.menu]: { create: role.create, read: role.read, update: role.update, delete: role.delete },
-                }),
-                {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
-              ),
-            })),
-            errors: response.errors,
-            statusCode: response.statusCode,
+            ...response,
+            data:
+              response?.data?.map((data) => ({
+                id: data?._id,
+                name: data?.name,
+                description: data?.description,
+                shortId: data?.shortId,
+                role: data?.role,
+                stages: data?.stages,
+                rolePermissions:
+                  data?.rolePermissions?.reduce(
+                    (acc, role) => ({
+                      ...acc,
+                      [role.menu]: {
+                        create: role?.create,
+                        read: role?.read,
+                        update: role?.update,
+                        delete: role?.delete,
+                      },
+                    }),
+                    {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
+                  ) ?? {},
+              })) ?? [],
           };
         },
         providesTags: ['Projects'],
@@ -76,23 +82,23 @@ export const projectApiSlice = apiSlice
         providesTags: ['Project'],
         transformResponse: (response: IApiResponse<IProjectResponse>) => {
           return {
+            ...response,
             data: {
-              id: response.data._id,
-              name: response.data.name,
-              description: response.data.description,
-              shortId: response.data.shortId,
-              role: response.data.role,
-              stages: response.data.stages,
-              rolePermissions: response.data.rolePermissions.reduce(
-                (acc, role) => ({
-                  ...acc,
-                  [role.menu]: { create: role.create, read: role.read, update: role.update, delete: role.delete },
-                }),
-                {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
-              ),
+              id: response?.data?._id,
+              name: response?.data?.name,
+              description: response?.data?.description,
+              shortId: response?.data?.shortId,
+              role: response?.data?.role,
+              stages: response?.data?.stages,
+              rolePermissions:
+                response?.data?.rolePermissions?.reduce(
+                  (acc, role) => ({
+                    ...acc,
+                    [role.menu]: { create: role.create, read: role.read, update: role.update, delete: role.delete },
+                  }),
+                  {} as Record<ProjectMenu, Omit<IProjectPermission, 'menu'>>,
+                ) ?? {},
             },
-            errors: response.errors,
-            statusCode: response.statusCode,
           };
         },
       }),
@@ -151,3 +157,13 @@ export const {
   useGetProjectStatsQuery,
 } = projectApiSlice;
 export const { resetApiState, invalidateTags } = projectApiSlice.util;
+
+export const {
+  createProject,
+  deleteProject,
+  getProject,
+  getProjectActivities,
+  getProjectStats,
+  getProjects,
+  updateProject,
+} = projectApiSlice.endpoints;

@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useState } from 'react';
 // Next
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -25,7 +25,7 @@ import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Settings from '@mui/icons-material/Settings';
+import Person from '@mui/icons-material/Person';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import Help from '@mui/icons-material/Help';
@@ -41,7 +41,6 @@ import { IconLogo } from '@/common/icons';
 // Hooks
 import useHeaderMenu from './useHeaderMenu';
 import { useGetProfileQuery } from '@/common/store/api.slice';
-import { useLogout } from '@/common/hooks/useLogout';
 import NotificationMenu from '@/features/notifications/components/NotificationMenu';
 import { useAppDispatch, useAppSelector } from '@/common/store';
 import { selectColorTheme } from '@/common/store/selector';
@@ -50,12 +49,12 @@ import ImageLoader from '../ImageLoader';
 import { IFileStream } from '@/common/types';
 import ProjectHelpDialog from '@/features/projects/components/ProjectHelpDialog';
 
-export interface AppBarProps extends MuiAppBarProps {
+export interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
   sidebar?: boolean;
 }
 
-export interface HeaderProps {
+export interface IHeaderProps {
   showMenu: boolean;
   usingSidebar?: boolean;
 }
@@ -82,14 +81,13 @@ const ProfilePicture = ({ image }: { image?: string | IFileStream | null }) => {
   );
 };
 
-const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
+const Header = ({ showMenu, usingSidebar }: IHeaderProps) => {
   const dispatch = useAppDispatch();
-  const pathname = usePathname();
+  const router = useRouter();
   const theme = useTheme();
-  const { data } = useGetProfileQuery(undefined, { skip: !pathname?.includes('app') });
+  const { data } = useGetProfileQuery(undefined, { skip: !router.asPath?.includes('app') });
   const colorTheme = useAppSelector(selectColorTheme);
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
-  const logout = useLogout();
 
   const { anchorEl, handleClose, handleMenu, handleSidebar, sidebarOpen } = useHeaderMenu();
   const [helpOpen, setHelpOpen] = useState(false);
@@ -107,10 +105,8 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
 
   const onLogout = useCallback(() => {
     handleClose();
-    logout().catch(() => {
-      //
-    });
-  }, [handleClose, logout]);
+    router.replace('/auth/logout');
+  }, [handleClose, router]);
 
   const logInInfo: ReactNode = lgAndUp ? (
     <Box display="flex" alignItems="center" gap={2}>
@@ -193,12 +189,12 @@ const Header = ({ showMenu, usingSidebar }: HeaderProps) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <Link href="/app/settings" passHref>
+                    <Link href="/app/profile" passHref>
                       <MenuItem onClick={handleClose}>
                         <ListItemIcon>
-                          <Settings fontSize="small" />
+                          <Person fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Settings</ListItemText>
+                        <ListItemText>Profile</ListItemText>
                       </MenuItem>
                     </Link>
                     <MenuItem onClick={changeColorTheme}>

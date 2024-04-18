@@ -14,12 +14,12 @@ import {
 } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
 
-export interface TableMenuSelectionProps {
+export interface ITableMenuSelectionProps {
   list: Record<string, string>[];
   currentValue?: string;
-  handleChange?: FunctionVoidWithParams<string>;
+  handleChange?: TFunctionVoidWithParams<string>;
   IconProps?: IconButtonProps;
   MenuItemProps?: MenuItemProps;
   title?: string;
@@ -36,7 +36,7 @@ const TableMenuSelection = ({
   title,
   itemText = 'text',
   itemValue = 'value',
-}: TableMenuSelectionProps) => {
+}: ITableMenuSelectionProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpenClose = useCallback(
@@ -49,7 +49,7 @@ const TableMenuSelection = ({
   );
 
   const handleClick = useCallback(
-    (value: string): FunctionVoid => {
+    (value: string): TFunctionVoid => {
       return () => {
         handleOpenClose();
         handleChange?.(value);

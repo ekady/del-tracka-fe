@@ -1,4 +1,4 @@
-import { ActivityType } from '../constants/activityType.constant';
+import { TActivityType } from '../constants/activityType.constant';
 
 export interface ILogsResponse {
   _id: string;
@@ -9,5 +9,5 @@ export interface ILogsResponse {
   stageAfter: { _id: string; name: string; description: string; shortId: string };
   taskAfter: { _id: string; title: string; feature: string; priority: string; status: string; shortId: string };
   taskBefore: { _id: string; title: string; feature: string; priority: string; status: string; shortId: string };
-  type: ActivityType;
+  type: TActivityType;
 }

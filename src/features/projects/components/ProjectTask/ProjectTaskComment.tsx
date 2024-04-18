@@ -7,14 +7,14 @@ import Image from 'next/image';
 import { ImageLoader } from '@/common/base';
 import { IFileStream } from '@/common/types';
 
-export type ProjectTaskCommentProps = {
+export interface IProjectTaskCommentProps {
   name: string;
   date: string;
   comment: string;
   image?: IFileStream | string | null;
-};
+}
 
-const ProjectTaskComment = ({ name, date, comment, image }: ProjectTaskCommentProps) => {
+const ProjectTaskComment = ({ name, date, comment, image }: IProjectTaskCommentProps) => {
   const profilePicture =
     typeof image === 'string' ? (
       <Image src={image} alt="profile" height={24} width={24} style={{ borderRadius: '50%' }} />

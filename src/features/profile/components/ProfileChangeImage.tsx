@@ -8,16 +8,16 @@ import { FileUploaderSingle } from '@/common/base';
 import { Controller, FieldError, RegisterOptions } from 'react-hook-form';
 
 // Interfaces
-import { ProfileChildProps } from './Profile';
+import { IProfileChildProps } from './Profile';
 import { IFileStream } from '@/common/types';
 
-export interface ProfileImage {
+export interface IProfileImage {
   picture?: RegisterOptions;
 }
 
-export interface ProfileChangeImageProps extends ProfileChildProps<ProfileImage> {}
+export interface IProfileChangeImageProps extends IProfileChildProps<IProfileImage> {}
 
-const ProfileChangeImage = ({ formMethods, formOptions, disabled }: ProfileChangeImageProps) => {
+const ProfileChangeImage = ({ formMethods, formOptions, disabled }: IProfileChangeImageProps) => {
   const {
     control,
     formState: { errors },

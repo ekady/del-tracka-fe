@@ -1,4 +1,4 @@
-import { RootState } from '@/common/store';
+import { TRootState } from '@/common/store';
 
-export const selectCredential = (state: RootState) => state.auth.data.ICredential;
-export const selectCredentialToken = (state: RootState) => state.auth.data.ICredential.accessToken;
+export const selectCredential = (state: TRootState) => state.auth.data.ICredential;
+export const selectCredentialToken = (state: TRootState) => state.auth.data.ICredential.accessToken;

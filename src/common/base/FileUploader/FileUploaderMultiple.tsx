@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
 // Local types
-import { FunctionVoidWithParams, IFileStream } from '@/common/types';
-import { FileUploaderProps } from './interfaces';
+import { TFunctionVoidWithParams, IFileStream } from '@/common/types';
+import { IFileUploaderProps } from './interfaces';
 
 // Helper
 import { ButtonContainer, FilesContainer, FilesUploadContainer } from './styled';
@@ -23,7 +23,7 @@ import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 import { toast } from 'react-toastify';
 
-export interface FileUploaderMultipleProps extends FileUploaderProps<(File | IFileStream)[]> {
+export interface IFileUploaderMultipleProps extends IFileUploaderProps<(File | IFileStream)[]> {
   maxImages?: number;
 }
 
@@ -43,14 +43,14 @@ const FileUploaderMultiple = ({
   InputProps,
   maxImages,
   maxSizeKb,
-}: FileUploaderMultipleProps) => {
+}: IFileUploaderMultipleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
     Boolean(disabled),
   );
   const theme = useTheme();
 
-  const addNewImages: FunctionVoidWithParams<FileList> = useCallback(
+  const addNewImages: TFunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       if (maxImages && newFiles.length > maxImages) {
         toast.error(`Max images ${maxImages}`);
@@ -70,7 +70,7 @@ const FileUploaderMultiple = ({
     [handleValue, maxImages, maxSizeKb, value],
   );
 
-  const removeImage: FunctionVoidWithParams<number> = useCallback(
+  const removeImage: TFunctionVoidWithParams<number> = useCallback(
     (index: number) => {
       const files = value?.filter((_file, i) => index !== i) ?? [];
       handleValue?.(files);

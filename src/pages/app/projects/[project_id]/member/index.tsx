@@ -1,43 +1,26 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 
 // Next
-import { useRouter } from 'next/router';
-
-// MUI
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import dynamic from 'next/dynamic';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
-import { ProjectMemberList } from '@/features/projects/components';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
+import PageLoader from '@/common/base/PageLoader';
 
-import useProjectId from '@/features/projects/hooks/useProjectId';
-import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
+import { getProject, getProjects } from '@/features/projects/store/project.api.slice';
+import handleErrorSSr from '@/common/helper/handleErrorSSr';
 
-const ProjectMemberPage = () => {
-  const { data, projectId } = useProjectId();
-  const router = useRouter();
+import { IResponseError } from '@/common/types';
 
-  useProjectBreadcrumb({ '[project_id]': data?.data?.name ?? '' });
+const ProjectMember = dynamic(() => import('@/features/projects/views/ProjectMemberPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-  useEffect(() => {
-    if (data?.data.rolePermissions.PROJECT.update) {
-      router.push(`/app/projects/${projectId}/setting`).catch(() => {
-        //
-      });
-    }
-  }, [data, projectId, router]);
-
-  if (data?.data.rolePermissions && !data?.data.rolePermissions.PROJECT.update)
-    return <ProjectMemberList hideSelectOption />;
-  return (
-    <Box display="flex" alignItems="center" justifyContent="center" height="100%" marginTop={5}>
-      <CircularProgress />
-    </Box>
-  );
-};
+const ProjectMemberPage = () => <ProjectMember />;
 
 ProjectMemberPage.getLayout = (page: ReactElement) => {
   return (
@@ -46,5 +29,32 @@ ProjectMemberPage.getLayout = (page: ReactElement) => {
     </LayoutDefault>
   );
 };
+
+export const getServerSideProps = authWallWrapper(async (context, store) => {
+  const projectId = context?.params?.project_id as string;
+
+  try {
+    if (!projectId) throw new Error('500');
+
+    await store.dispatch(getProjects.initiate());
+    const dispatches = [store.dispatch(getProject.initiate(projectId))];
+    const responses = await Promise.all(dispatches);
+    const rejected = responses.find((response) => response.status !== 'fulfilled');
+
+    if (rejected && rejected?.error) {
+      const dataError: IResponseError =
+        'data' in rejected.error ? (rejected.error.data as IResponseError) : { statusCode: 500, errors: [] };
+      throw new Error(`${dataError?.statusCode}`);
+    }
+  } catch (err) {
+    return handleErrorSSr(err as Error);
+  }
+
+  return {
+    props: {
+      title: 'Project Member',
+    },
+  };
+});
 
 export default ProjectMemberPage;

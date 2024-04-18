@@ -8,18 +8,18 @@ import Typography from '@mui/material/Typography';
 
 import { IStaticImageData } from '@/common/types';
 
-export type FeatureText = {
+export interface IFeatureText {
   title: string;
   subtitle: string;
-};
+}
 
-export type LandingFeatureProps = {
+export interface ILandingFeatureProps {
   icon: IStaticImageData;
-  featureItems: FeatureText[];
+  featureItems: IFeatureText[];
   direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-};
+}
 
-const LandingFeature = ({ featureItems, icon, direction }: LandingFeatureProps) => {
+const LandingFeature = ({ featureItems, icon, direction }: ILandingFeatureProps) => {
   const isRowReverse = direction === 'row-reverse';
   const isColumnReverse = direction === 'column-reverse';
 

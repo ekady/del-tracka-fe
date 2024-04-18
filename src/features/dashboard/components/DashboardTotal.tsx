@@ -7,11 +7,11 @@ import { useTheme } from '@mui/material/styles';
 
 // Local Components
 import { BaseCard } from '@/common/base';
-import { BaseCardProps } from '@/common/base/BaseCard';
+import { IBaseCardProps } from '@/common/base/BaseCard';
 
 import { useGetTaskProjectTotalQuery } from '../store/dashboard.api.slice';
 
-const baseCardStyle: BaseCardProps = { sx: { alignItems: 'center' } };
+const baseCardStyle: IBaseCardProps = { sx: { alignItems: 'center' } };
 
 const DashboardTotal = () => {
   const { data, isFetching, isLoading } = useGetTaskProjectTotalQuery();

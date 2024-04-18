@@ -1,10 +1,10 @@
 import { RefObject, useCallback, useRef } from 'react';
 
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 import { IMAGE_EXTENSION } from './constants';
 import { getFileExtension } from './helper';
 
-export type ReturnTypeFileUploaderEvent = {
+export type TReturnTypeFileUploaderEvent = {
   inputFieldRef: RefObject<HTMLInputElement>;
   handleUploadButtonClick: () => void;
   validateExtension: (filename: string) => boolean;
@@ -23,7 +23,7 @@ const useFileUploader = (acceptFiles?: string[]) => {
     [acceptFiles],
   );
 
-  const handleUploadButtonClick: FunctionVoid = useCallback(() => {
+  const handleUploadButtonClick: TFunctionVoid = useCallback(() => {
     if (inputFieldRef) {
       inputFieldRef.current?.click();
     }

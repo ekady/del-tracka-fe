@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
 // Local types
-import { FunctionVoid, FunctionVoidWithParams, IFileStream } from '@/common/types';
-import { FileUploaderProps } from './interfaces';
+import { TFunctionVoid, TFunctionVoidWithParams, IFileStream } from '@/common/types';
+import { IFileUploaderProps } from './interfaces';
 
 // Toastify
 import { toast } from 'react-toastify';
@@ -25,7 +25,7 @@ import { FileUploaderEnum } from './constants';
 import useFileUploaderEvent from './useFileUploaderEvent';
 import useFileUploader from './useFileUploader';
 
-export interface FileUploaderSingleProps extends FileUploaderProps<File | IFileStream | string> {}
+export interface IFileUploaderSingleProps extends IFileUploaderProps<File | IFileStream | string> {}
 
 const FileUploaderSingle = ({
   value,
@@ -43,14 +43,14 @@ const FileUploaderSingle = ({
   InputProps,
   hideRemoveIcon,
   maxSizeKb,
-}: FileUploaderSingleProps) => {
+}: IFileUploaderSingleProps) => {
   const { handleUploadButtonClick, inputFieldRef } = useFileUploader();
   const { isDrop, onHandleDragEnter, onHandleDragExit, onHandleFileDrop, onHandleFileUpload } = useFileUploaderEvent(
     Boolean(disabled),
   );
   const theme = useTheme();
 
-  const changeImage: FunctionVoidWithParams<FileList> = useCallback(
+  const changeImage: TFunctionVoidWithParams<FileList> = useCallback(
     (newFiles: FileList) => {
       const file = newFiles[0];
 
@@ -64,7 +64,7 @@ const FileUploaderSingle = ({
     [handleValue, maxSizeKb],
   );
 
-  const removeImage: FunctionVoid = useCallback(() => {
+  const removeImage: TFunctionVoid = useCallback(() => {
     handleValue?.(null);
   }, [handleValue]);
 

@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, useCallback, useEffect } from 'react';
 
 // Local Components
 import { BaseDialog } from '@/common/base';
-import { FunctionVoid } from '@/common/types';
+import { TFunctionVoid } from '@/common/types';
 
 // Helper
 import { useForm } from 'react-hook-form';
@@ -13,10 +13,10 @@ import ProjectNewForm from './ProjectNewForm';
 // Types
 import { IProjectRequest } from '../interfaces';
 
-export interface ProjectDialogNewProps {
+export interface IProjectDialogNewProps {
   title?: string;
   handleOk?: (data: IProjectRequest, defaultValues?: IProjectRequest) => Promise<void> | void;
-  handleCancel?: FunctionVoid;
+  handleCancel?: TFunctionVoid;
   isEdit?: boolean;
   isOpen?: boolean;
   loading?: boolean;
@@ -36,7 +36,7 @@ const ProjectDialogNew = ({
   handleCancel,
   loading,
   defaultValues,
-}: ProjectDialogNewProps) => {
+}: IProjectDialogNewProps) => {
   const form = useForm<IProjectRequest>({ mode: 'all' });
   const {
     handleSubmit,

@@ -4,7 +4,7 @@ import { INotificationResponse } from '../interfaces';
 
 export const notificationTags: readonly string[] = ['AllNotifications', 'UnreadNotifications'];
 
-export type NotificationTags = (typeof notificationTags)[number];
+export type TNotificationTags = (typeof notificationTags)[number];
 
 export const notificationApiSlice = apiSlice.enhanceEndpoints({ addTagTypes: notificationTags }).injectEndpoints({
   overrideExisting: true,

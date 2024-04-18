@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -13,32 +13,22 @@ import { Doughnut } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 
 // Constant
-import STATUS, { StatusType } from '@/common/constants/status';
+import STATUS, { TStatusType } from '@/common/constants/status';
 
 // Local Component
 import { TypographyTasks } from './styled';
 import { BaseCard } from '@/common/base';
-import { BaseCardProps } from '@/common/base/BaseCard';
+import { IBaseCardProps } from '@/common/base/BaseCard';
 
-import { useLazyGetTaskStatusAllQuery, useLazyGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
+import { useGetTaskStatusAllQuery, useGetTaskStatusUserQuery } from '../store/dashboard.api.slice';
 import { ITaskStatusStatsResponse } from '../interfaces';
 
-const baseCardStyle: BaseCardProps = { sx: { height: 250 } };
+const baseCardStyle: IBaseCardProps = { sx: { height: 250 } };
 const labelGrey = ['#dddbdbd6'];
 
 const DashboardTasks = () => {
-  const [fetchTotal, { data: dataTotal, isFetching, isLoading }] = useLazyGetTaskStatusAllQuery();
-  const [fetchUser, { data: dataUser, isFetching: isFetchingUser, isLoading: isLoadingUser }] =
-    useLazyGetTaskStatusUserQuery();
-
-  useEffect(() => {
-    fetchTotal().catch(() => {
-      //
-    });
-    fetchUser().catch(() => {
-      //
-    });
-  }, [fetchTotal, fetchUser]);
+  const { data: dataTotal, isFetching, isLoading } = useGetTaskStatusAllQuery();
+  const { data: dataUser, isFetching: isFetchingUser, isLoading: isLoadingUser } = useGetTaskStatusUserQuery();
 
   const theme = useTheme();
   const mdAndDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -46,7 +36,7 @@ const DashboardTasks = () => {
   const optionsChart = useCallback(
     (data?: ITaskStatusStatsResponse): ChartOptions<'doughnut'> => {
       const isAllZero = Object.values<number>(data ?? {}).every((issue: number) => issue <= 0.01);
-      const labelColors = Object.keys(data ?? {}).map((key: string) => STATUS[key as StatusType].color);
+      const labelColors = Object.keys(data ?? {}).map((key: string) => STATUS[key as TStatusType].color);
       return {
         maintainAspectRatio: false,
         datasets: {
@@ -77,7 +67,7 @@ const DashboardTasks = () => {
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
               data={{
-                labels: Object.keys(dataTotal?.data ?? {}).map((key) => STATUS[key as StatusType].name),
+                labels: Object.keys(dataTotal?.data ?? {}).map((key) => STATUS[key as TStatusType].name),
                 datasets: [
                   {
                     label: 'All Tasks',
@@ -97,7 +87,7 @@ const DashboardTasks = () => {
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Doughnut
               data={{
-                labels: Object.keys(dataUser?.data ?? {}).map((key) => STATUS[key as StatusType].name),
+                labels: Object.keys(dataUser?.data ?? {}).map((key) => STATUS[key as TStatusType].name),
                 datasets: [
                   {
                     label: 'Tasks',

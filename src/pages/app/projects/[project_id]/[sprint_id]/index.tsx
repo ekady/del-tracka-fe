@@ -1,94 +1,27 @@
 // React
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 
-// Redux
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-
-// MUI
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+// Next
+import dynamic from 'next/dynamic';
 
 // Components
 import { LayoutDefault } from '@/common/layout';
 import LayoutProject from '@/features/projects/layout/LayoutProject';
-import { ProjectTaskFilter, ProjectTaskTable } from '@/features/projects/components';
+import PageLoader from '@/common/base/PageLoader';
 
-import { useRouter } from 'next/router';
-import { useGetSprintQuery } from '@/features/projects/store/sprint.api.slice';
-import { useTableChange } from '@/common/hooks/useTableChange';
-import { useLazyGetTasksQuery } from '@/features/projects/store/task.api.slice';
-import { useAppDispatch } from '@/common/store';
-import { invalidateTags } from '@/features/projects/store/project.api.slice';
-import { useProjectBreadcrumb } from '@/features/projects/hooks/useProjectBreadcrumb';
+import { authWallWrapper } from '@/common/helper/authWallWrapper';
+import { getSprint } from '@/features/projects/store/sprint.api.slice';
+import { getProject, getProjects } from '@/features/projects/store/project.api.slice';
+import handleErrorSSr from '@/common/helper/handleErrorSSr';
 
-import { ITaskResponse } from '@/features/projects/interfaces';
+import { IResponseError } from '@/common/types';
 
-const ProjectSprintPage = () => {
-  const dispatch = useAppDispatch();
+const ProjectSprint = dynamic(() => import('@/features/projects/views/ProjectSprintPage'), {
+  ssr: false,
+  loading: () => <PageLoader />,
+});
 
-  useEffect(() => {
-    dispatch(invalidateTags(['Sprint', 'Tasks']));
-  }, [dispatch]);
-
-  const router = useRouter();
-  const idProject = router.query?.project_id as string;
-  const idSprint = router.query?.sprint_id as string;
-
-  const { onFilter, onLimitPage, onSearch, onSort, tableOption } = useTableChange({ sortBy: 'updatedAt|-1' });
-  const { data: sprintInfo, isFetching: isSprintInfoFetching } = useGetSprintQuery(
-    idProject && idSprint ? { idProject, idSprint } : skipToken,
-  );
-  const [getTasks, { data: issuesData, isFetching: isTasksFetching }] = useLazyGetTasksQuery();
-
-  useProjectBreadcrumb({
-    '[project_id]': sprintInfo?.data.project?.name ?? '',
-    '[sprint_id]': sprintInfo?.data.name ?? '',
-  });
-
-  useEffect(() => {
-    if (idProject && idSprint) {
-      getTasks({ ids: { idProject, idSprint }, params: tableOption }).catch(() => {
-        //
-      });
-    }
-  }, [getTasks, idProject, idSprint, tableOption]);
-
-  return (
-    <>
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          {isSprintInfoFetching ? '-' : sprintInfo?.data.name}
-        </Typography>
-        <Typography>{isSprintInfoFetching ? `Sprint ${sprintInfo?.data.name}` : '-'}</Typography>
-      </Box>
-      <Box height={25} />
-      <Box>
-        <ProjectTaskFilter onChange={onFilter} />
-        <Box sx={{ height: 40 }} />
-        <ProjectTaskTable
-          disabledBulkMoveSprint
-          SearchProps={{ onChange: onSearch }}
-          TableProps={{
-            getRowId: (row: ITaskResponse) => row._id,
-            rows: issuesData?.data.data ?? [],
-            paginationMode: 'server',
-            rowCount: issuesData?.data.pagination.total ?? 0,
-            loading: isTasksFetching,
-            onSortModelChange: onSort,
-            onPaginationModelChange: (model) => {
-              onLimitPage('limit', model.pageSize);
-              onLimitPage('page', model.page + 1);
-            },
-            paginationModel: {
-              page: (issuesData?.data.pagination.page ?? 1) - 1,
-              pageSize: issuesData?.data.pagination.limit ?? 10,
-            },
-          }}
-        />
-      </Box>
-    </>
-  );
-};
+const ProjectSprintPage = () => <ProjectSprint />;
 
 ProjectSprintPage.getLayout = (page: ReactElement) => {
   return (
@@ -97,5 +30,36 @@ ProjectSprintPage.getLayout = (page: ReactElement) => {
     </LayoutDefault>
   );
 };
+
+export const getServerSideProps = authWallWrapper(async (context, store) => {
+  const { project_id, sprint_id } = context?.params ?? {};
+
+  try {
+    if (!project_id || !sprint_id) throw new Error('500');
+
+    await store.dispatch(getProjects.initiate());
+    const dispatches = [
+      store.dispatch(getProjects.initiate()),
+      store.dispatch(getProject.initiate(project_id as string)),
+      store.dispatch(getSprint.initiate({ idProject: project_id as string, idSprint: sprint_id as string })),
+    ];
+    const responses = await Promise.all(dispatches);
+    const rejected = responses.find((response) => response.status !== 'fulfilled');
+
+    if (rejected && rejected?.error) {
+      const dataError: IResponseError =
+        'data' in rejected.error ? (rejected.error.data as IResponseError) : { statusCode: 500, errors: [] };
+      throw new Error(`${dataError?.statusCode}`);
+    }
+  } catch (err) {
+    return handleErrorSSr(err as Error);
+  }
+
+  return {
+    props: {
+      title: 'Sprint Task',
+    },
+  };
+});
 
 export default ProjectSprintPage;

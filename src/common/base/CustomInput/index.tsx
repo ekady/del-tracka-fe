@@ -13,7 +13,7 @@ import { extractErrorMessage } from '@/common/helper';
 import { selectColorTheme } from '@/common/store/selector';
 import { TextFieldStyled } from './styled';
 
-export interface CustomInputProps {
+export interface ICustomInputProps {
   TextFieldProps?: TextFieldProps;
   fieldname?: string;
   defaultHelperText?: string;
@@ -24,7 +24,7 @@ const defaultStyle = {
   marginBottom: 2,
 };
 
-const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: CustomInputProps) => {
+const CustomInput = ({ TextFieldProps, fieldname, defaultHelperText, error }: ICustomInputProps) => {
   const [containError, errorMessage] = extractErrorMessage(error, fieldname, defaultHelperText);
   const isDark = useAppSelector(selectColorTheme) === 'dark';
 

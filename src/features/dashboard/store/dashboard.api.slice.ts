@@ -41,3 +41,6 @@ export const {
   useGetUserActivitiesQuery,
 } = dashboardApiSlice;
 export const { resetApiState } = dashboardApiSlice.util;
+
+export const { getTaskProjectTotal, getTaskStatusAll, getTaskStatusUser, getUserActivities } =
+  dashboardApiSlice.endpoints;

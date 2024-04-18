@@ -20,3 +20,4 @@ export { default as ErrorToastContainer } from './ErrorToastContainer';
 export { default as ImageLoader } from './ImageLoader';
 export { default as PasswordRequirement } from './PasswordRequirement';
 export { default as BaseLabel } from './BaseLabel';
+export { default as PageEmpty } from './PageEmpty';

@@ -22,11 +22,11 @@ import { BaseDialogAlert, DataTable, TableAction, TableCellLevel, TableCellStatu
 import ProjectTaskChangeStatus from './ProjectTaskChangeStatus';
 
 // Types
-import { FunctionVoid, FunctionVoidWithParams, ITableAndSearchProps } from '@/common/types';
+import { TFunctionVoid, TFunctionVoidWithParams, ITableAndSearchProps } from '@/common/types';
 import { ITaskResponse } from '@/features/projects/interfaces';
-import { LevelType } from '@/common/constants/level';
-import { StatusType } from '@/common/constants/status';
-import { invalidateTags, ProjectIds } from '@/features/projects/store/project.api.slice';
+import { TLevelType } from '@/common/constants/level';
+import { TStatusType } from '@/common/constants/status';
+import { invalidateTags, TProjectIds } from '@/features/projects/store/project.api.slice';
 
 // Hooks
 import { useAppDispatch } from '@/common/store';
@@ -37,7 +37,7 @@ import { copyToClipboard } from '@/common/helper';
 import ProjectTaskChangeStatusBulk from './ProjectTaskChangeStatusBulk';
 import ProjectTaskMoveSprint from './ProjectTaskMoveSprint';
 
-export interface ProjectTaskTableProps extends ITableAndSearchProps {
+export interface IProjectTaskTableProps extends ITableAndSearchProps {
   disabledBulkUpdateStatus?: boolean;
   disabledBulkMoveSprint?: boolean;
 }
@@ -47,7 +47,7 @@ const ProjectTaskTable = ({
   TableProps,
   disabledBulkMoveSprint,
   disabledBulkUpdateStatus,
-}: ProjectTaskTableProps) => {
+}: IProjectTaskTableProps) => {
   const dispatch = useAppDispatch();
   const [selection, setSelection] = useState<string[]>([]);
 
@@ -64,7 +64,7 @@ const ProjectTaskTable = ({
     (item: ITaskResponse) =>
       async (status: string): Promise<void> => {
         try {
-          const ids: ProjectIds = {
+          const ids: TProjectIds = {
             idProject: item.project.shortId,
             idSprint: item.stage.shortId,
             idTask: item.shortId,
@@ -102,7 +102,7 @@ const ProjectTaskTable = ({
     (item: ITaskResponse) => {
       openDialogWarning('Confirmation', 'Are you sure you want to delete this task?', {
         type: 'warning',
-        handleOk: (() => handleDeleteTask(item)) as FunctionVoid,
+        handleOk: (() => handleDeleteTask(item)) as TFunctionVoid,
         handleCancel: closeDialogAlert,
       });
     },
@@ -124,17 +124,17 @@ const ProjectTaskTable = ({
         SelectOption={
           <ProjectTaskChangeStatus
             currentStatus={params.value ?? ''}
-            handleChange={handleChangeStatus(params.row) as FunctionVoidWithParams<string>}
+            handleChange={handleChangeStatus(params.row) as TFunctionVoidWithParams<string>}
           />
         }
-        status={params.value as StatusType}
+        status={params.value as TStatusType}
       />
     ),
     [handleChangeStatus],
   );
 
   const renderCellLevel = useCallback(
-    (params: GridRenderCellParams<ITaskResponse>) => <TableCellLevel level={params.value as LevelType} />,
+    (params: GridRenderCellParams<ITaskResponse>) => <TableCellLevel level={params.value as TLevelType} />,
     [],
   );
 

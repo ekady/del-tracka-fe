@@ -1,12 +1,11 @@
 // React
 import { ReactNode } from 'react';
 
-// MUI Components
+// Next
+import dynamic from 'next/dynamic';
 
 // MUI Components
-import Box from '@mui/material/Box';
 import type { Breakpoint } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
 import { PaperProps } from '@mui/material/Paper';
 
 // MUI utils
@@ -16,7 +15,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // Constant
 import { SIDEBAR_WIDTH } from '@/common/base/SideBar/constants';
 
-export interface LayoutDefaultWithDrawerProps {
+const Box = dynamic(() => import('@mui/material/Box'), { ssr: false });
+const Drawer = dynamic(() => import('@mui/material/Drawer'), { ssr: false });
+
+export interface ILayoutDefaultWithDrawerProps {
   menuList: ReactNode;
   content: ReactNode;
   hideContent?: boolean;
@@ -33,7 +35,7 @@ const LayoutDrawerAdditional = ({
   hideMenu,
   mediaQueryForShow,
   isMenu,
-}: LayoutDefaultWithDrawerProps) => {
+}: ILayoutDefaultWithDrawerProps) => {
   const theme = useTheme();
   const lgAndUp = useMediaQuery(theme.breakpoints.up('lg'));
   const showQuery = useMediaQuery(theme.breakpoints.up(mediaQueryForShow ?? 'lg'));

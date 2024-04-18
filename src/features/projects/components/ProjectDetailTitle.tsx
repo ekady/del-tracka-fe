@@ -11,13 +11,13 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-export type ProjectDetailTitleProps = {
+export interface IProjectDetailTitleProps {
   title: string;
   description?: string;
   canAccessSettings?: boolean;
-};
+}
 
-const ProjectDetailTitle = ({ title, description, canAccessSettings }: ProjectDetailTitleProps) => {
+const ProjectDetailTitle = ({ title, description, canAccessSettings }: IProjectDetailTitleProps) => {
   const router = useRouter();
 
   const settings = (

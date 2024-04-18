@@ -1,4 +1,4 @@
-import { IPaginationParams, PaginationParamsText } from '@/common/types';
+import { IPaginationParams, TPaginationParamsText } from '@/common/types';
 
 export const convertFileToUrl = (file: File | string | null): string => {
   if (file) {
@@ -23,7 +23,7 @@ export function formatBytes(bytes?: number, decimals = 2) {
 export const convertParams = (params?: IPaginationParams): IPaginationParams => {
   if (params) {
     return Object.keys(params).reduce((pr, param) => {
-      const paramText = param as PaginationParamsText;
+      const paramText = param as TPaginationParamsText;
       if (params[paramText]) return { ...pr, [paramText]: params[paramText] };
       return pr;
     }, {});

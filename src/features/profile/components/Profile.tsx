@@ -2,7 +2,7 @@
 import { BaseSyntheticEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 // Next
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 // Helper
 import { UseFormGetValues, UseFormReturn } from 'react-hook-form';
@@ -17,27 +17,26 @@ import Typography from '@mui/material/Typography';
 // Local Components
 import { ProfileChangePassword, ProfileChangeData, ProfileChangeImage } from '.';
 
-import { FunctionVoid, FunctionVoidWithParams } from '@/common/types';
-import { ProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
+import { TFunctionVoid, TFunctionVoidWithParams } from '@/common/types';
+import { IProfileRequest, useDeleteProfileMutation } from '../store/profile.api.slice';
 import { useProfileForm } from '../hooks/useProfileForm';
 import { BaseDialogAlert, ButtonLoading } from '@/common/base';
 import useDialogAlert from '@/common/base/BaseDialogAlert/useDialogAlert';
-import { useLogout } from '@/common/hooks/useLogout';
 import { passwordValidator } from '@/common/base/PasswordRequirement/helper';
 
-export interface ProfileChildProps<T> {
-  formMethods: UseFormReturn<ProfileRequest>;
+export interface IProfileChildProps<T> {
+  formMethods: UseFormReturn<IProfileRequest>;
   formOptions: T;
   disabled?: boolean;
 }
 
-export interface ProfileProps {
+export interface IProfileProps {
   isFirstTime: boolean;
   isEditable: boolean;
   disabled?: boolean;
   isLoading?: boolean;
-  submit: FunctionVoidWithParams<ProfileRequest>;
-  handleEditButton?: FunctionVoid;
+  submit: TFunctionVoidWithParams<IProfileRequest>;
+  handleEditButton?: TFunctionVoid;
 }
 
 const validationChangeData = {
@@ -48,7 +47,7 @@ const validationChangeData = {
 
 const validationImage = { picture: { required: false } };
 
-const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) => ({
+const validationChangePassword = (getValues: UseFormGetValues<IProfileRequest>) => ({
   password: { required: true },
   passwordConfirm: {
     required: true,
@@ -58,15 +57,14 @@ const validationChangePassword = (getValues: UseFormGetValues<ProfileRequest>) =
   },
 });
 
-const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleEditButton }: ProfileProps) => {
+const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleEditButton }: IProfileProps) => {
   const router = useRouter();
   const form = useProfileForm();
   const { handleSubmit, getValues, resetField } = form;
 
-  const [deleteAccount, { isSuccess }] = useDeleteProfileMutation();
+  const [deleteAccount] = useDeleteProfileMutation();
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false);
   const { dialogAlertOpt, closeDialogAlert, openDialogWarning, openDialogSuccess } = useDialogAlert();
-  const logout = useLogout(true);
 
   const validatePassword = useMemo(() => validationChangePassword(getValues), [getValues]);
 
@@ -78,21 +76,20 @@ const Profile = ({ isFirstTime, isEditable, disabled, isLoading, submit, handleE
     submit(data);
   }) as (e?: BaseSyntheticEvent) => void;
 
+  const deleteAccountFn = useCallback(async () => {
+    await deleteAccount().unwrap();
+    openDialogSuccess(undefined, undefined, {
+      handleOk: () => router.replace('/auth/logout'),
+      hideCancel: true,
+    });
+  }, [router, deleteAccount, openDialogSuccess]);
+
   const openDialogDeleteConfirm = useCallback(() => {
     openDialogWarning('Warning', 'Are your sure want to delete your account?', {
-      handleOk: deleteAccount as FunctionVoid,
+      handleOk: deleteAccountFn as TFunctionVoid,
       handleCancel: closeDialogAlert,
     });
-  }, [closeDialogAlert, deleteAccount, openDialogWarning]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      openDialogSuccess(undefined, undefined, {
-        handleOk: logout as FunctionVoid,
-        hideCancel: true,
-      });
-    }
-  }, [isSuccess, router, openDialogSuccess, logout]);
+  }, [closeDialogAlert, deleteAccountFn, openDialogWarning]);
 
   useEffect(() => {
     if (!isChangePassword) {

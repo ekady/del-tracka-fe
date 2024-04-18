@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 
-import { FunctionVoid } from '@/common/types';
-import { BaseDialogAlertProps } from '.';
+import { TFunctionVoid } from '@/common/types';
+import { IBaseDialogAlertProps } from '.';
 
-type BaseDialogOption = Omit<BaseDialogAlertProps, 'titleDialog' | 'description'>;
+type TBaseDialogOption = Omit<IBaseDialogAlertProps, 'titleDialog' | 'description'>;
 
 const useDialogAlert = () => {
-  const [dialogAlertOpt, setDialogAlertOpt] = useState<BaseDialogAlertProps>({
+  const [dialogAlertOpt, setDialogAlertOpt] = useState<IBaseDialogAlertProps>({
     isOpen: false,
     type: 'success',
     titleDialog: 'Success',
@@ -14,13 +14,13 @@ const useDialogAlert = () => {
     hideCancel: true,
   });
 
-  const closeDialogAlert = useCallback((callback?: FunctionVoid) => {
+  const closeDialogAlert = useCallback((callback?: TFunctionVoid) => {
     setDialogAlertOpt((option) => ({ ...option, isOpen: !option.isOpen }));
     if (callback && typeof callback === 'function') callback();
   }, []);
 
   const openDialogSuccess = useCallback(
-    (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+    (title?: string, description?: string, options?: TBaseDialogOption, callback?: TFunctionVoid) => {
       setDialogAlertOpt((option) => ({
         ...option,
         isOpen: true,
@@ -38,7 +38,7 @@ const useDialogAlert = () => {
     [closeDialogAlert],
   );
   const openDialogError = useCallback(
-    (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+    (title?: string, description?: string, options?: TBaseDialogOption, callback?: TFunctionVoid) => {
       setDialogAlertOpt((option) => ({
         ...option,
         isOpen: true,
@@ -56,7 +56,7 @@ const useDialogAlert = () => {
     [closeDialogAlert],
   );
   const openDialogWarning = useCallback(
-    (title?: string, description?: string, options?: BaseDialogOption, callback?: FunctionVoid) => {
+    (title?: string, description?: string, options?: TBaseDialogOption, callback?: TFunctionVoid) => {
       setDialogAlertOpt((option) => ({
         ...option,
         isOpen: true,
