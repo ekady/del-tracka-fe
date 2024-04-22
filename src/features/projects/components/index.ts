@@ -13,6 +13,9 @@ export {
   ProjectTaskComment,
   ProjectTaskComments,
   ProjectTaskActivity,
+  ProjectTaskChangeStatusBulk,
+  ProjectTaskMoveSprint,
+  ProjectTaskDetail,
 } from './ProjectTask';
 export {
   ProjectInformation,

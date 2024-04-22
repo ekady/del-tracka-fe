@@ -1,34 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Tracka - Bug Tracking Application
 
-## Getting Started
+![Tracka Logo](https://res.cloudinary.com/dwixtayvd/image/upload/v1713677969/tracka-layout_dcbjaj.png)
 
-First, run the development server:
+Tracka is a web application designed to streamline your software development process by efficiently managing and tracking bugs and issues within your projects. 
+
+### Feature Set
+
+Tracka offers a comprehensive suite of features to empower a smooth bug tracking workflow:
+
+| Feature                 | Description                                                                                                  |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------|
+| **Dashboard**            | Provides a high-level view of all projects, user-assigned tasks, and overall user activity within the system.                     |
+| **Project Management**   | Manage and organize your projects, including sprints and detailed lists of associated issues and tasks.                          |
+| **Issue/Task Tracking**  | Create, assign, and track issues and tasks within specific projects, ensuring clear accountability and streamlined workflows.      |
+| **My Issues**             | View a dedicated section showcasing all issues and tasks currently assigned to you, facilitating focused bug resolution.        |
+| **Log Activities**        | Track and search for project activities within a designated time range, enabling comprehensive project audit trails.           |
+
+
+### Getting Started
+
+**Prerequisites**
+
+* **Node.js (version 18 or higher):** [https://nodejs.org/en](https://nodejs.org/en)
+* **pnpm package manager:** [https://pnpm.io/installation](https://pnpm.io/installation)
+* **Git version control system:** [https://git-scm.com/downloads](https://git-scm.com/downloads)
+
+**1. Clone the Repository:**
 
 ```bash
-npm run dev
-# or
-yarn dev
+git clone https://github.com/ekady/del-tracka-fe.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**2. Install Dependencies:**
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+cd del-tracka-fe
+pnpm install
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**3. Run Development Server:**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+pnpm dev
+```
 
-## Learn More
+This command will initiate the development server, allowing you to access Tracka in your web browser, typically at http://localhost:3000/.
 
-To learn more about Next.js, take a look at the following resources:
+**4. Build for Production:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Install build dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+pnpm install
+```
 
-## Deploy on Vercel
+* Build the application:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* Start the production server:
+
+```bash
+pnpm start
+```
+
+### Contributing
+
+We highly encourage contributions from the community! If you're passionate about fixing bugs or enhancing existing features, here's how you can get involved:
+
+1. **Fork the Repository:** Create your personal copy of the Tracka repository on GitHub.
+2. **Create a Branch:**  Switch to a new dedicated branch for your changes (e.g., `git checkout -b improve-feature`).
+3. **Implement Changes:** Edit the relevant files to incorporate your contribution.
+4. **Add and Commit:** Stage your changes using `git add` and commit them with a clear and concise message (`git commit -am 'Improve feature'`).
+5. **Push to Branch:** Push your committed changes to your forked branch (`git push origin improve-feature`).
+6. **Pull Request:** Create a Pull Request from your branch to the `main` branch of the main Tracka repository. This allows us to review your contributions before merging them into the official codebase.
+
+**Merging to Production:**
+
+Following a successful review and approval of your Pull Request on the `main` branch, you can create a separate Pull Request from a new branch (e.g., `improve-feature`) to the `next` branch to deploy the changes to the production application.
+
+### License
+
+This project is distributed under the GNU General Public License v3.0 ([https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)).

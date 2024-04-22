@@ -7,3 +7,4 @@ export { default as ProjectTaskComments } from './ProjectTaskComments';
 export { default as ProjectTaskActivity } from './ProjectTaskActivity';
 export { default as ProjectTaskChangeStatusBulk } from './ProjectTaskChangeStatusBulk';
 export { default as ProjectTaskMoveSprint } from './ProjectTaskMoveSprint';
+export { default as ProjectTaskDetail } from './ProjectTaskDetail';
