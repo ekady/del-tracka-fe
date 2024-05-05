@@ -15,7 +15,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 // Local Components
-import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskForm } from '../components';
+import { ProjectTaskActivity, ProjectTaskComments, ProjectTaskDetail } from '../components';
 import { CarouselImages } from '@/common/base';
 
 // Hooks
@@ -23,26 +23,18 @@ import { useGetTaskQuery } from '../store/task.api.slice';
 import useProjectId from '../hooks/useProjectId';
 import { useProjectBreadcrumb } from '../hooks/useProjectBreadcrumb';
 
-import { IFileStream } from '@/common/types';
+import { TFunctionVoid, IFileStream } from '@/common/types';
 
 import { copyToClipboard } from '@/common/helper';
 
-// Create : Only Form that contain upload image
-// Edit: Form contain upload image, comments, logs
-
-export interface IProjectCreateEditTaskPageProps {
-  category: 'create' | 'edit';
-}
-
-const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps) => {
-  const isCreate = category === 'create';
-
+const ProjectDetailTaskPage = () => {
   const {
     projectId,
-    router: { query },
+    data: projectData,
+    router: { query, push },
   } = useProjectId();
   const task = useGetTaskQuery(
-    projectId && query.sprint_id && (query.task_id || isCreate)
+    projectId && query.sprint_id && query.task_id
       ? { ids: { idProject: projectId, idSprint: query.sprint_id as string, idTask: (query?.task_id as string) ?? '' } }
       : skipToken,
   );
@@ -69,52 +61,50 @@ const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps
     [tab],
   );
 
+  const handleBackToTaskList = useCallback(async () => {
+    await push(`/app/projects/${projectId}/${query.sprint_id as string}`);
+  }, [projectId, push, query.sprint_id]);
+
+  const handleToEdit = useCallback(async () => {
+    await push(`/app/projects/${projectId}/${query.sprint_id as string}/${query.task_id as string}/edit`);
+  }, [projectId, push, query.sprint_id, query.task_id]);
+
   return (
     <>
-      <Box display={isCreate ? 'none' : 'flex'} alignItems="center" justifyContent="center">
+      <Box display="flex" alignItems="center" justifyContent="center">
         <ButtonGroup disableElevation variant="outlined" aria-label="outlined primary button group">
           <Button variant={setVariantButton('form')} onClick={() => handleTabChange('form')}>
-            Form
+            Detail
           </Button>
-          {!isCreate && (
-            <>
-              <Button variant={setVariantButton('comments')} onClick={() => handleTabChange('comments')}>
-                Comments
-              </Button>
-              <Button variant={setVariantButton('activities')} onClick={() => handleTabChange('activities')}>
-                Activities
-              </Button>
-            </>
-          )}
+          <Button variant={setVariantButton('media')} onClick={() => handleTabChange('media')}>
+            Media
+          </Button>
+          <Button variant={setVariantButton('comments')} onClick={() => handleTabChange('comments')}>
+            Comments
+          </Button>
+          <Button variant={setVariantButton('activities')} onClick={() => handleTabChange('activities')}>
+            Activities
+          </Button>
         </ButtonGroup>
       </Box>
-      {isCreate && (
-        <Box>
-          <Typography variant="h6" component="h2">
-            New Tasks
-          </Typography>
-        </Box>
-      )}
 
       <Box height={40} />
 
-      {!isCreate && (
-        <Box marginBottom={3}>
-          <Typography fontWeight="bold">Task Id</Typography>
-          <Box display="flex" alignItems="center" justifyContent="flex-start" gap={4}>
-            <Typography>#{task?.data?.shortId ?? '-'}</Typography>
-            <IconButton
-              id="demo-positioned-button"
-              aria-haspopup="true"
-              onClick={() => copyToClipboard(`#${task?.data?.shortId ?? ''}`)}
-            >
-              <ContentCopy />
-            </IconButton>
-          </Box>
+      <Box marginBottom={3}>
+        <Typography fontWeight="bold">Task Id</Typography>
+        <Box display="flex" alignItems="center" justifyContent="flex-start" gap={4}>
+          <Typography>#{task?.data?.shortId ?? '-'}</Typography>
+          <IconButton
+            id="demo-positioned-button"
+            aria-haspopup="true"
+            onClick={() => copyToClipboard(`#${task?.data?.shortId ?? ''}`)}
+          >
+            <ContentCopy />
+          </IconButton>
         </Box>
-      )}
+      </Box>
 
-      {tab === 'form' && <ProjectTaskForm data={task.data} />}
+      {tab === 'form' && <ProjectTaskDetail data={task.data} />}
       {tab === 'comments' && <ProjectTaskComments />}
       {tab === 'activities' && <ProjectTaskActivity />}
       {tab === 'media' && (
@@ -133,8 +123,24 @@ const ProjectCreateEditTaskPage = ({ category }: IProjectCreateEditTaskPageProps
       )}
 
       <Box height={100} />
+      <Box sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end' }}>
+        <Button
+          className="text-right"
+          variant="outlined"
+          color="primary"
+          onClick={handleBackToTaskList as TFunctionVoid}
+        >
+          Back
+        </Button>
+
+        {projectData?.data.rolePermissions.TASK.update && (
+          <Button className="text-right" variant="contained" color="primary" onClick={handleToEdit as TFunctionVoid}>
+            Edit
+          </Button>
+        )}
+      </Box>
     </>
   );
 };
 
-export default ProjectCreateEditTaskPage;
+export default ProjectDetailTaskPage;

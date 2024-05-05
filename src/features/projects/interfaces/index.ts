@@ -152,6 +152,7 @@ export interface IProjectSprintTaskDetail {
   name?: string;
   dueDate?: Date | null;
   shortId?: string;
+  status?: string;
 }
 
 export interface IProjectSprintTask extends IProjectSprintTaskDetail {

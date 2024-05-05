@@ -16,12 +16,12 @@ import handleErrorSSr from '@/common/helper/handleErrorSSr';
 
 import { IResponseError } from '@/common/types';
 
-const ProjectCreateEditTask = dynamic(() => import('@/features/projects/views/ProjectCreateEditTaskPage'), {
+const ProjectDetailTaskPage = dynamic(() => import('@/features/projects/views/ProjectDetailTaskPage'), {
   ssr: false,
   loading: () => <PageLoader />,
 });
 
-const ProjectDetailTask = () => <ProjectCreateEditTask category="detail" />;
+const ProjectDetailTask = () => <ProjectDetailTaskPage />;
 
 ProjectDetailTask.getLayout = (page: ReactElement) => {
   return (

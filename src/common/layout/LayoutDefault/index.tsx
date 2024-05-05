@@ -33,6 +33,7 @@ const LayoutDefault = ({ children }: IPropsChildren) => {
               maxWidth={false}
               sx={{
                 px: 0,
+                my: 1,
                 pt: 1,
                 width: {
                   lg: sidebarOpen ? `calc(100% - 254px)` : '100%',
