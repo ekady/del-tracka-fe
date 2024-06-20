@@ -1,5 +1,6 @@
-import { ICredential } from '@/common/types';
 import { DefaultSession } from 'next-auth';
+
+import { ICredential } from '@/app/_common/types';
 
 declare module 'next-auth' {
   /**
