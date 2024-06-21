@@ -5,7 +5,11 @@ import toastError from '@/app/_common/base/ErrorToastContainer/toastError';
 
 const clientFetcher = async (url: string, init?: RequestInit) => {
   try {
-    const response = await fetch(`/api${url}`, { headers: { 'Content-Type': 'application/json' }, ...init });
+    const response = await fetch(`/api${url}`, {
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      ...init,
+    });
 
     if (!response.ok) {
       const responseJson = await response.json();
