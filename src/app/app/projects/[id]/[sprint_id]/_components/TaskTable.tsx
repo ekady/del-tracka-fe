@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import BaseDialogAlert from '@/app/_common/base/BaseDialogAlert';
 import useDialogAlert from '@/app/_common/base/BaseDialogAlert/useDialogAlert';
 import DataTable from '@/app/_common/base/DataTable';
+import HeaderProfilePicture from '@/app/_common/base/Header/HeaderProfilePicture';
 import TableAction from '@/app/_common/base/TableAction';
 import TableCellLevel from '@/app/_common/base/TableCellLevel';
 import TableCellStatus from '@/app/_common/base/TableCellStatus';
@@ -41,6 +42,19 @@ import TaskChangeStatusBulk from './TaskChangeStatusBulk';
 const statusSelectionList = Object.keys(STATUS).map(
   (key) =>
     ({ name: STATUS[key as TStatusType].name, value: STATUS[key as TStatusType].value }) as Record<string, string>,
+);
+
+const renderCellLevel = (params: GridRenderCellParams<ITaskResponse>) => (
+  <TableCellLevel level={params.value as TLevelType} />
+);
+
+const renderCellTaskId = ({ row }: GridRenderCellParams<ITaskResponse, string>) => (
+  <Box display="flex" alignItems="center" justifyContent="center" gap={1} height="100%">
+    <Typography>{`#${row.shortId}`}</Typography>
+    <IconButton id="demo-positioned-button" aria-haspopup="true" onClick={() => copyToClipboard(`#${row.shortId}`)}>
+      <ContentCopy />
+    </IconButton>
+  </Box>
 );
 
 export interface ITaskTableProps {
@@ -136,11 +150,6 @@ const TaskTable = ({ project, sprint, taskPagination }: ITaskTableProps) => {
     [handleChangeStatus],
   );
 
-  const renderCellLevel = useCallback(
-    (params: GridRenderCellParams<ITaskResponse>) => <TableCellLevel level={params.value as TLevelType} />,
-    [],
-  );
-
   const renderCellAction = useCallback(
     ({ row }: GridRenderCellParams<ITaskResponse, string>) => (
       <TableAction
@@ -155,51 +164,25 @@ const TaskTable = ({ project, sprint, taskPagination }: ITaskTableProps) => {
     [openDialogDeleteWarning, project, sprint?.shortId],
   );
 
-  const renderCellTaskId = useCallback(
-    ({ row }: GridRenderCellParams<ITaskResponse, string>) => (
-      <Box display="flex" alignItems="center" justifyContent="center" gap={1} height="100%">
-        <Typography>{`#${row.shortId}`}</Typography>
-        <IconButton id="demo-positioned-button" aria-haspopup="true" onClick={() => copyToClipboard(`#${row.shortId}`)}>
-          <ContentCopy />
-        </IconButton>
-      </Box>
-    ),
-    [],
-  );
-
   const tableHeaders: GridColDef<ITaskResponse, string>[] = useMemo<GridColDef<ITaskResponse, string>[]>(
     () => [
-      { headerName: 'Action', field: 'action', sortable: false, width: 150, renderCell: renderCellAction },
+      { headerName: 'Action', field: 'action', sortable: false, width: 120, renderCell: renderCellAction },
       { headerName: 'Task Id', field: 'shortId', sortable: false, width: 170, renderCell: renderCellTaskId },
-      { headerName: 'Main Problem', field: 'title', width: 300 },
+      { headerName: 'Title', field: 'title', minWidth: 300, flex: 1 },
       { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-      { headerName: 'Feature', field: 'feature', width: 200 },
       { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
-      {
-        headerName: 'Due Date',
-        field: 'dueDate',
-        width: 150,
-        renderCell: (val) => (val.value ? new Date(val.value).toLocaleDateString() : '-'),
-      },
-      {
-        headerName: 'Reporter',
-        field: 'reporter',
-        renderCell: ({ row }) => (row.reporter ? `${row.reporter.firstName} ${row.reporter.lastName}` : '-'),
-        width: 200,
-      },
       {
         headerName: 'Assignee',
         field: 'assignee',
-        renderCell: ({ row }) => (row.assignee ? `${row.assignee.firstName} ${row.assignee.lastName}` : '-'),
-      },
-      {
-        headerName: 'Date Updated',
-        field: 'updatedAt',
-        width: 200,
-        renderCell: (val) => (val.value ? new Date(val.value).toLocaleString() : '-'),
+        width: 120,
+        renderCell: ({ row }) => (
+          <Box sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+            <HeaderProfilePicture image={row.assignee?.picture} />
+          </Box>
+        ),
       },
     ],
-    [renderCellAction, renderCellLevel, renderCellStatus, renderCellTaskId],
+    [renderCellAction, renderCellStatus],
   );
 
   const handleCallbackBulkStatus = useCallback((statusUpdate: 'success' | 'error') => {
@@ -257,6 +240,12 @@ const TaskTable = ({ project, sprint, taskPagination }: ITaskTableProps) => {
         checkboxSelection={project?.rolePermissions.TASK.update}
         onRowSelectionModelChange={(values) => setSelection(values as string[])}
         rowSelectionModel={selection}
+        getRowHeight={() => 45}
+        sx={({ palette }) => ({
+          '& .MuiDataGrid-cell': {
+            borderColor: palette.divider,
+          },
+        })}
       />
     </>
   );
