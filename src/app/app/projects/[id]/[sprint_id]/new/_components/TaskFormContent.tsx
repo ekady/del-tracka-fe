@@ -41,7 +41,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
     <Grid container columnSpacing={3} component="main">
       <Grid item xs={12}>
         <CustomInput
-          fieldname="Main Problem"
+          fieldname="Title"
           error={formState.errors.title}
           TextFieldProps={{
             placeholder: 'Enter main problem',
@@ -52,7 +52,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
       </Grid>
       <Grid item xs={12} md={6}>
         <CustomInput
-          fieldname="Feature"
+          fieldname="Category"
           error={formState.errors.feature}
           TextFieldProps={{
             placeholder: 'Enter feature',

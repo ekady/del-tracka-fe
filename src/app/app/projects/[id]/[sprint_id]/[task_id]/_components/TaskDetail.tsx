@@ -21,12 +21,12 @@ const TaskDetail = ({ task }: ITaskDetailProps) => {
     <>
       <Grid container columnSpacing={3} component="main">
         <Grid item xs={12} sx={{ marginBottom: 3 }}>
-          <InputLabel>Main Problem</InputLabel>
+          <InputLabel>Title</InputLabel>
           <Typography variant="subtitle1">{task?.title ?? '-'}</Typography>
         </Grid>
         <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box>
-            <InputLabel>Feature</InputLabel>
+            <InputLabel>Category</InputLabel>
             <Typography variant="subtitle1">{task?.title ?? '-'}</Typography>
           </Box>
           <Box>

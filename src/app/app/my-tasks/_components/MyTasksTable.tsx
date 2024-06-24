@@ -160,9 +160,9 @@ const MyTaskTable = ({ taskPagination }: IMyTaskTableProps) => {
     () => [
       { headerName: 'Action', field: 'action', sortable: false, width: 150, renderCell: renderCellAction },
       { headerName: 'Task Id', field: 'shortId', sortable: false, width: 170, renderCell: renderCellTaskId },
-      { headerName: 'Main Problem', field: 'title', width: 300 },
+      { headerName: 'Title', field: 'title', width: 300 },
       { headerName: 'Status', field: 'status', width: 200, renderCell: renderCellStatus },
-      { headerName: 'Feature', field: 'feature', width: 200 },
+      { headerName: 'Category', field: 'feature', width: 200 },
       { headerName: 'Level', field: 'priority', width: 200, renderCell: renderCellLevel },
       {
         headerName: 'Due Date',
