@@ -17,14 +17,6 @@ const dateColumn: GridColDef<IProjectActivityResponse> = {
   sortable: false,
 };
 
-const projectColumn: GridColDef<IProjectActivityResponse> = {
-  headerName: 'Project Name',
-  field: 'project',
-  renderCell: ({ row }) => row?.project || '-',
-  width: 150,
-  sortable: false,
-};
-
 const sprintColumn: GridColDef<IProjectActivityResponse> = {
   headerName: 'Sprint',
   field: 'sprint',
@@ -38,10 +30,11 @@ const activityColumn: GridColDef<IProjectActivityResponse> = {
   field: 'activity',
   renderCell: ({ row }) => ActivityMessage[row.type as TActivityType](row),
   sortable: false,
+  minWidth: 200,
   flex: 1,
 };
 
-const tableHeaders: GridColDef<IProjectActivityResponse>[] = [dateColumn, projectColumn, sprintColumn, activityColumn];
+const tableHeaders: GridColDef<IProjectActivityResponse>[] = [dateColumn, sprintColumn, activityColumn];
 
 const ProjectLogList = ({ logs }: { logs: IProjectActivityResponse[] }) => {
   return (

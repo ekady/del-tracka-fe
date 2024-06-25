@@ -21,14 +21,6 @@ const dateColumn: GridColDef<IProjectActivityResponse> = {
   sortable: false,
 };
 
-const projectColumn: GridColDef<IProjectActivityResponse> = {
-  headerName: 'Project Name',
-  field: 'project',
-  renderCell: ({ row }) => row?.project,
-  width: 150,
-  sortable: false,
-};
-
 const sprintColumn: GridColDef<IProjectActivityResponse> = {
   headerName: 'Sprint',
   field: 'sprint',
@@ -45,7 +37,7 @@ const activityColumn: GridColDef<IProjectActivityResponse> = {
   width: 400,
 };
 
-const tableHeaders: GridColDef<IProjectActivityResponse>[] = [dateColumn, projectColumn, sprintColumn, activityColumn];
+const tableHeaders: GridColDef<IProjectActivityResponse>[] = [dateColumn, sprintColumn, activityColumn];
 
 const TaskActivityList = ({ activities }: ITaskActivityListProps) => {
   const { onPaginationChange, onSortChange } = useTableChange();
