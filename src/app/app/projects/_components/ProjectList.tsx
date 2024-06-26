@@ -76,7 +76,7 @@ const ProjectList = ({ projects }: IProjectListProps) => {
     </TableAction>
   );
   const headers: GridColDef<IProjectWithPermissions>[] = [
-    { headerName: 'Action', field: 'action', sortable: false, width: 170, renderCell: renderTableAction },
+    { headerName: 'Action', field: 'action', sortable: false, width: 130, renderCell: renderTableAction },
     ...tableHeaders,
   ];
 

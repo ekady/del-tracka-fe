@@ -34,7 +34,7 @@ const TableAction = ({
   hideView,
 }: ITableActionProps) => {
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', height: '100%' }}>
       {!hideView && (
         <IconButton LinkComponent={Link} href={toView ?? ''} onClick={handleView} size="small">
           <Visibility />
