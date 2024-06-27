@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { People, Settings } from '@mui/icons-material';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 
 import TitleWithBreadcrumb from '@/app/_common/base/TitleWithBreadcrumb';
 import STATUS from '@/app/_common/constants/status.constant';
@@ -46,7 +46,7 @@ const ProjectPage = async ({ params }: IProjectPageProps) => {
         <Grid item xs={12} sm={8} order={{ xs: 2, sm: 1 }}>
           <Typography>{project?.description}</Typography>
         </Grid>
-        <Grid item xs={12} sm={4} textAlign="right" order={{ xs: 1, sm: 2 }}>
+        <Grid display={{ xs: 'none', sm: 'block' }} item xs={12} sm={4} textAlign="right" order={2}>
           {project?.rolePermissions?.PROJECT?.update ? (
             <IconButton LinkComponent={Link} href={`/app/projects/${params.id}/settings`} size="small">
               <Settings />
@@ -55,6 +55,31 @@ const ProjectPage = async ({ params }: IProjectPageProps) => {
             <IconButton LinkComponent={Link} href={`/app/projects/${params.id}/member`} size="small">
               <People />
             </IconButton>
+          )}
+        </Grid>
+        <Grid display={{ xs: 'block', sm: 'none' }} item xs={12} sm={4} textAlign="right" order={1} mb={3}>
+          {project?.rolePermissions?.PROJECT?.update ? (
+            <Button
+              fullWidth
+              LinkComponent={Link}
+              variant="outlined"
+              href={`/app/projects/${params.id}/settings`}
+              size="medium"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+            >
+              <Settings /> Settings
+            </Button>
+          ) : (
+            <Button
+              fullWidth
+              LinkComponent={Link}
+              variant="outlined"
+              href={`/app/projects/${params.id}/member`}
+              size="medium"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+            >
+              <People /> Member
+            </Button>
           )}
         </Grid>
       </Grid>
