@@ -26,11 +26,16 @@ const TaskListHeader = ({ project, sprint }: ITaskListHeaderProps) => {
       TextFieldProps={{ onChange: onSearchChange, defaultValue: searchParams.get('search') ?? '' }}
     >
       {project?.rolePermissions.TASK.create ? (
-        <Link href={`/app/projects/${project?.shortId}/${sprint?.shortId}/new`} passHref>
-          <Button variant="contained" color="primary" startIcon={<AddCircleOutlined />}>
-            Add New Task
-          </Button>
-        </Link>
+        <Button
+          LinkComponent={Link}
+          href={`/app/projects/${project?.shortId}/${sprint?.shortId}/new`}
+          variant="contained"
+          color="primary"
+          startIcon={<AddCircleOutlined />}
+          fullWidth
+        >
+          Add New Task
+        </Button>
       ) : (
         'Task List'
       )}
