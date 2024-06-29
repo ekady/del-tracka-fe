@@ -17,12 +17,22 @@ export interface ITableHeaderProps {
 
 const TableHeader = ({ TextFieldProps, isUsingSearch, children }: ITableHeaderProps) => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-      <Box>{children}</Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 3,
+        gap: 2,
+      }}
+    >
+      <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>{children}</Box>
       {isUsingSearch && (
         <TextField
           placeholder="Search"
           size="small"
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
