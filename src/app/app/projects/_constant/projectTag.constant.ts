@@ -1,0 +1,2 @@
+export const PROJECT_LIST_FETCH_TAG = 'PROJECT_LIST';
+export const PROJECT_FETCH_TAG = 'PROJECT';
