@@ -1,9 +1,8 @@
+import axios, { AxiosError } from 'axios';
 import { getServerSession } from 'next-auth';
 
-import axios, { AxiosError } from 'axios';
-
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { IResponseError } from '@/common/types';
+import { IResponseError } from '@/app/_common/types';
+import { authOptions } from '@/app/_common/utils/nextAuthOptions';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL_V1;
 

@@ -4,11 +4,11 @@
 
 Tracka is a web application designed to streamline your software development process by efficiently managing and tracking bugs and issues within your projects. 
 
-### Feature Set
+### Category Set
 
 Tracka offers a comprehensive suite of features to empower a smooth bug tracking workflow:
 
-| Feature                 | Description                                                                                                  |
+| Category                 | Description                                                                                                  |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------|
 | **Dashboard**            | Provides a high-level view of all projects, user-assigned tasks, and overall user activity within the system.                     |
 | **Project Management**   | Manage and organize your projects, including sprints and detailed lists of associated issues and tasks.                          |
@@ -83,4 +83,4 @@ Following a successful review and approval of your Pull Request on the `main` br
 
 ### License
 
-This project is distributed under the GNU General Public License v3.0 ([https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)).
+This project is distributed under the MIT License.
