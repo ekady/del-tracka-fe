@@ -3,8 +3,7 @@
 import { ElementType } from 'react';
 
 import { IconButton, Switch, SwitchProps } from '@mui/material';
-import MuiAppBar from '@mui/material/AppBar';
-import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';

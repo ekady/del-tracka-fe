@@ -19,8 +19,8 @@ export const actionUpdateProfile = async (payload: IProfileRequest): Promise<IRe
     formData.append('firstName', payload?.firstName ?? '');
     formData.append('lastName', payload?.lastName ?? '');
     formData.append('email', payload?.email ?? '');
-    !!payload.password && formData.append('password', payload.password);
-    !!payload.passwordConfirm && formData.append('passwordConfirm', payload.passwordConfirm);
+    if (payload.password) formData.append('password', payload.password);
+    if (payload.passwordConfirm) formData.append('passwordConfirm', payload.passwordConfirm);
 
     if (payload.picture && typeof payload.picture === 'object' && 'stream' in payload.picture) {
       formData.append('picture', payload.picture);

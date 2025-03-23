@@ -32,7 +32,7 @@ const LandingFeature = ({ featureItems, icon, direction }: ILandingFeatureProps)
     <Grid
       container
       spacing={2}
-      direction={smAndDown ? 'column-reverse' : direction ?? 'row'}
+      direction={smAndDown ? 'column-reverse' : (direction ?? 'row')}
       alignItems="center"
       justifyContent="space-between"
       sx={{ my: 16 }}

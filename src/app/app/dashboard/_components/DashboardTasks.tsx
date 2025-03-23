@@ -2,7 +2,6 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-// Local Component
 import BaseCard, { IBaseCardProps } from '@/app/_common/base/BaseCard';
 import {
   actionFetchDashboardTaskAll,

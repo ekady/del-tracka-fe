@@ -60,7 +60,7 @@ const renderCellRole = (
             />
           </>
         )
-      : params.row?.role.name ?? params.value}
+      : (params.row?.role.name ?? params.value)}
   </Box>
 );
 

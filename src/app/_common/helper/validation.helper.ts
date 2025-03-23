@@ -15,7 +15,7 @@ export const extractErrorMessage = (
   const fieldnameAlias = fieldname ?? '';
   const errorMessage = errorType
     ? validationMessages[errorType]?.replace('{attribute}', fieldnameAlias)
-    : defaultMessage ?? '';
+    : (defaultMessage ?? '');
 
   return [!!errorType, errorMessage];
 };
