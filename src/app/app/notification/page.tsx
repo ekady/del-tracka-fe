@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   title: 'Notification',
 };
 
-const NotificationPage = async ({ searchParams }: IPageParams) => {
+const NotificationPage = async (props: IPageParams) => {
+  const searchParams = await props.searchParams;
   const isUnreadSection = searchParams?.section === 'unread';
 
   return (

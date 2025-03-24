@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { TextFieldProps } from '@mui/material/TextField';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import { Controller, FieldError, RegisterOptions, UseFormReturn } from 'react-hook-form';
+import { Controller, FieldError, UseFormReturn } from 'react-hook-form';
 
 import CustomInput from '@/app/_common/base/CustomInput';
 import { TextFieldStyled } from '@/app/_common/base/CustomInput/styled';
@@ -19,11 +19,7 @@ export interface ITaskFormContentProps extends Omit<UseFormReturn<ITaskForm>, 'h
   disabled?: boolean;
 }
 
-type TProjectSprintTaskDetailForm = {
-  [key in keyof ITaskForm]: RegisterOptions;
-};
-
-const validations: TProjectSprintTaskDetailForm = {
+const validations = {
   _id: { required: false },
   feature: { required: true },
   priority: { required: true },

@@ -59,6 +59,7 @@ const RootLayout = async ({ children }: IRootLayoutProps) => {
     <html lang="en">
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
         <AppRouterCacheProvider>

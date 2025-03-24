@@ -9,14 +9,16 @@ import { actionFetchProjectMember } from '@/app/app/projects/[id]/member/_action
 import MemberList from '@/app/app/projects/[id]/member/_components/MemberList';
 import { actionFetchProject } from '@/app/app/projects/_actions/project.action.utils';
 
-export async function generateMetadata({ params }: IProjectPageProps): Promise<Metadata> {
+export async function generateMetadata(props: IProjectPageProps): Promise<Metadata> {
+  const params = await props.params;
   const project = await actionFetchProject(params.id);
   return {
     title: `Member ${project?.name ?? 'Project'}`,
   };
 }
 
-const ProjectMemberPage = async ({ params }: IProjectPageProps) => {
+const ProjectMemberPage = async (props: IProjectPageProps) => {
+  const params = await props.params;
   const profile = await actionFetchProfile();
   const project = await actionFetchProject(params.id);
   const memberList = await actionFetchProjectMember(params.id);

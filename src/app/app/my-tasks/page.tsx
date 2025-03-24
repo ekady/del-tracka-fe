@@ -13,14 +13,15 @@ export const metadata: Metadata = {
   title: 'My Tasks',
 };
 
-const MyTasksPage = async ({ searchParams }: IPageParams) => {
+const MyTasksPage = async (props: IPageParams) => {
   const projects = await actionFetchProjectList();
+  const searchParams = await props.searchParams;
   return (
     <>
       <MyTasksFilter projects={projects} />
       <MyTasksTableHeader />
       <Suspense key={JSON.stringify(searchParams ?? {})} fallback={<MyTasksTableSkeleton />}>
-        <MyTasksTableWrapper searchParams={searchParams} />
+        <MyTasksTableWrapper searchParams={props.searchParams} />
       </Suspense>
     </>
   );

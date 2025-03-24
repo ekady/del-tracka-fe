@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   title: 'Add New Task',
 };
 
-const NewTaskPage = async ({ params }: ILayoutTaskProps) => {
+const NewTaskPage = async (props: ILayoutTaskProps) => {
+  const params = await props.params;
   const memberList = await actionFetchProjectMember(params.id);
   const sprint = await actionFetchSprint({ projectId: params.id, sprintId: params.sprint_id });
   return <TaskForm memberList={memberList} sprint={sprint} />;

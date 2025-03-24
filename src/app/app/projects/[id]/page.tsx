@@ -19,14 +19,16 @@ import { IProjectPageProps } from '@/app/app/projects/[id]/_interfaces';
 import ProjectStatCard from './_components/ProjectStatCard';
 import { actionFetchProject } from '../_actions/project.action.utils';
 
-export async function generateMetadata({ params }: IProjectPageProps): Promise<Metadata> {
+export async function generateMetadata(props: IProjectPageProps): Promise<Metadata> {
+  const params = await props.params;
   const project = await actionFetchProject(params.id);
   return {
     title: project?.name ?? 'Project',
   };
 }
 
-const ProjectPage = async ({ params }: IProjectPageProps) => {
+const ProjectPage = async (props: IProjectPageProps) => {
+  const params = await props.params;
   const project = await actionFetchProject(params.id);
   const projectStat = await actionFetchProjectStats(params.id);
   const sprints = await actionFetchSprintList({ projectId: params.id });
