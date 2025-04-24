@@ -65,7 +65,7 @@ const MyTasksFilter = ({ projects }: IMyTasksFilterProps) => {
     <FilterContainer>
       <FilterText>Filter</FilterText>
       <FilterListSelectContainer container columnSpacing={1}>
-        <FilterSelectContainer item xs={12} md={4}>
+        <FilterSelectContainer size={{ xs: 12, md: 4 }}>
           <Autocomplete
             id="tags-outlined"
             options={projects ?? []}
@@ -85,7 +85,7 @@ const MyTasksFilter = ({ projects }: IMyTasksFilterProps) => {
             )}
           />
         </FilterSelectContainer>
-        <FilterSelectContainer item xs={12} md={4}>
+        <FilterSelectContainer size={{ xs: 12, md: 4 }}>
           <Autocomplete
             multiple
             id="tags-outlined"
@@ -98,7 +98,7 @@ const MyTasksFilter = ({ projects }: IMyTasksFilterProps) => {
             )}
           />
         </FilterSelectContainer>
-        <FilterSelectContainer item xs={12} md={4}>
+        <FilterSelectContainer size={{ xs: 12, md: 4 }}>
           <Autocomplete
             id="tags-outlined"
             multiple

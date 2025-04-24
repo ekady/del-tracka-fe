@@ -67,7 +67,7 @@ const TaskEditForm = ({ sprint, memberList, task }: ITaskEditFormProps) => {
       <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
         <TaskFormContent {...formState} disabled={loading} memberList={memberList} />
 
-        <Grid item xs={12} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
+        <Grid size={{ xs: 12 }} marginTop={6} sx={{ display: 'flex', justifyContent: 'end', gap: 1 }}>
           <LoadingButton loading={loading} variant="outlined" onClick={warningLeavePage}>
             Cancel
           </LoadingButton>

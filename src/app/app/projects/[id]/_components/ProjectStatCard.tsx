@@ -18,7 +18,7 @@ const ProjectStatCard = ({ name, value, color, textColor }: TProjectStatCardProp
   };
 
   return (
-    <Grid item xs={6} sm={3} xl={2} sx={styleItem}>
+    <Grid size={{ xs: 12, sm: 3, xl: 2 }} sx={styleItem}>
       <Typography sx={{ fontSize: 32, fontWeight: 'bold' }}>{value}</Typography>
       <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>{name}</Typography>
     </Grid>

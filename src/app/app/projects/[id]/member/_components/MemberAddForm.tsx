@@ -61,7 +61,7 @@ const MemberAddForm = ({ projectId }: IMemberAddFormProps) => {
 
   return (
     <Grid container columns={12} columnSpacing={1} alignItems="flex-start" justifyContent="space-between">
-      <Grid item xs={12} md={5}>
+      <Grid size={{ xs: 12, md: 5 }}>
         <CustomInput
           fieldname="User Email"
           error={errors.email}
@@ -72,7 +72,7 @@ const MemberAddForm = ({ projectId }: IMemberAddFormProps) => {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={5}>
+      <Grid size={{ xs: 12, md: 5 }}>
         <Autocomplete
           options={ProjectRolesArray}
           disableClearable={!!labelRole}
@@ -92,7 +92,7 @@ const MemberAddForm = ({ projectId }: IMemberAddFormProps) => {
           )}
         />
       </Grid>
-      <Grid item xs={12} md={2}>
+      <Grid size={{ xs: 12, md: 2 }}>
         <LoadingButton
           loading={loading}
           fullWidth

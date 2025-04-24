@@ -14,7 +14,7 @@ const DashboardTotal = async () => {
 
   return (
     <Grid container spacing={3} columns={12}>
-      <Grid item xs={12} sm={3}>
+      <Grid size={{ xs: 12, sm: 3 }}>
         <BaseCard {...baseCardStyle}>
           <TypographyTotalProject component="h4" variant="h4">
             {dataTotal?.totalProject}
@@ -22,7 +22,7 @@ const DashboardTotal = async () => {
           <Typography sx={{ fontWeight: 'bold', fontSize: 14, letterSpacing: 0.5 }}>Total Projects</Typography>
         </BaseCard>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid size={{ xs: 12, sm: 3 }}>
         <BaseCard {...baseCardStyle}>
           <TypographyTotalTask component="h4" variant="h4">
             {dataTotal?.totalTask}

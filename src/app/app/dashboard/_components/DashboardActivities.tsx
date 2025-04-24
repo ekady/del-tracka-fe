@@ -11,7 +11,7 @@ const DashboardActivities = async () => {
   const activityStats = await actionFetchDashboardActivities();
   return (
     <Grid container spacing={3} columns={12}>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <BaseCard sx={{ height: 400 }}>
           <TypographyActivities>Your Activities</TypographyActivities>
           <Box sx={{ height: 330, width: '97%' }}>

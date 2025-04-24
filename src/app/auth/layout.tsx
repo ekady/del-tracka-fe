@@ -24,11 +24,7 @@ const LayoutAuth = ({ children }: IPropsChildren) => {
       justifyContent="center"
     >
       <Grid
-        item
-        xs={11}
-        sm={6}
-        md={5}
-        xl={4}
+        size={{ xs: 11, sm: 6, md: 5, xl: 4 }}
         maxWidth={500}
         component={Paper}
         elevation={6}

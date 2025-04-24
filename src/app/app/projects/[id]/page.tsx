@@ -45,10 +45,10 @@ const ProjectPage = async (props: IProjectPageProps) => {
         ]}
       />
       <Grid container columns={12}>
-        <Grid item xs={12} sm={8} order={{ xs: 2, sm: 1 }}>
+        <Grid size={{ xs: 12, sm: 8 }} order={{ xs: 2, sm: 1 }}>
           <Typography>{project?.description}</Typography>
         </Grid>
-        <Grid display={{ xs: 'none', sm: 'block' }} item xs={12} sm={4} textAlign="right" order={2}>
+        <Grid display={{ xs: 'none', sm: 'block' }} size={{ xs: 12, sm: 4 }} textAlign="right" order={2}>
           {project?.rolePermissions?.PROJECT?.update ? (
             <IconButton LinkComponent={Link} href={`/app/projects/${params.id}/settings`} size="small">
               <Settings />
@@ -59,7 +59,7 @@ const ProjectPage = async (props: IProjectPageProps) => {
             </IconButton>
           )}
         </Grid>
-        <Grid display={{ xs: 'block', sm: 'none' }} item xs={12} sm={4} textAlign="right" order={1} mb={3}>
+        <Grid display={{ xs: 'block', sm: 'none' }} size={{ xs: 12, sm: 4 }} textAlign="right" order={1} mb={3}>
           {project?.rolePermissions?.PROJECT?.update ? (
             <Button
               fullWidth

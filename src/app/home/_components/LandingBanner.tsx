@@ -15,7 +15,7 @@ const LandingBanner = () => {
       spacing={{ xs: 2, md: 12 }}
       sx={{ alignItems: 'center', my: 2, justifyContent: 'center', height: { xs: 'auto', sm: 500 } }}
     >
-      <Grid item xs={12} sm={6} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+      <Grid size={{ xs: 12, sm: 6 }} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
         <Box>
           <Typography component="p" gutterBottom sx={{ fontSize: { lg: 44, md: 36, xs: 28 }, mt: { xs: 4, sm: 0 } }}>
             Welcome to Tracka: Your Ultimate Bug Tracker App
@@ -33,7 +33,7 @@ const LandingBanner = () => {
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Image
           src={LandingBannerPict}
           alt="icon-scrum-board"

@@ -20,11 +20,11 @@ const TaskDetail = ({ task }: ITaskDetailProps) => {
   return (
     <>
       <Grid container columnSpacing={3} component="main">
-        <Grid item xs={12} sx={{ marginBottom: 3 }}>
+        <Grid size={{ xs: 12 }} sx={{ marginBottom: 3 }}>
           <InputLabel>Title</InputLabel>
           <Typography variant="subtitle1">{task?.title ?? '-'}</Typography>
         </Grid>
-        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box>
             <InputLabel>Category</InputLabel>
             <Typography variant="subtitle1">{task?.title ?? '-'}</Typography>
@@ -42,17 +42,17 @@ const TaskDetail = ({ task }: ITaskDetailProps) => {
             </Typography>
           </Box>
           <Grid container columnSpacing={3}>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <InputLabel>Priority</InputLabel>
               <TableCellLevel level={task?.priority as TLevelType} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <InputLabel>Status</InputLabel>
               <TableCellStatus status={task?.status as TStatusType} />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box>
             <InputLabel>Due Date</InputLabel>
             <Typography variant="subtitle1">
