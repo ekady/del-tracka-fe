@@ -1,9 +1,6 @@
 'use client';
 
-// React
 import { useCallback, useState } from 'react';
-
-// MUI
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';

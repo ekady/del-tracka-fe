@@ -1,4 +1,3 @@
-// MUI Component
 import { Metadata } from 'next';
 
 import TitleWithBreadcrumb from '@/app/_common/base/TitleWithBreadcrumb';

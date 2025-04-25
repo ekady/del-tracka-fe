@@ -2,9 +2,6 @@
 
 import { useCallback } from 'react';
 
-// MUI Components
-
-// Toastify
 import { useRouter } from 'next/navigation';
 
 import { Delete, Logout } from '@mui/icons-material';

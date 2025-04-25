@@ -1,6 +1,5 @@
 'use client';
 
-// MUI Components
 import Box from '@mui/material/Box';
 import TablePagination from '@mui/material/TablePagination';
 import dayjs from 'dayjs';

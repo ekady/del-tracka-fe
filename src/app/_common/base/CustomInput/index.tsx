@@ -5,9 +5,6 @@ import InputLabel from '@mui/material/InputLabel';
 import { TextFieldProps } from '@mui/material/TextField';
 import { FieldError } from 'react-hook-form';
 
-// MUI Components
-
-// Helper
 import { extractErrorMessage } from '@/app/_common/helper';
 
 import { TextFieldStyled } from './styled';

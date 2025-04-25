@@ -1,13 +1,9 @@
-// React
 import { memo, ReactNode } from 'react';
 
-// MUI Components
 import SearchRounded from '@mui/icons-material/SearchRounded';
 import Box from '@mui/material/Box';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-
-// MUI Icons
 
 export interface ITableHeaderProps {
   TextFieldProps?: TextFieldProps;

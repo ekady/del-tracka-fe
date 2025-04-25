@@ -1,4 +1,3 @@
-// Next Components
 import Link from 'next/link';
 
 import { ArrowBack } from '@mui/icons-material';
@@ -8,11 +7,6 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import LinkMUI from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-// MUI Components
-
-// MUI Icons
-
-// Store
 import { IBreadcrumb } from '@/app/_common/types';
 
 export interface ITitleWithBreadcrumbProps {

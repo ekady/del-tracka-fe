@@ -2,7 +2,6 @@
 
 import { memo, useCallback } from 'react';
 
-// MUI Component
 import { useSearchParams } from 'next/navigation';
 
 import Autocomplete from '@mui/material/Autocomplete';

@@ -1,4 +1,3 @@
-// MUI Component
 import { redirect } from 'next/navigation';
 
 import { IPageParams } from '@/app/_common/types';

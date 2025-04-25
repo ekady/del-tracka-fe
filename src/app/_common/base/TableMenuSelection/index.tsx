@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { useState, MouseEvent, memo, useCallback } from 'react';
 
-// MUI Components
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   IconButton,

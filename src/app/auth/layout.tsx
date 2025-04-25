@@ -1,13 +1,9 @@
-// Next
 import { Metadata } from 'next';
 
 import Image from 'next/image';
 
 import { Box, Container, Grid, Paper } from '@mui/material';
 
-// MUI Components
-
-// Icons
 import { IconLogo } from '@/app/_common/icons';
 import { IPropsChildren } from '@/app/_common/types';
 

@@ -1,8 +1,6 @@
-// MUI Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-// Local Components
 import BaseCard, { IBaseCardProps } from '@/app/_common/base/BaseCard';
 import { actionFetchDashboardProjectTotal } from '@/app/app/dashboard/_actions/dashboard.action.utils';
 import { TypographyTotalProject, TypographyTotalTask } from '@/app/app/dashboard/_components/styled';

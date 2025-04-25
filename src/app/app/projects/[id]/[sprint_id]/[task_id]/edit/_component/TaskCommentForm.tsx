@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useState } from 'react';
 
-// React Hook Form
 import { useSearchParams } from 'next/navigation';
 
 import { LoadingButton } from '@mui/lab';

@@ -19,17 +19,9 @@ async function handler(req: Request) {
 
   try {
     body = await req.formData();
-  } catch {
-    //
-  }
 
-  try {
     body = await req.json();
-  } catch {
-    //
-  }
 
-  try {
     const {
       data,
       headers: responseHeaders,

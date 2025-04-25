@@ -1,4 +1,3 @@
-// MUI Component
 import { redirect } from 'next/navigation';
 
 import { actionFetchTaskList } from '@/app/app/projects/[id]/[sprint_id]/_actions/task.action.utils';

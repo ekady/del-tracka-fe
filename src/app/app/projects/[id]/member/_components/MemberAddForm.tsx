@@ -1,6 +1,5 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useCallback, useState } from 'react';
 
 import { LoadingButton } from '@mui/lab';

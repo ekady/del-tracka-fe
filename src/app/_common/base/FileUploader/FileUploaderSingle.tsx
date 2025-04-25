@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { DragEvent, ReactNode, useCallback } from 'react';
 
-// MUI Components
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';

@@ -1,15 +1,11 @@
 'use client';
 
-// React
 import { useCallback } from 'react';
 
-// MUI Component
 import { useSearchParams } from 'next/navigation';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
-
-// Local Component
 
 import {
   FilterContainer,

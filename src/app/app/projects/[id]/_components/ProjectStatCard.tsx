@@ -1,8 +1,6 @@
-// MUI Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-// Types
 import { IInformationWithColor } from '@/app/_common/types';
 
 export type TProjectStatCardProps = IInformationWithColor;

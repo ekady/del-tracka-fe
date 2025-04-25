@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
 
-// Next
 import { useRouter } from 'next/navigation';
 
 import { LoadingButton } from '@mui/lab';

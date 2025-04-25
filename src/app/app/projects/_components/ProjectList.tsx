@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { useCallback, useState } from 'react';
 
-// MUI Components
 import Link from 'next/link';
 
 import { People, Settings } from '@mui/icons-material';

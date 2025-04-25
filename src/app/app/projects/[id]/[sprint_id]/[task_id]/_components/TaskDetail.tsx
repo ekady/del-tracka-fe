@@ -1,11 +1,9 @@
-// MUI Components
 import { InputLabel } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
-// Types
 import TableCellLevel from '@/app/_common/base/TableCellLevel';
 import TableCellStatus from '@/app/_common/base/TableCellStatus';
 import { TLevelType } from '@/app/_common/constants/level.constant';
