@@ -18,10 +18,24 @@ async function handler(req: Request) {
   let body;
 
   try {
+    body = await req.blob();
+  } catch {
+    //
+  }
+
+  try {
     body = await req.formData();
+  } catch {
+    //
+  }
 
+  try {
     body = await req.json();
+  } catch {
+    //
+  }
 
+  try {
     const {
       data,
       headers: responseHeaders,
