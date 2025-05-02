@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   title: 'Setting',
 };
 
-const ProjectSettingPage = async ({ params }: IProjectPageProps) => {
+const ProjectSettingPage = async (props: IProjectPageProps) => {
+  const params = await props.params;
   const profile = await actionFetchProfile();
   const project = await actionFetchProject(params.id);
   const memberList = await actionFetchProjectMember(params.id);

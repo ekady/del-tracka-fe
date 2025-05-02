@@ -10,7 +10,7 @@ interface IButtonUploadProps extends Pick<IFileUploaderProps<File>, 'buttonUploa
   onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickUpload: () => void;
   multiple?: boolean;
-  ref?: RefObject<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement | null>;
 }
 const ButtonUpload = ({
   buttonUploadText,

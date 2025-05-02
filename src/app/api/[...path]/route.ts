@@ -18,6 +18,12 @@ async function handler(req: Request) {
   let body;
 
   try {
+    body = await req.blob();
+  } catch {
+    //
+  }
+
+  try {
     body = await req.formData();
   } catch {
     //

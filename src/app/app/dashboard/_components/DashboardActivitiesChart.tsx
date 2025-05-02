@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 
-// MUI utils
 import { useTheme } from '@mui/material/styles';
 import { ChartOptions } from 'chart.js';
 import { Line } from 'react-chartjs-2';

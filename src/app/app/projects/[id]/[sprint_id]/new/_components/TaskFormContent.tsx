@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { TextFieldProps } from '@mui/material/TextField';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import { Controller, FieldError, RegisterOptions, UseFormReturn } from 'react-hook-form';
+import { Controller, FieldError, UseFormReturn } from 'react-hook-form';
 
 import CustomInput from '@/app/_common/base/CustomInput';
 import { TextFieldStyled } from '@/app/_common/base/CustomInput/styled';
@@ -19,11 +19,7 @@ export interface ITaskFormContentProps extends Omit<UseFormReturn<ITaskForm>, 'h
   disabled?: boolean;
 }
 
-type TProjectSprintTaskDetailForm = {
-  [key in keyof ITaskForm]: RegisterOptions;
-};
-
-const validations: TProjectSprintTaskDetailForm = {
+const validations = {
   _id: { required: false },
   feature: { required: true },
   priority: { required: true },
@@ -39,7 +35,7 @@ const validations: TProjectSprintTaskDetailForm = {
 const TaskFormContent = ({ memberList, disabled, register, formState, control }: ITaskFormContentProps) => {
   return (
     <Grid container columnSpacing={3} component="main">
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <CustomInput
           fieldname="Title"
           error={formState.errors.title}
@@ -50,7 +46,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
           }}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <CustomInput
           fieldname="Category"
           error={formState.errors.feature}
@@ -62,7 +58,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
         />
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <Box>
           <InputLabel>Due Date</InputLabel>
           <Controller
@@ -86,8 +82,8 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
         </Box>
       </Grid>
 
-      <Grid item container xs={12} md={6}>
-        <Grid item xs={12}>
+      <Grid container size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <Controller
             name="reporter"
             control={control}
@@ -113,7 +109,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Controller
             name="assignee"
             control={control}
@@ -139,7 +135,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Controller
             name="priority"
             control={control}
@@ -165,7 +161,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
         </Grid>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, md: 6 }}>
         <CustomInput
           fieldname="Detail"
           error={formState.errors.detail}
@@ -179,7 +175,7 @@ const TaskFormContent = ({ memberList, disabled, register, formState, control }:
         />
       </Grid>
 
-      <Grid item xs={12} marginTop={2}>
+      <Grid size={{ xs: 12 }} marginTop={2}>
         <Controller
           name="images"
           control={control}

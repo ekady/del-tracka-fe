@@ -1,7 +1,5 @@
-// Helper
 import { UseFormReturn } from 'react-hook-form';
 
-// Local Components
 import CustomInput from '@/app/_common/base/CustomInput';
 import { IProfileRequest } from '@/app/_common/types/profile.type';
 

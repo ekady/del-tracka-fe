@@ -41,7 +41,9 @@ const transformTaskResponseToForm = (task: ITaskResponse | null, memberList: IPr
   status: statusList.find((status) => status.value === task?.status) ?? null,
 });
 
-const EditTaskPage = async ({ params, searchParams }: ILayoutTaskWithIdProps) => {
+const EditTaskPage = async (props: ILayoutTaskWithIdProps) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const memberList = await actionFetchProjectMember(params.id);
   const sprint = await actionFetchSprint({ projectId: params.id, sprintId: params.sprint_id });
   const taskResponse = await actionFetchTask({

@@ -10,9 +10,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 
-// MUI Colors
-
-// Local Components
 import { useThemeStore } from '@/app/_common/store/theme.store';
 import { TFunctionVoid, IPropsChildren } from '@/app/_common/types';
 

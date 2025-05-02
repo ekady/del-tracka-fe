@@ -21,7 +21,6 @@ import { TFunctionVoidWithParams } from '@/app/_common/types';
 import { ISprintsResponse } from '@/app/app/projects/_interfaces';
 
 export interface ITaskMoveSprintProps {
-  // taskIds: string[];
   sprintList: ISprintsResponse[];
   sprintId: string;
   callback?: TFunctionVoidWithParams<'success' | 'error'>;

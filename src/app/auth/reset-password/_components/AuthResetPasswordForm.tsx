@@ -1,13 +1,7 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useState } from 'react';
 
-// Next Components
-
-// React Hook Form
-
-// MUI Components
 import Link from 'next/link';
 
 import Alert from '@mui/material/Alert';

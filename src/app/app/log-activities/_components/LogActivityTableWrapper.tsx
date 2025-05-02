@@ -10,7 +10,8 @@ const initialDateValue = {
   endDate: dayjs().endOf('month').toISOString(),
 };
 
-const LogActivityWrapper = async ({ searchParams }: Pick<IPageParams, 'searchParams'>) => {
+const LogActivityWrapper = async (props: Pick<IPageParams, 'searchParams'>) => {
+  const searchParams = await props.searchParams;
   const { project: projectId, ...params } = searchParams ?? {};
   let activities: IPaginationResponse<IProjectActivityResponse> | null = null;
 

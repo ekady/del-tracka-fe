@@ -1,6 +1,5 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useState } from 'react';
 
 import Link from 'next/link';

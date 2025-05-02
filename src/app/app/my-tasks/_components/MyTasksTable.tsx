@@ -2,7 +2,6 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-// MUI Components
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
 
-// Types
 import BaseDialogAlert from '@/app/_common/base/BaseDialogAlert';
 import useDialogAlert from '@/app/_common/base/BaseDialogAlert/useDialogAlert';
 import DataTable from '@/app/_common/base/DataTable';
@@ -21,7 +19,6 @@ import TableMenuSelection from '@/app/_common/base/TableMenuSelection';
 import { TLevelType } from '@/app/_common/constants/level.constant';
 import STATUS, { TStatusType } from '@/app/_common/constants/status.constant';
 import { copyToClipboard } from '@/app/_common/helper';
-// import TaskMoveSprint from './TaskMoveSprint';
 import { useTableChange } from '@/app/_common/hooks/useTableChange.hook';
 import { IPaginationResponse, TFunctionVoid, TFunctionVoidWithParams } from '@/app/_common/types';
 import {

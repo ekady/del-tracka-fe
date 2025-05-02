@@ -2,11 +2,6 @@
 
 import { BaseSyntheticEvent, useCallback, useState } from 'react';
 
-// Local Components
-
-// Helper
-
-// Types
 import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';

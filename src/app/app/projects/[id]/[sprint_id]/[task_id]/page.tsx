@@ -24,7 +24,9 @@ export const metadata: Metadata = {
   title: 'Detail Task',
 };
 
-const DetailTaskPage = async ({ params, searchParams }: ILayoutTaskWithIdProps) => {
+const DetailTaskPage = async (props: ILayoutTaskWithIdProps) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const sprint = await actionFetchSprint({ projectId: params.id, sprintId: params.sprint_id });
   const taskResponse = await actionFetchTask({
     projectId: params.id,

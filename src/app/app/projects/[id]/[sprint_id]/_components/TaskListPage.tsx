@@ -1,4 +1,3 @@
-// MUI Component
 import { redirect } from 'next/navigation';
 
 import { actionFetchTaskList } from '@/app/app/projects/[id]/[sprint_id]/_actions/task.action.utils';
@@ -12,7 +11,9 @@ interface ITaskListPageProps extends ILayoutTaskProps {
   sprint: ISprintResponse | null;
 }
 
-const TaskListPage = async ({ params, searchParams, project, sprint }: ITaskListPageProps) => {
+const TaskListPage = async ({ project, sprint, ...props }: ITaskListPageProps) => {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const sprintList = await actionFetchSprintList({ projectId: params.id });
   const taskPagination = await actionFetchTaskList({ projectId: params.id, sprintId: params.sprint_id }, searchParams);
 

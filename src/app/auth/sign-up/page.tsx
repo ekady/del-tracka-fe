@@ -1,5 +1,3 @@
-// Next
-
 import { Metadata } from 'next';
 
 import Divider from '@mui/material/Divider';

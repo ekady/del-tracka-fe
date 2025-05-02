@@ -24,7 +24,7 @@ const HomePage = () => {
         </Typography>
         {FEATURE.map((feature, index) => (
           <LandingFeature
-            key={feature.items.toString()}
+            key={index}
             direction={index % 2 !== 1 ? 'row-reverse' : 'row'}
             featureItems={feature.items}
             icon={feature.icon}

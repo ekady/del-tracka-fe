@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 
-// MUI Components
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CircleOutlined from '@mui/icons-material/CircleOutlined';
 import Table from '@mui/material/Table';
@@ -8,8 +7,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-// MUI Icons
 
 import BaseDialog from '@/app/_common/base/BaseDialog';
 import { IPermission } from '@/app/_common/types';

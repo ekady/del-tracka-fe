@@ -13,14 +13,15 @@ export const metadata: Metadata = {
   title: 'Log Activities',
 };
 
-const LogActivitiesPage = async ({ searchParams }: IPageParams) => {
+const LogActivitiesPage = async (props: IPageParams) => {
   const projects = await actionFetchProjectList();
+  const searchParams = await props.searchParams;
   return (
     <>
       <LogActivityFilter projects={projects} />
       <LogActivityButtonDownload />
       <Suspense key={JSON.stringify(searchParams ?? {})} fallback={<LogActivityTableSkeleton />}>
-        <LogActivityWrapper searchParams={searchParams ?? {}} />
+        <LogActivityWrapper searchParams={props.searchParams} />
       </Suspense>
     </>
   );

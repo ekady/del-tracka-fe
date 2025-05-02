@@ -2,13 +2,11 @@
 
 import { useCallback } from 'react';
 
-// MUI utils
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { ChartOptions } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-// Constant
 import STATUS, { TStatusType } from '@/app/_common/constants/status.constant';
 
 import { ITaskStatusStatsResponse } from '../_interfaces';

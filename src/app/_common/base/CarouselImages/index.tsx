@@ -1,10 +1,4 @@
 'use client';
-
-// Next Components
-
-// MUI Components
-
-// MUI Icons
 import Image from 'next/image';
 
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
@@ -13,7 +7,6 @@ import Box from '@mui/material/Box';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel as CarouselResponsive } from 'react-responsive-carousel';
 
-// Local Components
 import { CarouselSize } from '@/app/_common/base/CarouselImages/constants';
 import { BoxArrow, ButtonArrow, CircleIndicator } from '@/app/_common/base/CarouselImages/styled';
 import ImageLoader from '@/app/_common/base/ImageLoader';

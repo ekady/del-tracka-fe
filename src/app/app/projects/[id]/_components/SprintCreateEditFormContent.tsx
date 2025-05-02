@@ -1,4 +1,3 @@
-// React Hook Form
 import { RegisterOptions, UseFormReturn } from 'react-hook-form';
 
 import CustomInput from '@/app/_common/base/CustomInput';

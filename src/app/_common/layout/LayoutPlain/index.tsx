@@ -1,11 +1,7 @@
-// Next Components
 import Image from 'next/image';
 
 import { Box, Container, Grid } from '@mui/material';
 
-// MUI Component
-
-// Icons
 import { IconLogo } from '@/app/_common/icons';
 import { IPropsChildren } from '@/app/_common/types';
 

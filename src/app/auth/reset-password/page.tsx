@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: 'Reset Password',
 };
 
-const ResetPassword = async ({ searchParams }: IPageParams) => {
+const ResetPassword = async (props: IPageParams) => {
+  const searchParams = await props.searchParams;
   const resetToken = searchParams?.token;
   if (!resetToken) throw new Error('No Token');
 
