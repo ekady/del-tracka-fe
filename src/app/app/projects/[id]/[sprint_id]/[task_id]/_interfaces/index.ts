@@ -1,8 +1,8 @@
+import { IPageParams } from '@/app/_common/types';
+
+import { IIdParams } from '../../../_interfaces';
+
 export interface ILayoutTaskWithIdProps {
-  params: {
-    id: string;
-    sprint_id: string;
-    task_id: string;
-  };
-  searchParams?: Record<string, string | number | null | never>;
+  params: Promise<IIdParams>;
+  searchParams?: IPageParams['searchParams'];
 }

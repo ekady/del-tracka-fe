@@ -1,4 +1,3 @@
-// Components
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -13,7 +12,7 @@ const LandingImages = () => {
       <Box height={80} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Typography textAlign="center" fontSize={20} fontWeight="bold" textTransform="uppercase" mb={2}>
             Enhanced Collaboration
           </Typography>
@@ -22,7 +21,7 @@ const LandingImages = () => {
             updates on project progress.
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Typography textAlign="center" fontSize={20} fontWeight="bold" textTransform="uppercase" mb={2}>
             Improved Productivity
           </Typography>
@@ -31,7 +30,7 @@ const LandingImages = () => {
             delivering high-quality results.
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Typography textAlign="center" fontSize={20} fontWeight="bold" textTransform="uppercase" mb={2}>
             Transparency
           </Typography>

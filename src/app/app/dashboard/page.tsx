@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 
 import Box from '@mui/material/Box';
 
-// Components
 import TitleWithBreadcrumb from '@/app/_common/base/TitleWithBreadcrumb';
 
 import DashboardActivities from './_components/DashboardActivities';

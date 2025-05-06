@@ -1,8 +1,6 @@
-// MUI Components
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-// Local Component
 import BaseCard, { IBaseCardProps } from '@/app/_common/base/BaseCard';
 import {
   actionFetchDashboardTaskAll,
@@ -20,7 +18,7 @@ const DashboardTasks = async () => {
 
   return (
     <Grid container spacing={3} columns={12}>
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <BaseCard {...baseCardStyle}>
           <TypographyTasks>All Tasks</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -28,7 +26,7 @@ const DashboardTasks = async () => {
           </Box>
         </BaseCard>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <BaseCard {...baseCardStyle}>
           <TypographyTasks>Tasks Assign to You</TypographyTasks>
           <Box sx={{ height: 180, width: '100%', display: 'flex', justifyContent: 'center' }}>

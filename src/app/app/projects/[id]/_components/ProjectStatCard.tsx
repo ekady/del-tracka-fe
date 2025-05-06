@@ -1,8 +1,6 @@
-// MUI Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-// Types
 import { IInformationWithColor } from '@/app/_common/types';
 
 export type TProjectStatCardProps = IInformationWithColor;
@@ -18,7 +16,7 @@ const ProjectStatCard = ({ name, value, color, textColor }: TProjectStatCardProp
   };
 
   return (
-    <Grid item xs={6} sm={3} xl={2} sx={styleItem}>
+    <Grid size={{ xs: 12, sm: 3, xl: 2 }} sx={styleItem}>
       <Typography sx={{ fontSize: 32, fontWeight: 'bold' }}>{value}</Typography>
       <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>{name}</Typography>
     </Grid>

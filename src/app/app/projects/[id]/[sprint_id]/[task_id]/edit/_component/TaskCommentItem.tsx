@@ -19,14 +19,14 @@ const TaskCommentItem = ({ name, date, comment, image }: ITaskCommentItemProps) 
     typeof image === 'string' ? (
       <Image src={image} alt="profile" height={24} width={24} style={{ borderRadius: '50%' }} />
     ) : (
-      image && (
+      !!image?.completedPath && (
         <ImageLoader
           image={image}
           brokenSize={40}
           imageProps={{
             alt: 'profile',
-            height: 40,
-            width: 40,
+            height: 24,
+            width: 24,
             style: { borderRadius: '50%' },
           }}
         />

@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { useCallback, useState } from 'react';
 
-// MUI Components
 import Link from 'next/link';
 
 import { People, Settings } from '@mui/icons-material';
@@ -31,7 +29,10 @@ const tableHeaders: GridColDef<IProjectWithPermissions>[] = [
   {
     headerName: 'Latest Sprint',
     field: 'stages',
-    renderCell: (value) => value.row?.stages?.[value.row?.stages?.length - 1 ?? 0]?.name ?? '-',
+    renderCell: (value) => {
+      const stagesLength = value.row?.stages?.length ?? 1;
+      return value.row?.stages?.[stagesLength - 1]?.name ?? '-'
+    },
     width: 200,
   },
 ];

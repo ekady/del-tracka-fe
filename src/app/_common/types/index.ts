@@ -151,6 +151,11 @@ export interface IBreadcrumb {
 }
 
 export interface IPageParams {
+  params?: Promise<Record<string, string | number | null | undefined>>;
+  searchParams?: Promise<Record<string, string | number | null | never>>;
+}
+
+export interface IParams {
   params?: Record<string, string | number | null | undefined>;
   searchParams?: Record<string, string | number | null | never>;
 }

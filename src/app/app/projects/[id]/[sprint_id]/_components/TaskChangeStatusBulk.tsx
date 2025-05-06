@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { useState, MouseEvent, memo, useCallback } from 'react';
 
-// MUI Components
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { LoadingButton } from '@mui/lab';
 import Divider from '@mui/material/Divider';

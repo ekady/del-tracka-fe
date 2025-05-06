@@ -1,7 +1,5 @@
-// React
 import { memo, ReactElement } from 'react';
 
-// MUI
 import Chip, { ChipProps } from '@mui/material/Chip';
 
 import STATUS, { TStatusType } from '@/app/_common/constants/status.constant';

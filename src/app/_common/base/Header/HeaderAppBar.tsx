@@ -2,8 +2,9 @@
 
 import { ReactNode } from 'react';
 
-import { AppBar } from './styled';
 import { useGeneralStore } from '../../store/general.store';
+
+import { AppBar } from './styled';
 
 export interface IHeaderAppBarProps {
   isUsingSidebar?: boolean;

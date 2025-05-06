@@ -19,14 +19,16 @@ import { IProjectPageProps } from '@/app/app/projects/[id]/_interfaces';
 import ProjectStatCard from './_components/ProjectStatCard';
 import { actionFetchProject } from '../_actions/project.action.utils';
 
-export async function generateMetadata({ params }: IProjectPageProps): Promise<Metadata> {
+export async function generateMetadata(props: IProjectPageProps): Promise<Metadata> {
+  const params = await props.params;
   const project = await actionFetchProject(params.id);
   return {
     title: project?.name ?? 'Project',
   };
 }
 
-const ProjectPage = async ({ params }: IProjectPageProps) => {
+const ProjectPage = async (props: IProjectPageProps) => {
+  const params = await props.params;
   const project = await actionFetchProject(params.id);
   const projectStat = await actionFetchProjectStats(params.id);
   const sprints = await actionFetchSprintList({ projectId: params.id });
@@ -43,10 +45,10 @@ const ProjectPage = async ({ params }: IProjectPageProps) => {
         ]}
       />
       <Grid container columns={12}>
-        <Grid item xs={12} sm={8} order={{ xs: 2, sm: 1 }}>
+        <Grid size={{ xs: 12, sm: 8 }} order={{ xs: 2, sm: 1 }}>
           <Typography>{project?.description}</Typography>
         </Grid>
-        <Grid display={{ xs: 'none', sm: 'block' }} item xs={12} sm={4} textAlign="right" order={2}>
+        <Grid display={{ xs: 'none', sm: 'block' }} size={{ xs: 12, sm: 4 }} textAlign="right" order={2}>
           {project?.rolePermissions?.PROJECT?.update ? (
             <IconButton LinkComponent={Link} href={`/app/projects/${params.id}/settings`} size="small">
               <Settings />
@@ -57,7 +59,7 @@ const ProjectPage = async ({ params }: IProjectPageProps) => {
             </IconButton>
           )}
         </Grid>
-        <Grid display={{ xs: 'block', sm: 'none' }} item xs={12} sm={4} textAlign="right" order={1} mb={3}>
+        <Grid display={{ xs: 'block', sm: 'none' }} size={{ xs: 12, sm: 4 }} textAlign="right" order={1} mb={3}>
           {project?.rolePermissions?.PROJECT?.update ? (
             <Button
               fullWidth

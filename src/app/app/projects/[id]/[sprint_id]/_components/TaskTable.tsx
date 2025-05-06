@@ -2,7 +2,6 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-// MUI Components
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';

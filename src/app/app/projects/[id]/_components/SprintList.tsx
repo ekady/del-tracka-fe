@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { useCallback, useState } from 'react';
 
-// MUI Components
 import Sync from '@mui/icons-material/Sync';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';

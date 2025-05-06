@@ -1,9 +1,7 @@
 'use client';
 
-// React
 import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
 
-// Next
 import { useRouter } from 'next/navigation';
 
 import { LoadingButton } from '@mui/lab';
@@ -94,26 +92,26 @@ const ProfileForm = ({ profile }: IProfileFormProps) => {
   }, [isChangePassword, resetField]);
 
   return (
-    <Grid container spacing={2} xs={12} md={12} item>
-      <Grid item xs={12}>
+    <Grid container spacing={2} size={{ xs: 12, md: 12 }}>
+      <Grid size={{ xs: 12 }}>
         <Typography component="div" variant="h6" align="center">
           Your Profile
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Divider orientation="horizontal" flexItem sx={{ mb: 2 }} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={{ xs: 12 }}>
         <Box component="form" noValidate onSubmit={onSubmit}>
           <Grid container spacing={5}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ProfileImageFormContent
                 disabled={loading}
                 errorPicture={formState.formState.errors.picture as Pick<FieldError, 'type'>}
                 control={formState.control}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <ProfileDataFormContent disabled={loading} {...formState} />
               {isChangePassword ? (
                 <>

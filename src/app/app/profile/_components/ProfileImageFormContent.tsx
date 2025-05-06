@@ -1,4 +1,3 @@
-// MUI Components
 import { memo } from 'react';
 
 import { Box, InputLabel } from '@mui/material';

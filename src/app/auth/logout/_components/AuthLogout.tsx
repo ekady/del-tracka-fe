@@ -1,14 +1,11 @@
 'use client';
 
-// React
 import { useCallback, useEffect } from 'react';
 
-// Next
 import { useRouter } from 'next/navigation';
 
 import { signOut } from 'next-auth/react';
 
-// Components
 import { revalidateProfileTag } from '@/app/_common/actions/profile.action';
 import PageLoader from '@/app/_common/base/PageLoader';
 import clientFetcher from '@/app/_common/helper/clientFetcher.helper';

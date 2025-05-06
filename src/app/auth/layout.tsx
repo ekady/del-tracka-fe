@@ -1,13 +1,9 @@
-// Next
 import { Metadata } from 'next';
 
 import Image from 'next/image';
 
 import { Box, Container, Grid, Paper } from '@mui/material';
 
-// MUI Components
-
-// Icons
 import { IconLogo } from '@/app/_common/icons';
 import { IPropsChildren } from '@/app/_common/types';
 
@@ -24,11 +20,7 @@ const LayoutAuth = ({ children }: IPropsChildren) => {
       justifyContent="center"
     >
       <Grid
-        item
-        xs={11}
-        sm={6}
-        md={5}
-        xl={4}
+        size={{ xs: 11, sm: 6, md: 5, xl: 4 }}
         maxWidth={500}
         component={Paper}
         elevation={6}

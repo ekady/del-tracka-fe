@@ -1,8 +1,6 @@
-// Helper
 import { Box } from '@mui/material';
 import { UseFormGetValues, UseFormReturn } from 'react-hook-form';
 
-// Local Components
 import CustomInput from '@/app/_common/base/CustomInput';
 import { IProfileRequest } from '@/app/_common/types/profile.type';
 import PasswordRequirement from '@/app/auth/sign-up/_components/AuthPasswordRequirement';
