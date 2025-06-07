@@ -25,6 +25,7 @@
     "@mui/x-data-grid": "^7.28.2",
     "@mui/x-date-pickers": "^7.28.2",
     "@next/bundle-analyzer": "^15.2.4",
+    "@vercel/analytics": "^1.5.0",
     "axios": "^1.8.4",
     "chart.js": "^4.4.8",
     "compressorjs": "^1.2.1",
