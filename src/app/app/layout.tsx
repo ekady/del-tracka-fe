@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Box, Grid } from '@mui/material';
-import { Analytics } from '@vercel/analytics/next';
 
 import { actionFetchProfile } from '@/app/_common/actions/profile.action.utils';
 import Header from '@/app/_common/base/Header';
@@ -28,7 +27,6 @@ const LayoutDefault = async ({ children }: IPropsChildren) => {
           <LayoutAppContainer profile={profile}>{children}</LayoutAppContainer>
         </Box>
       </Grid>
-      <Analytics />
     </LayoutWrapper>
   );
 };

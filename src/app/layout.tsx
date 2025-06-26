@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Metadata } from 'next';
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { Analytics } from '@vercel/analytics/next';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/app/_common/utils/nextAuthOptions';
@@ -71,6 +72,7 @@ const RootLayout = async ({ children }: IRootLayoutProps) => {
             </LayoutTheme>
           </NextAuthSessionProvider>
         </AppRouterCacheProvider>
+        <Analytics />
       </body>
     </html>
   );
