@@ -1,0 +1,408 @@
+:root {
+  /* Base colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  
+  /* Brand colors - Tailwind UI inspired */
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --primary-hover: 221.2 83.2% 43.3%;
+  
+  /* Secondary colors */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary-hover: 210 40% 86.1%;
+  
+  /* Accent colors */
+  --accent: 262.1 83.3% 57.8%;
+  --accent-foreground: 210 40% 98%;
+  --accent-hover: 262.1 83.3% 47.8%;
+  
+  /* Surface colors */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  
+  /* Muted colors */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  
+  /* Semantic colors */
+  --success: 142.1 76.2% 36.3%;
+  --success-foreground: 355.7 100% 97.3%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  
+  /* Border and input colors */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  
+  /* Other */
+  --radius: 0.5rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  
+  /* Brand colors */
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary-hover: 217.2 91.2% 69.8%;
+  
+  /* Secondary colors */
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --secondary-hover: 217.2 32.6% 27.5%;
+  
+  /* Accent colors */
+  --accent: 262.1 83.3% 57.8%;
+  --accent-foreground: 210 40% 98%;
+  --accent-hover: 262.1 83.3% 67.8%;
+  
+  /* Surface colors */
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  
+  /* Muted colors */
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  
+  /* Border and input colors */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+}
+
+/* Base styles */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button styles */
+.MuiButtonBase-root {
+  border-radius: var(--radius) !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.MuiButtonBase-root::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.MuiButtonBase-root:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+.MuiButton-contained {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.MuiButton-contained:hover {
+  background-color: hsl(var(--primary-hover)) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.MuiButton-outlined {
+  border: 1px solid hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+  background-color: transparent !important;
+}
+
+.MuiButton-outlined:hover {
+  background-color: hsl(var(--accent) / 0.1) !important;
+  border-color: hsl(var(--accent)) !important;
+  color: hsl(var(--accent)) !important;
+}
+
+/* TextField styles */
+.MuiTextField-root .MuiOutlinedInput-root {
+  border-radius: var(--radius) !important;
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-root:hover {
+  border-color: hsl(var(--accent)) !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-root.Mui-focused {
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.1) !important;
+}
+
+/* Card styles */
+.MuiCard-root {
+  border-radius: var(--radius) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  background-color: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  box-shadow: var(--shadow) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiCard-root:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Dialog styles */
+.MuiDialog-paper {
+  border-radius: var(--radius) !important;
+  background-color: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  box-shadow: var(--shadow-xl) !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+/* Menu styles */
+.MuiMenu-paper {
+  border-radius: var(--radius) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  background-color: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.MuiMenuItem-root {
+  color: hsl(var(--popover-foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+.MuiMenuItem-root:hover {
+  background-color: hsl(var(--accent) / 0.1) !important;
+  color: hsl(var(--accent)) !important;
+}
+
+/* Select styles */
+.MuiSelect-select {
+  border-radius: var(--radius) !important;
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+.MuiSelect-select:hover {
+  border-color: hsl(var(--accent)) !important;
+}
+
+.MuiSelect-select.Mui-focused {
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.1) !important;
+}
+
+/* Checkbox and Radio styles */
+.MuiCheckbox-root,
+.MuiRadio-root {
+  color: hsl(var(--muted-foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiCheckbox-root.Mui-checked,
+.MuiRadio-root.Mui-checked {
+  color: hsl(var(--primary)) !important;
+}
+
+/* Switch styles */
+.MuiSwitch-root .MuiSwitch-switchBase {
+  color: hsl(var(--muted-foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiSwitch-root .MuiSwitch-switchBase.Mui-checked {
+  color: hsl(var(--primary)) !important;
+}
+
+.MuiSwitch-root .MuiSwitch-track {
+  background-color: hsl(var(--muted)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiSwitch-root .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: hsl(var(--primary) / 0.5) !important;
+}
+
+/* Typography */
+.MuiTypography-root {
+  color: hsl(var(--foreground)) !important;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiTypography-h1,
+.MuiTypography-h2,
+.MuiTypography-h3,
+.MuiTypography-h4,
+.MuiTypography-h5,
+.MuiTypography-h6 {
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.2 !important;
+}
+
+/* Table styles */
+.MuiTable-root {
+  border-radius: var(--radius) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  overflow: hidden !important;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.MuiTableBody-root .MuiTableCell-root {
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+.MuiTableBody-root .MuiTableRow-root:hover .MuiTableCell-root {
+  background-color: hsl(var(--accent) / 0.05) !important;
+}
+
+/* Tabs styles */
+.MuiTabs-root .MuiTab-root {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  color: hsl(var(--muted-foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.MuiTabs-root .MuiTab-root.Mui-selected {
+  color: hsl(var(--primary)) !important;
+}
+
+.MuiTabs-root .MuiTabs-indicator {
+  background-color: hsl(var(--primary)) !important;
+  height: 2px !important;
+  border-radius: 2px 2px 0 0 !important;
+}
+
+/* Snackbar styles */
+.MuiSnackbar-root .MuiAlert-root {
+  border-radius: var(--radius) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.MuiSnackbar-root .MuiAlert-standardSuccess {
+  background-color: hsl(var(--success) / 0.1) !important;
+  color: hsl(var(--success)) !important;
+  border-color: hsl(var(--success)) !important;
+}
+
+.MuiSnackbar-root .MuiAlert-standardError {
+  background-color: hsl(var(--destructive) / 0.1) !important;
+  color: hsl(var(--destructive)) !important;
+  border-color: hsl(var(--destructive)) !important;
+}
+
+.MuiSnackbar-root .MuiAlert-standardWarning {
+  background-color: hsl(var(--warning) / 0.1) !important;
+  color: hsl(var(--warning)) !important;
+  border-color: hsl(var(--warning)) !important;
+}
+
+/* Tooltip styles */
+.MuiTooltip-tooltip {
+  background-color: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: var(--radius) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  padding: 0.5rem 0.75rem !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Pagination styles */
+.MuiPagination-root .MuiPaginationItem-root {
+  border-radius: var(--radius) !important;
+  color: hsl(var(--foreground)) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  min-width: 2rem !important;
+  height: 2rem !important;
+}
+
+.MuiPagination-root .MuiPaginationItem-root.Mui-selected {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.MuiPagination-root .MuiPaginationItem-root:hover:not(.Mui-selected) {
+  background-color: hsl(var(--accent) / 0.1) !important;
+  color: hsl(var(--accent)) !important;
+} 

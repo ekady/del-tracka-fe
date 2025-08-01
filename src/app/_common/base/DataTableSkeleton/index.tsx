@@ -21,7 +21,7 @@ const DataTableSkeleton = ({ headers }: IDataTableSkeletonProps) => {
         </TableHead>
         <TableBody>
           {[...Array(5)].map((_row, index) => (
-            <TableRow key={index}>
+            <TableRow key={`${_row}-${index}`}>
               {headers.map((header) => (
                 <TableCell key={header.field} component="th" scope="row" sx={{ minHeight: '60px' }}>
                   <Skeleton animation="wave" variant="text" height={30} />
